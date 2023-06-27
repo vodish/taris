@@ -65,7 +65,7 @@ class url
     }
     
 
-    static function redir($url, $code='')
+    static function redir($url, $code=301)
 	{
 	    if ( $code==301 )      header('HTTP/1.1 301 Moved Permanently');
 	    
