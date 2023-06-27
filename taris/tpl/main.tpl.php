@@ -8,4 +8,10 @@ load::$title    =   'Site YYYY';
 
 <div>SiteYYYY main page</div>
 
-<p><a href="/next">Next Page</a></p>
+<?
+echo array(
+    url::$path  => '<p><a href="/next">Next Page</a></p>',
+    '/next'     => '<p><a href="/">Back</a></p>',
+)[ url::$path ]
+?>
+
