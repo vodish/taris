@@ -1,0 +1,31 @@
+:root {
+    --link:     #a37500;
+    --black:    #1A2030;
+    --eee:      #eee;
+    --font:     'PT Sans', sans-serif;
+}
+
+*               { padding: 0; margin: 0; }
+html,body       { font-family: var(--font); color: var(--black); }
+a               { color: var(--link); text-decoration: none; }
+a:hover			{ color: var(--black); }
+
+body            { font-size: 14px; max-width: 1024px; margin: 3em auto; padding: 0 20px; box-sizing: border-box; }
+h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
+p               { margin: 1em 0; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

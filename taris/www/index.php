@@ -1,0 +1,1 @@
+<? require_once '../../_lib/_config.php' ?>
