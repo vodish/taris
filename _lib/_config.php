@@ -43,7 +43,5 @@ load::$dirtpl   =   $_SERVER['DOCUMENT_ROOT']. '/../tpl';
 #
 load::$layout   =   require_once  load::$dirtpl. '/_route.php';
 #
-load::vd(url::$path);
-
 load::renderpage();
 
