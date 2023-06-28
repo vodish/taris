@@ -1,8 +1,10 @@
 <script>
     import { useUrl } from "./lib/url";
 
+    
     let url = useUrl()
-    // console.log( url )
+    console.log( url )
+
 
 
     
