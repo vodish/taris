@@ -9,8 +9,15 @@
 
   // роутер
   router('/',      () => component = Login)
-  router('/*',     () => component = Page)
+  router('/*',     () => {
+    console.log( new Date() )
+    component = Page
+  })
   router.start();
+
+  // let time = new Date().getTime();
+  // console.log(time)
+
 </script>
 
 
