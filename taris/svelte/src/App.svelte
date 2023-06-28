@@ -6,22 +6,12 @@
   
   // компонент
   let component
-  let ctx = {};
 
   // роутер
-  router('/',      context => component = Login)
-  router('/*',     context => {
-    ctx = context
-    component = Page
-  })
+  router('/',      ctx => component = Login )
+  router('/*',     ctx => component = Page  )
   router.start();
-
-  // let time = new Date().getTime();
-  // console.log(time)
 
 </script>
 
-{#key ctx}
-  <svelte:component this="{component}" />
-{/key}
-
+<svelte:component this="{component}" />

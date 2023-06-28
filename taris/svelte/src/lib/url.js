@@ -1,4 +1,4 @@
-export function useUrl()
+export function useUrl(str)
 {
   let path    = window.location.pathname
   let level   = []
