@@ -10,7 +10,7 @@
   // роутер
   router('/',      () => component = Login)
   router('/*',     () => {
-    console.log( new Date() )
+    console.log( new Date().getTime() )
     component = Page
   })
   router.start();
