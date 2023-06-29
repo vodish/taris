@@ -7,9 +7,7 @@ export function useUrl(str)
 
   let _p = ''
   path.substring(1).split('/').forEach( item => level.push(_p += '/' + item) )
-
-  console.log(window.location)
-
+  
   return { path, dir, level, hash }
 }
 
