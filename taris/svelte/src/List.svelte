@@ -98,6 +98,7 @@ let list = {
                 {#if list[id].type == 'File'}   <ListFile row={list[id]} />
                 {:else}                         <ListRow row={list[id]} />
                 {/if}
+
             {/each}
         </div>
     </div>
