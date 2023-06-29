@@ -1,5 +1,5 @@
 <script>
-export let row = {};
+export let row = {}
 
 </script>
 

@@ -14,7 +14,10 @@ function setComponent() {
 
 // роутер
 router('/',      ctx => component = Login )
-router('/*',     ctx => component = List )
+router('/*',     ctx => {
+    component = List
+    console.log(ctx)
+} )
 router.start();
 
 
