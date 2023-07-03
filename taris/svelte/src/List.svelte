@@ -1,6 +1,24 @@
 <script>
-import ListRow from './ListRow.svelte'
-import ListFile from './ListFile.svelte'
+import ListRow      from './ListRow.svelte'
+import ListFile     from './ListFile.svelte'
+
+
+let _list  =   {
+    'id'    :   {},
+    'id'    :   {},
+}
+
+let _id    =   {
+    'id'        :   '',
+    'name'      :   '',
+    'dir'       :   ['id','id','...'],
+    'rows'      :   ['id','id','...'],
+
+    'type'      :   'user | row | file | project',
+    'content'   :   '',
+}
+
+
 
 
 let root = 'root';
@@ -58,8 +76,6 @@ let list = {
 
 </script>
 
-
-
 <p style="text-align: center;"><a href="/">Выйти</a></p>
 
 <div class="flex">
@@ -93,31 +109,59 @@ let list = {
         </div>
 
         <div class="list">
-            {#each list[root].rows as id }
-
-                {#if list[id].type == 'File'}   <ListFile row={list[id]} />
-                {:else}                         <ListRow row={list[id]} />
+            {#each list[root].rows as id}
+                {#if list[id].type == "File"}
+                    <ListFile row={list[id]} />
+                {:else}
+                    <ListRow row={list[id]} />
                 {/if}
-
             {/each}
         </div>
     </div>
 </div>
 
-
-
-
-
 <style>
-menu    { list-style: none; padding: 0; margin: 0; }
+    menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-.flex   { display: flex; gap: 40px; }
-.flex   .tree   { flex-basis: 150px; }
-.flex   .tree   .tabs   { display: flex; justify-content: space-between; font-size: 10px; text-transform: uppercase; margin-bottom: 20px; }
+    .flex {
+        display: flex;
+        gap: 40px;
+    }
+    .flex .tree {
+        flex-basis: 150px;
+    }
+    .flex .tree .tabs {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
 
-.flex   .main   { flex-basis: 400px; flex-grow: 1; }
-.flex   .main   .path   { padding: 10px 0; border: solid 1px #999; border-width: 1px 0; margin-bottom: 1em; }
-.flex   .main   .path   menu { list-style: none; margin: 0; padding: 0; display: flex; }
+    .flex .main {
+        flex-basis: 400px;
+        flex-grow: 1;
+    }
+    .flex .main .path {
+        padding: 10px 0;
+        border: solid 1px #999;
+        border-width: 1px 0;
+        margin-bottom: 1em;
+    }
+    .flex .main .path menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
 
-.flex   .main   .list   { display: flex; flex-direction: column; gap: 2em; }
+    .flex .main .list {
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+    }
 </style>
