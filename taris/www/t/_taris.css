@@ -16,6 +16,12 @@ p               { margin: 1em 0; }
 
 
 
+.flex1          { display: flex; gap: 40px; }
+.flex1 .inc     { flex-basis: 180px; border: solid 1px #eee; padding: 10px; box-sizing: border-box; }
+.flex1 .list    { flex-basis: 300px; flex-grow: 1; }
+.flex1 .list > div    { margin-bottom: 2em; }
+.flex1 .list > .id      { display: block; font-weight: bold; padding: 3px 0; }
+.flex1 .list > .id > a  { display: block; }
 
 
 
@@ -27,5 +33,3 @@ p               { margin: 1em 0; }
 
 
 
-
-
