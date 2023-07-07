@@ -16,8 +16,8 @@ class db_pdo
         # pdo.dsn.rs_karasev_test = "mysql:host=localhost;port=3306;dbname=DB_NAME;charset=utf8mb4;user=USER_NAME;password=USER_PASSWORD"
         if ( PATH_SEPARATOR == ';' ) {
 			$dsn = 'mysql:host=localhost;port=3311;dbname=taris_test;charset=utf8mb4;user=taris;password=eMEoBEvCum';
-			$user = 'taris';
-			$pass = 'eMEoBEvCum';
+			// $user = 'taris';
+			// $pass = 'eMEoBEvCum';
 		}	
 
 
@@ -55,9 +55,14 @@ class db_pdo
 	    $start         =   microtime(true);
 	    
 	    $this->statement  =   $this->connect->prepare($sql);
-	    $this->statement->execute($params)  OR  $this->printSql($sqlText);
-	    
-	    
+		
+		try {
+			$exec = $this->statement->execute($params);
+		}
+		catch (Exception $e) {
+			$this->printSql($sqlText);
+		} 
+		
 	    $finish        =   microtime(true);
 	    $this->log[]   =   array($sql, ($finish-$start));
 	}
@@ -120,8 +125,22 @@ class db_pdo
 	        $this->error   =   ['Database error...'];
 	    }
 	    
+		$backtrace	=	debug_backtrace();
+		$fileline	=	'';
+		foreach($backtrace as $v)
+		{
+			if ( $v['class'] !== 'db_pdo' )
+			{
+				$fileline = $v['file']. '::' .$v['line'];
+				break;
+			}
+		}
+
+
 	    echo '<pre style="color: maroon;">';
 			echo "\n\n";
+			echo $fileline;
+			echo "\n";
 			print_r($this->error);
 			echo "\n\n";
 			echo '</pre>';

@@ -1,7 +1,7 @@
 <?php
 # specific vars for siteYYYY
 #
-// db::init();
+db::init();
 
 
 # type first template for load::$layout

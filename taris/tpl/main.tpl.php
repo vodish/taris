@@ -1,45 +1,69 @@
 <?php
+if ( url::$path == '/' )    url::redir('/r/start');
+
 load::$layout   =   'default.tpl.php';
 load::$title    =   'Tariz';
 
+
+
+
 # стартовый файл
 #
-if ( url::$path == '/' )    url::redir('/r/start');
+$_cur   =   db::one("SELECT * FROM `row`  WHERE `key` = " .db::v(url::$level[1]). " "); 
+
+$_rows  =   json_decode($_cur['rows'], 1);
+$_rows  =   $_rows ? $_rows: array("''");
+foreach($_rows as &$v)  $v = "'$v'";
 #
-function getRow($id)
-{
-    $row   =   file_get_contents(__DIR__. "/res/$id.json" );
-    $row   =   json_decode($row, 1);
+$_rows  =   db::select("SELECT *  FROM `row`  WHERE `key` IN (" .implode(',', $_rows). ") ") ;
 
-    return $row;
-}
+// load::vd($_rows);
 
-$row = getRow(url::$level[1]);
+/*
+одна запись может находится только в одном месте
 
-// load::vdd($row, 0);
+start
+    14
+*/
+
 
 ?>
 
 <div class="flex1">
     <div class="inc">
-        inc
+        <div>inc</div>
+        <div>inc</div>
+        <div>inc</div>
+        <div>inc</div>
     </div>
     <div class="list">
 
         <?
-        
-        foreach( $row['rows'] as $id )
+        foreach( $_rows as $v )
         {
-            list( 'name'=>$name, 'type'=>$type )  =  getRow($id);
-            
             ?>
             <div>
-                <div class="id"><?= $type=='file'?  '<a href="./' .$id. '">' .$id. '</a>' :  $id ?></div>
-                
-                <span class="message"><?= $name ?></span>
+                <?
+                if ( $v['type']=='row' )
+                {
+                    echo '<div class="id">#' .$v['key']. '</div>';
+                    echo '<div class="message">' .$v['message']. '</div>';
+                }
+                elseif ($v['type']=='file')
+                {
+                    echo '<div class="id"><a href="./' .$v['key']. '">' .$v['name']. '</a></div>';
+                }
+                ?>
             </div>
             <?
         }
+
+        if ( empty($_rows) )
+        {
+            echo 'Нету записей.';
+        }
+
+        // load::vd($_rows);
         ?>
 
     </div>
