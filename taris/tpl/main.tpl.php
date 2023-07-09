@@ -11,47 +11,71 @@ load::$title    =   'Tariz';
 #
 $_cur   =   db::one("SELECT * FROM `row`  WHERE `key` = " .db::v(url::$level[1]). " "); 
 
-$_rows  =   json_decode($_cur['rows'], 1);
-$_rows  =   $_rows ? $_rows: array("''");
-foreach($_rows as &$v)  $v = "'$v'";
+function jsonToArr( $json )
+{
+    $arr   =   json_decode($json, 1);
+    $arr   =   $arr ? $arr: array();
+    
+    return $arr;
+}
+
+function sqlIn( $arr )
+{
+    if ( empty($arr) )  return '-1';
+
+    foreach($arr as &$v)   $v = db::v($v);
+    
+    return $arr;
+}
+
+$_loc   =   jsonToArr($_cur['loc']);
+$_rows  =   jsonToArr($_cur['rows']);
+
+
+# запросить связанные записи
 #
-$_rows  =   db::select("SELECT *  FROM `row`  WHERE `key` IN (" .implode(',', $_rows). ") ") ;
+$sqlin  =   sqlIn( array_merge($_loc, $_rows) );
+
+db::query("SELECT *  FROM `row`  WHERE `key` IN (" .implode(',', $sqlin). ") ") ;
+
+for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 
 // load::vd($_rows);
-
-/*
-одна запись может находится только в одном месте
-
-start
-    14
-*/
+// load::vd($_loc);
+// load::vd($list);
 
 
 ?>
 
 <div class="flex1">
     <div class="inc">
-        <div>inc</div>
-        <div>inc</div>
-        <div>inc</div>
-        <div>inc</div>
+        <?
+        foreach( $_loc as $key )
+        {
+            $v = $list[ $key ];
+            echo '<div>запись #' .$v['key']. '</div>';
+        }
+        // load::vd($_loc);
+        ?>
     </div>
     <div class="list">
 
         <?
-        foreach( $_rows as $v )
+        foreach( $_rows as $key )
         {
+            $v = $list[ $key ];
             ?>
             <div>
                 <?
                 if ( $v['type']=='row' )
                 {
-                    echo '<div class="id">#' .$v['key']. '</div>';
+                    echo '<div class="key">#' .$v['key']. '</div>';
                     echo '<div class="message">' .$v['message']. '</div>';
                 }
                 elseif ($v['type']=='file')
                 {
-                    echo '<div class="id"><a href="./' .$v['key']. '">' .$v['name']. '</a></div>';
+                    echo '<div class="key">#' .$v['key']. '</div>';
+                    echo '<a class="file" href="./' .$v['key']. '">' .$v['name']. '</a>';
                 }
                 ?>
             </div>
