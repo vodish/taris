@@ -15,9 +15,12 @@ h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
 p               { margin: 1em 0; }
 
 
+.loc            { display: flex; padding: 5px; border: solid 1px #eee; margin-bottom: 2em; }
+.loc > i.sep    { margin: 0 1ch; display: inline-block; font-style: normal; }
+.loc > i:first-child { margin-left: 0; }
 
-.flex1          { display: flex; gap: 40px; }
-.flex1 .inc     { flex-basis: 180px; border: solid 1px #eee; padding: 10px; box-sizing: border-box; }
+.flex1          { display: flex; gap: 2em; }
+.flex1 .inc     { flex-basis: content; border: solid 1px #eee; padding: 10px; box-sizing: border-box; }
 .flex1 .list    { flex-basis: 300px; flex-grow: 1; }
 .flex1 .list > div    { margin-bottom: 2em; }
 .flex1 .list > div > .key      { display: block; font-weight: bold; padding: 3px 0; }

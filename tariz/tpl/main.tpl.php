@@ -28,6 +28,7 @@ function sqlIn( $arr )
     return $arr;
 }
 
+$_dir   =   jsonToArr($_cur['dir']);
 $_loc   =   jsonToArr($_cur['loc']);
 $_rows  =   jsonToArr($_cur['rows']);
 
@@ -40,12 +41,25 @@ db::query("SELECT *  FROM `row`  WHERE `key` IN (" .implode(',', $sqlin). ") ") 
 
 for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 
-// load::vd($_rows);
-// load::vd($_loc);
-// load::vd($list);
-
 
 ?>
+
+<div class="loc">
+    <?
+    echo '<a href="./">UserName</a>';
+
+    foreach( $_dir as $name )
+    {
+        // $v = $list[ $key ];
+
+        echo '<i class="sep">/</i>';
+        echo '<a href="./">' .$name. '</a>';
+    }
+
+    echo '<i class="sep">/</i>';
+    echo '<span>' .$_cur['name']. '</span>';
+    ?>
+</div>
 
 <div class="flex1">
     <div class="inc">
@@ -53,7 +67,7 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
         foreach( $_loc as $key )
         {
             $v = $list[ $key ];
-            echo '<div>запись #' .$v['key']. '</div>';
+            echo '<div><a href="./' .$v['key']. '">запись #' .$v['key']. '</a></div>';
         }
         // load::vd($_loc);
         ?>
@@ -94,5 +108,12 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 </div>
 
 
+<?
 
+load::vd($_cur);
+// load::vd($_rows);
+// load::vd($_loc);
+// load::vd($list);
+
+?>
 

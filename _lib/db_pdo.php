@@ -14,6 +14,7 @@ class db_pdo
     {
         # [PDO]  // into php.ini
         # pdo.dsn.rs_karasev_test = "mysql:host=localhost;port=3306;dbname=DB_NAME;charset=utf8mb4;user=USER_NAME;password=USER_PASSWORD"
+		
         if ( PATH_SEPARATOR == ';' ) {
 			$dsn = 'mysql:host=localhost;port=3311;dbname=taris_test;charset=utf8mb4;user=taris;password=eMEoBEvCum';
 			$user = 'taris';
