@@ -1,7 +1,8 @@
 
---------------------------------------------------
-vodish / Tariz
---------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+vodish                                          vodish
+Tariz                                           Tariz
+---------------------------------------------------------------------------------------------------------------
 
 index.php                                       index.php               k.tariz\tariz\www\index.php
     _config.php                                 _config.php             k.tariz\_lib\_config.php
@@ -19,6 +20,18 @@ index.php                                       index.php               k.tariz\
             [ /data* ] from $r1                 [ /data* ]              [ /data* ]
                 data.tpl.php                    data.tpl.php            k.tariz\tariz\tpl\data.tpl.php
                     data.php                    data.php                k.tariz\tariz\tpl\data\data.php
+
+
+
+
+/098
+
+/876
+/2876
+/3876
+/5876
+/66876
+/76
 
 
 
