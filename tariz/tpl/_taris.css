@@ -29,8 +29,9 @@ p               { margin: 1em 0; }
 .flex1 .list > div > .message   { margin-top: 3px; }
 
 
-
-
+.t2          { padding-top: 1em; margin: 2em 0 23em 0; line-height: 1.6em;; }
+.t2 .p       { margin-left: 3ch; }
+.t2 .p:first-child { margin-left: 0;; }
 
 
 

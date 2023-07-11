@@ -1,41 +1,27 @@
 
---------------------------------------------------------------
-
+--------------------------------------------------
 vodish / Tariz
+--------------------------------------------------
 
-index.php
-    _config.php
-        url.php
-        _route.php
-            db.php
-            url.php
-        load.php
-            [/]
-                main.tpl.php
-                    url.php
-                    db.php
-                    load.php
-                default.tpl.php
-
-            [/data]
-                data.tpl.php
-                    data.php
-
-
+index.php                                       index.php               k.tariz\tariz\www\index.php
+    _config.php                                 _config.php             k.tariz\_lib\_config.php
+        url.php                                 url.php                 k.tariz\_lib\url.php
+        _route.php as $r1                       $r1                     k.tariz\tariz\tpl\_route.php
+            db.php                              db.php                  k.tariz\_lib\db.php
+            url.php                             url.php                 k.tariz\_lib\url.php
+        load.php                                load.php                k.tariz\_lib\load.php
+            [ / ] from $r1                      [ / ]                   [ / ]
+                main.tpl.php                    main.tpl.php            k.tariz\tariz\tpl\main.tpl.php
+                    url.php                     url.php                 k.tariz\_lib\url.php
+                    db.php                      db.php                  k.tariz\_lib\db.php
+                    load.php                    load.php                k.tariz\_lib\load.php
+                default.tpl.php                 default.tpl.php         k.tariz\tariz\tpl\default.tpl.php
+            [ /data* ] from $r1                 [ /data* ]              [ /data* ]
+                data.tpl.php                    data.tpl.php            k.tariz\tariz\tpl\data.tpl.php
+                    data.php                    data.php                k.tariz\tariz\tpl\data\data.php
 
 
---------------------------------------------------------------
 
-vodish / Tariz
-
-index.php
-    _config.php
-        url.php
-        load.php
-        _route.php
-            db.php
-            
-        main.tpl.php
 
 
 

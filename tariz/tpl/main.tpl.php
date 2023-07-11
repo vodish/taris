@@ -43,6 +43,42 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 
 ?>
 
+
+
+
+<div class="t2">
+  
+  <div class="p">
+    <div class="name">index.php</div>
+    <div class="p">
+      <div class="name">_config.php</div>
+      <div class="p">
+        <div class="name">url.php</div>
+      </div>
+      <div class="p">
+        <div class="name">_route.php</div>
+      </div>
+      <div class="p">
+        <div class="name">load.php</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="flex1">
     <div class="inc">
         <?
@@ -96,9 +132,12 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 <br>
 <br>
 <br>
+
+
+
 <?
 
-load::vd($_cur);
+// load::vd($_cur);
 // load::vd($_rows);
 // load::vd($_loc);
 // load::vd($list);
