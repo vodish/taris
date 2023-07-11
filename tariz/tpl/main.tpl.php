@@ -1,5 +1,5 @@
 <?php
-if ( url::$path == '/' )    url::redir('/r/start');
+if ( url::$path == '/' )    url::redir('/r/vodish');
 
 load::$layout   =   'default.tpl.php';
 load::$title    =   'Tariz';
@@ -28,7 +28,6 @@ function sqlIn( $arr )
     return $arr;
 }
 
-$_dir   =   jsonToArr($_cur['dir']);
 $_loc   =   jsonToArr($_cur['loc']);
 $_rows  =   jsonToArr($_cur['rows']);
 
@@ -44,37 +43,24 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 
 ?>
 
-<div class="loc">
-    <?
-    echo '<a href="./">UserName</a>';
-
-    foreach( $_dir as $name )
-    {
-        // $v = $list[ $key ];
-
-        echo '<i class="sep">/</i>';
-        echo '<a href="./">' .$name. '</a>';
-    }
-
-    echo '<i class="sep">/</i>';
-    echo '<span>' .$_cur['name']. '</span>';
-    ?>
-</div>
-
 <div class="flex1">
     <div class="inc">
         <?
         foreach( $_loc as $key )
         {
             $v = $list[ $key ];
-            echo '<div><a href="./' .$v['key']. '">запись #' .$v['key']. '</a></div>';
+            echo '<div><a href="./' .$v['key']. '">' .$v['name']. '</a></div>';
         }
         // load::vd($_loc);
         ?>
     </div>
     <div class="list">
-
         <?
+        if ( $_cur['dir'] )
+        {
+            echo '<div class="dir">' .$_cur['dir']. '</div>';
+        }
+
         foreach( $_rows as $key )
         {
             $v = $list[ $key ];
@@ -107,7 +93,9 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
     </div>
 </div>
 
-
+<br>
+<br>
+<br>
 <?
 
 load::vd($_cur);
