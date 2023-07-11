@@ -6,18 +6,21 @@ vodish / Tariz
 index.php
     _config.php
         url.php
-        load.php
         _route.php
             db.php
             url.php
-            
         load.php
-            main.tpl.php
-                url.php
-                db.php
-                load.php
+            [/]
+                main.tpl.php
+                    url.php
+                    db.php
+                    load.php
+                default.tpl.php
 
-            default.tpl.php
+            [/data]
+                data.tpl.php
+                    data.php
+
 
 
 
