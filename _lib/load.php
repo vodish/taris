@@ -73,29 +73,29 @@ class load
 	}
 	
 
-	static function vd($var=null, $print_r=true)
+	static function vd($var=null, $print_r=null, $trace=true)
 	{
 	    $backtrace	=	debug_backtrace();
         
         echo '<pre style="max-width: 90%; overflow: auto;">';
         
-        echo $backtrace[0]['file']. '::' .$backtrace[0]['line']. "\n";
+        echo  $trace ?  $backtrace[0]['file']. '::' .$backtrace[0]['line']. "\n" :  '';
 
-        $print_r ?  print_r($var) :  var_dump($var);
+        $print_r === null ?  print_r($var) :  var_dump($var);
         
         echo '</pre>';
 	    
 	}
 	
-	static function vdd($var=null, $print_r=true)
+	static function vdd($var=null, $print_r=null, $trace=true)
 	{
 	    $backtrace	=	debug_backtrace();
 	    
         echo '<pre style="max-width: 90%; overflow: auto;">';
         
-        echo $backtrace[0]['file']. '::' .$backtrace[0]['line']. "\n";
+        echo  $trace ?  $backtrace[0]['file']. '::' .$backtrace[0]['line']. "\n" :  '';
 		
-        $print_r ?  print_r($var) :  var_dump($var);
+        $print_r === null ?  print_r($var) :  var_dump($var);
         
         echo '</pre>';
 	    

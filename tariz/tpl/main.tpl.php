@@ -41,30 +41,127 @@ db::query("SELECT *  FROM `row`  WHERE `key` IN (" .implode(',', $sqlin). ") ") 
 for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 
 
+
+/*
+CRUD (каждая строка - это своя запись)
+1   create
+2   read
+3   update
+4   delete
+
+*/
+
+$tree = <<<TREE
+
+
+first
+index.php
+    _config.php
+        url.php
+        _route.php
+            db.php
+            url.php
+        load.php
+            [ / ]
+                main.tpl.php
+                    url.php
+                    db.php
+                    load.php
+                default.tpl.php
+            [ /data* ]
+                data.tpl.php
+                    data.php
+TREE;
+
+load::vd($tree);
+?>
+<br><br><br>
+<?
+
+
+function saveTree($str, $project=1)
+{
+    # разбить по строчно
+    $tree   =   $str;
+    $tree   =   str_replace("\r", '', $tree);
+
+    $list   =   explode("\n", $tree);
+    $insert =   array();
+    $rows   =   array();
+
+    // load::vd($list);
+
+    
+    foreach( $list as $k => $v )
+    {
+        if ( empty($v) )    continue;
+
+        $md5add = md5( session_id() . time() . $k );
+        
+        # распарсить название пачки
+        #
+        preg_match("#^\s+#", $v, $level);
+        preg_match("#\s\d+$#", $v, $id);
+        #
+        $level      =   isset($level[0]) ?  $level[0] :  '';
+        $id         =   isset($id[0]) ?  trim($id[0]) : '';
+        $level1     =   strlen($level);
+        $id1        =   strlen($id);
+        
+        $name       =   substr($v, $level1, strlen($v) - $level1 - $id1 );
+        $name       =   trim($name);
+        
+
+        # определить родителя
+        #
+        $rows1      =   $rows;
+        $parent     =   null;
+        #
+        while ( $pop = array_pop($rows1) )
+        {
+            if ( $pop['level1'] < $level1 )
+            {
+                $parent = $pop['md5add'];
+                break;
+            }
+        }
+
+        // load::vd('<hr>');
+
+
+        # добавить запись
+        #
+        $rows[ $md5add ] = array(
+            'md5add'    =>  $md5add,
+            'level1'    =>  $level1,
+            'parent'    =>  '',
+
+            'level'     =>  $level,
+            'name'      =>  $name,
+            'id'        =>  $id ?? null,
+
+            'parent'    =>  $parent,
+            'order'     =>  $k,
+        );
+        
+        // load::vd($m, 1);
+        // echo '<hr>';
+    }
+
+
+    
+
+    load::vd($rows);
+
+}
+
+saveTree($tree, 1);
+
 ?>
 
 
 
 
-<div class="t2">
-  
-  <div class="p">
-    <div class="name">index.php</div>
-    <div class="p">
-      <div class="name">_config.php</div>
-      <div class="p">
-        <div class="name">url.php</div>
-      </div>
-      <div class="p">
-        <div class="name">_route.php</div>
-      </div>
-      <div class="p">
-        <div class="name">load.php</div>
-      </div>
-    </div>
-  </div>
-
-</div>
 
 
 
@@ -79,25 +176,12 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 
 
 
-<div class="flex1">
-    <div class="inc">
-        <?
-        foreach( $_loc as $key )
-        {
-            $v = $list[ $key ];
-            echo '<div><a href="./' .$v['key']. '">' .$v['name']. '</a></div>';
-        }
-        // load::vd($_loc);
-        ?>
-    </div>
+<div class="flex1" >
+    
     <div class="list">
         <?
-        if ( $_cur['dir'] )
-        {
-            echo '<div class="dir">' .$_cur['dir']. '</div>';
-        }
 
-        foreach( $_rows as $key )
+        foreach( $_rows = [] as $key )
         {
             $v = $list[ $key ];
             ?>
@@ -117,13 +201,6 @@ for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
             </div>
             <?
         }
-
-        if ( empty($_rows) )
-        {
-            echo 'Нету записей.';
-        }
-
-        // load::vd($_rows);
         ?>
 
     </div>

@@ -28,14 +28,43 @@ index.php                                       index.php               k.tariz\
                     data.php                    data.php                k.tariz\tariz\tpl\data\data.php
 
 
-
 /098
-/876
-/2876
-/3876
 /5876
 /66876
 /76
+/897    / project / project / project
+/897    / username / project / project
+
+1. Каждая строка - это своя запись
+CRUD
+1 create
+2 read
+3 update
+4 delete
+
+index.php                               098
+    _config.php                         098
+        url.php                         098
+        _route.php                      098
+            db.php                      098
+            url.php                     1243254
+                wsdv
+                    sdvdsfv
+                        sdvdsfv
+        load.php                        098
+            [ / ]                       098
+                main.tpl.php            098
+                    url.php             098
+                    db.php              098
+                    load.php            098
+                default.tpl.php         098
+            [ /data* ]                  098
+                data.tpl.php            098
+                    data.php            098
+
+
+
+
 
 
 

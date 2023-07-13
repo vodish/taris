@@ -33,7 +33,7 @@ p               { margin: 1em 0; }
 .t2 .p       { margin-left: 3ch; }
 .t2 .p:first-child { margin-left: 0;; }
 
-
+.pre1   { padding: 5px; border: solid 1px #ddd; }
 
 
 
