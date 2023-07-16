@@ -6,12 +6,42 @@ load::$title    =   'Tariz';
 
 
 # стартовая пачка
+# получить дерево проекта из бд
 #
-$project    =   url::$level[1];
-$tree       =   db::select("SELECT *  FROM `pack`  WHERE " .db::v($project). " = `project` ");
+$project    =   new project( (int) url::$level[1] );
+$tree       =   $project->getTextTree( $project->id );
 
-// load::vdd($tree);
 
+// load::vd( $tree );
+// load::vd( $project );
+
+
+// $tree = <<<TREE
+// first
+// index.php
+//     _config.php
+//         url.php
+//         _route.php
+//             db.php
+//             url.php
+//         load.php
+//             [ / ]
+//                 main.tpl.php
+//                     url.php
+//                     db.php
+//                     load.php
+//                 default.tpl.php
+//             [ /data* ]
+//                 data.tpl.php
+//                     data.php
+// TREE;
+
+// load::vd($tree);
+?>
+<textarea style="width: 100%; height: 20em; padding: 5px;"><?= trim($tree) ?></textarea>
+
+<br><br><br>
+<?
 
 
 
@@ -23,34 +53,7 @@ CRUD (каждая строка - это своя запись)
 4   delete
 */
 
-
-
-$tree = <<<TREE
-first
-index.php
-    _config.php
-        url.php
-        _route.php
-            db.php
-            url.php
-        load.php
-            [ / ]
-                main.tpl.php
-                    url.php
-                    db.php
-                    load.php
-                default.tpl.php
-            [ /data* ]
-                data.tpl.php
-                    data.php
-TREE;
-
-load::vd($tree);
-?>
-<br><br><br>
-<?
-
-function getParent5($lines, $indent5)
+function setParent5($lines, $indent5)
 {
     $reverse    =   array_reverse($lines);
 
@@ -66,8 +69,6 @@ function getParent5($lines, $indent5)
 
     return null;
 }
-
-
 
 function saveTree($str, $project=1)
 {
@@ -104,7 +105,7 @@ function saveTree($str, $project=1)
         #
         $lines[ $id5 ]  =   $indent5;
         $parent     =   $project;
-        $parent5    =   getParent5($lines, $indent5);
+        $parent5    =   setParent5($lines, $indent5);
         #
         # все записи запись
         #
