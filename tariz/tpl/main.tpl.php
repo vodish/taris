@@ -38,8 +38,10 @@ $tree       =   $project->getTextTree( $project->id );
 
 // load::vd($tree);
 ?>
-<textarea style="width: 100%; height: 20em; padding: 5px;"><?= trim($tree) ?></textarea>
-
+<form method="post">
+    <textarea style="width: 100%; height: 20em; padding: 5px;"><?= trim($tree) ?></textarea>
+    <p><button>Обновить</button></p>
+</form>
 <br><br><br>
 <?
 
