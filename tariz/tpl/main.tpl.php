@@ -1,44 +1,17 @@
 <?php
-if ( url::$path == '/' )    url::redir('/r/vodish');
+if ( url::$path == '/' )    url::redir('/p/1');
 
 load::$layout   =   'default.tpl.php';
 load::$title    =   'Tariz';
 
 
-
-
-# стартовый файл
+# стартовая пачка
 #
-$_cur   =   db::one("SELECT * FROM `row`  WHERE `key` = " .db::v(url::$level[1]). " "); 
+$project    =   url::$level[1];
+$tree   =   db::select("SELECT *  FROM `pack`  WHERE " .db::v($project). " = `project` ");
 
-function jsonToArr( $json )
-{
-    $arr   =   json_decode($json, 1);
-    $arr   =   $arr ? $arr: array();
-    
-    return $arr;
-}
+// load::vdd($tree);
 
-function sqlIn( $arr )
-{
-    if ( empty($arr) )  return '-1';
-
-    foreach($arr as &$v)   $v = db::v($v);
-    
-    return $arr;
-}
-
-$_loc   =   jsonToArr($_cur['loc']);
-$_rows  =   jsonToArr($_cur['rows']);
-
-
-# запросить связанные записи
-#
-$sqlin  =   sqlIn( array_merge($_loc, $_rows) );
-
-db::query("SELECT *  FROM `row`  WHERE `key` IN (" .implode(',', $sqlin). ") ") ;
-
-for( $list=[];  $v = db::fetch();  $list[ $v['key'] ] = $v );
 
 
 
@@ -48,8 +21,9 @@ CRUD (каждая строка - это своя запись)
 2   read
 3   update
 4   delete
-
 */
+
+
 
 $tree = <<<TREE
 
@@ -82,13 +56,14 @@ load::vd($tree);
 function saveTree($str, $project=1)
 {
     # разбить по строчно
+    #
     $tree   =   $str;
     $tree   =   str_replace("\r", '', $tree);
 
-    $list   =   explode("\n", $tree);
     $insert =   array();
     $rows   =   array();
-
+    $list   =   explode("\n", $tree);
+    
     // load::vd($list);
 
     
@@ -96,123 +71,122 @@ function saveTree($str, $project=1)
     {
         if ( empty($v) )    continue;
 
-        $md5add = md5( session_id() . time() . $k );
-        
         # распарсить название пачки
         #
-        preg_match("#^\s+#", $v, $level);
+        preg_match("#^\s+#", $v, $indent5);
         preg_match("#\s\d+$#", $v, $id);
         #
-        $level      =   isset($level[0]) ?  $level[0] :  '';
-        $id         =   isset($id[0]) ?  trim($id[0]) : '';
-        $level1     =   strlen($level);
-        $id1        =   strlen($id);
+        #
+        $id5        =   md5( session_id() . time() . $k );
+        $indent5    =   isset($indent5[0])  ?  strlen($indent5[0])  :   0;
+        $id         =   isset($id[0])       ?  trim($id[0])         :   null;
         
-        $name       =   substr($v, $level1, strlen($v) - $level1 - $id1 );
+        $name       =   substr($v, $indent5, strlen($v) - $indent5 - strlen($id) );
         $name       =   trim($name);
-        
-
+        #
+        #
         # определить родителя
         #
+        $parent5    =   null;
         $rows1      =   $rows;
-        $parent     =   null;
         #
         while ( $pop = array_pop($rows1) )
         {
-            if ( $pop['level1'] < $level1 )
+            if ( $pop['indent5'] < $indent5 )
             {
-                $parent = $pop['md5add'];
-                break;
+                $parent5 = $pop['id5'];
+                break 1;
             }
         }
-
-        // load::vd('<hr>');
-
-
-        # добавить запись
         #
-        $rows[ $md5add ] = array(
-            'md5add'    =>  $md5add,
-            'level1'    =>  $level1,
-            'parent'    =>  '',
-
-            'level'     =>  $level,
+        #
+        # все записи запись
+        #
+        $rows[ $id5 ] = array(
+            'id5'       =>  $id5,
+            'parent5'   =>  $parent5,
+            
+            'indent5'    =>  $indent5,
+            'indent5'     =>  $indent5,
+            
+            'id'        =>  $id,
+            'parent'    =>  null,
             'name'      =>  $name,
-            'id'        =>  $id ?? null,
-
-            'parent'    =>  $parent,
             'order'     =>  $k,
         );
-        
-        // load::vd($m, 1);
-        // echo '<hr>';
+        #
+        #
+        # записи к добавлению
+        #
+        if ( !$id )
+        {
+            $insert[] = "SELECT " .db::v($project). " as `project`, " .db::v($name). " as `name`,  NULL as `id`,  " .db::v($id5). " as `id5`,  " .db::v($parent5). " as `parent`,  " .db::v($k). " as `order`";
+        }
     }
+
+    //load::vdd($rows);
+
+    # добавить записи
+    #
+    if ( 0 && $insert )
+    {
+        # 1. создать временную таблицу
+        #
+        db::query("CREATE TEMPORARY TABLE `insert`  " .implode("\nUNION\n", $insert) );
+        #
+        // load::vdd( $insert );
+        #
+        #
+        # 2. добавить записи
+        #
+        db::query("
+            INSERT INTO `pack` (`project`, `name`, `order`, `id5` )
+            SELECT              `project`, `name`, `order`, `id5`  FROM `insert`
+        ");
+        #
+        #
+        # 3. получить идишники новых записей
+        #
+        $updId  =   db::query("
+            SELECT
+                  `id`
+                , `id5`
+            FROM
+                `pack`
+            WHERE
+                `id5` IN (SELECT `id5` FROM `insert`)
+            
+        ");
+        for( $updId = [];  $v = db::fetch();  $updId[ $v['id5'] ] = $v['id'] );
+        #
+        #
+        # 4. проставить новые идишники
+        #
+        foreach( $updId as $id1 => $id )
+        {
+            $rows[ $id1 ]['id'] = $id;
+        }
+        #
+        #
+        
+    }
+
+    # 5. проставить новых родителей
+    #
+    
+
+    // load::vdd($rows);
 
 
     
-
-    load::vd($rows);
 
 }
 
-saveTree($tree, 1);
-
-?>
+saveTree($tree, (int)$project);
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="flex1" >
-    
-    <div class="list">
-        <?
-
-        foreach( $_rows = [] as $key )
-        {
-            $v = $list[ $key ];
-            ?>
-            <div>
-                <?
-                if ( $v['type']=='row' )
-                {
-                    echo '<div class="key">#' .$v['key']. '</div>';
-                    echo '<div class="message">' .$v['message']. '</div>';
-                }
-                elseif ($v['type']=='file')
-                {
-                    echo '<div class="key">#' .$v['key']. '</div>';
-                    echo '<a class="file" href="./' .$v['key']. '">' .$v['name']. '</a>';
-                }
-                ?>
-            </div>
-            <?
-        }
-        ?>
-
-    </div>
-</div>
-
-<br>
-<br>
-<br>
-
-
-
-<?
 
 // load::vd($_cur);
 // load::vd($_rows);
@@ -221,3 +195,48 @@ saveTree($tree, 1);
 
 ?>
 
+<div class="flex1">
+    <div>
+        <table class="arr1">
+        <tr>
+            <td>id5</td>
+            <td>md5(str)</td>
+        </tr>
+        <tr>
+            <td>indent5</td>
+            <td>number</td>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>val</td>
+        </tr>
+        <tr>
+            <td>id</td>
+            <td>?</td>
+        </tr>
+        <tr>
+            <td>order</td>
+            <td>val</td>
+        </tr>
+        <tr>
+            <td>project</td>
+            <td>number</td>
+        </tr>
+        
+
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>parent5</td>
+            <td>-> id5</td>
+        </tr>
+        <tr>
+            <td>parent</td>
+            <td>? || projectId</td>
+        </tr>
+        </table>
+    </div>
+</div>
