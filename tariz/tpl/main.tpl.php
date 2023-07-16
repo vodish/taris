@@ -8,7 +8,7 @@ load::$title    =   'Tariz';
 # стартовая пачка
 #
 $project    =   url::$level[1];
-$tree   =   db::select("SELECT *  FROM `pack`  WHERE " .db::v($project). " = `project` ");
+$tree       =   db::select("SELECT *  FROM `pack`  WHERE " .db::v($project). " = `project` ");
 
 // load::vdd($tree);
 
@@ -26,8 +26,6 @@ CRUD (каждая строка - это своя запись)
 
 
 $tree = <<<TREE
-
-
 first
 index.php
     _config.php
@@ -52,137 +50,137 @@ load::vd($tree);
 <br><br><br>
 <?
 
+function getParent5($lines, $indent5)
+{
+    $reverse    =   array_reverse($lines);
+
+    // load::vd($indent5);
+    // load::vd($lines);
+    // load::vd($reverse);
+    // echo '<hr>';
+
+    foreach( $reverse as $key => $indent )
+    {
+        if ( $indent < $indent5 )   return $key;
+    }
+
+    return null;
+}
+
+
 
 function saveTree($str, $project=1)
 {
     # разбить по строчно
     #
-    $tree   =   $str;
-    $tree   =   str_replace("\r", '', $tree);
-
-    $insert =   array();
-    $rows   =   array();
+    $tree   =   str_replace("\r", '', $str);
     $list   =   explode("\n", $tree);
+    #
+    # вспомогательные переменные
+    #
+    $lines  =   array();
+    $rows   =   array();
     
     // load::vd($list);
 
     
-    foreach( $list as $k => $v )
+    foreach( $list as $npp => $v )
     {
         if ( empty($v) )    continue;
 
-        # распарсить название пачки
+        # распарсить строки пачек
         #
-        preg_match("#^\s+#", $v, $indent5);
-        preg_match("#\s\d+$#", $v, $id);
-        #
-        #
-        $id5        =   md5( session_id() . time() . $k );
-        $indent5    =   isset($indent5[0])  ?  strlen($indent5[0])  :   0;
-        $id         =   isset($id[0])       ?  trim($id[0])         :   null;
+        preg_match("#^\s+#", $v, $indent5m);
+        preg_match("#\s\d+$#", $v, $idm);
         
-        $name       =   substr($v, $indent5, strlen($v) - $indent5 - strlen($id) );
-        $name       =   trim($name);
+        #
+        $id5        =   md5( session_id(). time(). $npp );
+        $indent5    =   isset($indent5m[0])  ?  strlen($indent5m[0])  :   0;
+        $id         =   isset($idm[0])       ?  (int)trim($idm[0])    :   0;
+        $name       =   trim( substr($v, $indent5, strlen($v) - $indent5 - strlen($idm[0] ?? '') ) );
         #
         #
-        # определить родителя
+        # определить родителя из текста
         #
-        $parent5    =   null;
-        $rows1      =   $rows;
-        #
-        while ( $pop = array_pop($rows1) )
-        {
-            if ( $pop['indent5'] < $indent5 )
-            {
-                $parent5 = $pop['id5'];
-                break 1;
-            }
-        }
-        #
+        $lines[ $id5 ]  =   $indent5;
+        $parent     =   $project;
+        $parent5    =   getParent5($lines, $indent5);
         #
         # все записи запись
         #
-        $rows[ $id5 ] = array(
-            'id5'       =>  $id5,
-            'parent5'   =>  $parent5,
-            
-            'indent5'    =>  $indent5,
-            'indent5'     =>  $indent5,
-            
-            'id'        =>  $id,
-            'parent'    =>  null,
-            'name'      =>  $name,
-            'order'     =>  $k,
-        );
-        #
-        #
-        # записи к добавлению
-        #
-        if ( !$id )
-        {
-            $insert[] = "SELECT " .db::v($project). " as `project`, " .db::v($name). " as `name`,  NULL as `id`,  " .db::v($id5). " as `id5`,  " .db::v($parent5). " as `parent`,  " .db::v($k). " as `order`";
-        }
-    }
-
-    //load::vdd($rows);
-
-    # добавить записи
-    #
-    if ( 0 && $insert )
-    {
-        # 1. создать временную таблицу
-        #
-        db::query("CREATE TEMPORARY TABLE `insert`  " .implode("\nUNION\n", $insert) );
-        #
-        // load::vdd( $insert );
-        #
-        #
-        # 2. добавить записи
-        #
-        db::query("
-            INSERT INTO `pack` (`project`, `name`, `order`, `id5` )
-            SELECT              `project`, `name`, `order`, `id5`  FROM `insert`
-        ");
-        #
-        #
-        # 3. получить идишники новых записей
-        #
-        $updId  =   db::query("
-            SELECT
-                  `id`
-                , `id5`
-            FROM
-                `pack`
-            WHERE
-                `id5` IN (SELECT `id5` FROM `insert`)
-            
-        ");
-        for( $updId = [];  $v = db::fetch();  $updId[ $v['id5'] ] = $v['id'] );
-        #
-        #
-        # 4. проставить новые идишники
-        #
-        foreach( $updId as $id1 => $id )
-        {
-            $rows[ $id1 ]['id'] = $id;
-        }
-        #
-        #
+        $rows[] = "
+            SELECT 
+                  " .db::v($id5).        "   as `id5`
+                , " .db::v($parent5).    "   as `parent5`
+                , " .db::v($id).         "   as `id`
+                , " .db::v($parent).     "   as `parent`
+                , " .db::v($name).       "   as `name`
+                , " .db::v($npp).        "   as `order`
+                , " .db::v($project).    "   as `project`
+        ";
         
     }
 
-    # 5. проставить новых родителей
+
+    # создать актуальное дерево проекта
     #
+    db::query("CREATE TEMPORARY TABLE `rows`  " .implode("\nUNION\n", $rows) );
     
 
-    // load::vdd($rows);
-
-
+    # добавить новые записи
+    #
+    db::query("
+        INSERT INTO `pack` ( `name`, `id5` )
+        SELECT `name`, `id5`  FROM `rows`  WHERE `id` = 0
+    ");
     
+
+    # получить id добавленных записей
+    #
+    db::query("
+        UPDATE
+            `rows`
+                JOIN `pack` ON `rows`.`id5` = `pack`.`id5`
+        SET
+            `rows`.`id` =   `pack`.`id`
+    ");
+
+    // $rows = db::select("SELECT *  FROM `rows` ");
+    // load::vd($rows);
+
+
+    # обновить id родителей
+    #
+    db::query("
+        UPDATE
+            `rows`
+        SET
+            `parent` =  IFNULL((SELECT `id`  FROM `rows` as `r1`  WHERE `id5` = `rows`.`parent5`  LIMIT 1), `parent` )
+    ");
+
+
+    # записи пачек
+    #
+    db::query("
+        UPDATE
+            `pack`
+                JOIN `rows` ON `pack`.`id` = `rows`.`id`
+        SET
+             `pack`.`name`      =   `rows`.`name`
+            ,`pack`.`parent`    =   `rows`.`parent`
+            ,`pack`.`order`     =   `rows`.`order`
+            ,`pack`.`project`   =   `rows`.`project`
+            ,`pack`.`id5`       =   NULL
+    ");
+    
+
+
+    load::vd($rows);
+
 
 }
 
-saveTree($tree, (int)$project);
+// saveTree($tree, (int)$project);
 
 
 
@@ -203,7 +201,27 @@ saveTree($tree, (int)$project);
             <td>md5(str)</td>
         </tr>
         <tr>
-            <td>indent5</td>
+            <td>parent5</td>
+            <td>-> id5</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>?</td>
+        </tr>
+        <tr>
+            <td>parent</td>
+            <td>?</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        
+        <tr>
+            <td>project</td>
             <td>number</td>
         </tr>
         <tr>
@@ -211,32 +229,10 @@ saveTree($tree, (int)$project);
             <td>val</td>
         </tr>
         <tr>
-            <td>id</td>
-            <td>?</td>
-        </tr>
-        <tr>
             <td>order</td>
             <td>val</td>
         </tr>
-        <tr>
-            <td>project</td>
-            <td>number</td>
-        </tr>
         
-
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td>parent5</td>
-            <td>-> id5</td>
-        </tr>
-        <tr>
-            <td>parent</td>
-            <td>? || projectId</td>
-        </tr>
         </table>
     </div>
 </div>
