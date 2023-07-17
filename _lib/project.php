@@ -14,7 +14,7 @@ class project
     }
 
 
-    # получить терево проекта как текст
+    # получить дерево проекта как текст
     #
     public function getTextTree( $start,  $level=0,  $text='' )
     {
@@ -32,6 +32,29 @@ class project
         return $text;
     }
 
+
+    # получить дерево проекта как html
+    public function getHtmlTree( $start,  $level=0,  $html='' )
+    {
+
+        foreach( $this->pack->parent[ $start ] as $id )
+        {
+            $name   =   $this->pack->list[ $id ]['name'];
+
+            $html   .=  '<div class="name"><a href="/' .$id. '">' .$name. '</a></div>';
+
+            if ( isset($this->pack->parent[ $id ]) )
+            {
+                $html   .=  '<div class="sub">';
+                $html   =   $this->getHtmlTree($id, ($level+1), $html);
+                $html   .=  '</div>';
+            }
+
+        }
+
+
+        return $html;
+    }
 
 
     # сохранить новое дерево проекта
