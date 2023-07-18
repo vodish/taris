@@ -15,7 +15,9 @@ h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
 
 
 .nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding-bottom: 3px; margin-bottom: 2em; }
+.nav1 .logo         { text-transform: uppercase; font-size: 12px; letter-spacing: 0.1ch; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
+.nav1 .bc .current  { color: inherit; font-weight: bold; cursor: default; }
 .nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
 .nav1 .bc > a       { padding: 4px 1ch; }
 .nav1 .bc .active   { font-weight: bold; color: inherit; cursor: default; }
@@ -27,9 +29,8 @@ h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
 .pro                { display: flex; gap: 2vw; }
 .pro > .tree          { flex-basis: 180px; padding: 0 1vw 0 4px; border-right: solid 1px #eee; }
 .pro > .tree .name > a    { padding: 3px; display: inline-block; }
-.pro > .tree .sub         { margin-left: 0.3ch; padding-left: 2ch; 8border-left: solid 1px #eee; }
+.pro > .tree .sub         { margin-left: 0.3ch; padding-left: 2ch; }
 
-.pro > .rows        {  }
 
 
 .flex1          { display: flex; gap: 2em; }
