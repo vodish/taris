@@ -4,16 +4,17 @@ class pack
     public $user;
     public $list;
     public $parent;
-
+    public $start;
 
 
     # получить все пачки пользователя
     #
-    public function __construct($user)
+    public function __construct($user, $start=null)
     {
-        $this->user =   $user;
+        $this->user     =   $user;
+        $this->start    =   $start;
 
-
+        
         db::query("
             SELECT
                 *
@@ -40,7 +41,7 @@ class pack
     #
     public function getProjectBc($start)
     {
-        $bc =   array();
+        $bc     =   array();
 
         while( isset($this->list[ $start ]) )
         {

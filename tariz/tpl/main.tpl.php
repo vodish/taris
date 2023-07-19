@@ -5,22 +5,22 @@ load::$layout   =   'default.tpl.php';
 # все пачки пользователя
 #
 $userId         =   1;
-$pack           =   new pack($userId);
-$packId         =   isset( url::$level[0] ) ?  (int)url::$level[0] :  null;
+$start          =   isset( url::$level[0] ) ?  (int)url::$level[0] :  null;
+$pack           =   new pack($userId, $start);
 
 
 # если пачка не найдена
 #
-if ( !isset( $pack->list[$packId] ) )    url::redir("/$userId");
+if ( !isset( $pack->list[$start] ) )    url::redir("/$userId");
 
 
 # определения проекта
 #
-$proBc          =   $pack->getProjectBc( $packId );
+$proBc          =   $pack->getProjectBc( $start );
 $proId          =   $proBc[0]['id'];
 load::$title    =   $proBc[0]['name'];
 #
-$project        =   new project($pack, $proId);
+$project        =   new project($proId, $pack);
 
 
 ?>

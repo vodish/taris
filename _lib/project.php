@@ -7,10 +7,10 @@ class project
 
 
 
-    public function __construct(pack &$pack, $id)
+    public function __construct($id, pack &$pack)
     {
-        $this->pack     =   $pack;
         $this->id       =   $id;
+        $this->pack     =   $pack;
     }
 
 
@@ -41,7 +41,7 @@ class project
         {
             $name   =   $this->pack->list[ $id ]['name'];
 
-            $html   .=  '<div class="name"><a href="/' .$id. '">' .$name. '</a></div>';
+            $html   .=  '<div class="name ' .( $id == $this->pack->start ?  'active':  ''). '"><a href="/' .$id. '">' .$name. '</a></div>';
 
             if ( isset($this->pack->parent[ $id ]) )
             {
