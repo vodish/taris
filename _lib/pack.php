@@ -4,8 +4,10 @@ class pack
     public $user;
     public $list;
     public $parent;
-    public $start;
 
+    public $start;
+    public $bc;
+    
 
     # получить все пачки пользователя
     #
@@ -14,7 +16,7 @@ class pack
         $this->user     =   $user;
         $this->start    =   $start;
 
-        
+
         db::query("
             SELECT
                 *
@@ -52,7 +54,7 @@ class pack
         }
 
         
-        return $bc;
+        return $this->bc = $bc;
     }
 
 

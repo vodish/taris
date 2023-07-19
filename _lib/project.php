@@ -57,6 +57,7 @@ class project
     }
 
 
+
     # сохранить новое дерево проекта
     #
     public function actionSave()
@@ -68,7 +69,7 @@ class project
 
         # сохранить в бд
         #
-        $this->saveTree($_POST['tree']);
+        $this->makeRows($_POST['tree']);
         
 
         # редирект на просмотр
@@ -77,17 +78,9 @@ class project
     }
 
 
-
-    
-    
-    /*
-    CRUD (каждая строка - это своя запись)
-    1   create
-    2   read
-    3   update
-    4   delete
-    */
-    private function saveTree($text)
+    # CRUD дерева проекта
+    #
+    private function makeRows($text)
     {
         $project    =   $this->id;
         $user       =   $this->pack->user;
@@ -153,8 +146,6 @@ class project
     }
 
 
-
-
     # определить родителя5
     #
     private function setParent5($lines, $indent5)
@@ -168,7 +159,6 @@ class project
     
         return null;
     }
-
 
 
     # сохранить записи в бд
@@ -243,5 +233,68 @@ class project
 
     }
 
+
+
+
+    
+    # сохранить новое дерево проекта
+    #
+    public function actionExtract()
+    {
+        if ( !isset($_GET['actionExtractProject']) )    return;
+        if ( $this->id == $this->pack->start )          return;
+
+
+        load::vd( $this->pack->start );
+        load::vd( $this->id );
+
+        $this->dbExtract();
+
+        # редирект на просмотр
+        #
+        // url::redir( url::$path . url::fset(['save'=>time()]) );
+    }
+
+
+    private function dbExtract()
+    {
+
+        
+
+        db::query("
+            UPDATE
+                `pack`
+            SET
+                `project` = " .db::v($this->pack->start). "
+            WHERE
+                id IN ()
+        ");
+
+    }
+
+
+
+    # сохранить новое дерево проекта
+    #
+    public function actionReject()
+    {
+        if ( !isset($_GET['actionRejectProject']) )    return;
+
+        
+        $this->dbReject();
+
+        # редирект на просмотр
+        #
+        // url::redir( url::$path . url::fset(['save'=>time()]) );
+    }
+
+
+    private function dbReject()
+    {
+        load::vdd('Отменить проект');
+    }
+
+
+    
 
 }

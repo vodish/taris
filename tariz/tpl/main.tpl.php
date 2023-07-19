@@ -23,6 +23,14 @@ load::$title    =   $proBc[0]['name'];
 $project        =   new project($proId, $pack);
 
 
+# сохранить новое дерево проекта
+#
+$project->actionSave();
+$project->actionExtract();
+$project->actionReject();
+
+
+
 ?>
 <div class="nav1">
     <div class="bc">
@@ -41,6 +49,8 @@ $project        =   new project($proId, $pack);
     <div class="opt">
         <a href="<?= url::$dir[0] ?>" class="<?= !isset(url::$level[1])? 'active': '' ?>">Обзор</a>
         <a href="<?= url::$dir[0]. '/tree' ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Проект</a>
+        <?= $start == $proId  && isset($proBc[1])  ? '<a href="' .url::$dir[0].     '?actionRejectProject">- Проект</a>' : '' ?>
+        <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionExtractProject">+ Проект</a>' : '' ?>
         <a href="<?= url::$dir[0]. '/rows' ?>" class="<?= @url::$level[1]=='rows'? 'active': '' ?>">Записи</a>
     </div>
 </div>
@@ -58,6 +68,10 @@ if ( !isset(url::$level[1]) )
         </div>
         <div class="rows">
             вывести пачку записей
+
+            <?
+            //load::vd($proBc);
+            ?>
         </div>
     </div>
     
@@ -66,10 +80,6 @@ if ( !isset(url::$level[1]) )
 }
 elseif ( url::$level[1] == 'tree' )
 {
-    # сохранить новое дерево проекта
-    #
-    $project->actionSave();
-    
     ?>
     <form method="post">
         <textarea name="tree" style="width: 100%; height: 20em; padding: 5px;"><?= trim($project->getTextTree( $proId )) ?></textarea>
