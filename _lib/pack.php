@@ -50,20 +50,14 @@ class pack
             $pack   =   $this->list[ $start ];
             $start  =   $pack['parent'];
 
-            if ( $pack['id'] == $pack['project'] )   $bc[] = $pack;
+            if ( $pack['project'] )   $bc[] = $pack;
         }
 
         
         return $this->bc = $bc;
     }
 
-
-    # получить дерево проектов
-    #
-    public function getProjectMap()
-    {
-        
-    }
+    
 
 
 }

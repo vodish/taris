@@ -26,8 +26,8 @@ $project        =   new project($proId, $pack);
 # сохранить новое дерево проекта
 #
 $project->actionSave();
-$project->actionExtract();
-$project->actionReject();
+$project->actionCreate();
+$project->actionCansel();
 
 
 
@@ -49,8 +49,8 @@ $project->actionReject();
     <div class="opt">
         <a href="<?= url::$dir[0] ?>" class="<?= !isset(url::$level[1])? 'active': '' ?>">Обзор</a>
         <a href="<?= url::$dir[0]. '/tree' ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Проект</a>
-        <?= $start == $proId  && isset($proBc[1])  ? '<a href="' .url::$dir[0].     '?actionRejectProject">- Проект</a>' : '' ?>
-        <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionExtractProject">+ Проект</a>' : '' ?>
+        <?= $start == $proId  && isset($proBc[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">- Проект</a>' : '' ?>
+        <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+ Проект</a>' : '' ?>
         <a href="<?= url::$dir[0]. '/rows' ?>" class="<?= @url::$level[1]=='rows'? 'active': '' ?>">Записи</a>
     </div>
 </div>

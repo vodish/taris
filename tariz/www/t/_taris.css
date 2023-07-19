@@ -30,7 +30,8 @@ h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
 .pro                { display: flex; gap: 2vw; }
 .pro > .tree          { flex-basis: 180px; padding: 0 1vw 0 4px; border-right: solid 1px #eee; }
 .pro > .tree .name > a      { padding: 3px; display: inline-block; }
-.pro > .tree .active > a    { color: var(--black); font-weight: bold; cursor: default; }
+.pro > .tree .active        { background-color: #eee; cursor: default; }
+.pro > .tree .project > a   { font-weight: bold; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
 
