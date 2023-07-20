@@ -31,6 +31,8 @@ class pack
 
         while ( $v = db::fetch() )
         {
+            db::cast($v, ['id'=>'int', 'parent'=>'int', 'is_project'=>'int', 'order'=>'int']);
+            
             $this->list[ $v['id'] ] =   $v;
 
             $this->parent[ $v['parent'] ][] =   $v['id'];
@@ -50,7 +52,7 @@ class pack
             $pack   =   $this->list[ $start ];
             $start  =   $pack['parent'];
 
-            if ( $pack['project'] )   $bc[] = $pack;
+            if ( $pack['is_project'] )   $bc[] = $pack;
         }
 
         

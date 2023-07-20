@@ -18,15 +18,16 @@ class project
     #
     public function getTextTree( $start,  $level=0,  $text='' )
     {
-
-        foreach( $this->pack->parent[ $start ] as $id )
+        $children   =   $this->pack->parent[ $start ] ??  array();
+        
+        foreach( $children as $id )
         {
-            $project    =   $this->pack->list[ $id ]['project'];
+            $isProject  =   $this->pack->list[ $id ]['is_project'];
             $sub        =   $this->pack->parent[ $id ] ?? null;
 
             $text       .=  str_repeat(" ", $level*4).  $this->pack->list[ $id ]['name']. ' ' .$id. "\n";
 
-            if ( !$project  && isset($sub) )
+            if ( !$isProject  && isset($sub) )
             {
                 $text   =   $this->getTextTree($id, ($level+1), $text);
             }
@@ -40,20 +41,20 @@ class project
     # получить дерево проекта как html
     public function getHtmlTree( $start,  $level=0,  $html='' )
     {
-        $list   =   $this->pack->parent[ $start ] ??  array();
+        $children   =   $this->pack->parent[ $start ] ??  array();
         
-        foreach( $list as $id )
+        foreach( $children as $id )
         {
             $name       =   $this->pack->list[ $id ]['name'];
-            $project    =   $this->pack->list[ $id ]['project'];
+            $isProject  =   $this->pack->list[ $id ]['is_project'];
             $sub        =   $this->pack->parent[ $id ] ?? null;
 
             $cactive    =   $id == $this->pack->start ?  ' active':  '';
-            $cproject   =   $project ?  ' project':  '';
+            $cproject   =   $isProject ?  ' project':  '';
 
             $html       .=  '<div class="name' .$cactive. $cproject. '"><a href="/' .$id. '">' .$name. '</a></div>';
             
-            if ( !$project  && isset($sub) )
+            if ( !$isProject  && isset($sub) )
             {
                 $html   .=  '<div class="sub">';
                 $html   =   $this->getHtmlTree($id, ($level+1), $html);
@@ -72,10 +73,8 @@ class project
     {
         if ( empty($_POST['tree']) )    return;
 
-        // load::vdd($_POST);
         
-
-        # сохранить в бд
+        # передать на обработку
         #
         $this->makeRows($_POST['tree']);
         
@@ -86,11 +85,11 @@ class project
     }
 
 
-        # CRUD дерева проекта
+        # распарсить пришедшее дерево проекта
+        # и передать на сохранение в базу
         #
         private function makeRows($text)
         {
-            $project    =   $this->id;
             $user       =   $this->pack->user;
 
 
@@ -127,20 +126,19 @@ class project
                 # определить родителя из текста
                 #
                 $lines[ $id5 ]  =   $indent5;
-                $parent         =   $project;
+                $parent         =   null;
                 $parent5        =   $this->setParent5($lines, $indent5);
                 #
                 # все записи запись
                 #
                 $rows[] = "
                     SELECT 
-                        " .db::v($id5).        "   as `id5`
+                          " .db::v($id5).        "   as `id5`
                         , " .db::v($parent5).    "   as `parent5`
                         , " .db::v($id).         "   as `id`
                         , " .db::v($parent).     "   as `parent`
                         , " .db::v($name).       "   as `name`
                         , " .db::v($order).      "   as `order`
-                        , " .db::v($project).    "   as `project`
                         , " .db::v($user).       "   as `user`
                 ";
                 
@@ -169,10 +167,33 @@ class project
         }
 
 
-        # сохранить записи в бд
+        # получить текущий список записей
+        #
+        private function getChildrenList($start, $list=[])
+        {
+            $children   =   $this->pack->parent[ $start ] ??  array();
+        
+            foreach( $children as $id )
+            {
+                $list[]     =   $id;
+                $isProject  =   $this->pack->list[ $id ]['is_project'];
+                $sub        =   $this->pack->parent[ $id ] ?? null;
+
+                if ( !$isProject  && isset($sub) )
+                {
+                    $list   =   $this->getChildrenList($id, $list);
+                }
+            }
+            
+            return $list;
+        }
+
+
+        # сохранить записи в базу
         #
         private function dbSave($rows)
         {
+            // load::vdd($rows);
 
             # создать актуальное дерево проекта
             #
@@ -183,7 +204,12 @@ class project
             #
             db::query("
                 INSERT INTO `pack` ( `name`, `id5` )
-                SELECT `name`, `id5`  FROM `rows`  WHERE `id` = 0
+                SELECT
+                    `name`, `id5`
+                FROM
+                    `rows`
+                WHERE
+                    `id` = 0
             ");
             
 
@@ -192,51 +218,42 @@ class project
             db::query("
                 UPDATE
                     `rows`
-                        JOIN `pack` ON `rows`.`id5` = `pack`.`id5`
+                        JOIN `pack`     ON `rows`.`id5` = `pack`.`id5`
                 SET
                     `rows`.`id` =   `pack`.`id`
             ");
 
+            
             // $rows = db::select("SELECT *  FROM `rows` ");
-            // load::vd($rows);
-
-
-            # обновить id родителей
-            #
-            db::query("
-                UPDATE
-                    `rows`
-                SET
-                    `parent`    =   IFNULL((SELECT `id`  FROM `rows` as `r1`  WHERE `id5` = `rows`.`parent5`  LIMIT 1), `parent` )
-            ");
-
+            // load::vd($rows, 1);
+            
 
             # обновить записи пачек
             #
             db::query("
                 UPDATE
                     `pack`
-                        JOIN `rows` ON `pack`.`id` = `rows`.`id`
+                        JOIN `rows`     ON `pack`.`id` = `rows`.`id`
                 SET
-                    `pack`.`name`      =   `rows`.`name`
-                    ,`pack`.`parent`    =   `rows`.`parent`
+                     `pack`.`name`      =   `rows`.`name`
+                    ,`pack`.`parent`    =   IF(`rows`.`parent5` IS NULL, " .db::v($this->id). ",  (SELECT `id`  FROM `rows` as `r1`  WHERE `id5` = `rows`.`parent5`  LIMIT 1) )
                     ,`pack`.`order`     =   `rows`.`order`
-                    ,`pack`.`project`   =   `rows`.`project`
                     ,`pack`.`user`      =   `rows`.`user`
                     ,`pack`.`id5`       =   NULL
             ");
             
 
-
             # удалить не актуальные пачки, которых нет в текущих записях
+            #
+            $currentPack    =   $this->getChildrenList( $this->id, [-1] );
             #
             db::query("
                 DELETE
                 FROM
                     `pack`
                 WHERE
-                    `id` NOT IN (SELECT `id`  FROM `rows`)
-                    AND `id` != `project`
+                    `id` IN (" .implode(',', $currentPack). ")
+                    AND `id` NOT IN (SELECT `id`  FROM `rows`)
             ");
 
         }
@@ -254,7 +271,7 @@ class project
 
         # поставить отметку в базе
         #
-        db::query("UPDATE `pack`  SET `project` = 1  WHERE `id` = " .db::v($this->pack->start) );
+        db::query("UPDATE `pack`  SET `is_project` = 1  WHERE `id` = " .db::v($this->pack->start) );
 
 
         # редирект на просмотр
@@ -272,7 +289,7 @@ class project
 
         # убрать отметку в базе
         #
-        db::query("UPDATE `pack`  SET `project` = 0  WHERE `id` = " .db::v($this->id) );
+        db::query("UPDATE `pack`  SET `is_project` = 0  WHERE `id` = " .db::v($this->id) );
 
 
         # редирект на просмотр

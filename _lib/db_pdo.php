@@ -58,7 +58,7 @@ class db_pdo
 	    $this->statement  =   $this->connect->prepare($sql);
 		
 		try {
-			$exec = $this->statement->execute($params);
+			$this->statement->execute($params) || $this->printSql($sqlText);
 		}
 		catch (Exception $e) {
 			$this->printSql($sqlText);
@@ -155,4 +155,16 @@ class db_pdo
 		return	str_replace('"', '&#034;', $value);
 	}
     
+
+	# для php7 преобразовать типы
+	public function cast(&$row, array $types)
+	{
+		foreach( $types as $key => $type )
+		{
+			if ( !isset($row[ $key ]) )		continue;
+			if ( $row[ $key ] === null )	continue;
+
+			if ( $type=='int' )	$row[ $key ]	=	intval($row[ $key ]);
+		}
+	}
 }

@@ -46,4 +46,9 @@ class db
         return self::$db->v2input($value);
     }
     
+    static function cast(&$row, array $types )
+    {
+        return self::$db->cast($row, $types);
+    }
+    
 }
