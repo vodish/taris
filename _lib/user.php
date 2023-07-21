@@ -18,6 +18,8 @@ class user
         // $result =  $smtp->send($_POST['email'], 'Тема письма' .time(), $message );
         // load::vd($result, 1);
         
-        load::vdd($_SESSION);
+        load::vd($_SESSION);
+
+        url::redir('/1');
     }
 }

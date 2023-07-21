@@ -14,6 +14,6 @@ user::actionLoginSend();
         <button class="send">Войти</button>
     </form>
     
-    <div class="logo">TZ</div>
+    <img class="logo" src="/i/TZ.svg" />
     
 </div>
