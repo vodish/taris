@@ -21,11 +21,11 @@ button:hover    { background-color: #ccc; }
 
 /* main */
 
-.main.top           { padding: 3em 0; display: flex; gap: 10vw; justify-content: space-between; align-items: flex-start; }
+.main.top           { max-width: 600px; margin: 5em auto; display: flex; gap: 10vw; justify-content: space-between; align-items: flex-start; }
 .main.top .login        { display: flex; gap: 1ch; padding: 15px 20px; background-color: #eee; border-radius: 6px; }
 .main.top .login .email { width: 200px; }
 
-.main.top .logo         { font-size: 200px; font-weight: 600; color: #ddd; letter-spacing: -0.2ch; line-height: 140px; }
+.main.top .logo         { font-size: 200px; font-weight: 600; color: #ddd; letter-spacing: -0.2ch; line-height: 125px; }
 
 
 /* pack */
