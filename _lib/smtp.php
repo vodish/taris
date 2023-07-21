@@ -1,22 +1,10 @@
 <?php
 /**
 * SendMailSmtpClass
-*
-* Класс для отправки писем через SMTP с авторизацией
-* Может работать через SSL протокол
-* Тестировалось на почтовых серверах yandex.ru, mail.ru и gmail.com, smtp.beget.com
-*
-* v 1.1
-* Добавлено:
-* - Приветствие сервера ehlo в приоритете, если не сервер не ответил, то шлется helo
-* - Работа с кодировками utf-8 и windows-1251
-* - Возможность отправки нескольким получателям
-* - Автоматическое формирование заголовков письма
-* - Возможность фложения файлов в письмо
-*
 * @author Ipatov Evgeniy <admin@vk-book.ru>
-* @version 1.1
+
 */
+
 class smtp {
 
     /**
@@ -44,8 +32,8 @@ class smtp {
 
     public function __construct($smtp_username = null, $smtp_password = null, $smtp_host = null, $smtp_port = null, $smtp_charset = null)
     {
-        $this->smtp_username    =   $smtp_username  ??  'taris@karasev.ru';
-        $this->smtp_password    =   $smtp_password  ??  'bslcwipjzcgfoztq';
+        $this->smtp_username    =   $smtp_username  ??  'tariz@karasev.ru';
+        $this->smtp_password    =   $smtp_password  ??  'tjkfyskivoajsbrk';
         $this->smtp_host        =   $smtp_host      ??  'ssl://smtp.yandex.ru';
         $this->smtp_port        =   $smtp_port      ??  465;
         $this->smtp_charset     =   $smtp_charset   ??  'utf-8';
@@ -69,7 +57,7 @@ class smtp {
     */
     function send($mailTo, $subject, $message, $smtp_from = null)
     {
-        $smtp_from          =   $smtp_from ?? '' .url::host(). '<taris@karasev.ru>';
+        $smtp_from          =   $smtp_from ?? '' .url::host(). '<tariz@karasev.ru>';
         $message            =   $this->messageTrim($message);
         
 		// подготовка содержимого письма к отправке

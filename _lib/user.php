@@ -5,9 +5,19 @@ class user
     {
         if ( empty($_POST['email']) )   return ;
 
-        load::vdd('отправить письмо');
+        //load::vdd('отправить письмо');
+        load::vd($_POST);
 
-        load::vdd($_POST);
+        $message = '
+        <h3>Заголовок</h3>
+        <p>Параграф</p>
+        <p>Параграф</p>
+        ';
+
+        $smtp = new smtp();
+        // $result =  $smtp->send($_POST['email'], 'Тема письма' .time(), $message );
+        // load::vd($result, 1);
+        
         load::vdd($_SESSION);
     }
 }
