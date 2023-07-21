@@ -1,9 +1,10 @@
 <?php
 class ftoken
 {
-    # 1. print tag input with token value for tag form
+
+    # create token
     #
-    static function input()
+    static function create()
     {
         $token  =   md5( session_id(). time() );
         
@@ -22,19 +23,27 @@ class ftoken
         {
             array_shift($_SESSION['ftoken']);
         }
-        
 
-        return '<input type="hidden" name="t" value="' .$token. '" />' ."\n";
+
+        return $token;
+    }
+
+
+    # 1. print tag input with token value for tag form
+    #
+    static function input()
+    {
+        $token  =   self::create();
+        
+        return  '<input type="hidden" name="t" value="' .$token. '" />' ."\n";
     }
 
     
-    # 2. use decode token in js file
+    # 2. use js script frontside to decode token
     #
     /*
     $(document).ready(()=>{
-        $('form>input[name="t"]').each(function(){
-        this.value  =   this.value.match( new RegExp(".{1," + this.value.match(/[3-9]/)[0] + "}", "g") ).reverse().join('')
-        })
+        $('form>input[name="t"]').each(function(){ this.value = this.value.match( new RegExp(".{1," + this.value.match(/[3-9]/)[0] + "}", "g") ).reverse().join('') })
     })
     */
 
