@@ -21,10 +21,11 @@ button:hover    { background-color: #ccc; }
 
 /* main */
 
-.main.top           {  margin: 5em auto; display: flex; gap: 10vw; justify-content: space-between; align-items: flex-start; }
-.main.top .login        { display: flex; gap: 1ch; padding: 15px 20px; background-color: #eee; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
+.main.top           {  margin: 5em auto; display: flex; gap: 6vw; align-items: flex-start; }
+.main.top .login        { display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
 .main.top .login .email { width: 200px; }
-.main.top .logo         {  }
+.main.top .login .code  { width: 80px; text-align: center; }
+.main.top .login .err   { font-size: 11px; color: var(--link); margin-top: 2px; }
 
 
 /* pack */
