@@ -18,7 +18,23 @@ var auth = {
         this.$note.children('.wait').addClass('active')
         this.$note.children('.back').removeClass('active')
         this.$step1.find('[name="email"]').focus()
-    }
+    },
+    
+    timer: function()
+    {
+        clearInterval(this.$timer);
+
+        this.$timer     =   setInterval( function(){
+            let cnt = Number(auth.$delay.text()) - 1;
+            if ( cnt < 0 ) {
+                clearInterval(auth.$timer);
+                auth.$note.children('.wait').removeClass('active')
+                auth.$note.children('.back').addClass('active')
+            }
+            auth.$delay.text(cnt)
+        }, 1000 );
+    },
+
 }
 
 useFtoken()
@@ -48,8 +64,7 @@ auth.keyup = function(t)
     {
         if ( t.value == '1234' )
         {
-            this.$auth.children('.step1').addClass('active')
-            this.$auth.children('.step2').removeClass('active')
+            this.init()
         }
         else {
             this.$err.css('display', 'block')
@@ -58,18 +73,3 @@ auth.keyup = function(t)
     }
 }
 
-
-auth.timer  =  function()
-{
-    clearInterval(this.$timer);
-
-    this.$timer     =   setInterval( function(){
-        let cnt = Number(auth.$delay.text()) - 1;
-        if ( cnt < 0 ) {
-            clearInterval(auth.$timer);
-            auth.$note.children('.wait').removeClass('active')
-            auth.$note.children('.back').addClass('active')
-        }
-        auth.$delay.text(cnt)
-    }, 1000 );
-}
