@@ -2,38 +2,26 @@
 // auth
 
 var auth = {
-    $auth:      null,
-    $step1:     null,
-    $step2:     null,
-    $err:       null,
-    $delay:     null,
-    $timer:     null,
-    $code:     null,
+    init: function() {
+        this.$auth      =   $('#auth')
+        this.$step1     =   this.$auth.children('.step1')
+        this.$step2     =   this.$auth.children('.step2')
+        this.$err       =   this.$step2.find('div.err')
+        this.$delay     =   this.$step2.find('.delay')
+        this.$note      =   this.$auth.children('.note.step2')
+        this.$code      =   this.$step2.find('[name="code"]')
 
+        this.$step1.addClass('active')
+        this.$step2.removeClass('active')
+        this.$err.css('display', 'none');
+        this.$delay.text(2);
+        this.$note.children('.wait').addClass('active')
+        this.$note.children('.back').removeClass('active')
+        this.$step1.find('[name="email"]').focus()
+    }
 }
 
-auth.init  =  function()
-{
-    useFtoken()
-    this.$auth      =   $('#auth')
-    this.$step1     =   this.$auth.children('.step1')
-    this.$step2     =   this.$auth.children('.step2')
-    this.$err       =   this.$step2.find('div.err')
-    this.$delay     =   this.$step2.find('.delay')
-    this.$note      =   this.$auth.children('.note.step2')
-    this.$code      =   this.$step2.find('[name="code"]')
-
-
-    this.$step1.addClass('active')
-    this.$step2.removeClass('active')
-    this.$err.css('display', 'none');
-    this.$delay.text(2);
-    this.$note.children('.wait').addClass('active')
-    this.$note.children('.back').removeClass('active')
-    this.$step1.find('[name="email"]').focus()
-
-}
-
+useFtoken()
 auth.init()
 
 
@@ -49,18 +37,17 @@ auth.send  =  function()
 
 
 
-auth.keyup = function(e)
+auth.keyup = function(t)
 {
-    e.target.value = e.target.value.replace(/\D+/g, '')
+    t.value = t.value.replace(/\D+/g, '')
     this.$err.css('display', 'none')
     this.$code.removeClass('err')
 
 
-    if ( e.target.value.length == 4 )
+    if ( t.value.length == 4 )
     {
-        if ( e.target.value == '1234' )
+        if ( t.value == '1234' )
         {
-            let $auth = $(e.target).closest('.auth')
             this.$auth.children('.step1').addClass('active')
             this.$auth.children('.step2').removeClass('active')
         }
