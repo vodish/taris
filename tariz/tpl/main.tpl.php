@@ -11,22 +11,25 @@ user::actionLoginSend();
     <img class="logo" src="/i/TZ.svg" />
     
     <div>
-        <div class="auth">
+        <div class="auth" id="auth">
             <div class="login step1 active">
                 <?= ftoken::input() ?>
                 <input class="email" type="email" name="email" placeholder="Емеил для входа" required="true" />
                 <button class="send" onclick="auth.send(event)">Войти</button>
             </div>
 
-            <div class="login step2 2active" method="post">
-                <?= ftoken::input() ?>
+            <div class="login step2" method="post">
                 <div>
                     <div>Код из письма</div>
                     <div class="err" style="display: none;">Неверный код...</div>
                 </div>
-                <input class="code" name="code" placeholder="XXXX" required="true" onkeyup="auth.keyup(event)" maxlength="4" />
+                <input class="code" name="code" onkeyup="auth.keyup(event)" maxlength="4" autocomplete="off" />
             </div>
-            <div class="note step2">Повторить отправку через <span class="delay">60</span> сек</div>
+            <div class="note step2">
+                <div class="wait active">Повторить отправку через <span class="delay">60</span> сек</div>
+                <div class="back" onclick="auth.init()">Повторить отправку</div>
+            </div>
+            
         </div>
     </div>
     

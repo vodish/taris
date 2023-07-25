@@ -8,53 +8,81 @@ var auth = {
     $err:       null,
     $delay:     null,
     $timer:     null,
+    $code:     null,
+
 }
 
-
-auth.send  =  function(e)
+auth.init  =  function()
 {
-    // init
     useFtoken()
-    auth.$auth      =   $(e.target).closest('.auth')
-    auth.$step1     =   auth.$auth.children('.step1')
-    auth.$step2     =   auth.$auth.children('.step2')
-    auth.$err       =   auth.$step2.find('.err')
-    auth.$delay     =   auth.$step2.find('.delay')
+    this.$auth      =   $('#auth')
+    this.$step1     =   this.$auth.children('.step1')
+    this.$step2     =   this.$auth.children('.step2')
+    this.$err       =   this.$step2.find('div.err')
+    this.$delay     =   this.$step2.find('.delay')
+    this.$note      =   this.$auth.children('.note.step2')
+    this.$code      =   this.$step2.find('[name="code"]')
 
-    auth.$err.css('display', 'none');
-    auth.$delay.text('60');
 
-    clearInterval(auth.$timer);
-    auth.$timer     =   setInterval( function(){
-        let cnt = Number(auth.$delay.text()) - 1;
-        auth.$delay.text(cnt)
-    }, 1000 );
+    this.$step1.addClass('active')
+    this.$step2.removeClass('active')
+    this.$err.css('display', 'none');
+    this.$delay.text(2);
+    this.$note.children('.wait').addClass('active')
+    this.$note.children('.back').removeClass('active')
+    this.$step1.find('[name="email"]').focus()
 
-    // work
-    auth.$step1.removeClass('active')
-    auth.$step2.addClass('active')
 }
+
+auth.init()
+
+
+auth.send  =  function()
+{
+    this.timer();
+    
+    this.$step1.removeClass('active')
+    this.$step2.addClass('active')
+
+    this.$code.val('').removeClass('err').focus()
+}
+
 
 
 auth.keyup = function(e)
 {
     e.target.value = e.target.value.replace(/\D+/g, '')
+    this.$err.css('display', 'none')
+    this.$code.removeClass('err')
 
-    console.log( e.target.value )
-
-    auth.$err.css('display', 'none')
 
     if ( e.target.value.length == 4 )
     {
         if ( e.target.value == '1234' )
         {
             let $auth = $(e.target).closest('.auth')
-            $auth.children('.step1').addClass('active')
-            $auth.children('.step2').removeClass('active')
+            this.$auth.children('.step1').addClass('active')
+            this.$auth.children('.step2').removeClass('active')
         }
         else {
-            auth.$err.css('display', 'block')
+            this.$err.css('display', 'block')
+            this.$code.addClass('err')
         }
     }
 }
 
+
+auth.timer  =  function()
+{
+    clearInterval(this.$timer);
+
+    this.$timer     =   setInterval( function(){
+        let cnt = Number(auth.$delay.text()) - 1;
+        if ( cnt < 0 ) {
+            clearInterval(auth.$timer);
+            auth.$note.children('.wait').removeClass('active')
+            auth.$note.children('.back').addClass('active')
+        }
+        auth.$delay.text(cnt)
+    }, 1000 );
+}
