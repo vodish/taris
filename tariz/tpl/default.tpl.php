@@ -16,7 +16,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     
-    <script src="<?= load::makefile('/t/_taris.js', '_taris.js') ?>"></script>
+    <script src="<?= load::makefile('/t/_taris.js', '_taris.js') ?>" ></script>
     <link href="<?= load::makefile('/t/_taris.css', '_taris.css') ?>" rel="Stylesheet" />
     
 </head>
