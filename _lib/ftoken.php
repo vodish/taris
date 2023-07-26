@@ -14,14 +14,14 @@ class ftoken
             $value  =   array_reverse($value);
             $value  =   implode($value);
 
-            $_SESSION['ftoken'][ $value ] =  time();
+            $_SESSION['ft'][ $value ] =  $token;
 
         }, $token, 1);
         
         
-        for($c=count($_SESSION['ftoken']);  $c > 15;  $c--)
+        for($c=count($_SESSION['ft']);  $c > 10;  $c--)
         {
-            array_shift($_SESSION['ftoken']);
+            array_shift($_SESSION['ft']);
         }
 
 
@@ -29,21 +29,21 @@ class ftoken
     }
 
 
-    # 1. print tag input with token value for tag form
+    # print tag input with token value for tag form
     #
     static function input()
     {
         $token  =   self::create();
         
-        return  '<input type="hidden" name="t" value="' .$token. '" />' ."\n";
+        return  '<input type="hidden" name="ft" value="' .$token. '" />';
     }
-
+    
     
     # 2. use js script frontside to decode token
     #
     /*
     $(document).ready(()=>{
-        $('form>input[name="t"]').each(function(){ this.value = this.value.match( new RegExp(".{1," + this.value.match(/[3-9]/)[0] + "}", "g") ).reverse().join('') })
+        $('input[name="ft"]').each(function(){ this.value = this.value.match( new RegExp(".{1," + this.value.match(/[3-9]/)[0] + "}", "g") ).reverse().join('') })
     })
     */
 

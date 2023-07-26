@@ -65,6 +65,7 @@ class smtp {
         $errorNumber        =   '';
         $errorDescription   =   '';
 		
+
         try
         {
             if(!$socket = @fsockopen($this->smtp_host, $this->smtp_port, $errorNumber, $errorDescription, 30)){
@@ -178,7 +179,8 @@ class smtp {
 	
 	
 	// парсинг ответа сервера
-    private function _parseServer($socket, $response) {
+    private function _parseServer($socket, $response)
+    {
         $responseServer = '';
         while (@substr($responseServer, 3, 1) != ' ') {
             if (!($responseServer = fgets($socket, 256))) {
@@ -192,29 +194,30 @@ class smtp {
     }
 
 	// подготовка содержимого письма
-	private function getContentMail($subject, $message, $smtp_from, $mailTo) {
-		// если кодировка windows-1251, то перекодируем тему
-		if( strtolower($this->smtp_charset) == "windows-1251" ){
-			$subject = iconv('utf-8', 'windows-1251', $subject);
-		}
-        $contentMail = "Date: " . date("D, d M Y H:i:s") . " UT\r\n";
-        $contentMail .= 'Subject: =?' . $this->smtp_charset . '?B?'  . base64_encode($subject) . "=?=\r\n";
+	private function getContentMail($subject, $message, $smtp_from, $mailTo)
+    {
+		$contentMail  =  "Date: " . date("D, d M Y H:i:s") . " UT\r\n";
+        $contentMail .=  'Subject: ' . $subject. "\r\n";
+
 
 		// заголовок письма
-		$headers = "MIME-Version: 1.0\r\n";
+		$headers  =  "MIME-Version: 1.0\r\n";
 
 		// кодировка письма
 		if($this->addFile){
 			// если есть файлы
-			$headers .= "Content-Type: multipart/mixed; boundary=\"{$this->boundary}\"\r\n";
-		}else{
-			$headers .= "Content-type: text/html; charset={$this->smtp_charset}\r\n";
+			$headers  .=  "Content-Type: multipart/mixed; boundary=\"{$this->boundary}\"\r\n";
 		}
-		$headers .= "From: $smtp_from\r\n"; // от кого письмо
-         $headers.= "To: ".$mailTo."\r\n";
+        else {
+			$headers  .=  "Content-type: text/html; charset={$this->smtp_charset}\r\n";
+		}
+
+		$headers    .= "From: $smtp_from\r\n"; // от кого письмо
+        $headers    .= "To: ".$mailTo."\r\n";
         $contentMail .= $headers . "\r\n";
 
-		if($this->addFile){
+
+		if($this->addFile) {
 			// если есть файлы
 			$multipart  = "--{$this->boundary}\r\n";
 			$multipart .= "Content-Type: text/html; charset=utf-8\r\n";
@@ -227,14 +230,11 @@ class smtp {
 			$multipart .= "\r\n--{$this->boundary}--\r\n";
 
 			$contentMail .= $multipart;
-		}else{
+		}
+        else {
 			$contentMail .= $message ."\r\n";
 		}
 
-		// если кодировка windows-1251, то все письмо перекодируем
-		if( strtolower($this->smtp_charset) == "windows-1251" ){
-			$contentMail = iconv('utf-8', 'windows-1251', $contentMail);
-		}
 
 		return $contentMail;
 	}

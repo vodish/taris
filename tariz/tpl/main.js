@@ -2,6 +2,7 @@
 // auth
 
 var auth = {
+
     init: function() {
         this.$auth      =   $('#auth')
         this.$step1     =   this.$auth.children('.step1')
@@ -9,6 +10,8 @@ var auth = {
         this.$err       =   this.$step2.find('div.err')
         this.$delay     =   this.$step2.find('.delay')
         this.$note      =   this.$auth.children('.note.step2')
+        this.$ft        =   this.$step1.find('[name="ft"]')
+        this.$email     =   this.$step1.find('[name="email"]')
         this.$code      =   this.$step2.find('[name="code"]')
 
         this.$step1.addClass('active')
@@ -34,6 +37,18 @@ var auth = {
             auth.$delay.text(cnt)
         }, 1000 );
     },
+    
+
+    request: function(url, formData, onload)
+    {
+        let xhr =   new XMLHttpRequest()
+        xhr.open('POST', url);
+        xhr.responseType = 'json';
+        xhr.send(formData)
+        xhr.onload = onload;
+    },
+
+
 
 }
 
@@ -47,8 +62,17 @@ auth.send  =  function()
     
     this.$step1.removeClass('active')
     this.$step2.addClass('active')
-
     this.$code.val('').removeClass('err').focus()
+
+
+    let fd  =   new FormData(document.forms.person);
+        fd.append('ft', this.$ft.val());
+        fd.append('email', this.$email.val());
+
+    this.request('/', fd, function() {
+        console.log(this.response);
+    })
+    
 }
 
 

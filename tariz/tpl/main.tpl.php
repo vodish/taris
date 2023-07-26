@@ -3,8 +3,10 @@ load::$layout   =   'default.tpl.php';
 
 # отправить код входа на емеил
 #
-user::actionLoginSend();
+user::actionCodeSend();
+user::actionCodeCheck();
 
+load::vd( $_SERVER );
 ?>
 
 <div class="main top">
