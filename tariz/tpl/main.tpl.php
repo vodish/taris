@@ -12,11 +12,11 @@ user::actionCodeCheck();
 #
 $userList   =   user::dbUserList();
 
-// load::vd( $_COOKIE );
+// load::vd( $userList );
 
 ?>
 
-<div class="main top">
+<div class="main1">
     <img class="logo" src="/i/TZ.svg" />
     
     <div>
@@ -39,6 +39,15 @@ $userList   =   user::dbUserList();
                 <div class="back" onclick="auth.init()">Повторить вход</div>
             </div>
             
+        </div>
+
+        <div class="userlist">
+            <?
+            foreach($userList as $v)
+            {
+                echo '<a href="/' .$v['start']. '">' .$v['email']. '</a>';
+            }
+            ?>
         </div>
     </div>
     

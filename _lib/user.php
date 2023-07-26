@@ -5,15 +5,25 @@ class user
     #
     static function dbUserList()
     {
-        load::vd($_COOKIE);
+        if ( !is_array(@$_COOKIE['token']) )     return array();
 
-        db::select("-
+        foreach($_COOKIE['token'] as $email => $token)
+        {
+            $where[] = "(`token`.`email` = " .db::v($email). " AND `token`.`token` = " .db::v($token). " AND `token`.`is_active` = 1)";
+        }
+
+        $list   =   db::select("
             SELECT
-                 `email`
-                ,`start`
+                 `user`.`email`
+                ,`user`.`start`
             FROM
-
+                `user`
+                    JOIN `token`    ON `user`.`email` = `token`.`email`
+            WHERE
+                 " .implode("\n\tOR\t ", $where). "
         ");
+
+        return $list;
     }
 
 
