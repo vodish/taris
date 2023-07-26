@@ -119,26 +119,76 @@ class user
 
     # зарегистрировать нового пользователя
     #
-    private static function dbCreate($email)
+    static function dbCreate($email)
     {
-        return [
-            'email' => 'vodish@yandex.ru',
-            'start' => 1,
-        ];
+        
 
-
-        # получить корневой проект
+        # добавить пользователя, если его не существует
         #
-        $pack = db::select("-
+        db::query("
+            INSERT INTO `user` (
+                `email`
+            )
+            
             SELECT
-                *
+                `new`.`email`
             FROM
-                `pack`
+                (SELECT " .db::v($email). " AS `email`) AS `new`
+                    LEFT JOIN `user`
+                    ON `new`.`email`    =   `user`.`email`
             WHERE
-                    `name`      =   " .db::v($email). "
-                AND `parent`    =   0
-                AND `iproject`  =   
+                `user`.`email` IS  NULL
         ");
+
+
+
+        # добавить корневую пачку, если её не нет
+        #
+        db::query("
+            INSERT INTO `pack` (
+                  `parent`
+                , `name`
+                , `is_project`
+                , `user`
+            )
+
+            SELECT
+                  0
+                , `user`.`email`
+                , 1
+                , `user`.`id`
+            FROM
+                `user`
+                    LEFT JOIN `pack`
+                    ON  `user`.`id`     =   `pack`.`user`
+                    AND `pack`.`parent` =   0
+            WHERE
+                    `user`.`email` =  " .db::v($email). "
+                AND `pack`.`id` IS NULL
+            LIMIT
+                1
+        ");
+
+        
+        # обновить корневую пачку
+        #
+        db::query("
+            UPDATE
+                `user`
+            SET
+                `start` =  (SELECT `id`  FROM `pack`  WHERE `user` = `user`.`id` AND `parent` = 0  LIMIT 1)
+            WHERE
+                `email` =  " .db::v($email). "
+        ");
+        
+        
+
+        # получить и вернуть пользователя
+        #
+        $user   =   db::one("SELECT *  FROM `user`  WHERE `email` =  " .db::v($email) );
+        
+
+        return  $user;
     }
 
 

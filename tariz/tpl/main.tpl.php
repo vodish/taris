@@ -7,6 +7,7 @@ load::$layout   =   'default.tpl.php';
 user::actionCodeSend();
 user::actionCodeCheck();
 
+// user::dbCreate('pavel@karasev.ru');
 
 # профили
 #
@@ -30,7 +31,7 @@ $userList   =   user::dbUserList();
             <div class="login step2" method="post">
                 <div>
                     <div>Код из письма</div>
-                    <div class="err" style="display: none;" data-check="..."></div>
+                    <div class="err"></div>
                 </div>
                 <input class="code" name="code" onkeyup="auth.keyup(this)" maxlength="4" autocomplete="off" />
             </div>
@@ -38,7 +39,6 @@ $userList   =   user::dbUserList();
                 <div class="wait active">Повторить отправку через <span class="delay">60</span> сек</div>
                 <div class="back" onclick="auth.init()">Повторить вход</div>
             </div>
-            
         </div>
 
         <div class="userlist">

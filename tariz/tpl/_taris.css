@@ -27,6 +27,7 @@ button:hover    { background-color: #ccc; }
 .main1 .login .email         { width: 200px; flex-grow: 1; }
 .main1 .login .code          { width: 80px; text-align: center; }
 .main1 .login div.err        { font-size: 0.8em; color: var(--link); margin-top: 2px; }
+.main1 .login div.err:empty  { display: none; }
 .main1 .login input.err      { border: solid 2px var(--link); }
 .main1 .login + .note        { font-size: 0.9em; margin-top: 0.8em; }
 .main1 .login + .note > *:not(.active)   { display: none; }

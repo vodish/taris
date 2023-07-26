@@ -16,8 +16,8 @@ var auth = {
 
         this.$step1.addClass('active')
         this.$step2.removeClass('active')
-        this.$err.css('display', 'none');
-        this.$delay.text(2);
+        this.$err.text('');
+        this.$delay.text(60);
         this.$note.children('.wait').addClass('active')
         this.$note.children('.back').removeClass('active')
         this.$step1.find('[name="email"]').focus()
@@ -45,7 +45,7 @@ var auth = {
         xhr.open('POST', url);
         xhr.responseType = 'json';
         xhr.send(formData)
-        xhr.onload = onload;
+        xhr.onload = () => onload(xhr.response);
     },
 
 
@@ -65,13 +65,18 @@ auth.send  =  function()
     this.$code.val('').removeClass('err').focus()
 
 
-    let fd  =   new FormData(document.forms.person);
+    let fd  =   new FormData();
     fd.append('actionCodeSend', 1);
     fd.append('ft', this.$ft.val());
     fd.append('email', this.$email.val());
 
-    this.request('/', fd, function() {
-        console.log(this.response);
+    this.request('/', fd, res => {
+
+        if ( !res.send || res.send != 'ok' ) {
+            auth.$err.text('Error...')
+        }
+
+        console.log(res);
     })
     
 }
@@ -81,30 +86,28 @@ auth.send  =  function()
 auth.keyup = function(t)
 {
     t.value = t.value.replace(/\D+/g, '')
-    this.$err.css('display', 'none')
+    this.$err.text('')
     this.$code.removeClass('err')
 
 
     if ( t.value.length == 4 )
     {
-        let fd  =   new FormData(document.forms.person);
+        let fd  =   new FormData();
         fd.append('actionCodeCheck', 1);
         fd.append('ft', this.$ft.val());
         fd.append('email', this.$email.val());
         fd.append('code', this.$code.val());
 
-        auth.$err.text( auth.$err.attr('data-check') )
-        auth.$err.css('display', 'block')
+        auth.$err.text('check')
 
-        this.request('/', fd, function() {
+        this.request('/', fd, res => {
 
-            if ( this.response.redir ) {
-                auth.$err.text( this.response.check )
-                return  window.location = this.response.redir
+            if ( res.redir ) {
+                return  window.location = res.redir
             }
 
-            if ( this.response.check ) {
-                auth.$err.text( this.response.check )
+            if ( res.check ) {
+                auth.$err.text( res.check )
                 auth.$code.addClass('err')
             }
             
