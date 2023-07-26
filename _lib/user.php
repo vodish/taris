@@ -1,6 +1,22 @@
 <?php
 class user
 {
+    # получить список профилей
+    #
+    static function dbUserList()
+    {
+        load::vd($_COOKIE);
+
+        db::select("-
+            SELECT
+                 `email`
+                ,`start`
+            FROM
+
+        ");
+    }
+
+
 
     # отправить код вохода
     #
@@ -47,18 +63,19 @@ class user
         if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"check":"ok1"}');
         
 
+
         # проверить код
         #
         if ( $_COOKIE['code'] != md5($_POST['email'].$_POST['code'].$_POST['code']) )
         {
-            die('{"err":"Неверный код... ' .time(). '"}');
+            die('{"check":"Неверный код..."}');
         }
 
 
 
         # поставить токен пользователя в куку
         #
-        $token  =   md5( session_id(). $_COOKIE['code'] );
+        $token      =   md5( session_id(). time() );
         #
         db::query("
             INSERT INTO `token` (
@@ -75,16 +92,44 @@ class user
         #
         #
         load::delcookie('code');
-        load::setcookie('token', $token);
+        load::setcookie('token[' .$_POST['email']. ']', $token, (time()*3600*24*30));
 
         
 
+        # добавить пользователя / получить стартовый проект
+        #
+        $user   =   self::dbCreate($_POST['email']);
+        
 
-        die('{"redir": "/1"}');
+        die('{"check": "OK", "redir": "/' .$user['start']. '"}');
     }
 
 
 
+
+    # зарегистрировать нового пользователя
+    #
+    private static function dbCreate($email)
+    {
+        return [
+            'email' => 'vodish@yandex.ru',
+            'start' => 1,
+        ];
+
+
+        # получить корневой проект
+        #
+        $pack = db::select("-
+            SELECT
+                *
+            FROM
+                `pack`
+            WHERE
+                    `name`      =   " .db::v($email). "
+                AND `parent`    =   0
+                AND `iproject`  =   
+        ");
+    }
 
 
 }

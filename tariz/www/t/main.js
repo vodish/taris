@@ -93,19 +93,21 @@ auth.keyup = function(t)
         fd.append('email', this.$email.val());
         fd.append('code', this.$code.val());
 
+        auth.$err.text( auth.$err.attr('data-check') )
+        auth.$err.css('display', 'block')
+
         this.request('/', fd, function() {
 
             if ( this.response.redir ) {
+                auth.$err.text( this.response.check )
                 return  window.location = this.response.redir
             }
 
-            if ( this.response.err ) {
-                auth.$err.css('display', 'block')
-                auth.$err.text(this.response.err)
+            if ( this.response.check ) {
+                auth.$err.text( this.response.check )
                 auth.$code.addClass('err')
             }
-
-            console.log(this.response);
+            
         })
     }
 }

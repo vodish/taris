@@ -1,13 +1,19 @@
 <?php
 load::$layout   =   'default.tpl.php';
 
-# отправить код входа на емеил
+
+# авторизация
 #
 user::actionCodeSend();
 user::actionCodeCheck();
 
-// load::vd( $_SERVER );
-// die;
+
+# профили
+#
+$userList   =   user::dbUserList();
+
+// load::vd( $_COOKIE );
+
 ?>
 
 <div class="main top">
@@ -24,7 +30,7 @@ user::actionCodeCheck();
             <div class="login step2" method="post">
                 <div>
                     <div>Код из письма</div>
-                    <div class="err" style="display: none;">Неверный код...</div>
+                    <div class="err" style="display: none;" data-check="..."></div>
                 </div>
                 <input class="code" name="code" onkeyup="auth.keyup(this)" maxlength="4" autocomplete="off" />
             </div>
