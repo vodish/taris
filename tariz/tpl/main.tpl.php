@@ -6,7 +6,8 @@ load::$layout   =   'default.tpl.php';
 user::actionCodeSend();
 user::actionCodeCheck();
 
-load::vd( $_SERVER );
+// load::vd( $_SERVER );
+// die;
 ?>
 
 <div class="main top">

@@ -66,8 +66,9 @@ auth.send  =  function()
 
 
     let fd  =   new FormData(document.forms.person);
-        fd.append('ft', this.$ft.val());
-        fd.append('email', this.$email.val());
+    fd.append('actionCodeSend', 1);
+    fd.append('ft', this.$ft.val());
+    fd.append('email', this.$email.val());
 
     this.request('/', fd, function() {
         console.log(this.response);
@@ -86,14 +87,26 @@ auth.keyup = function(t)
 
     if ( t.value.length == 4 )
     {
-        if ( t.value == '1234' )
-        {
-            this.init()
-        }
-        else {
-            this.$err.css('display', 'block')
-            this.$code.addClass('err')
-        }
+        let fd  =   new FormData(document.forms.person);
+        fd.append('actionCodeCheck', 1);
+        fd.append('ft', this.$ft.val());
+        fd.append('email', this.$email.val());
+        fd.append('code', this.$code.val());
+
+        this.request('/', fd, function() {
+
+            if ( this.response.redir ) {
+                return  window.location = this.response.redir
+            }
+
+            if ( this.response.err ) {
+                auth.$err.css('display', 'block')
+                auth.$err.text(this.response.err)
+                auth.$code.addClass('err')
+            }
+
+            console.log(this.response);
+        })
     }
 }
 

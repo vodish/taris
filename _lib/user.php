@@ -6,8 +6,9 @@ class user
     #
     static function actionCodeSend()
     {
-        if ( empty($_POST['ft']) )      return;
-        if ( empty($_POST['email']) )   return;
+        if ( empty($_POST['actionCodeSend']) )  return;
+        if ( empty($_POST['ft']) )              return;
+        if ( empty($_POST['email']) )           return;
         #
         if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"send":"ok1"}');
         
@@ -37,25 +38,27 @@ class user
     #
     static function actionCodeCheck()
     {
-        if ( empty($_POST['ft']) )          return;
-        if ( empty($_POST['email']) )       return;
-        if ( empty($_POST['code']) )        return;
-        if ( empty($_COOKIE['code']) )      return;
+        if ( empty($_POST['actionCodeCheck']) ) return;
+        if ( empty($_POST['ft']) )              return;
+        if ( empty($_POST['email']) )           return;
+        if ( empty($_POST['code']) )            return;
+        if ( empty($_COOKIE['code']) )          return;
         #
-        if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"done":"ok1"}');
+        if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"check":"ok1"}');
         
 
         # проверить код
         #
         if ( $_COOKIE['code'] != md5($_POST['email'].$_POST['code'].$_POST['code']) )
         {
-            die('{"check":false}');
+            die('{"err":"Неверный код... ' .time(). '"}');
         }
+
 
 
         # поставить токен пользователя в куку
         #
-        $token  =   md5( session_id() + $_COOKIE['code'] );
+        $token  =   md5( session_id(). $_COOKIE['code'] );
         #
         db::query("
             INSERT INTO `token` (
@@ -66,7 +69,7 @@ class user
             VALUES (
                   " .db::v($_POST['email']). "
                 , " .db::v($token). "
-                , " .db::v($_SERVER['HTTP_USER_AGENT']). "
+                , " .db::v($_SERVER['HTTP_USER_AGENT'] ?? ''). "
             )
         ");
         #
@@ -75,7 +78,9 @@ class user
         load::setcookie('token', $token);
 
         
-        die('{"check":true, "redir": "/1"}');
+
+
+        die('{"redir": "/1"}');
     }
 
 
