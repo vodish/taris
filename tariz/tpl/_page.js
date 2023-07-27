@@ -31,9 +31,9 @@ function ace_init(selector)
         $t.after('<div id="' + aceid + '"></div>');
         
         ace1[i]   =   ace.edit(aceid, {
-            mode: t.dataset.mode,
-            minLines: 4,
-            fontSize: "11pt",
+            mode: t.dataset.mode ?? null,
+            minLines: 20,
+            fontSize: "15px",
             maxLines: 1111,
             wrap: true,
             // граница печати

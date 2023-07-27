@@ -83,8 +83,8 @@ elseif ( url::$level[1] == 'tree' )
 {
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="tree" style="width: 100%; height: 20em; padding: 5px;"><?= trim($project->getTextTree( $proId )) ?></textarea>
-        <button class="save">Обновить</button>
+        <textarea class="ace" name="tree"><?= trim($project->getTextTree( $proId )) ?></textarea>
+        <button class="save">Сохранить</button>
     </form>
 
     <?
@@ -109,8 +109,8 @@ elseif ( url::$level[1] == 'rows' )
 {
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="tree" style="width: 100%; height: 20em; padding: 5px;" data-mode="ace/mode/html"><?//= trim($project->getTextTree( $proId )) ?></textarea>
-        <button class="save">Обновить</button>
+        <textarea class="ace" name="rows" data-mode="ace/mode/html"><?//= trim($project->getTextTree( $proId )) ?></textarea>
+        <button class="save">Сохранить</button>
     </form>
 
     <?

@@ -61,7 +61,11 @@ button:hover    { background-color: #ccc; }
 .pro > .tree .project > a   { font-weight: bold; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
+
+/* editor */
+
 form.tree  .save    { display: block; margin: 3em 0 0 0; }
+form.tree  .ace     { width: 100%; height: 20em; }
 
 
 
