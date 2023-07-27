@@ -88,16 +88,42 @@ elseif ( url::$level[1] == 'tree' )
     </form>
 
     <?
-    // echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
     // echo '<script src="' .load::makefile('/t/ace/mode-html.js', 'inc/ace/mode-html.js', true, false). '"></script>'. "\n";
+    
+    // echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
+    // echo '<script src="' .load::makefile('/t/ace/ext-emmet.js', 'inc/ace/ext-emmet.js', true, false). '"></script>'. "\n";
+    
     // echo '<script src="' .load::makefile('/t/ace/mode-css.js', 'inc/ace/mode-css.js', true, false). '"></script>'. "\n";
     // echo '<script src="' .load::makefile('/t/ace/worker-html.js', 'inc/ace/worker-html.js', true, false). '"></script>'. "\n";
     // echo '<script src="' .load::makefile('/t/ace/worker-css.js', 'inc/ace/worker-css.js', true, false). '"></script>'. "\n";
-    // echo '<script src="' .load::makefile('/t/ace/ext-emmet.js', 'inc/ace/ext-emmet.js', true, false). '"></script>'. "\n";
+    
     // echo '<script src="' .load::makefile('/t/ace/theme-tomorrow_night.min.js', 'inc/ace/theme-tomorrow_night.min.js', true, false). '"></script>'. "\n";
+    
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>' . "\n";
 
     
 }
+
+elseif ( url::$level[1] == 'rows' )
+{
+    ?>
+    <form class="tree" method="post">
+        <textarea class="ace" name="tree" style="width: 100%; height: 20em; padding: 5px;" data-mode="ace/mode/html"><?//= trim($project->getTextTree( $proId )) ?></textarea>
+        <button class="save">Обновить</button>
+    </form>
+
+    <?
+    echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/mode-html.js', 'inc/ace/mode-html.js', true, false). '"></script>'. "\n";
+    
+    echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/ext-emmet.js', 'inc/ace/ext-emmet.js', true, false). '"></script>'. "\n";
+    
+    echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>' . "\n";
+
+    
+}
+
+
 ?>

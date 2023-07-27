@@ -33,6 +33,7 @@ function ace_init(selector)
         ace1[i]   =   ace.edit(aceid, {
             mode: t.dataset.mode,
             minLines: 4,
+            fontSize: "11pt",
             maxLines: 1111,
             wrap: true,
             // граница печати
@@ -40,7 +41,7 @@ function ace_init(selector)
             // нумерация строк
             showGutter: true,
             // тема раскраски кода
-            theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?  'ace/theme/tomorrow_night':  '')      
+            // theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?  'ace/theme/tomorrow_night':  '')      
         });
         ace1[i].focus();
         // авторесайз
