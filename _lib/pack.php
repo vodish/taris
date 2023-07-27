@@ -2,9 +2,9 @@
 class pack
 {
     public $start;
-    public $bc;
-    
     public $user;
+    
+    public $bc      =   array();
     public $list    =   array();
     public $parent  =   array();
 
