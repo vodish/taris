@@ -1,21 +1,18 @@
 <?php
 class pack
 {
+    public $start;
+    public $bc;
+    
     public $user;
     public $list;
     public $parent;
 
-    public $start;
-    public $bc;
-    
 
     # получить все пачки пользователя
     #
-    public function __construct($user, $start=null)
+    public function __construct($start)
     {
-        $this->user     =   $user;
-        $this->start    =   $start;
-
 
         db::query("
             SELECT
@@ -23,7 +20,7 @@ class pack
             FROM
                 `pack`
             WHERE
-                `user` = " .db::v($user). "
+                `user` = (SELECT `user`  FROM `pack`  WHERE `id` = " .db::v($start). ")
             ORDER BY
                 `order`
         ");
@@ -38,6 +35,9 @@ class pack
             $this->parent[ $v['parent'] ][] =   $v['id'];
         }
 
+        
+        $this->start    =   $start;
+        $this->user     =   $this->list[ $start ]['user'] ?? null;
     }
 
 

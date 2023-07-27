@@ -4,14 +4,15 @@ load::$layout   =   'default.tpl.php';
 
 # все пачки пользователя
 #
-$userId         =   1;
-$start          =   isset( url::$level[0] ) ?  (int)url::$level[0] :  null;
-$pack           =   new pack($userId, $start);
+$start          =   (int)url::$level[0];
+$pack           =   new pack($start);
 
 
 # если пачка не найдена
 #
-if ( !isset( $pack->list[$start] ) )    url::redir("/$userId");
+if ( ! $pack->user )    url::redir("/");
+
+
 
 
 # определения проекта
