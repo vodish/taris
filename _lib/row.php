@@ -2,8 +2,8 @@
 class row
 {
     public $file;
-    public $list;
-    public $parent;
+    public $list    =   array();
+    public $parent  =   array();
 
 
     public function __construct($fileId)
@@ -30,7 +30,7 @@ class row
         while( $v = db::fetch() )
         {
             db::cast($v, array('int'=>['id', 'parent', 'file', 'order']));
-            
+
             $this->list[ $v['id'] ] = $v;
             $this->parent[ $v['parent'] ] = $v['id'];
         }

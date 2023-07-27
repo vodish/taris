@@ -5,8 +5,8 @@ class pack
     public $bc;
     
     public $user;
-    public $list;
-    public $parent;
+    public $list    =   array();
+    public $parent  =   array();
 
 
     # получить все пачки пользователя
