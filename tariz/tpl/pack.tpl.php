@@ -35,7 +35,7 @@ $project->actionCansel();
 ?>
 <div class="nav1">
     <div class="bc">
-        <a href="/" class="logo">Tariz</a>
+        <a href="/" class="logo"><b>T</b>ari<b>Z</b></a>
         <?
         foreach( array_reverse($proBc) as $v )
         {
