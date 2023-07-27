@@ -36,10 +36,8 @@ function ace_init(selector)
             fontSize: "15px",
             maxLines: 1111,
             wrap: true,
-            // граница печати
-            showPrintMargin: false,
-            // нумерация строк
-            showGutter: true,
+            showPrintMargin: false,     // граница печати
+            showGutter: true,           // нумерация строк
             // тема раскраски кода
             // theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?  'ace/theme/tomorrow_night':  '')      
         });
