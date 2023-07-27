@@ -56,8 +56,15 @@ useFtoken()
 auth.init()
 
 
-auth.send  =  function()
+auth.send  =  function(e)
 {
+    e.preventDefault();
+
+    if ( this.$email.val().length < 8 ) {
+        return this.$email.focus()
+    }
+
+
     this.timer();
     
     this.$step1.removeClass('active')

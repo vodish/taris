@@ -22,11 +22,11 @@ $userList   =   user::dbUserList();
     
     <div>
         <div class="auth" id="auth">
-            <div class="login step1 active">
+            <form class="login step1 active" onsubmit="auth.send(event)">
                 <?= ftoken::input() ?>
                 <input class="email" type="email" name="email" placeholder="Емеил для входа" required="true" />
-                <button class="send" onclick="auth.send()">Войти</button>
-            </div>
+                <button class="send">Войти</button>
+            </form>
 
             <div class="login step2" method="post">
                 <div>
