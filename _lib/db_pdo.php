@@ -157,14 +157,23 @@ class db_pdo
     
 
 	# для php7 преобразовать типы
+	# $types = array( 'int'=>['field_name', 'field_name'...], 'str'=>['field_name', 'field_name'...] )
+	#
 	public function cast(&$row, array $types)
 	{
-		foreach( $types as $key => $type )
-		{
-			if ( !isset($row[ $key ]) )		continue;
-			if ( $row[ $key ] === null )	continue;
 
-			if ( $type=='int' )	$row[ $key ]	=	intval($row[ $key ]);
+		foreach(['int', 'str'] as $type)
+		{
+			if ( !is_array( $types[ $type ] ?? null) )	continue;
+
+			foreach($types[ $type ] as $key)
+			{
+				if ( $row[ $key ] === null )	continue;
+
+				if ( $type=='int' )	$row[ $key ]	=	intval($row[ $key ]);
+				if ( $type=='str' )	$row[ $key ]	=	strval($row[ $key ]);
+			}
 		}
+		
 	}
 }

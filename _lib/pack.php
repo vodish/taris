@@ -28,10 +28,9 @@ class pack
 
         while ( $v = db::fetch() )
         {
-            db::cast($v, ['id'=>'int', 'parent'=>'int', 'is_project'=>'int', 'order'=>'int']);
+            db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
             
             $this->list[ $v['id'] ] =   $v;
-
             $this->parent[ $v['parent'] ][] =   $v['id'];
         }
 

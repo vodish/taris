@@ -51,7 +51,7 @@ button:hover    { background-color: #ccc; }
 .nav1 .bc .active   { font-weight: bold; color: inherit; cursor: default; }
 .nav1 .opt          { display: flex; }
 .nav1 .opt > a      { padding: 4px 1ch; }
-.nav1 .opt .active  { color: inherit; background-color: #eee; cursor: default; border-radius: 3px; }
+.nav1 .opt .active  { color: inherit; background-color: #eee; border-radius: 3px; }
 
 
 .pro                { display: flex; gap: 2vw; }

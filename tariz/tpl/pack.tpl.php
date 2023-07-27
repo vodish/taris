@@ -2,34 +2,37 @@
 load::$layout   =   'default.tpl.php';
 
 
-# все пачки пользователя
+# пачки пользователя
 #
 $start          =   (int)url::$level[0];
 $pack           =   new pack($start);
 
-
-# если пачка не найдена
+# не найден пользователь
 #
 if ( ! $pack->user )    url::redir("/");
 
 
 
-
-# определения проекта
+# проект
 #
 $proBc          =   $pack->getProjectBc( $start );
 $proId          =   $proBc[0]['id'];
+$fileId         =   $proBc[0]['file'];
 load::$title    =   $proBc[0]['name'];
-#
 $project        =   new project($proId, $pack);
 
 
-# сохранить новое дерево проекта
+# операции проекта
 #
 $project->actionSave();
 $project->actionCreate();
 $project->actionCansel();
 
+
+// load::vd($proBc);
+
+# записи
+$row        =   new row( $pack->list[ $start ]['file'] );
 
 
 ?>
@@ -48,11 +51,14 @@ $project->actionCansel();
     </div>
     
     <div class="opt">
-        <a href="<?= url::$dir[0] ?>" class="<?= !isset(url::$level[1])? 'active': '' ?>">Проект</a>
-        <a href="<?= url::$dir[0]. '/tree' ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
+        <!-- <a href="<?= url::$dir[0] ?>" class="<?= !isset(url::$level[1])? 'active': '' ?>">Проект</a> -->
+        
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='rows' ? '/rows': '') ?>" class="<?= @url::$level[1]=='rows'? 'active': '' ?>">Записи</a>
+
         <?= $start == $proId  && isset($proBc[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">- Проект</a>' : '' ?>
         <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+ Проект</a>' : '' ?>
-        <a href="<?= url::$dir[0]. '/rows' ?>" class="<?= @url::$level[1]=='rows'? 'active': '' ?>">Записи</a>
+        
     </div>
 </div>
 
@@ -68,10 +74,8 @@ if ( !isset(url::$level[1]) )
             <?= $project->getHtmlTree( $proId ) ?>
         </div>
         <div class="rows">
-            вывести пачку записей
-
             <?
-            //load::vd($proBc);
+            load::vd($row->list);
             ?>
         </div>
     </div>
