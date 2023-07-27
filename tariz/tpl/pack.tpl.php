@@ -78,9 +78,7 @@ if ( !isset(url::$level[1]) )
             foreach($row->list as $v)
             {
                 ?>
-                <div class="item">
-                    <? load::vd($v) ?>
-                </div>
+                <div class="message"><?= $v['message'] ?></div>
                 <?
             }
             ?>
