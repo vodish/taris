@@ -75,7 +75,14 @@ if ( !isset(url::$level[1]) )
         </div>
         <div class="rows">
             <?
-            load::vd($row->list);
+            foreach($row->list as $v)
+            {
+                ?>
+                <div class="item">
+                    <? load::vd($v) ?>
+                </div>
+                <?
+            }
             ?>
         </div>
     </div>
