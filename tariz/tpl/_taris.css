@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Source+Code+Pro&display=swap');
+
+
 :root {
     --link:     rgb(180,0,0);
     --black:    #1A2030;
     --eee:      #eee;
-    --font:     'PT Sans', sans-serif;
+    --font:     'Fira Sans', sans-serif;
 }
 
 *               { padding: 0; margin: 0; }
-html,body       { font-family: var(--font); color: var(--black); font-size: 15px; }
+html,body       { font-family: var(--font); color: var(--black); font-size: 14px; }
 a               { color: var(--link); text-decoration: none; }
 a:hover			{ color: var(--black); }
 
@@ -57,7 +60,7 @@ button:hover    { background-color: #ccc; }
 /* project */
 
 .pro                { display: flex; gap: 2vw; }
-.pro > .tree        { flex-basis: 180px; padding: 0 1vw 0 4px; 9border-right: solid 1px #eee; }
+.pro > .tree        { flex-basis: 180px; padding: 0 1vw 0 4px;  }
 .pro > .tree .name > a      { padding: 3px; display: inline-block; }
 .pro > .tree .active        { background-color: #eee; cursor: default; }
 .pro > .tree .project > a   { font-weight: bold; }
@@ -71,8 +74,8 @@ button:hover    { background-color: #ccc; }
 /* editor */
 
 form.tree  .save    { display: block; margin: 3em 0 0 0; }
-form.tree  .ace     { width: 100%; height: 30em; border: none; background-color: transparent; }
-
+form.tree  .ace     { font-family: 'Source Code Pro'; font-size: 13px; width: 100%; height: 30em; border: none; background-color: transparent; }
+.ace_scroller       { margin-left: 1ch; }
 
 
 

@@ -30,10 +30,12 @@ function ace_init(selector)
         $t.hide();
         $t.after('<div id="' + aceid + '"></div>');
         
+
         ace1[i]   =   ace.edit(aceid, {
             mode: t.dataset.mode ?? null,
             minLines: 20,
-            fontSize: "15px",
+            fontFamily: $(t).css('font-family'),
+            fontSize: $(t).css('font-size'),
             maxLines: 1111,
             wrap: true,
             showPrintMargin: false,     // граница печати

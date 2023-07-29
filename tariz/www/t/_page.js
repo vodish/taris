@@ -30,15 +30,17 @@ function ace_init(selector)
         $t.hide();
         $t.after('<div id="' + aceid + '"></div>');
         
+
         ace1[i]   =   ace.edit(aceid, {
             mode: t.dataset.mode ?? null,
             minLines: 20,
-            fontSize: "15px",
+            fontFamily: $(t).css('font-family'),
+            fontSize: $(t).css('font-size'),
             maxLines: 1111,
             wrap: true,
             showPrintMargin: false,     // граница печати
             showGutter: true,           // нумерация строк
-            useWorker: false,
+            useWorker: false,           // отключить проверку синтаксиса - worker файл
             // тема раскраски кода
             // theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?  'ace/theme/tomorrow_night':  '')      
         });
@@ -52,18 +54,6 @@ function ace_init(selector)
         sess1[i].on('change', function(){
             $(t).val(sess1[i].getValue());
         });
-        
-        
-        /* отключить анотации */
-        // sess1[i].on('changeAnnotation', function(){
-            
-        //     //console.log(sess1[i].$annotations);
-            
-        //     sess1[i].$annotations  =   sess1[i].$annotations.filter(()=>false);
-            
-        //     ace1[i].$onChangeAnnotation();
-        // });
-        
         
     })
     

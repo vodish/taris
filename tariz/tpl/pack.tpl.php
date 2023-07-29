@@ -35,6 +35,8 @@ $project->actionCansel();
 $row        =   new row( $pack->list[ $start ]['file'] );
 
 
+
+
 ?>
 <div class="nav1">
     <div class="bc">
@@ -99,16 +101,6 @@ elseif ( url::$level[1] == 'tree' )
     <?
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
     echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
-    echo '<script src="' .load::makefile('/t/ace/worker-yaml.js', 'inc/ace/worker-yaml.js', true, false). '"></script>'. "\n";
-    
-    // echo '<script src="' .load::makefile('/t/ace/mode-html.js', 'inc/ace/mode-html.js', true, false). '"></script>'. "\n";
-    
-    // echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
-    // echo '<script src="' .load::makefile('/t/ace/ext-emmet.js', 'inc/ace/ext-emmet.js', true, false). '"></script>'. "\n";
-    
-    // echo '<script src="' .load::makefile('/t/ace/mode-css.js', 'inc/ace/mode-css.js', true, false). '"></script>'. "\n";
-    // echo '<script src="' .load::makefile('/t/ace/worker-html.js', 'inc/ace/worker-html.js', true, false). '"></script>'. "\n";
-    // echo '<script src="' .load::makefile('/t/ace/worker-css.js', 'inc/ace/worker-css.js', true, false). '"></script>'. "\n";
     
     // echo '<script src="' .load::makefile('/t/ace/theme-tomorrow_night.min.js', 'inc/ace/theme-tomorrow_night.min.js', true, false). '"></script>'. "\n";
     
@@ -119,9 +111,19 @@ elseif ( url::$level[1] == 'tree' )
 
 elseif ( url::$level[1] == 'rows' )
 {
+    $sss = "
+K.Tariz 518
+index.php 519
+    _config.php 520
+        url.php 521
+        _route.php 522
+        load.php 525
+Задачи 552
+    ";
+
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="rows" data-mode="ace/mode/yaml"><?//= trim($project->getTextTree( $proId )) ?></textarea>
+        <textarea class="ace" name="rows" data-mode="ace/mode/yaml"><?= $sss ?></textarea>
         <button class="save">Сохранить</button>
     </form>
 
