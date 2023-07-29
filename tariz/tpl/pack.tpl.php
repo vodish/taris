@@ -92,12 +92,15 @@ elseif ( url::$level[1] == 'tree' )
 {
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="tree"><?= trim($project->getTextTree( $proId )) ?></textarea>
+        <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim($project->getTextTree( $proId )) ?></textarea>
         <button class="save">Сохранить</button>
     </form>
 
     <?
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/worker-yaml.js', 'inc/ace/worker-yaml.js', true, false). '"></script>'. "\n";
+    
     // echo '<script src="' .load::makefile('/t/ace/mode-html.js', 'inc/ace/mode-html.js', true, false). '"></script>'. "\n";
     
     // echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
@@ -118,16 +121,13 @@ elseif ( url::$level[1] == 'rows' )
 {
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="rows" data-mode="ace/mode/html"><?//= trim($project->getTextTree( $proId )) ?></textarea>
+        <textarea class="ace" name="rows" data-mode="ace/mode/yaml"><?//= trim($project->getTextTree( $proId )) ?></textarea>
         <button class="save">Сохранить</button>
     </form>
 
     <?
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
-    echo '<script src="' .load::makefile('/t/ace/mode-html.js', 'inc/ace/mode-html.js', true, false). '"></script>'. "\n";
-    
-    echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
-    echo '<script src="' .load::makefile('/t/ace/ext-emmet.js', 'inc/ace/ext-emmet.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
     
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>' . "\n";
 

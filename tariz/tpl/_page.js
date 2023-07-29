@@ -38,6 +38,7 @@ function ace_init(selector)
             wrap: true,
             showPrintMargin: false,     // граница печати
             showGutter: true,           // нумерация строк
+            useWorker: false,           // отключить проверку синтаксиса - worker файл
             // тема раскраски кода
             // theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?  'ace/theme/tomorrow_night':  '')      
         });
@@ -51,26 +52,6 @@ function ace_init(selector)
         sess1[i].on('change', function(){
             $(t).val(sess1[i].getValue());
         });
-        
-        
-        /* отключить анотации */
-        sess1[i].on('changeAnnotation', function(){
-            
-            //console.log(sess1[i].$annotations);
-            
-            sess1[i].$annotations  =   sess1[i].$annotations.filter(function(annotation){
-                return !(
-                        /doctype first\. Expected/.test(annotation.text)
-                    ||  /Unexpected End of file\. Expected/.test(annotation.text)
-                    //||    /voodoo mode/.test(annotation.text)
-                    ||  /Trailing solidus not/.test(annotation.text)
-                    ||  /Unexpected end tag/.test(annotation.text)
-                )
-            });
-            
-            ace1[i].$onChangeAnnotation();
-        });
-        
         
     })
     
