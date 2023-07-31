@@ -53,7 +53,11 @@ class row
 
         foreach( $lines as $v )
         {
+            # найти разделитель
+            #
             
+
+
         }
 
 
