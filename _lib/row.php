@@ -42,7 +42,26 @@ class row
 
     public function actionSave()
     {
+        if ( empty($_POST['rows']) )    return;
+
+        $lines  =   $_POST['rows'];
+        $lines  =   strtr($lines, ["\r"=>'']);
+        $lines  =   explode("\n", $lines);
         
+        $id     =   '';
+        $id5    =   '';
+
+        foreach( $lines as $v )
+        {
+            
+        }
+
+
+        load::vd($lines);
+
+        load::vdd($_POST);
+
+        die;
     }
 
 }

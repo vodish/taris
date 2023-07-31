@@ -35,6 +35,10 @@ $project->actionCansel();
 $row        =   new row( $pack->list[ $start ]['file'] );
 
 
+# операции записи
+#
+$row->actionSave();
+
 
 
 ?>
