@@ -21,7 +21,6 @@ $fileId         =   $proBc[0]['file'];
 load::$title    =   $proBc[0]['name'];
 $project        =   new project($proId, $pack);
 
-
 # операции проекта
 #
 $project->actionSave();
@@ -29,15 +28,14 @@ $project->actionCreate();
 $project->actionCansel();
 
 
-// load::vd($proBc);
 
 # записи
-$row        =   new row( $pack->list[ $start ]['file'] );
-
+#
+$line        =   new line( $pack->list[ $start ]['file'] );
 
 # операции записи
 #
-$row->actionSave();
+$line->actionSave();
 
 
 
@@ -60,7 +58,7 @@ $row->actionSave();
         <!-- <a href="<?= url::$dir[0] ?>" class="<?= !isset(url::$level[1])? 'active': '' ?>">Проект</a> -->
         
         <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
-        <a href="<?= url::$dir[0]. (@url::$level[1]!='rows' ? '/rows': '') ?>" class="<?= @url::$level[1]=='rows'? 'active': '' ?>">Записи</a>
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?>">Записи</a>
 
         <?= $start == $proId  && isset($proBc[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">- Проект</a>' : '' ?>
         <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+ Проект</a>' : '' ?>
@@ -79,9 +77,9 @@ if ( !isset(url::$level[1]) )
         <div class="tree">
             <?= $project->getHtmlTree( $proId ) ?>
         </div>
-        <div class="rows">
+        <div class="line">
             <?
-            foreach($row->list as $v)
+            foreach($line->list as $v)
             {
                 ?>
                 <div class="message"><?= $v['message'] ?></div>
@@ -113,25 +111,18 @@ elseif ( url::$level[1] == 'tree' )
     
 }
 
-elseif ( url::$level[1] == 'rows' )
+elseif ( url::$level[1] == 'line' )
 {
-    $sss = "
-K.Tariz 518
-index.php 519
-    _config.php 520
-        url.php 521
-        _route.php 522
-        load.php 525
-Задачи 552
-    ";
+    $sss = "";
 
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="rows" data-mode="ace/mode/yaml"><?= $sss ?></textarea>
+        <textarea class="ace" name="line" data-mode="ace/mode/yaml"><?= $sss ?></textarea>
         <button class="save">Сохранить</button>
     </form>
 
     <?
+
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
     echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
     
