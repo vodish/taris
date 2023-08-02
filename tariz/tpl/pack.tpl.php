@@ -77,12 +77,12 @@ if ( !isset(url::$level[1]) )
         <div class="tree">
             <?= $project->getHtmlTree( $proId ) ?>
         </div>
-        <div class="line">
+        <div class="file">
             <?
             foreach($line->list as $v)
             {
                 ?>
-                <div class="message"><?= $v['message'] ?></div>
+                <div style="margin-left: <?= $v['space'] ?>ch;"><?= $v['content'] ?></div>
                 <?
             }
             ?>
@@ -113,11 +113,12 @@ elseif ( url::$level[1] == 'tree' )
 
 elseif ( url::$level[1] == 'line' )
 {
-    $sss = "";
+
+    // load::vd($line->list);
 
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="line" data-mode="ace/mode/yaml"><?= $sss ?></textarea>
+        <textarea class="ace" name="line" data-mode="ace/mode/yaml"><?= $line->asText() ?></textarea>
         <button class="save">Сохранить</button>
     </form>
 

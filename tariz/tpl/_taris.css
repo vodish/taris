@@ -66,8 +66,8 @@ button:hover    { background-color: #ccc; }
 .pro > .tree .project > a   { font-weight: bold; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
-.pro > .rows        { flex-basis: content; flex-grow: 1; }
-.pro > .rows > .message  { flex-basis: content; flex-grow: 1; margin-bottom: 2em; border-left: solid 1px #ccc; padding-left: 20px;}
+.pro > .file        { flex-basis: content; flex-grow: 1; border-left: solid 1px #ccc; padding-left: 20px; line-height: 1.4em; }
+
 
 
 
