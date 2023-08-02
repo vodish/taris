@@ -66,7 +66,7 @@ button:hover    { background-color: #ccc; }
 .pro > .tree .project > a   { font-weight: bold; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
-.pro > .file        { flex-basis: content; flex-grow: 1; border-left: solid 1px #ccc; padding-left: 20px; line-height: 1.4em; }
+.pro > .file        { flex-basis: content; flex-grow: 1; border-left: solid 1px #ddd; padding-left: 30px; line-height: 1.4em; }
 .pro > .file > div:empty    { height: 1em; }
 
 
