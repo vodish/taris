@@ -62,12 +62,11 @@ class line
         #
         private function makeRows($text)
         {
-            
 
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
-            $tree       =   str_replace("\r", '', $text);
+            $tree       =   strtr($text, ["\r"=>'', "\t"=>'    ']);
             $list       =   explode("\n", $tree);
             $lines      =   array();
             $rows       =   array();
@@ -79,39 +78,52 @@ class line
             #
             foreach( $list as $k => $v )
             {
-                if ( empty($v) )    continue;
 
-                # распарсить строки пачек
+                # отрезать лишние пробелы справа
+                # определить количество пробелов слева
+                $v      =   rtrim($v);
                 #
-                preg_match("#^\s+#", $v, $indent5m);
+                preg_match("#^\s+#", $v, $space);
+                $space  =   isset($space[0])  ?  strlen($space[0])  :   0;
+                
+
+                # параметры текущей записи
                 #
-                #
-                $indent5    =   isset($indent5m[0])  ?  strlen($indent5m[0])  :   0;
-                $hash5      =   md5( trim($v) );
                 $order      =   $k;
-                #
-                #
-                # определить родителя из текста
-                #
-                $lines[ $id5 ]  =   $indent5;
-                $parent         =   null;
-                $parent5        =   $this->setParent5($lines, $indent5);
-                #
-                # все записи запись
-                #
+                $id5        =   md5( trim($v) );
+                $parent5    =   'NULL'; //$this->setParent5($lines, $space);
+                $id         =   'NULL';
+                $parent     =   'NULL';
+                
+
+                // $indent5    =   isset($indent5m[0])  ?  strlen($indent5m[0])  :   0;
+                // $hash5      =   md5( trim($v) );
+                // $order      =   $k;
+                // #
+                // #
+                // # определить родителя из текста
+                // #
+                // $lines[ $id5 ]  =   $indent5;
+                // $parent         =   null;
+                // $parent5        =   $this->setParent5($lines, $indent5);
+                // #
+                // # все записи запись
+                // #
                 $rows[] = "
                     SELECT 
-                          " .db::v($id5).        "   as `id5`
+                          " .db::v($order).      "   as `order`
+                        , " .db::v($space).      "   as `space`
+                        , " .db::v($v).          "   as `content`
+                        , " .db::v($id5).        "   as `id5`
                         , " .db::v($parent5).    "   as `parent5`
                         , " .db::v($id).         "   as `id`
                         , " .db::v($parent).     "   as `parent`
-                        , " .db::v($name).       "   as `name`
-                        , " .db::v($order).      "   as `order`
                 ";
                 
             }
             
 
+            load::vdd($rows);
 
 
             die;
