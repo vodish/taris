@@ -70,7 +70,7 @@ class line
 
         # редирект на просмотр
         #
-        url::redir( url::$path . url::fset(['save'=>time()]) );
+        url::redir( url::$dir[0] . url::fset(['save'=>time()]) );
     }
 
 
@@ -84,6 +84,7 @@ class line
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
+            $tree       =   strip_tags($text, '<img>,<h1>,<h2>,<h3>,<h4>,<h5>,<hr>');
             $tree       =   strtr($text, ["\r"=>'', "\t"=>'    ']);
             $list       =   explode("\n", $tree);
             $lines      =   array();
@@ -99,8 +100,8 @@ class line
 
                 # отрезать лишние пробелы справа
                 # определить количество пробелов слева
-                $content      =   rtrim($content);
                 preg_match("#^\s+#", $content, $space);
+                $content      =   rtrim($content);
                 
 
                 # параметры текущей записи 1

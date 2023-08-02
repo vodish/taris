@@ -118,14 +118,17 @@ elseif ( url::$level[1] == 'line' )
 
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="line" data-mode="ace/mode/yaml"><?= $line->asText() ?></textarea>
+        <textarea class="ace" name="line" data-mode="ace/mode/html"><?= $line->asText() ?></textarea>
         <button class="save">Сохранить</button>
     </form>
 
     <?
 
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
-    echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/mode-html.js', 'inc/ace/mode-html.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
+    echo '<script src="' .load::makefile('/t/ace/ext-emmet.js', 'inc/ace/ext-emmet.js', true, false). '"></script>'. "\n";
+    // echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
     
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>' . "\n";
 
