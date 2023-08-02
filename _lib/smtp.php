@@ -2,7 +2,9 @@
 /**
 * SendMailSmtpClass
 * @author Ipatov Evgeniy <admin@vk-book.ru>
-
+* @author PK <pavel@karasev.ru>
+* инструкция	https://qna.habr.com/q/1016160
+* инструкция	https://yandex.ru/support/business/domains/dns-editor.html
 */
 
 class smtp {
