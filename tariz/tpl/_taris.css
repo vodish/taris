@@ -25,7 +25,6 @@ button:hover    { background-color: #ccc; }
 /* main */
 
 .main1          {  margin: 5em auto; display: flex; gap: 6vw; align-items: flex-start; }
-.main1 .logo        { opacity: 0.2; }
 .main1 .login       { width: 300px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
 .main1 .login .email         { width: 200px; flex-grow: 1; }
 .main1 .login .code          { width: 80px; text-align: center; }
@@ -45,16 +44,14 @@ button:hover    { background-color: #ccc; }
 /* pack */
 
 .nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding-bottom: 3px; margin-bottom: 2em; }
-.nav1 .logo         { text-transform: uppercase; font-size: 14px; font-weight: bold; }
+.nav1 .logo         { text-transform: uppercase; font-size: 14px; }
+.nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
-.nav1 .bc .current  { color: inherit; font-weight: bold; }
-.nav1 .bc .current:hover  { color: var(--link); }
 .nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
 .nav1 .bc > a       { padding: 4px 1ch; }
-.nav1 .bc .active   { font-weight: bold; color: inherit; cursor: default; }
 .nav1 .opt          { display: flex; }
 .nav1 .opt > a      { padding: 4px 1ch; }
-.nav1 .opt .active  { color: inherit; background-color: #eee; border-radius: 3px; }
+.nav1 .active       { color: inherit; background-color: #eee; border-radius: 3px; }
 
 
 /* project */
