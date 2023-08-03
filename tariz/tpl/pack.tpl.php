@@ -96,7 +96,10 @@ elseif ( url::$level[1] == 'tree' )
     ?>
     <form class="tree" method="post">
         <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim($project->getTextTree( $proId )) ?></textarea>
-        <button class="save">Сохранить</button>
+        <div class="submit">
+            <div></div>
+            <button class="save">Сохранить</button>
+        </div>
     </form>
 
     <?
@@ -118,7 +121,10 @@ elseif ( url::$level[1] == 'line' )
     ?>
     <form class="tree" method="post">
         <textarea class="ace" name="line" data-mode="ace/mode/html"><?= $line->asText() ?></textarea>
-        <button class="save">Сохранить</button>
+        <div class="submit">
+            <div></div>
+            <button class="save">Сохранить</button>
+        </div>
     </form>
 
     <?
@@ -143,7 +149,8 @@ elseif ( url::$level[1] == 'access' )
         ['project'=> 'Проект', 'target'=> md5(rand(0,999)), 'data' => date('d.m.Y'), 'type'=> 'only | recursive', 'access'=> 'Read', 'remove'=>'Add'],
     );
 
-    $site   =   load::vd(url::site());
+    $site   =   url::site(). '/' .$start;
+
     $aaa    =   <<<AAA
 pavel@karasev.ru
     access:
@@ -157,7 +164,7 @@ public
         - None
     subproject: No
 
-http://k.tariz/560?0800fc577294c34e0b28ad2839435945
+{$site}?0800fc577294c34e0b28ad2839435945
     access:
         - Read
     subproject: No

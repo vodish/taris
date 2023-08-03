@@ -73,7 +73,7 @@ button:hover    { background-color: #ccc; }
 
 form.tree  .ace     { font-family: 'Source Code Pro'; font-size: 13px; width: 100%; height: 30em; border: none; background-color: transparent; }
 form.tree  .ace_scroller    { margin-left: 1ch; }
-form.tree  .submit  { display: flex; justify-content: space-between; align-items: baseline; gap: 2ch; margin-top: 3em; }
+form.tree  .submit  { display: flex; justify-content: space-between; align-items: baseline; gap: 2ch; border-top: solid 1px #eee; padding: 2vh 1vw 0 1vw; }
 form.tree  .save    { display: block; }
 
 
