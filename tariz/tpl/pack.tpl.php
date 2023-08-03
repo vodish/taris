@@ -95,7 +95,7 @@ elseif ( url::$level[1] == 'tree' )
 {
     ?>
     <form class="tree" method="post">
-        <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim($project->getTextTree( $proId )) ?></textarea>
+        <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim($project->asText( $proId )) ?></textarea>
         <div class="submit">
             <div></div>
             <button class="save">Сохранить</button>
@@ -152,23 +152,18 @@ elseif ( url::$level[1] == 'access' )
     $site   =   url::site(). '/' .$start;
 
     $aaa    =   <<<AAA
-pavel@karasev.ru
-    access:
-        - Read
-        - Edit
-    subproject: Yes
-    comment: lksdfsdf sdvdsv
+pavel@karasev.ru:
+    access:  [ Read, Edit ]
+    subproject:  Yes
+    comment:  lksdfsdf sdvdsv
 
-public
-    access:
-        - None
-    subproject: No
+public:
+    subproject:  No
 
-{$site}?0800fc577294c34e0b28ad2839435945
-    access:
-        - Read
-    subproject: No
-    comment: ссылка для кого-то
+0800fc577294c34e0b28ad2839435945:
+    access:  [ Read ]
+    subproject:  No
+    comment:  ссылка для кого-то
 
 
 AAA;

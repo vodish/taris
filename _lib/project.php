@@ -16,7 +16,7 @@ class project
 
     # получить дерево проекта как текст
     #
-    public function getTextTree( $start,  $level=0,  $text='' )
+    public function asText( $start,  $level=0,  $text='' )
     {
         $children   =   $this->pack->parent[ $start ] ??  array();
         
@@ -25,11 +25,11 @@ class project
             $isProject  =   $this->pack->list[ $id ]['is_project'];
             $sub        =   $this->pack->parent[ $id ] ?? null;
 
-            $text       .=  str_repeat(" ", $level*4).  $this->pack->list[ $id ]['name']. ' ' .$id. "\n";
+            $text       .=  str_repeat(" ", $level*4).  $this->pack->list[ $id ]['name']. '  ' .$id. "\n";
 
             if ( !$isProject  && isset($sub) )
             {
-                $text   =   $this->getTextTree($id, ($level+1), $text);
+                $text   =   $this->asText($id, ($level+1), $text);
             }
         }
 
