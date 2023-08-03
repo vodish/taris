@@ -161,11 +161,13 @@ class db_pdo
 	#
 	public function cast(&$row, array $types)
 	{
-
+		if ( empty($row) )	return $row;
+		
+		
 		foreach(['int', 'str'] as $type)
 		{
-			if ( !is_array( $types[ $type ] ?? null) )	continue;
-
+			if ( !isset( $types[ $type ]) )		continue;
+			
 			foreach($types[ $type ] as $key)
 			{
 				if ( $row[ $key ] === null )	continue;
