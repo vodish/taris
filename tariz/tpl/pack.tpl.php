@@ -38,6 +38,7 @@ $line        =   new line( $pack->list[ $start ]['file'] );
 $line->actionSave();
 
 
+// load::vd($pack->bc);
 
 ?>
 <div class="nav1">
@@ -50,6 +51,11 @@ $line->actionSave();
             <i>/</i>
             <a href="/<?= $v['id'] ?>" class="<?= $v['id']==$proId && !isset(url::$level[1]) ? 'active': '' ?>"><?= $v['name'] ?></a>
             <?
+        }
+
+        if ( @url::$level[1] == 'line' && $start != $proId ) {
+            echo '<i>/</i>';
+            echo '<a href="/' .$start. '" class="current">' .$pack->list[$start]['name']. '</a>';
         }
         ?>
     </div>
