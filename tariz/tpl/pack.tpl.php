@@ -167,12 +167,14 @@ public:
     subproject:  No
 
 0800fc577294c34e0b28ad2839435945:
-    access:  [ Read ]
+    access:
+        - Read
     subproject:  No
     comment:  ссылка для кого-то
 
-
 AAA;
+
+    load::vd( yaml_parse($aaa) );
     ?>
     
     <div class="access" style="display: none;">
