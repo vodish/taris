@@ -98,7 +98,7 @@ elseif ( url::$level[1] == 'tree' )
         <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim($project->asText( $proId )) ?></textarea>
         <div class="submit">
             <div></div>
-            <button class="save">Сохранить</button>
+            <button class="save" id="btn-save">Сохранить</button>
         </div>
     </form>
 
@@ -123,7 +123,7 @@ elseif ( url::$level[1] == 'line' )
         <textarea class="ace" name="line" data-mode="ace/mode/html"><?= $line->asText() ?></textarea>
         <div class="submit">
             <div></div>
-            <button class="save">Сохранить</button>
+            <button class="save" id="btn-save">Сохранить</button>
         </div>
     </form>
 
@@ -196,7 +196,7 @@ AAA;
         <textarea class="ace" name="access" data-mode="ace/mode/yaml"><?= $aaa ?></textarea>
         <div class="submit">
             <a href="">Добавить ссылку доступа</a>
-            <button class="save">Сохранить</button>
+            <button class="save" id="btn-save">Сохранить</button>
         </div>
     </form>
 

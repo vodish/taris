@@ -84,13 +84,13 @@ class line
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
-            $tree       =   strip_tags($text, '<img>,<h1>,<h2>,<h3>,<h4>,<h5>,<hr>');
-            $tree       =   strtr($text, ["\r"=>'', "\t"=>'    ']);
-            $list       =   explode("\n", $tree);
+            $text       =   strip_tags($text, '<img><a><h1><h2><h3><h4><hr><b><i><s>');
+            $text       =   strtr($text, ["\r"=>'', "\t"=>'    ']);
+            $list       =   explode("\n", $text);
             $lines      =   array();
             $rows       =   array();
             
-            // load::vd($list);
+            // load::vdd($text);
 
 
             # пройти по строкам
