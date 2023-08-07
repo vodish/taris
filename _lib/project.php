@@ -81,7 +81,7 @@ class project
 
         # редирект на просмотр
         #
-        url::redir( "/{$packBack}" . url::fset(['save'=>time()]) );
+        url::redir( "/{$packBack}",  null, ['save'=>time()] );
     }
 
 
@@ -125,7 +125,7 @@ class project
                 $indent5        =   isset($indent5m[0])  ?  strlen($indent5m[0])  :   0;
                 $id             =   isset($idm[0])       ?  (int)trim($idm[0])    :   0;
                 $name           =   trim( substr($v, $indent5, strlen($v) - $indent5 - strlen($idm[0] ?? '') ) );
-                $idArr[ $id ]   =   '';
+                $idArr[ $id ]   =   $id;
                 #
                 #
                 # определить родителя из текста
@@ -154,7 +154,7 @@ class project
             #
             $this->dbSave($rows);
             
-
+            
             # вернуть текущую пачку или пачку проекта
             #
             return $idArr[ $this->pack->start ] ?? $this->id;
@@ -285,7 +285,7 @@ class project
 
         # редирект на просмотр
         #
-        url::redir( url::$path . url::fset(['actionProjectCreate'=>null, 'save'=>time()]) );
+        url::redir( url::$path. url::fset(['actionProjectCreate'=>null]),  null, ['save'=>time()]  );
     }
 
 
@@ -303,7 +303,7 @@ class project
 
         # редирект на просмотр
         #
-        url::redir( url::$path . url::fset(['actionProjectCansel'=>null, 'save'=>time()]) );
+        url::redir( url::$path. url::fset(['actionProjectCansel'=>null]),  null, ['save'=>time()] );
     }
 
 

@@ -79,7 +79,7 @@ class line
 
         # редирект на просмотр
         #
-        url::redir( url::$dir[0] . url::fset(['save'=>time()]) );
+        url::redir( url::$dir[0],  null, ['save'=>time()] );
     }
 
 

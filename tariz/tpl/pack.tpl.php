@@ -48,10 +48,9 @@ $line->actionSave();
 
 
 
-// load::vd($pack->bc);
 
-
-
+# стереть отчет по операции
+$_
 
 
 
@@ -81,8 +80,12 @@ $line->actionSave();
     </div>
     
     <div class="opt">
-
-        <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?>">Записи</a>
+        <?
+        # отчет по операции
+        if ( isset($_SESSION['save']) ) { unset($_SESSION['save']); echo '<i class="save">Save</i>'; }
+        ?>
+        
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?> b">Записи</a>
         <i class="sep"></i>
         <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
         <a href="<?= url::$dir[0]. (@url::$level[1]!='access' ? '/access': '') ?>" class="<?= @url::$level[1]=='access'? 'active': '' ?>">Доступ</a>
@@ -187,4 +190,5 @@ elseif ( url::$level[1] == 'access' )
     
 }
 
-?>
+
+

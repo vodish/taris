@@ -65,10 +65,11 @@ class url
     }
     
 
-    static function redir($url, $code=301)
+    static function redir($url, $code=301, $updSession=null)
 	{
-	    if ( $code==301 )      header('HTTP/1.1 301 Moved Permanently');
-	    
+	    if ( $code==301 )   header('HTTP/1.1 301 Moved Permanently');
+	    if ( $updSession )  $_SESSION  =  array_merge($_SESSION, $updSession);
+
 		header('Location: '. $url);
 		die;
 	}
