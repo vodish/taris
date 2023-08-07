@@ -11,7 +11,7 @@ user::actionCodeCheck();
 
 # профили
 #
-$userList   =   user::dbUserList();
+$userList   =   user::dbProfilList();
 
 // load::vd( $userList );
 

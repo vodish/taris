@@ -7,9 +7,9 @@ class project
 
 
 
-    public function __construct($id, pack &$pack)
+    public function __construct(pack &$pack)
     {
-        $this->id       =   $id;
+        $this->id       =   $pack->project;
         $this->pack     =   $pack;
     }
 

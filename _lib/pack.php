@@ -5,6 +5,7 @@ class pack
     public $user;
     
     public $bc      =   array();
+    public $project =   null;
     public $list    =   array();
     public $parent  =   array();
 
@@ -54,6 +55,7 @@ class pack
             if ( $pack['is_project'] )   $bc[] = $pack;
         }
 
+        $this->project = $bc[0]['id'];
         
         return $this->bc = $bc;
     }

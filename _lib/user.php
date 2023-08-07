@@ -3,7 +3,7 @@ class user
 {
     # получить список профилей
     #
-    static function dbUserList()
+    static function dbProfilList()
     {
         if ( !is_array(@$_COOKIE['token']) )     return array();
 

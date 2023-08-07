@@ -18,10 +18,11 @@ if ( ! $pack->user )    url::redir("/");
 $proBc          =   $pack->getProjectBc( $start );
 $proId          =   $proBc[0]['id'];
 $fileId         =   $proBc[0]['file'];
+$accessYaml     =   $proBc[0]['access_yaml'];
 load::$title    =   $proBc[0]['name'];
-$project        =   new project($proId, $pack);
-
-# операции проекта
+#
+$project        =   new project($pack);
+#
 #
 $project->actionSave();
 $project->actionCreate();
@@ -29,16 +30,35 @@ $project->actionCansel();
 
 
 
-# записи
+# права
 #
-$line        =   new line( $pack->list[ $start ]['file'] );
+$access         =   new access($pack);
+#
+#
+$access->actionSave();
+$access->actionCreateLink();
 
-# операции записи
+
+
+# записи
+$line        =   new line( $pack->list[ $start ]['file'] );
+#
 #
 $line->actionSave();
 
 
+
 // load::vd($pack->bc);
+
+
+
+
+
+
+
+
+
+
 
 ?>
 <div class="nav1">
@@ -157,51 +177,29 @@ elseif ( url::$level[1] == 'access' )
 
     $site   =   url::site(). '/' .$start;
 
-    $aaa    =   <<<AAA
-pavel@karasev.ru:
-    access:  [ Read, Edit ]
-    subproject:  Yes
-    comment:  lksdfsdf sdvdsv
+//     $aaa    =   <<<AAA
+// pavel@karasev.ru:
+//     access:  [ Read, Edit ]
+//     subproject:  Yes
+//     comment:  lksdfsdf sdvdsv
 
-public:
-    subproject:  No
+// public:
+//     subproject:  No
 
-0800fc577294c34e0b28ad2839435945:
-    access:  [ Read ]
-    subproject:  No
-    comment:  ссылка для кого-то
+// 0800fc577294c34e0b28ad2839435945:
+//     access:  [ Read ]
+//     subproject:  No
+//     comment:  ссылка для кого-то
 
+// AAA;
 
-AAA;
+//     load::vd( yaml_parse($aaa) );
     ?>
     
-    <div class="access" style="display: none;">
-        <table>
-            <?
-            foreach( $table as $v )
-            {
-                ?>
-                <tr>
-                    <!-- <td><?= $v['project'] ?></td> -->
-                    <td><?= $v['target'] ?></td>
-                    <td><?= $v['data'] ?></td>
-                    <td><?= $v['type'] ?></td>
-                    <td><?= $v['access'] ?></td>
-                    <td><?= $v['remove'] ?></td>
-                </tr>
-                <?
-            }
-            ?>
-        </table>
-        <br />
-        <button class="save">Сохранить</button>
-        
-    </div>
-
-    <form class="tree" method="post">
-        <textarea class="ace" name="access" data-mode="ace/mode/yaml"><?= $aaa ?></textarea>
+    <form action="<?= url::$dir[1] ?>" class="tree" method="post">
+        <textarea class="ace" name="access" data-mode="ace/mode/yaml"><?= $accessYaml ?></textarea>
         <div class="submit">
-            <a href="">Добавить ссылку доступа</a>
+            <a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить ссылку доступа</a>
             <button class="save" id="btn-save">Сохранить</button>
         </div>
     </form>
