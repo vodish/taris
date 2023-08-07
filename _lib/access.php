@@ -45,8 +45,8 @@ class access
 
         // load::vdd($_POST);
 
-        
-        url::redir( url::$dir[1]. url::fset(['save'=>time()]) );
+
+        url::redir( url::$dir[1],  null, ['save'=>time()] );
     }
     
 }
