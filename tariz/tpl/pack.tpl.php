@@ -41,7 +41,7 @@ $access->actionCreateLink();
 
 
 # записи
-$line        =   new line( $pack->list[ $start ]['file'] );
+$line        =   new line($pack);
 #
 #
 $line->actionSave();
@@ -81,12 +81,14 @@ $line->actionSave();
     </div>
     
     <div class="opt">
+
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?>">Записи</a>
+        <i class="sep"></i>
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='access' ? '/access': '') ?>" class="<?= @url::$level[1]=='access'? 'active': '' ?>">Доступ</a>
+        
         <?= $start == $proId  && isset($proBc[1]) && !isset(url::$level[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">- Проект</a>' : '' ?>
         <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+ Проект</a>' : '' ?>
-
-        <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
-        <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?>">Записи</a>
-        <a href="<?= url::$dir[0]. (@url::$level[1]!='access' ? '/access': '') ?>" class="<?= @url::$level[1]=='access'? 'active': '' ?>">Доступ</a>
 
     </div>
 </div>
@@ -95,8 +97,6 @@ $line->actionSave();
 <?
 if ( !isset(url::$level[1]) )
 {
-    # текстовое дерево проекта
-    #
     ?>
     <div class="pro">
         <div class="tree">
@@ -104,6 +104,9 @@ if ( !isset(url::$level[1]) )
         </div>
         <div class="file">
             <?
+
+            // load::vd( $pack->bc );
+
             foreach($line->list as $v)
             {
                 ?>
@@ -131,7 +134,6 @@ elseif ( url::$level[1] == 'tree' )
     <?
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>'. "\n";
     echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
-    
     // echo '<script src="' .load::makefile('/t/ace/theme-tomorrow_night.min.js', 'inc/ace/theme-tomorrow_night.min.js', true, false). '"></script>'. "\n";
     
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>' . "\n";
@@ -158,42 +160,14 @@ elseif ( url::$level[1] == 'line' )
     echo '<script src="' .load::makefile('/t/ace/mode-html.js', 'inc/ace/mode-html.js', true, false). '"></script>'. "\n";
     echo '<script src="' .load::makefile('/t/ace/emmet.js', 'inc/ace/emmet.js', true, false). '"></script>'. "\n";
     echo '<script src="' .load::makefile('/t/ace/ext-emmet.js', 'inc/ace/ext-emmet.js', true, false). '"></script>'. "\n";
-    // echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>'. "\n";
     
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>' . "\n";
 }
 
 elseif ( url::$level[1] == 'access' )
 {
-
-    $table = array(
-        ['project'=> 'Проект', 'target'=> 'pavel@karasev.ru', 'data' => date('d.m.Y'), 'type'=> 'only | recursive', 'access'=> 'Owner', 'remove'=>''],
-        ['project'=> 'Проект', 'target'=> 'public', 'data' => '', 'type'=> 'only | recursive', 'access'=> 'Read', 'remove'=>''],
-        ['project'=> 'Проект', 'target'=> 'vodish@karasev.ru', 'data' => date('d.m.Y'), 'type'=> 'only | recursive', 'access'=> 'Read, Edit', 'remove'=>'Remove'],
-        ['project'=> 'Проект', 'target'=> '<input type="text" name="email" placeholder="Ввести емеил" />', 'data' => date('d.m.Y'), 'type'=> 'only | recursive', 'access'=> 'Read, Edit', 'remove'=>''],
-        ['project'=> 'Проект', 'target'=> '<a href="' .($hash=md5('hash')). '">' .$hash. '</a>', 'data' => date('d.m.Y'), 'type'=> 'only | recursive', 'access'=> 'Read', 'remove'=>'Remove'],
-        ['project'=> 'Проект', 'target'=> md5(rand(0,999)), 'data' => date('d.m.Y'), 'type'=> 'only | recursive', 'access'=> 'Read', 'remove'=>'Add'],
-    );
-
+    
     $site   =   url::site(). '/' .$start;
-
-//     $aaa    =   <<<AAA
-// pavel@karasev.ru:
-//     access:  [ Read, Edit ]
-//     subproject:  Yes
-//     comment:  lksdfsdf sdvdsv
-
-// public:
-//     subproject:  No
-
-// 0800fc577294c34e0b28ad2839435945:
-//     access:  [ Read ]
-//     subproject:  No
-//     comment:  ссылка для кого-то
-
-// AAA;
-
-//     load::vd( yaml_parse($aaa) );
     ?>
     
     <form action="<?= url::$dir[1] ?>" class="tree" method="post">
@@ -208,6 +182,7 @@ elseif ( url::$level[1] == 'access' )
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>';
     echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>';
     // echo '<script src="' .load::makefile('/t/ace/theme-tomorrow_night.min.js', 'inc/ace/theme-tomorrow_night.min.js', true, false). '"></script>';
+    
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>';
     
 }

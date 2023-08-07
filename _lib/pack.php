@@ -55,9 +55,10 @@ class pack
             if ( $pack['is_project'] )   $bc[] = $pack;
         }
 
-        $this->project = $bc[0]['id'];
         
-        return $this->bc = $bc;
+        $this->project      =   $bc[0]['id'];
+        
+        return $this->bc    =   $bc;
     }
 
     

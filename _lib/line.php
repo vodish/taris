@@ -1,16 +1,21 @@
 <?php
 class line
 {
+    /**  @var pack $pack */
+    private $pack;
+
     public $file;
     public $list    =   array();
     public $parent  =   array();
 
 
-    public function __construct($fileId)
+    public function __construct(pack &$pack)
     {
+        $this->pack =   $pack;
+        
         # получить файл из базы
         #
-        $this->file =   db::one("SELECT *  FROM `file`  WHERE `id` = " .db::v($fileId));
+        $this->file =   db::one("SELECT *  FROM `file`  WHERE `id` = " .db::v($pack->list[ $pack->start ]['file']));
         db::cast($this->file, ['int'=>['id']]);
         #
         #
@@ -62,6 +67,10 @@ class line
     {
         if ( empty($_POST['line']) )    return;
 
+        # добавить файл в базу
+        #
+        $this->addFile();
+
         
         # передать на обработку
         #
@@ -73,6 +82,24 @@ class line
         url::redir( url::$dir[0] . url::fset(['save'=>time()]) );
     }
 
+
+
+        # добавить файл в базу, если его нету
+        # и связать его с текущей пачкой
+        #
+        private function addFile()
+        {
+            if ( !empty($this->file) )  return;
+
+            db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
+
+            $this->file['id']   =   db::lastId();
+
+            db::query("UPDATE `pack`  SET `file` = " .db::v($this->file['id']). "  WHERE `id` = " .db::v($this->pack->start) );
+            
+
+            return $this->file;
+        }
 
         
         # распарсить пришедшее дерево проекта
@@ -161,7 +188,7 @@ class line
         #
         private function dbSave($rows)
         {
-            
+
             # удалить текущие записи
             # добавить новые записи
             #

@@ -1,16 +1,16 @@
 <?php
 class project
 {
-    public $id;
     /**  @var pack $pack */
     public $pack;
 
+    public $id;
 
 
     public function __construct(pack &$pack)
     {
-        $this->id       =   $pack->project;
         $this->pack     =   $pack;
+        $this->id       =   $pack->project;
     }
 
 
@@ -76,13 +76,17 @@ class project
         
         # передать на обработку
         #
-        $this->makeRows($_POST['tree']);
+        $packBack   =   $this->makeRows($_POST['tree']);
         
 
         # редирект на просмотр
         #
-        url::redir( url::$path . url::fset(['save'=>time()]) );
+        url::redir( "/{$packBack}" . url::fset(['save'=>time()]) );
     }
+
+
+
+
 
 
         # распарсить пришедшее дерево проекта
@@ -100,7 +104,7 @@ class project
             $list       =   explode("\n", $tree);
             $lines      =   array();
             $rows       =   array();
-            
+            $idArr      =   array();  # массив для проверки уделения текущей пачки
             // load::vd($list);
 
 
@@ -121,6 +125,7 @@ class project
                 $indent5        =   isset($indent5m[0])  ?  strlen($indent5m[0])  :   0;
                 $id             =   isset($idm[0])       ?  (int)trim($idm[0])    :   0;
                 $name           =   trim( substr($v, $indent5, strlen($v) - $indent5 - strlen($idm[0] ?? '') ) );
+                $idArr[ $id ]   =   '';
                 #
                 #
                 # определить родителя из текста
@@ -148,7 +153,11 @@ class project
             # сохранить записи в бд
             #
             $this->dbSave($rows);
+            
 
+            # вернуть текущую пачку или пачку проекта
+            #
+            return $idArr[ $this->pack->start ] ?? $this->id;
         }
 
 

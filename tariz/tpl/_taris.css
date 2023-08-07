@@ -51,6 +51,7 @@ button:hover    { background-color: #ccc; }
 .nav1 .bc > a       { padding: 4px 1ch; }
 .nav1 .opt          { display: flex; }
 .nav1 .opt > a      { padding: 4px 1ch; }
+.nav1 .opt > .sep   { display: inline-block; width: 1ch; }
 .nav1 .active       { color: inherit; background-color: #eee; border-radius: 3px; }
 .nav1 .current      { color: inherit; }
 
