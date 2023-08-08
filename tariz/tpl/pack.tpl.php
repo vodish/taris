@@ -50,7 +50,6 @@ $line->actionSave();
 
 
 # стереть отчет по операции
-$_
 
 
 
@@ -82,7 +81,7 @@ $_
     <div class="opt">
         <?
         # отчет по операции
-        if ( isset($_SESSION['save']) ) { unset($_SESSION['save']); echo '<i class="save">Save</i>'; }
+        if ( isset($_SESSION['save']) ) { unset($_SESSION['save']); echo '<i class="save" id="saved">Saved</i>'; }
         ?>
         
         <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?> b">Записи</a>
@@ -96,6 +95,9 @@ $_
     </div>
 </div>
 
+<script>
+    setTimeout(()=>{ $('#saved').css('display', 'none') }, 2000)
+</script>
 
 <?
 if ( !isset(url::$level[1]) )
