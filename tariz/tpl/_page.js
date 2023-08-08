@@ -8,12 +8,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 document.addEventListener('keydown', function(e) {
     
-    if (e.code == 'KeyS' && (e.ctrlKey || e.metaKey))
+    if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
         e.preventDefault()
         $('#btn-save').click()
     }
-});
+})
 
 
 

@@ -5,12 +5,17 @@ class project
     public $pack;
 
     public $id;
+    public $name;
+    public $access_yaml;
 
 
     public function __construct(pack &$pack)
     {
         $this->pack     =   $pack;
-        $this->id       =   $pack->project;
+        
+        $this->id       =   $id = $pack->project;
+        $this->name     =   $pack->list[ $id ]['name'];
+        $this->access_yaml  =   $pack->list[ $id ]['access_yaml'];
     }
 
 
@@ -153,7 +158,7 @@ class project
             # сохранить записи в бд
             #
             $this->dbSave($rows);
-            
+
             
             # вернуть текущую пачку или пачку проекта
             #

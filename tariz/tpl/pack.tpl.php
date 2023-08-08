@@ -15,13 +15,9 @@ if ( ! $pack->user )    url::redir("/");
 
 # проект
 #
-$proBc          =   $pack->getProjectBc( $start );
-$proId          =   $proBc[0]['id'];
-$fileId         =   $proBc[0]['file'];
-$accessYaml     =   $proBc[0]['access_yaml'];
-load::$title    =   $proBc[0]['name'];
-#
+$proId          =   $pack->project;
 $project        =   new project($pack);
+load::$title    =   $project->name;
 #
 #
 $project->actionSave();
@@ -63,8 +59,11 @@ $line->actionSave();
     <div class="bc">
         <a href="/" class="logo"><b>T</b>ari<b>Z</b></a>
         <?
-        foreach( array_reverse($proBc) as $v )
+        $bcProject  =   array_reverse($pack->bc);
+
+        foreach( $bcProject as $v )
         {
+            $v  =   $pack->list[ $v ];
             ?>
             <i>/</i>
             <a href="/<?= $v['id'] ?>" class="<?= $v['id']==$proId && !isset(url::$level[1]) ? 'active': '' ?>"><?= $v['name'] ?></a>
@@ -84,22 +83,26 @@ $line->actionSave();
         if ( isset($_SESSION['save']) ) { unset($_SESSION['save']); echo '<i class="save" id="saved">Saved</i>'; }
         ?>
         
-        <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?> b">Записи</a>
+        <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?> b" id="edit">Записи</a>
         <i class="sep"></i>
         <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
         <a href="<?= url::$dir[0]. (@url::$level[1]!='access' ? '/access': '') ?>" class="<?= @url::$level[1]=='access'? 'active': '' ?>">Доступ</a>
         
-        <?= $start == $proId  && isset($proBc[1]) && !isset(url::$level[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">- Проект</a>' : '' ?>
+        <?= $start == $proId  && isset($pack->bc[1]) && !isset(url::$level[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">- Проект</a>' : '' ?>
         <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+ Проект</a>' : '' ?>
 
     </div>
 </div>
-
-<script>
-    setTimeout(()=>{ $('#saved').css('display', 'none') }, 2000)
-</script>
-
 <?
+
+
+
+
+
+
+
+# обзор проекта
+#
 if ( !isset(url::$level[1]) )
 {
     ?>
@@ -109,9 +112,6 @@ if ( !isset(url::$level[1]) )
         </div>
         <div class="file">
             <?
-
-            // load::vd( $pack->bc );
-
             foreach($line->list as $v)
             {
                 ?>
@@ -122,9 +122,25 @@ if ( !isset(url::$level[1]) )
         </div>
     </div>
     
+    <script>
+        setTimeout(()=>{ $('#saved').css('display', 'none') }, 2000)
+        
+        document.addEventListener('keydown', (e) => {
+            if ( ['KeyS'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) ) {
+                e.preventDefault()
+                $('#edit')[0].click()
+            }
+        })
+    </script>
     <?
 
 }
+
+
+
+
+# редактирование дерева проекта
+#
 elseif ( url::$level[1] == 'tree' )
 {
     ?>
@@ -146,6 +162,11 @@ elseif ( url::$level[1] == 'tree' )
     
 }
 
+
+
+
+# редактирование файла
+#
 elseif ( url::$level[1] == 'line' )
 {
 
@@ -169,14 +190,18 @@ elseif ( url::$level[1] == 'line' )
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>' . "\n";
 }
 
+
+
+
+
+# редактирование прав
+#
 elseif ( url::$level[1] == 'access' )
 {
-    
-    $site   =   url::site(). '/' .$start;
+
     ?>
-    
     <form action="<?= url::$dir[1] ?>" class="tree" method="post">
-        <textarea class="ace" name="access" data-mode="ace/mode/yaml"><?= $accessYaml ?></textarea>
+        <textarea class="ace" name="access" data-mode="ace/mode/yaml"><?= $project->access_yaml ?></textarea>
         <div class="submit">
             <a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить ссылку доступа</a>
             <button class="save" id="btn-save">Сохранить</button>

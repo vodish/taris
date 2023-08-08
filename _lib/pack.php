@@ -3,11 +3,11 @@ class pack
 {
     public $start;
     public $user;
+    public $project =   null;
+    
     public $list    =   array();
     public $parent  =   array();
-
     public $bc      =   array();
-    public $project =   null;
     
 
     # получить все пачки пользователя
@@ -38,27 +38,37 @@ class pack
         
         $this->start    =   $start;
         $this->user     =   $this->list[ $start ]['user'] ?? null;
+
+
+        $this->getProjectBc( $start );
+        
     }
 
 
+    # определить крошки проекта
     # определить текущий проект
     #
-    public function getProjectBc($start)
+    private function getProjectBc($id)
     {
-        $bc     =   array();
-
-        while( isset($this->list[ $start ]) )
+        
+        while( isset($this->list[ $id ]) )
         {
-            $pack   =   $this->list[ $start ];
-            $start  =   $pack['parent'];
+            $pack   =&  $this->list[ $id ];
+            $id     =   $pack['parent'];
 
-            if ( $pack['is_project'] )   $bc[] = $pack;
+            if ( !$pack['is_project'] )     continue;
+            
+            $this->bc[]         =   $pack['id'];
+            // $pack['access_arr'] =   yaml_parse($pack['access_yaml']);
         }
 
-
-        $this->project      =   $bc[0]['id'];
         
-        return $this->bc    =   $bc;
+        # текущий проект из крошек
+        #
+        $this->project  =   $this->bc[0];
+        
+
+        return $this->bc;
     }
 
     
