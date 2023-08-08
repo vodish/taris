@@ -3,12 +3,12 @@ class pack
 {
     public $start;
     public $user;
-    
-    public $bc      =   array();
-    public $project =   null;
     public $list    =   array();
     public $parent  =   array();
 
+    public $bc      =   array();
+    public $project =   null;
+    
 
     # получить все пачки пользователя
     #
@@ -55,7 +55,7 @@ class pack
             if ( $pack['is_project'] )   $bc[] = $pack;
         }
 
-        
+
         $this->project      =   $bc[0]['id'];
         
         return $this->bc    =   $bc;
