@@ -114,9 +114,10 @@ if ( !isset(url::$level[1]) )
             <?
             foreach($line->list as $v)
             {
-                ?>
-                <div style="margin-left: <?= $v['space'] ?>ch;"><?= $v['content'] ?></div>
-                <?
+                if      ( substr($v['content'], 0, 4) == '<pre' )   echo $v['content'];
+                elseif  ( $v['content'] == '</pre>' )               echo $v['content'];
+                else
+                    echo '<div style="margin-left: ' .$v['space']. 'ch;">' .$v['content']. '</div>';
             }
             ?>
         </div>

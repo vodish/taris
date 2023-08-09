@@ -111,7 +111,7 @@ class line
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
-            $text       =   strip_tags($text, '<img><a><h1><h2><h3><h4><hr><b><i><s>');
+            $text       =   strip_tags($text, '<pre><img><a><h1><h2><h3><h4><hr><b><i><s>');
             $text       =   strtr($text, ["\r"=>'', "\t"=>'    ']);
             $list       =   explode("\n", $text);
             $lines      =   array();
