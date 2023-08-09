@@ -61,7 +61,7 @@ class line
 
 
 
-    # сохранить новое дерево проекта
+    # сохранить содержание файла
     #
     public function actionSave()
     {
