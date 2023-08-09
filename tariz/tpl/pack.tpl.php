@@ -44,10 +44,7 @@ $line->actionSave();
 
 
 
-
-# стереть отчет по операции
-
-
+// load::vdd($project);
 
 
 
