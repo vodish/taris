@@ -38,38 +38,9 @@ class pack
         
         $this->start    =   $start;
         $this->user     =   $this->list[ $start ]['user'] ?? null;
-
-
-        $this->getProjectBc( $start );
         
     }
 
-
-    # определить крошки проекта
-    # определить текущий проект
-    #
-    private function getProjectBc($id)
-    {
-        
-        while( isset($this->list[ $id ]) )
-        {
-            $pack   =&  $this->list[ $id ];
-            $id     =   $pack['parent'];
-
-            if ( !$pack['is_project'] )     continue;
-            
-            $this->bc[]         =   $pack['id'];
-            // $pack['access_arr'] =   yaml_parse($pack['access_yaml']);
-        }
-
-        
-        # текущий проект из крошек
-        #
-        $this->project  =   $this->bc[0];
-        
-
-        return $this->bc;
-    }
 
     
 

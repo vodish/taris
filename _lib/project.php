@@ -8,18 +8,51 @@ class project
     public $name;
     public $access_yaml;
 
+    public $bc  = array();
+
 
     public function __construct(pack &$pack)
     {
-        $this->pack     =   $pack;
+        $this->pack         =   $pack;
         
-        $this->id       =   $id = $pack->project;
-        $this->name     =   $pack->list[ $id ]['name'];
+        $this->id           =   $id = $pack->project;
+        $this->name         =   $pack->list[ $id ]['name'];
         $this->access_yaml  =   $pack->list[ $id ]['access_yaml'];
+
+        $this->bc           =   $this->setBc($id);
     }
 
 
-    # получить дерево проекта как текст
+
+
+    # определить крошки текущего проекта
+    #
+    private function setBc($id)
+    {
+        
+        while( isset($this->pack->list[ $id ]) )
+        {
+            $pack   =&  $this->pack->list[ $id ];
+            $id     =   $pack['parent'];
+
+            if ( !$pack['is_project'] )     continue;
+            
+            $this->bc[]         =   $pack['id'];
+            // $pack['access_arr'] =   yaml_parse($pack['access_yaml']);
+        }
+        
+        return $this->bc;
+    }
+
+
+
+
+
+
+
+
+
+    # получить дерево проекта как текст, для редактирования
     #
     public function asText( $start,  $level=0,  $text='' )
     {
@@ -44,7 +77,7 @@ class project
 
 
     # получить дерево проекта как html
-    public function getHtmlTree( $start,  $level=0,  $html='' )
+    public function asTree( $start,  $level=0,  $html='' )
     {
         $children   =   $this->pack->parent[ $start ] ??  array();
         
@@ -62,7 +95,7 @@ class project
             if ( !$isProject  && isset($sub) )
             {
                 $html   .=  '<div class="sub">';
-                $html   =   $this->getHtmlTree($id, ($level+1), $html);
+                $html   =   $this->asTree($id, ($level+1), $html);
                 $html   .=  '</div>';
             }
         }
@@ -181,7 +214,7 @@ class project
         }
 
 
-        # получить текущий список записей
+        # получить текущий список записей проекта
         #
         private function getChildrenList($start, $list=[])
         {

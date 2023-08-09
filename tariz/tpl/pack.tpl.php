@@ -59,7 +59,7 @@ $line->actionSave();
     <div class="bc">
         <a href="/" class="logo"><b>T</b>ari<b>Z</b></a>
         <?
-        $bcProject  =   array_reverse($pack->bc);
+        $bcProject  =   array_reverse($project->bc);
 
         foreach( $bcProject as $v )
         {
@@ -108,7 +108,7 @@ if ( !isset(url::$level[1]) )
     ?>
     <div class="pro">
         <div class="tree">
-            <?= $project->getHtmlTree( $proId ) ?>
+            <?= $project->asTree( $proId ) ?>
         </div>
         <div class="file">
             <?

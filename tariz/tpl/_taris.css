@@ -64,7 +64,7 @@ button:hover    { background-color: #ccc; }
 /* project */
 
 .pro                { display: flex; gap: 2vw; }
-.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 4px;  }
+.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 4px; border-right: solid 1px #eee; }
 .pro > .tree .name > a      { padding: 3px; display: inline-block; }
 .pro > .tree .active        { background-color: #eee; border-radius: 3px; cursor: default; }
 .pro > .tree .active > a    { color: inherit; }
@@ -75,7 +75,7 @@ button:hover    { background-color: #ccc; }
 
 .pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
 .pro > .file *:empty        { height: 1em; }
-.pro > .file > pre          { background-color: #eee; padding: 0.6ch 1ch; max-width: max-content; border-radius: 1px; }
+.pro > .file > pre          { background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; }
 .pro > .file > div > h1     { margin: 0 0 0.5em 0; }
 .pro > .file > div > h2     { margin: 0 0 0.4em 0; }
 .pro > .file > div > h3     { margin: 0 0 0.3em 0; }
