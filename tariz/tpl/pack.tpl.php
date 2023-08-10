@@ -109,12 +109,21 @@ if ( !isset(url::$level[1]) )
         </div>
         <div class="file">
             <?
+            $space = 0;
             foreach($line->list as $v)
             {
-                if      ( substr($v['content'], 0, 4) == '<pre' )   echo $v['content'];
-                elseif  ( $v['content'] == '</pre>' )               echo $v['content'];
-                else
-                    echo '<div style="margin-left: ' .$v['space']. 'ch;">' .$v['content']. '</div>';
+                if ( substr($v['content'], 0, 4) == '<pre' ) {
+                    $space = $v['space'];
+                    echo $line->pre($v);
+                }
+                elseif ( $v['content'] == '</pre>' ) {
+                    $space = 0;
+                    echo $v['content'];
+                }
+                else {
+                    $v['space'] -= $space;
+                    echo $line->div($v);
+                }
             }
             ?>
         </div>

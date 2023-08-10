@@ -59,6 +59,26 @@ class line
         return substr($content, 1);
     }
 
+    # напечатать тег <pre>
+    #
+    public function pre($v)
+    {
+        $echo   =   $v['content'];
+        $echo   =   preg_replace('#style="[^"]+"#', '', $echo);
+        $echo   =   $v['space'] ?  preg_replace('#>$#', ' style="margin-left: ' .$v['space']. 'ch;">', $echo):  $echo;
+        
+        return $echo;
+    }
+    # напечатать тег <div>
+    #
+    public function div($v)
+    {
+        $style  =   $v['space'] ?  ' style="margin-left: ' .$v['space']. 'ch;"' :  '';
+
+        $echo   =   "<div{$style}>{$v['content']}</div>";
+        
+        return $echo;
+    }
 
 
     # сохранить содержание файла
@@ -70,7 +90,6 @@ class line
         # добавить файл в базу
         #
         $this->addFile();
-
         
         # передать на обработку
         #
