@@ -60,6 +60,47 @@ class line
         return substr($content, 1);
     }
 
+
+
+    private function asView($content, &$indent, &$space)
+    {
+        # приведение текста к разбивки по строчно
+        # вспомогательная функция для экранирования тегов
+        #
+        $tags       =   ["pre", "img", "a", "h1", "h2", "h3", "h4", "hr", "b", "i", "s" ];
+        $tagsS      =   '<' .implode('><', $tags). '>';
+        load::vdd($text);
+        #
+        $bracket_save = function ($m) use ($tags) {
+            echo $m[1]. ' - '. $m[0]. "\n";
+            if ( in_array($m[1], [$tags]) )   return $m[0];
+            return "&lt;". $m[1]. $m[2];
+        };
+        $text       =   preg_replace_callback('/<([^>]+?)(\s|$)/i', $bracket_save, $text);  # заменить открывающую скобку, если не тег
+        $text       =   strip_tags($text, $tagsS);
+        
+
+
+
+        # экранировать лишние скобки <>
+
+        # вернуть тег строку
+
+        if ( substr($content, 0, 4) == '<pre' ) {
+            $relSpace   =   $space;
+            $view       =   $this->pre(['space'=>$relSpace, 'content'=>$content]);
+        }
+        elseif ( $content == '</pre>' ) {
+            $relSpace   =   0;
+            $view       =   $content;
+        }
+        else {
+            $view       =   $this->div(['space'=>$space-$relSpace, 'content'=>$content]);
+        }
+
+        return $view;
+    }
+
     # напечатать тег <pre>
     #
     public function pre($line)
@@ -131,13 +172,11 @@ class line
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
-            $text       =   preg_replace('/<([^>]+?)(\s|$)/i', '&lt;$1$2', $text);  # заменить открывающую скобку, если не тег
-            $text       =   strip_tags($text, '<pre><img><a><h1><h2><h3><h4><hr><b><i><s>');
-            $text       =   strtr($text, ["\r"=>'', "\t"=>'    ']);
+            $text       =   strtr($text, ["\r"=>'', "\t"=>"    "]);
             $list       =   explode("\n", $text);
             $lines      =   array();
             $rows       =   array();
-            $relSpace   =   0;
+            $indent     =   0;
 
             // load::vdd($text);
 
@@ -147,13 +186,13 @@ class line
             foreach( $list as $k => $content )
             {
 
-                # отрезать лишние пробелы справа
                 # определить количество пробелов слева
+                # отрезать лишние пробелы справа
                 preg_match("#^\s+#", $content, $space);
-                $content      =   rtrim($content);
-                
+                $content    =   rtrim($content);
 
-                # параметры текущей записи 1
+
+                # параметры текущей записи
                 #
                 $file       =   $this->file['id'];
                 $order      =   $k + 1;
@@ -170,23 +209,9 @@ class line
 
                 # представление строки в html с отступом
                 #
-                if ( substr($content, 0, 4) == '<pre' ) {
-                    $relSpace   =   $space;
-                    $view       =   $this->pre(['space'=>$relSpace, 'content'=>$content]);
-                }
-                elseif ( $content == '</pre>' ) {
-                    $relSpace   =   0;
-                    $view       =   $content;
-                }
-                else {
-                    $view       =   $this->div(['space'=>$space-$relSpace, 'content'=>$content]);
-                }
-
-
-                # вернуть ведущую скобку в исходник
-                #
-                $content    =   strtr($content, ['&lt;'=>'<']);
-
+                $view       =   $this->asView($content, $indent, $space);
+                
+                load::vd($view);
 
                 # все записи запись
                 #
@@ -204,6 +229,8 @@ class line
                 
             }
             
+            load::vdd();
+
             # сохранить записи в бд
             #
             $this->dbSave($rows);
