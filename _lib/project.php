@@ -1,20 +1,33 @@
 <?php
 class project
 {
-    public $id;
     /**  @var pack $pack */
-    public $pack;
+    private $pack;
+
+    public $id;
+    public $name;
+    public $access_yaml;
+    public $bc;
 
 
-
-    public function __construct($id, pack &$pack)
+    public function __construct(pack &$pack)
     {
-        $this->id       =   $id;
-        $this->pack     =   $pack;
+        $this->pack         =   $pack;
+        
+        $this->id           =   $id = $pack->project;
+        $this->name         =   $pack->list[ $id ]['name'];
+        $this->access_yaml  =   $pack->list[ $id ]['access_yaml'];
+        $this->bc           =&  $pack->bc;
     }
 
+    
 
-    # получить дерево проекта как текст
+
+
+
+
+
+    # получить дерево проекта как текст, для редактирования
     #
     public function asText( $start,  $level=0,  $text='' )
     {
@@ -39,7 +52,7 @@ class project
 
 
     # получить дерево проекта как html
-    public function getHtmlTree( $start,  $level=0,  $html='' )
+    public function asTree( $start,  $level=0,  $html='' )
     {
         $children   =   $this->pack->parent[ $start ] ??  array();
         
@@ -57,7 +70,7 @@ class project
             if ( !$isProject  && isset($sub) )
             {
                 $html   .=  '<div class="sub">';
-                $html   =   $this->getHtmlTree($id, ($level+1), $html);
+                $html   =   $this->asTree($id, ($level+1), $html);
                 $html   .=  '</div>';
             }
         }
@@ -76,13 +89,17 @@ class project
         
         # передать на обработку
         #
-        $this->makeRows($_POST['tree']);
+        $packBack   =   $this->makeRows($_POST['tree']);
         
 
         # редирект на просмотр
         #
-        url::redir( url::$path . url::fset(['save'=>time()]) );
+        url::redir( "/{$packBack}",  null, ['save'=>time()] );
     }
+
+
+
+
 
 
         # распарсить пришедшее дерево проекта
@@ -100,7 +117,7 @@ class project
             $list       =   explode("\n", $tree);
             $lines      =   array();
             $rows       =   array();
-            
+            $idArr      =   array();  # массив для проверки уделения текущей пачки
             // load::vd($list);
 
 
@@ -121,6 +138,7 @@ class project
                 $indent5        =   isset($indent5m[0])  ?  strlen($indent5m[0])  :   0;
                 $id             =   isset($idm[0])       ?  (int)trim($idm[0])    :   0;
                 $name           =   trim( substr($v, $indent5, strlen($v) - $indent5 - strlen($idm[0] ?? '') ) );
+                $idArr[ $id ]   =   $id;
                 #
                 #
                 # определить родителя из текста
@@ -149,6 +167,10 @@ class project
             #
             $this->dbSave($rows);
 
+            
+            # вернуть текущую пачку или пачку проекта
+            #
+            return $idArr[ $this->pack->start ] ?? $this->id;
         }
 
 
@@ -167,7 +189,7 @@ class project
         }
 
 
-        # получить текущий список записей
+        # получить текущий список записей проекта
         #
         private function getChildrenList($start, $list=[])
         {
@@ -276,7 +298,7 @@ class project
 
         # редирект на просмотр
         #
-        url::redir( url::$path . url::fset(['actionProjectCreate'=>null, 'save'=>time()]) );
+        url::redir( url::$path. url::fset(['actionProjectCreate'=>null]),  null, ['save'=>time()]  );
     }
 
 
@@ -294,7 +316,7 @@ class project
 
         # редирект на просмотр
         #
-        url::redir( url::$path . url::fset(['actionProjectCansel'=>null, 'save'=>time()]) );
+        url::redir( url::$path. url::fset(['actionProjectCansel'=>null]),  null, ['save'=>time()] );
     }
 
 

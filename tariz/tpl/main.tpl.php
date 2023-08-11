@@ -2,18 +2,16 @@
 load::$layout   =   'default.tpl.php';
 
 
-# авторизация
+# пользователи
+# операции авторизации
 #
 user::actionCodeSend();
 user::actionCodeCheck();
-
-// user::dbCreate('pavel@karasev.ru');
-
-# профили
 #
-$userList   =   user::dbUserList();
+# список профилей
+#
+user::dbList();
 
-// load::vd( $userList );
 
 ?>
 
@@ -43,7 +41,7 @@ $userList   =   user::dbUserList();
 
         <div class="userlist">
             <?
-            foreach($userList as $v)
+            foreach(user::$list as $v)
             {
                 echo '<a href="/' .$v['start']. '">' .$v['email']. '</a>';
             }

@@ -3,11 +3,12 @@ class pack
 {
     public $start;
     public $user;
+    public $project =   null;
     
-    public $bc      =   array();
     public $list    =   array();
     public $parent  =   array();
-
+    public $bc      =   array();
+    
 
     # получить все пачки пользователя
     #
@@ -24,8 +25,8 @@ class pack
             ORDER BY
                 `order`
         ");
-
-
+        #
+        #
         while ( $v = db::fetch() )
         {
             db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
@@ -35,30 +36,32 @@ class pack
         }
 
         
+        # свойства проекта
+        #
         $this->start    =   $start;
         $this->user     =   $this->list[ $start ]['user'] ?? null;
-    }
-
-
-    # определить текущий проект
-    #
-    public function getProjectBc($start)
-    {
-        $bc     =   array();
-
-        while( isset($this->list[ $start ]) )
-        {
-            $pack   =   $this->list[ $start ];
-            $start  =   $pack['parent'];
-
-            if ( $pack['is_project'] )   $bc[] = $pack;
-        }
-
         
-        return $this->bc = $bc;
+
+
+        # определить крошки проекта
+        # определить текущий проект
+        #
+        $packId =   $start;
+        #
+        while( isset($this->list[ $packId ]) )
+        {
+            $pack       =   $this->list[ $packId ];
+            $packId     =   $pack['parent'];
+
+            if ( !$pack['is_project'] )     continue;
+            
+            $this->bc[] =   $pack['id'];
+        }
+        #
+        $this->project  =   $this->bc[0];
+
+
     }
-
     
-
 
 }

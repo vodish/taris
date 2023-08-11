@@ -4,6 +4,7 @@
 :root {
     --link:     rgb(180,0,0);
     --black:    #1A2030;
+    --white:    white;
     --eee:      #eee;
     --font:     'Fira Sans', sans-serif;
 }
@@ -13,13 +14,16 @@ html,body       { font-family: var(--font); color: var(--black); font-size: 14px
 a               { color: var(--link); text-decoration: none; }
 a:hover			{ color: var(--black); }
 
-body            { max-width: 1024px; margin: 2em auto; padding: 0 15px; box-sizing: border-box; }
+body            { max-width: 1280px; margin: 1em auto 2em auto; padding: 0 15px; box-sizing: border-box; }
 h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
 
 input           { font-size: inherit; background-color: white; padding: 8px 10px; border-radius: 4px; border: solid 1px #aaa; box-sizing: border-box; }
 input:focus     { outline: solid 3px #eee; }
 button          { font-size: inherit; background-color: #eee; padding: 8px 16px; border-radius: 4px; border: solid 1px #ccc; box-sizing: border-box; cursor: pointer; }
 button:hover    { background-color: #ccc; }
+
+*::-webkit-scrollbar        { width: 8px; height: 8px; background-color: inherit; }
+*::-webkit-scrollbar-thumb  { border-radius: 1px; background: #ccc; }
 
 
 /* main */
@@ -43,22 +47,25 @@ button:hover    { background-color: #ccc; }
 
 /* pack */
 
-.nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding-bottom: 3px; margin-bottom: 2em; }
+.nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding: 5px 0 3px 0; margin-bottom: 2em; position: sticky; top: 0; background-color: var(--white); z-index: 5; }
 .nav1 .logo         { text-transform: uppercase; font-size: 14px; }
 .nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
 .nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
 .nav1 .bc > a       { padding: 4px 1ch; }
 .nav1 .opt          { display: flex; }
-.nav1 .opt > a      { padding: 4px 1ch; }
-.nav1 .active       { color: inherit; background-color: #eee; border-radius: 3px; }
+.nav1 .opt > *      { padding: 4px 1ch; }
+.nav1 .opt > .sep   { display: inline-block; width: 1ch; }
+.nav1 .opt > .save  { margin-right: 2ch; }
+.nav1 .opt > .b     { font-weight: bold; }
+.nav1 .active       { color: inherit; background-color: #eee; border-radius: 3px; margin-left: 0.5ch; }
 .nav1 .current      { color: inherit; }
 
 
 /* project */
 
 .pro                { display: flex; gap: 2vw; }
-.pro > .tree        { flex-basis: 180px; padding: 0 1vw 0 4px;  }
+.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 4px; border-right: solid 1px #eee; }
 .pro > .tree .name > a      { padding: 3px; display: inline-block; }
 .pro > .tree .active        { background-color: #eee; border-radius: 3px; cursor: default; }
 .pro > .tree .active > a    { color: inherit; }
@@ -67,13 +74,15 @@ button:hover    { background-color: #ccc; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
 
-.pro > .file        { flex-basis: content; flex-grow: 1; border-left: solid 1px #ddd; padding-left: 30px; line-height: 1.4em; }
-.pro > .file > div:empty    { height: 1em; }
-.pro > .file > div > h1       { margin: 0 0 0.5em 0; }
-.pro > .file > div > h2       { margin: 0 0 0.4em 0; }
-.pro > .file > div > h3       { margin: 0 0 0.3em 0; }
-.pro > .file > div > h4       { margin: 0 0 0.2em 0; }
-.pro > .file > div > h5       { margin: 0 0 0.1em 0; }
+.pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
+.pro > .file *:empty        { height: 1em; }
+.pro > .file > pre          { background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; }
+.pro > .file > div > h1     { margin: 0 0 0.5em 0; }
+.pro > .file > div > h2     { margin: 0 0 0.4em 0; }
+.pro > .file > div > h3     { margin: 0 0 0.3em 0; }
+.pro > .file > div > h4     { margin: 0 0 0.2em 0; }
+.pro > .file > div > h5     { margin: 0 0 0.1em 0; }
+.pro > .file a[target="_blank"]  { text-decoration: underline; text-decoration-color: #ccc; }
 
 
 
