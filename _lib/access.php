@@ -1,17 +1,24 @@
 <?php
 class access
 {
+    /**  @var pack $pack */
     private $pack;
-    
+
+    public $bc;
 
     public function __construct(pack &$pack)
     {
         $this->pack =   $pack;
 
-        $yaml       =   $pack->list[ $pack->project ]['access_yaml'];
-        $parse      =   yaml_parse($yaml);
-
-        // load::vd(yaml_parse($yaml), 1);
+        # распарсить права
+        #
+        foreach( $this->pack->bc as $proId )
+        {
+            $this->bc[] =   yaml_parse($this->pack->list[ $proId ]['access_yaml']);
+        }
+        
+        
+        // load::vd($this->bc, 1);
 
     }
     

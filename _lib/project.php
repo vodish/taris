@@ -2,7 +2,7 @@
 class project
 {
     /**  @var pack $pack */
-    public $pack;
+    private $pack;
 
     public $id;
     public $name;

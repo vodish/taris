@@ -46,7 +46,8 @@ class line
         
     }
 
-
+    # получить все строки в виде текста
+    #
     public function asText()
     {
         $content = '';
@@ -61,21 +62,21 @@ class line
 
     # напечатать тег <pre>
     #
-    public function pre($v)
+    public function pre($line)
     {
-        $echo   =   $v['content'];
+        $echo   =   $line['content'];
         $echo   =   preg_replace('#style="[^"]+"#', '', $echo);
-        $echo   =   $v['space'] ?  preg_replace('#>$#', ' style="margin-left: ' .$v['space']. 'ch;">', $echo):  $echo;
+        $echo   =   $line['space'] ?  preg_replace('#>$#', ' style="margin-left: ' .$line['space']. 'ch;">', $echo):  $echo;
         
         return $echo;
     }
     # напечатать тег <div>
     #
-    public function div($v)
+    public function div($line)
     {
-        $style  =   $v['space'] ?  ' style="margin-left: ' .$v['space']. 'ch;"' :  '';
+        $style  =   $line['space'] ?  ' style="margin-left: ' .$line['space']. 'ch;"' :  '';
 
-        $echo   =   "<div{$style}>{$v['content']}</div>";
+        $echo   =   "<div{$style}>{$line['content']}</div>";
         
         return $echo;
     }
@@ -130,12 +131,14 @@ class line
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
+            $text       =   preg_replace('/<([^a-z\/])/i', '&lt;$1', $text);  # заменить первую скобку для не тега
             $text       =   strip_tags($text, '<pre><img><a><h1><h2><h3><h4><hr><b><i><s>');
             $text       =   strtr($text, ["\r"=>'', "\t"=>'    ']);
             $list       =   explode("\n", $text);
             $lines      =   array();
             $rows       =   array();
-            
+            $relSpace   =   0;
+
             // load::vdd($text);
 
 
@@ -162,9 +165,28 @@ class line
                 # вспомогательная переменная
                 #
                 $lines[ $id5 ]  =   $space;
-                #
-                $parent5    =   $this->findParent5($lines, $space);
+                $parent5        =   $this->findParent5($lines, $space);
                 
+
+                # представление строки в html с отступом
+                #
+                if ( substr($content, 0, 4) == '<pre' ) {
+                    $relSpace   =   $space;
+                    $view       =   $this->pre(['space'=>$relSpace, 'content'=>$content]);
+                }
+                elseif ( $content == '</pre>' ) {
+                    $relSpace   =   0;
+                    $view       =   $content;
+                }
+                else {
+                    $view       =   $this->div(['space'=>$space-$relSpace, 'content'=>$content]);
+                }
+
+
+                # вернуть ведущую скобку в исходник
+                #
+                $content    =   preg_replace('/&lt;([^a-z])/i', '<$1', $content);
+
 
                 # все записи запись
                 #
@@ -173,9 +195,11 @@ class line
                           " .db::v($file).       "   as `file`
                         , " .db::v($space).      "   as `space`
                         , " .db::v($content).    "   as `content`
+                        , " .db::v($view).       "   as `view`
                         , " .db::v($order).      "   as `order`
                         , " .db::v($id5).        "   as `id5`
                         , " .db::v($parent5).    "   as `parent5`
+                        , 0   as `user`
                 ";
                 
             }
@@ -186,6 +210,7 @@ class line
         }
 
             
+
             # найти родителя5
             #
             private function findParent5($lines, $space)
@@ -218,9 +243,11 @@ class line
                       `file`
                     , `space`
                     , `content`
+                    , `view`
                     , `order`
                     , `id5`
                     , `parent5`
+                    , `user`
                 )
                 " .implode("\nUNION\n", $rows)
             );

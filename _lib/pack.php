@@ -25,8 +25,8 @@ class pack
             ORDER BY
                 `order`
         ");
-
-
+        #
+        #
         while ( $v = db::fetch() )
         {
             db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
@@ -36,42 +36,32 @@ class pack
         }
 
         
+        # свойства проекта
+        #
         $this->start    =   $start;
         $this->user     =   $this->list[ $start ]['user'] ?? null;
-
-
-        $this->bcProject( $start );
         
-    }
 
 
-    # определить крошки проекта
-    # определить текущий проект
-    #
-    private function bcProject($id)
-    {
-        
-        while( isset($this->list[ $id ]) )
+        # определить крошки проекта
+        # определить текущий проект
+        #
+        $packId =   $start;
+        #
+        while( isset($this->list[ $packId ]) )
         {
-            $pack   =&  $this->list[ $id ];
-            $id     =   $pack['parent'];
+            $pack       =   $this->list[ $packId ];
+            $packId     =   $pack['parent'];
 
             if ( !$pack['is_project'] )     continue;
             
-            $this->bc[]         =   $pack['id'];
-            // $pack['access_arr'] =   yaml_parse($pack['access_yaml']);
+            $this->bc[] =   $pack['id'];
         }
-
-        
-        # текущий проект из крошек
         #
         $this->project  =   $this->bc[0];
-        
 
-        return $this->bc;
+
     }
-
     
-
 
 }

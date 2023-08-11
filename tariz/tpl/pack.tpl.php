@@ -28,7 +28,7 @@ $project->actionCansel();
 
 # права
 #
-$access         =   new access($pack);
+$access =   new access($pack);
 #
 #
 $access->actionSave();
@@ -37,7 +37,7 @@ $access->actionCreateLink();
 
 
 # записи
-$line        =   new line($pack);
+$line   =   new line($pack);
 #
 #
 $line->actionSave();
@@ -109,22 +109,7 @@ if ( !isset(url::$level[1]) )
         </div>
         <div class="file">
             <?
-            $space = 0;
-            foreach($line->list as $v)
-            {
-                if ( substr($v['content'], 0, 4) == '<pre' ) {
-                    $space = $v['space'];
-                    echo $line->pre($v);
-                }
-                elseif ( $v['content'] == '</pre>' ) {
-                    $space = 0;
-                    echo $v['content'];
-                }
-                else {
-                    $v['space'] -= $space;
-                    echo $line->div($v);
-                }
-            }
+            foreach($line->list as $v)  echo $v['view'];
             ?>
         </div>
     </div>

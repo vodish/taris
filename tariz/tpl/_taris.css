@@ -4,6 +4,7 @@
 :root {
     --link:     rgb(180,0,0);
     --black:    #1A2030;
+    --white:    white;
     --eee:      #eee;
     --font:     'Fira Sans', sans-serif;
 }
@@ -13,7 +14,7 @@ html,body       { font-family: var(--font); color: var(--black); font-size: 14px
 a               { color: var(--link); text-decoration: none; }
 a:hover			{ color: var(--black); }
 
-body            { max-width: 1280px; margin: 2em auto; padding: 0 15px; box-sizing: border-box; }
+body            { max-width: 1280px; margin: 1em auto 2em auto; padding: 0 15px; box-sizing: border-box; }
 h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
 
 input           { font-size: inherit; background-color: white; padding: 8px 10px; border-radius: 4px; border: solid 1px #aaa; box-sizing: border-box; }
@@ -46,7 +47,7 @@ button:hover    { background-color: #ccc; }
 
 /* pack */
 
-.nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding-bottom: 3px; margin-bottom: 2em; }
+.nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding: 5px 0 3px 0; margin-bottom: 2em; position: sticky; top: 0; background-color: var(--white); }
 .nav1 .logo         { text-transform: uppercase; font-size: 14px; }
 .nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
@@ -81,6 +82,7 @@ button:hover    { background-color: #ccc; }
 .pro > .file > div > h3     { margin: 0 0 0.3em 0; }
 .pro > .file > div > h4     { margin: 0 0 0.2em 0; }
 .pro > .file > div > h5     { margin: 0 0 0.1em 0; }
+.pro > .file a[target="_blank"]  { text-decoration: underline; text-decoration-color: #ccc; }
 
 
 
