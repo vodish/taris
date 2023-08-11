@@ -62,65 +62,8 @@ class line
 
 
 
-    private function asView($content, &$indent, &$space)
-    {
-        # приведение текста к разбивки по строчно
-        # вспомогательная функция для экранирования тегов
-        #
-        $tags       =   ["pre", "img", "a", "h1", "h2", "h3", "h4", "hr", "b", "i", "s" ];
-        $tagsS      =   '<' .implode('><', $tags). '>';
-        load::vdd($text);
-        #
-        $bracket_save = function ($m) use ($tags) {
-            echo $m[1]. ' - '. $m[0]. "\n";
-            if ( in_array($m[1], [$tags]) )   return $m[0];
-            return "&lt;". $m[1]. $m[2];
-        };
-        $text       =   preg_replace_callback('/<([^>]+?)(\s|$)/i', $bracket_save, $text);  # заменить открывающую скобку, если не тег
-        $text       =   strip_tags($text, $tagsS);
-        
 
 
-
-        # экранировать лишние скобки <>
-
-        # вернуть тег строку
-
-        if ( substr($content, 0, 4) == '<pre' ) {
-            $relSpace   =   $space;
-            $view       =   $this->pre(['space'=>$relSpace, 'content'=>$content]);
-        }
-        elseif ( $content == '</pre>' ) {
-            $relSpace   =   0;
-            $view       =   $content;
-        }
-        else {
-            $view       =   $this->div(['space'=>$space-$relSpace, 'content'=>$content]);
-        }
-
-        return $view;
-    }
-
-    # напечатать тег <pre>
-    #
-    public function pre($line)
-    {
-        $echo   =   $line['content'];
-        $echo   =   preg_replace('#style="[^"]+"#', '', $echo);
-        $echo   =   $line['space'] ?  preg_replace('#>$#', ' style="margin-left: ' .$line['space']. 'ch;">', $echo):  $echo;
-        
-        return $echo;
-    }
-    # напечатать тег <div>
-    #
-    public function div($line)
-    {
-        $style  =   $line['space'] ?  ' style="margin-left: ' .$line['space']. 'ch;"' :  '';
-
-        $echo   =   "<div{$style}>{$line['content']}</div>";
-        
-        return $echo;
-    }
 
 
     # сохранить содержание файла
@@ -176,16 +119,14 @@ class line
             $list       =   explode("\n", $text);
             $lines      =   array();
             $rows       =   array();
-            $indent     =   0;
+            $offset     =   0;
 
-            // load::vdd($text);
 
 
             # пройти по строкам
             #
             foreach( $list as $k => $content )
             {
-
                 # определить количество пробелов слева
                 # отрезать лишние пробелы справа
                 preg_match("#^\s+#", $content, $space);
@@ -207,11 +148,10 @@ class line
                 $parent5        =   $this->findParent5($lines, $space);
                 
 
-                # представление строки в html с отступом
+                # представление строки в html с левым отступом
                 #
-                $view       =   $this->asView($content, $indent, $space);
+                $view       =   $this->view($offset, $space, $content);
                 
-                load::vd($view);
 
                 # все записи запись
                 #
@@ -226,10 +166,8 @@ class line
                         , " .db::v($parent5).    "   as `parent5`
                         , 0   as `user`
                 ";
-                
             }
             
-            load::vdd();
 
             # сохранить записи в бд
             #
@@ -250,6 +188,47 @@ class line
                 }
             
                 return null;
+            }
+
+
+            # преобразовать строку в безопасный хтмл
+            #
+            public function view(int &$offset, int $space, string $content)
+            {
+                # разрешенные теги и аттрибуты
+                #
+                $tags       =   "(?:pre)|(?:pre .*?)  | (?:a)|(?:a .*?)  | (?:img)|(?:img .*?)  | (?:h1)|(?:h2)|(?:h3)|(?:h4)|(?:hr) | (?:b)|(?:i)|(?:s)";
+                $attrs      =   "(?:href=) | (?:target=)  | (?:src=)  | (?:class=)";
+
+
+                # преобразовать все html символы в безопасные
+                # todo: не парные теги снова в htmlspecialchars()
+                # todo: class="" оставить только для <pre>
+                #
+                $content    =   htmlspecialchars($content);
+                $content    =   preg_replace("/&lt; (\/?) (" .$tags. ") &gt;/x", "<$1$2>", $content);
+                $content    =   preg_replace("/(" .$attrs. ") &quot; (.+?) &quot;/x", '$1"$2"', $content);
+                
+
+                # отступы с оберткой в тег строки
+                #
+                if ( substr($content, 0, 4) == '<pre' )
+                {
+                    $offset     =   $space;
+                    $content    =   $space ?  strtr($content, ['<pre'=>'<pre style="margin-left:' .$space. 'ch;"']) :  $content;
+                }
+                elseif ( $content == '</pre>' )
+                {
+                    $offset     =   0;
+                }
+                else
+                {
+                    $need       =   $space - $offset;
+                    $content    =   $need ?  '<div style="margin-left:' .$need. 'ch;">' .$content. '</div>' :  "<div>$content</div>";
+                }
+                
+                
+                return $content;
             }
 
 

@@ -50,11 +50,6 @@ $line->actionSave();
 
 
 
-
-
-
-
-
 ?>
 <div class="nav1">
     <div class="bc">
