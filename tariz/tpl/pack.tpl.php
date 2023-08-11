@@ -12,6 +12,10 @@ $pack           =   new pack($start);
 if ( ! $pack->user )    url::redir("/");
 
 
+# доступные профили
+#
+user::dbList();
+
 
 # проект
 #
@@ -209,6 +213,7 @@ elseif ( url::$level[1] == 'access' )
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>';
     
 
+    load::vd(user::$list);
     load::vd($pack->bc);
     load::vd($access->bc);
 }
