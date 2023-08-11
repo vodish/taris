@@ -75,7 +75,7 @@ button:hover    { background-color: #ccc; }
 
 
 .pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
-.pro > .file *:empty        { height: 1em; }
+.pro > .file > *:empty        { height: 1em; }
 .pro > .file > pre          { background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; }
 .pro > .file > div > h1     { margin: 0 0 0.5em 0; }
 .pro > .file > div > h2     { margin: 0 0 0.4em 0; }
@@ -83,6 +83,7 @@ button:hover    { background-color: #ccc; }
 .pro > .file > div > h4     { margin: 0 0 0.2em 0; }
 .pro > .file > div > h5     { margin: 0 0 0.1em 0; }
 .pro > .file a[target="_blank"]  { text-decoration: underline; text-decoration-color: #ccc; }
+.pro > .file > div img      { max-width: 100%; }
 
 
 
