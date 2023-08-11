@@ -185,7 +185,7 @@ class line
 
                 # вернуть ведущую скобку в исходник
                 #
-                $content    =   preg_replace('/&lt;([^a-z\/])/i', '<$1', $content);
+                $content    =   strtr($content, ['&lt;'=>'<']);
 
 
                 # все записи запись
