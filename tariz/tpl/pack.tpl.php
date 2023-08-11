@@ -44,7 +44,7 @@ $line->actionSave();
 
 
 
-// load::vdd($project);
+
 
 
 
@@ -199,14 +199,18 @@ elseif ( url::$level[1] == 'access' )
             <button class="save" id="btn-save">Сохранить</button>
         </div>
     </form>
-
+    
     <?
+
     echo '<script src="' .load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false). '"></script>';
     echo '<script src="' .load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false). '"></script>';
     // echo '<script src="' .load::makefile('/t/ace/theme-tomorrow_night.min.js', 'inc/ace/theme-tomorrow_night.min.js', true, false). '"></script>';
     
     echo '<script src="' .load::makefile('/t/_page.js', '_page.js'). '"></script>';
     
+
+    load::vd($pack->bc);
+    load::vd($access->bc);
 }
 
 

@@ -39,7 +39,7 @@ class access
     #
     public function actionSave()
     {
-        if ( empty($_POST['access']) )      return;
+        if ( !isset($_POST['access']) )      return;
         
         db::query("
             UPDATE
