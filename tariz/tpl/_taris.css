@@ -76,8 +76,9 @@ button:hover    { background-color: #ccc; }
 
 
 .pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
-.pro > .file > *:empty        { height: 1em; }
+.pro > .file > *:empty      { height: 1em; }
 .pro > .file > pre          { background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; }
+.pro > .file > pre > *:empty { height: 1em; }
 .pro > .file > div > h1     { margin: 0 0 0.5em 0; }
 .pro > .file > div > h2     { margin: 0 0 0.4em 0; }
 .pro > .file > div > h3     { margin: 0 0 0.3em 0; }
