@@ -29,6 +29,7 @@ button:hover    { background-color: #ccc; }
 /* main */
 
 .main1          {  margin: 5em auto; display: flex; gap: 6vw; align-items: flex-start; }
+.main1 .pic1        { width: 100%; max-width: 300px; margin-top: -7em; transform: rotate(-10deg); }
 .main1 .login       { width: 300px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
 .main1 .login .email         { width: 200px; flex-grow: 1; }
 .main1 .login .code          { width: 80px; text-align: center; }

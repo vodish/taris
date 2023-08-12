@@ -16,14 +16,14 @@ user::dbList();
 ?>
 
 <div class="main1">
-    <img class="logo" src="/i/TZ.svg" />
-    
+    <!-- <img class="logo" src="/i/TZ.svg" /> -->
+    <img class="pic1" src="/i/pic1.jpg"  />
     <div>
         <div class="auth" id="auth">
             <form class="login step1 active" onsubmit="auth.send(event)">
                 <?= ftoken::input() ?>
                 <input class="email" type="email" name="email" placeholder="Емеил для входа" required="true" />
-                <button class="send">Войти</button>
+                <button class="send">Tariz</button>
             </form>
 
             <div class="login step2" method="post">
@@ -48,7 +48,6 @@ user::dbList();
             ?>
         </div>
     </div>
-    
 </div>
 
 
