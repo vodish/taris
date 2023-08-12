@@ -17,7 +17,7 @@ user::dbList();
 
 <div class="main1">
     <!-- <img class="logo" src="/i/TZ.svg" /> -->
-    <img class="pic1" src="/i/pic1.jpg"  />
+    <img class="pic1 <?= user::$list ? 'active': '' ?>" src="/i/pic1.jpg" />
     <div>
         <div class="auth" id="auth">
             <form class="login step1 active" onsubmit="auth.send(event)">

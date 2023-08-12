@@ -30,6 +30,7 @@ button:hover    { background-color: #ccc; }
 
 .main1          {  margin: 5em auto; display: flex; gap: 6vw; align-items: flex-start; }
 .main1 .pic1        { width: 100%; max-width: 300px; margin-top: -7em; transform: rotate(-10deg); }
+.main1 .pic1.active { margin-top: -6em; transform: rotate(-2deg); }
 .main1 .login       { width: 300px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
 .main1 .login .email         { width: 200px; flex-grow: 1; }
 .main1 .login .code          { width: 80px; text-align: center; }
@@ -76,16 +77,15 @@ button:hover    { background-color: #ccc; }
 
 
 .pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
-.pro > .file > *:empty      { height: 1em; }
+.pro > .file *:not(img):empty   { height: 1em; }
+.pro > .file  img           { max-width: 100%; }
 .pro > .file > pre          { background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; }
-.pro > .file > pre > *:empty { height: 1em; }
 .pro > .file > div > h1     { margin: 0 0 0.5em 0; }
 .pro > .file > div > h2     { margin: 0 0 0.4em 0; }
 .pro > .file > div > h3     { margin: 0 0 0.3em 0; }
 .pro > .file > div > h4     { margin: 0 0 0.2em 0; }
 .pro > .file > div > h5     { margin: 0 0 0.1em 0; }
 .pro > .file a[target="_blank"]  { text-decoration: underline; text-decoration-color: #ccc; }
-.pro > .file > div img      { max-width: 100%; }
 
 
 
