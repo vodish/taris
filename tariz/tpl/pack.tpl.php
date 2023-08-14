@@ -66,7 +66,7 @@ $line->actionSave();
             <?
         }
 
-        if ( @url::$level[1] == 'line' && $start != $proId ) {
+        if ( $start != $proId ) {
             echo '<i>/</i>';
             echo '<a href="/' .$start. '" class="current">' .$pack->list[$start]['name']. '</a>';
         }
