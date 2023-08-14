@@ -26,6 +26,8 @@ function oper1($v)
     .access1 .oper1 > div.active { background-color: #ccc; }
 </style>
 
+
+
 <div class="access1">
     <table>
     <?
@@ -37,7 +39,10 @@ function oper1($v)
 
         //if ( ! $list )  continue;
 
-        echo '<tr><td colspan="6"><h3>' .$pack->list[ $packId ]['name']. '</h3></td></tr>';
+        echo '<tr><td colspan="6"><h3>' 
+            .$pack->list[ $packId ]['name']
+            .($pack->project == $packId? ' (текущий проект)': '')
+            .'</h3></td></tr>';
 
         foreach($list as $v)
         {
@@ -59,11 +64,17 @@ function oper1($v)
 </div>
 
 
+<ul style="margin: 3em 0;">
+    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить Админа</a></li>
+    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить Редактора</a></li>
+    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить Просмот</a></li>
+    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить ссылку доступа</a></li>
+    
+</ul>
 
 <form action="<?= url::$dir[1] ?>" class="tree" method="post">
     <textarea class="ace" name="access" data-mode="ace/mode/yaml"></textarea>
     <div class="submit">
-        <a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить ссылку доступа</a>
         <button class="save" id="btn-save">Сохранить</button>
     </div>
 </form>
