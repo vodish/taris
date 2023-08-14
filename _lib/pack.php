@@ -63,5 +63,11 @@ class pack
 
     }
     
+    public function getTitle()
+    {
+        $projectName    =   $this->list[ $this->project ]['name'];
+        $packName       =   $this->list[ $this->start ]['name'];
 
+        return $projectName. ' / '. $packName;
+    }
 }

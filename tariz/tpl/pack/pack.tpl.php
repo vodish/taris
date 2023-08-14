@@ -7,49 +7,34 @@ load::$layout   =   'default.tpl.php';
 $start          =   (int)url::$level[0];
 $pack           =   new pack($start);
 
-
 # пользователи
 # права
 #
 $user   =   user::dbList();
 $access =   access::dbList($pack->bc);
-
-load::vd($access);
-load::vd($user);
 #
 #
 access::actionSave($pack->project);
 access::actionCreateLink();
-
-
-
-
 
 # не найден пользователь
 #
 if ( ! $pack->user )    url::redir("/");
 
 
+
+
+
+
 # проект
 #
 $proId          =   $pack->project;
 $project        =   new project($pack);
-load::$title    =   $project->name;
+load::$title    =   $pack->getTitle();
 #
 #
-$project->actionSave();
 $project->actionCreate();
 $project->actionCansel();
-
-
-# записи
-#
-$line   =   new line($pack);
-#
-#
-$line->actionSave();
-
-
 
 
 

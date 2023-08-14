@@ -1,3 +1,13 @@
+<?php
+# записи
+#
+$line   =   new line($pack);
+#
+#
+$line->actionSave();
+
+?>
+
 <form class="tree" method="post">
     <textarea class="ace" name="line" data-mode="ace/mode/html"><?= $line->asText() ?></textarea>
     <div class="submit">

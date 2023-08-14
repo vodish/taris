@@ -1,3 +1,9 @@
+<?
+# сохранить дерево проекта
+#
+$project->actionSave();
+
+?>
 
 <form class="tree" method="post">
     <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim($project->asText( $proId )) ?></textarea>

@@ -1,3 +1,7 @@
+<?
+$line   =   new line($pack);
+?>
+
 
 <div class="pro">
     <div class="tree">

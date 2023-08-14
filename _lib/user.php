@@ -129,8 +129,6 @@ class user
     }
 
 
-
-
         # зарегистрировать нового пользователя
         #
         static function dbCreate($email)

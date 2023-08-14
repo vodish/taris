@@ -1,3 +1,11 @@
+<?php
+
+
+load::vd($access);
+load::vd($user);
+
+?>
+
 
 <form action="<?= url::$dir[1] ?>" class="tree" method="post">
     <textarea class="ace" name="access" data-mode="ace/mode/yaml"><?= $project->access_yaml ?></textarea>
