@@ -1,32 +1,38 @@
 <?php
 class access
 {
-    /**  @var pack $pack */
-    private $pack;
 
-    public $bc;
-
-    public function __construct(pack &$pack)
+    static function dbList($packBc)
     {
-        $this->pack =   $pack;
+        $packBc =   empty($packBc)? [null]: $packBc;
 
-        # распарсить права
+        # получить все запии из таблицы прав
         #
-        foreach( $this->pack->bc as $proId )
-        {
-            $this->bc[] =   yaml_parse($this->pack->list[ $proId ]['access_yaml']);
-        }
-        
-        
-        // load::vd($this->bc, 1);
+        db::query("
+            SELECT
+                *
+            FROM
+                `access`
+            WHERE
+                `pack` IN (" .implode(",", $packBc). ")
+            ORDER BY
+                `id`
+        ");
 
+        while( $v = db::fetch() )
+        {
+            $list[ $v['pack'] ][ ] =  $v; 
+        }
+
+
+        return $list;
     }
     
 
 
     # добавить ссылку
     #
-    public function actionCreateLink()
+    static function actionCreateLink()
     {
         if ( !isset($_GET['createAccessLink']) )     return;
 
@@ -37,7 +43,7 @@ class access
 
     # сохранить права
     #
-    public function actionSave()
+    static function actionSave($proId)
     {
         if ( !isset($_POST['access']) )      return;
         
@@ -47,7 +53,7 @@ class access
             SET
                 `access_yaml` = " .db::v($_POST['access']). "
             WHERE
-                `id` = " .db::v($this->pack->project). "
+                `id` = " .db::v($proId). "
         ");
 
         // load::vdd($_POST);
