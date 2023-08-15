@@ -7,23 +7,9 @@ $bc =  array_reverse($pack->bc);
 access::$pack   =&  $pack;
 access::actionSave();
 access::actionCreateLink();
-?>
-
-<style>
-.access2    .pack   { display: flex; justify-content: space-between; margin: 1em 0 0.5ch 0; padding-bottom: 0.3em; border-bottom: solid 1px #ccc; }
-.access2    .pack .name   { margin-right: 2ch; }
-.access2    .pack .opts   { display: flex; }
-.access2    .pack .opts > *   { margin: 0 0.7ch; }
-.access2    pre     { margin-left: 4ch; white-space: pre-wrap; font-family: var(--font1); font-size: 13px; line-height: 1.4em;; }
-
-form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
-</style>
 
 
-<?php
-
-
-
+// load::vd(access::$list);
 
 ?>
 
@@ -56,23 +42,17 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
         if ( !($list =  $access[ $packId ] ?? null) )   continue;   # нет записей
         if ( $packId == $pack->project )                continue;   # текущий проект
         
-        foreach( $list as $v )
-        {
-            echo '<pre>' .$v['email']. ':</pre>';
-            echo '<pre>    role: "' .$v['role']. '"</pre>';
-            echo $v['comment'] ? '<pre>    ' .$v['comment']. '</pre>': '';
-            echo '<br />';
-        }
+        echo access::asHtml($packId);
     }
     ?>
     
 </div>
 
 
-
 <form action="<?= url::$dir[1] ?>" class="tree access" method="post">
-    <textarea class="ace" name="access" data-mode="ace/mode/yaml" data-minLines="5" data-showGutter="false"></textarea>
+    <textarea class="ace" name="access" data-mode="ace/mode/yaml" data-minLines="5" data-showGutter="false"><?= access::asText($pack->project) ?></textarea>
     <div class="submit">
+        <div></div>
         <button class="save" id="btn-save">Сохранить</button>
     </div>
 </form>

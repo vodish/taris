@@ -43,6 +43,53 @@ class access
         load::vdd($_GET);
     }
 
+    # список прав для пачке как html
+    #
+    static function asHtml($packId)
+    {
+        $access =   self::$list[ $packId ] ?? array();
+        $html   =   '';
+        
+        if ( !$access )     return '';
+
+        foreach( $access as $email => $v )
+        {
+            $html   =   '';
+            $html   .=  '<pre>' .$email. ':</pre>';
+            $html   .=  '<pre>    role: ' .$v['role']. '</pre>';
+            $html   .=  $v['comment'] ? '<pre>    comment: ' .$v['comment']. '</pre>': '';
+            $html   .=  '<br />';
+        }
+
+        return $html;
+    }
+
+    # список прав для пачки как текст
+    #
+    static function asText($packId)
+    {
+        $access =   self::$list[ $packId ] ?? array();
+        $text   =   '';
+        
+        if ( !$access )     return '';
+        
+        foreach( $access as $email => $v )
+        {
+            $is_email   =   filter_var($email, FILTER_VALIDATE_EMAIL);
+            
+            $text   .=  $email. ":\n";
+            $text   .=  '    role: '. $v['role']. "\n";
+            $text   .=  empty($v['comment']) ?  '' : '    comment: '. $v['comment']. "\n";
+            $text   .=  $is_email ?             '' : '    link: '. url::site(). '/'. $packId. '?hash='. $email. "\n";
+            $text   .=  $v['updated'] ?         '' : '    updated: '. $v['updated']. "\n";
+            $text   .=  "\n";
+        }
+
+
+        return $text;
+    }
+
+
 
 
     # сохранить права
@@ -53,7 +100,7 @@ class access
         
         self::dbSave($_POST['access']);
         
-        
+
         url::redir( url::$dir[1],  null, ['save'=>time()] );
     }
 
@@ -63,14 +110,16 @@ class access
         static function dbSave($text)
         {
             $proId  =   self::$pack->project;
-            $yaml   =   yaml_parse($text);
-            $yaml   =   is_array($yaml) ?  $yaml :  array();
+            $parse  =   yaml_parse($text);
+            $parse  =   is_array($parse) ?  $parse :  array();
             $rows   =   array();
+
+            // load::vdd($parse);
 
 
             # создать временные записи в базе для операций
             #
-            foreach( $yaml as $email => $v )
+            foreach( $parse as $email => $v )
             {
                 if ( is_numeric($email) )   continue;
                 if ( !is_array($v) )        continue;
