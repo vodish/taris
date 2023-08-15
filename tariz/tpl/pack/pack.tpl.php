@@ -56,7 +56,7 @@ $project->actionCansel();
 
         if ( $start != $proId ) {
             echo '<i>/</i>';
-            echo '<a href="/' .$start. '" class="current">' .$pack->list[$start]['name']. '</a>';
+            echo '<a href="/' .$start. '" class="current z">' .$pack->list[$start]['name']. '</a>';
         }
         ?>
     </div>

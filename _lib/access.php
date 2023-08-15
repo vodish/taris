@@ -1,6 +1,8 @@
 <?php
 class access
 {
+    static $list;
+
 
     static function dbList($packBc)
     {
@@ -25,7 +27,7 @@ class access
         }
 
 
-        return $list;
+        return self::$list =  $list;
     }
     
 
@@ -47,6 +49,10 @@ class access
     {
         if ( !isset($_POST['access']) )      return;
         
+        load::vd($_POST);
+        die;
+
+
         db::query("
             UPDATE
                 `pack`

@@ -33,13 +33,13 @@ function ace_init(selector)
 
         ace1[i]   =   ace.edit(aceid, {
             mode: t.dataset.mode ?? null,
-            minLines: 20,
+            minLines: $(t).attr('data-minLines') ?? 20,
             fontFamily: $(t).css('font-family'),
             fontSize: $(t).css('font-size'),
             maxLines: 1111,
             wrap: true,
             showPrintMargin: false,     // граница печати
-            showGutter: true,           // нумерация строк
+            showGutter: $(t).attr('data-showGutter')==='false'? false: true,           // нумерация строк
             useWorker: false,           // отключить проверку синтаксиса - worker файл
             // тема раскраски кода
             // theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?  'ace/theme/tomorrow_night':  '')      

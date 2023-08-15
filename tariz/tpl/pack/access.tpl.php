@@ -1,79 +1,68 @@
-<?php
-
-// load::vd($access);
-// load::vd($user);
-function oper1($v)
-{
-    $arr = ['Owner'=>'is_owner', 'Admin'=>'is_admin', 'Edit'=>'is_edit', 'View'=>'is_view'];
-    ?>
-    <div class="oper1">
-        <?
-        foreach( $arr  as $name => $field )
-        {
-            echo '<div class="'. $field. ($v[$field]? ' active': ''). '">' .$name. '</div>';
-        }
-        ?>
-    </div>
-    <?
-}
-?>
-
 <style>
-    .access1  table { width: 100%; border-collapse: collapse; margin-bottom: 3em; }
-    .access1  table td  { border-left: solid 1px #ccc; padding: 5px; }
-    .access1 .oper1 { display: flex; width: 200px; }
-    .access1 .oper1 > div { flex-basis: 130px; border: solid 1px #ccc; text-align: center; }
-    .access1 .oper1 > div.active { background-color: #ccc; }
+.access2    .pack   { display: flex; justify-content: space-between; margin: 1em 0 0.5ch 0; padding-bottom: 0.3em; border-bottom: solid 1px #ccc; }
+.access2    .pack .name   { margin-right: 2ch; }
+.access2    .pack .opts   { display: flex; }
+.access2    .pack .opts > *   { margin: 0 0.7ch; }
+.access2    pre     { margin-left: 4ch; white-space: pre-wrap; font-family: var(--font1); font-size: 13px; line-height: 1.4em;; }
+
+form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 </style>
 
 
+<?php
 
-<div class="access1">
-    <table>
+# крошки проекта
+#
+$bc =  array_reverse($pack->bc);
+
+
+?>
+
+
+<div class="access2">
     <?
-    $bc =  array_reverse($pack->bc);
-
-    foreach( $bc as $packId )
+    foreach( $bc as $k => $packId )
     {
-        $list   =   $access[ $packId ] ?? array();
-
-        //if ( ! $list )  continue;
-
-        echo '<tr><td colspan="6"><h3>' 
-            .$pack->list[ $packId ]['name']
-            .($pack->project == $packId? ' (текущий проект)': '')
-            .'</h3></td></tr>';
-
-        foreach($list as $v)
-        {
-            ?>
-            <tr>
-                <td><?= $v['email'] ? 'Email': '' ?><?= $v['hash'] ? 'Hash': '' ?></td>
-                <td><?= $v['email'] ?><?= $v['hash'] ?></td>
-                <td><? oper1($v) ?></td>
-                <td><?= $v['is_recur'] ? 'Recursive': 'Single' ?></td>
-                <td><?= $v['comment'] ?></td>
-                <td><?= $v['updated'] ?></td>
-            </tr>
+        $name   =   $pack->list[ $packId ]['name'];
+        ?>
+        <div class="pack">
+            <?= $packId != $pack->project?  '<a class="name z" href="/' .$packId. '/access">' .$name. '</a>' :  '<div class="name">' .$name. '</div>' ?>
+            
             <?
-        }
+            if ( $packId == $pack->project )
+            {
+                ?>
+                <div class="opts">
+                    <!-- <a href="<?= url::$dir[1]. '?action=add&role=Admin' ?>">+&nbsp;Админ</a>
+                    <a href="<?= url::$dir[1]. '?action=add&role=Edit' ?>">+&nbsp;Редактор</a>
+                    <a href="<?= url::$dir[1]. '?action=add&role=View' ?>">+&nbsp;Просмотр</a> -->
+                    <a href="<?= url::$dir[1]. '?action=add&role=View&type=Hash' ?>">+&nbsp;Ссылка</a>
+                </div>
+                <?
+            }
+            ?>
+        </div>
+        <?
+
+        if ( !($list =  $access[ $packId ] ?? null) )   continue;   # нет записей
+        if ( $packId == $pack->project )                continue;   # текущий проект
         
+        foreach( $list as $v )
+        {
+            echo '<pre>' .$v['email']. ':</pre>';
+            echo '<pre>    role: "' .$v['role']. '"</pre>';
+            echo $v['comment'] ? '<pre>    ' .$v['comment']. '</pre>': '';
+            echo '<br />';
+        }
     }
     ?>
-    </table>
+    
 </div>
 
 
-<ul style="margin: 3em 0;">
-    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить Админа</a></li>
-    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить Редактора</a></li>
-    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить Просмот</a></li>
-    <li><a href="<?= url::$dir[1]. '?createAccessLink' ?>">Добавить ссылку доступа</a></li>
-    
-</ul>
 
-<form action="<?= url::$dir[1] ?>" class="tree" method="post">
-    <textarea class="ace" name="access" data-mode="ace/mode/yaml"></textarea>
+<form action="<?= url::$dir[1] ?>" class="tree access" method="post">
+    <textarea class="ace" name="access" data-mode="ace/mode/yaml" data-minLines="5" data-showGutter="false"></textarea>
     <div class="submit">
         <button class="save" id="btn-save">Сохранить</button>
     </div>

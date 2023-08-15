@@ -7,12 +7,15 @@
     --white:    white;
     --eee:      #eee;
     --font:     'Fira Sans', sans-serif;
+    --font1:    'Source Code Pro', monospace;
 }
 
 *               { padding: 0; margin: 0; }
 html,body       { font-family: var(--font); color: var(--black); font-size: 14px; }
 a               { color: var(--link); text-decoration: none; }
 a:hover			{ color: var(--black); }
+a.z             { color: var(--black); }
+a.z:hover		{ color: var(--link); }
 
 body            { max-width: 1280px; margin: 0.5em auto 2em auto; padding: 0 15px; box-sizing: border-box; }
 h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
@@ -53,6 +56,7 @@ button:hover    { background-color: #ccc; }
 .nav1 .logo         { text-transform: uppercase; font-size: 14px; }
 .nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
+.nav1 .bc *:first-child { margin-left: -0.5ch; }
 .nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
 .nav1 .bc > a       { padding: 4px 1ch; }
 .nav1 .opt          { display: flex; }
