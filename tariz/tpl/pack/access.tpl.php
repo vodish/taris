@@ -1,3 +1,14 @@
+<?
+# крошки проекта
+#
+$bc =  array_reverse($pack->bc);
+#
+#
+access::$pack   =&  $pack;
+access::actionSave();
+access::actionCreateLink();
+?>
+
 <style>
 .access2    .pack   { display: flex; justify-content: space-between; margin: 1em 0 0.5ch 0; padding-bottom: 0.3em; border-bottom: solid 1px #ccc; }
 .access2    .pack .name   { margin-right: 2ch; }
@@ -11,9 +22,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 
 <?php
 
-# крошки проекта
-#
-$bc =  array_reverse($pack->bc);
+
 
 
 ?>

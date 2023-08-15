@@ -1,8 +1,10 @@
 <?php
 class access
 {
+    /**  @var pack $pack */
+    static $pack;
     static $list;
-
+    
 
     static function dbList($packBc)
     {
@@ -23,7 +25,7 @@ class access
 
         while( $v = db::fetch() )
         {
-            $list[ $v['pack'] ][ ] =  $v; 
+            $list[ $v['pack'] ][ $v['email'] ] =  $v; 
         }
 
 
@@ -45,27 +47,115 @@ class access
 
     # сохранить права
     #
-    static function actionSave($proId)
+    static function actionSave()
     {
         if ( !isset($_POST['access']) )      return;
         
-        load::vd($_POST);
-        die;
-
-
-        db::query("
-            UPDATE
-                `pack`
-            SET
-                `access_yaml` = " .db::v($_POST['access']). "
-            WHERE
-                `id` = " .db::v($proId). "
-        ");
-
-        // load::vdd($_POST);
-
-
+        self::dbSave($_POST['access']);
+        
+        
         url::redir( url::$dir[1],  null, ['save'=>time()] );
     }
-    
+
+
+        # сохранить в базе
+        #
+        static function dbSave($text)
+        {
+            $proId  =   self::$pack->project;
+            $yaml   =   yaml_parse($text);
+            $yaml   =   is_array($yaml) ?  $yaml :  array();
+            $rows   =   array();
+
+
+            # создать временные записи в базе для операций
+            #
+            foreach( $yaml as $email => $v )
+            {
+                if ( is_numeric($email) )   continue;
+                if ( !is_array($v) )        continue;
+                if ( !in_array(@$v['role'], ['Admin', 'Edit', 'View']) )    continue;
+
+
+                $pack       =   db::v($proId). " as `pack`";
+                $email      =   db::v($email). " as `email`";
+                $role       =   db::v($v['role']). " as `role`";
+                $comment    =   db::v($v['comment'] ?? ''). " as `comment`";
+                #
+                $rows[]     =   " SELECT $pack, $email, $role, $comment". "\n";
+            }
+
+
+            # просто удалить все записи, если несчем сравнивать
+            #
+            if ( empty($rows) )
+            {
+                db::query("DELETE FROM `access`  WHERE `pack` = " .db::v($proId) );
+
+                return;
+            }
+
+
+
+            # создать временную таблицу
+            #
+            db::query("
+                CREATE TEMPORARY TABLE `new`
+                " .implode("\n UNION ", $rows). "
+            ");
+
+            # добавить новые записи
+            #
+            db::query("
+                INSERT INTO `access` (
+                     `pack`
+                    ,`email`
+                    ,`role`
+                    ,`comment`
+                )
+                SELECT
+                     `new`.`pack`
+                    ,`new`.`email`
+                    ,`new`.`role`
+                    ,`new`.`comment`
+                FROM
+                    `new`
+                        LEFT JOIN `access` as `old`
+                        ON  `new`.`pack`    =   `old`.`pack`
+                        AND `new`.`email`   =   `old`.`email`
+                WHERE
+                    `old`.`email` IS NULL
+            ");
+            #
+            # изменить записи
+            #
+            db::query("
+                UPDATE
+                    `access`
+                        JOIN `new`
+                        ON  `access`.`pack` = `new`.`pack`
+                        AND `access`.`email` = `new`.`email`
+                SET
+                     `access`.`role`     =   `new`.`role`
+                    ,`access`.`comment`  =   `new`.`comment`
+            ");
+            #
+            # удалить лишние записи
+            #
+            db::query("
+                DELETE
+                    `access`.*
+                FROM
+                    `access`
+                        LEFT JOIN `new`
+                        ON  `access`.`pack` = `new`.`pack`
+                        AND `access`.`email` = `new`.`email`
+                WHERE
+                    `access`.`pack` = " .db::v($proId). "
+                    AND `new`.`email` IS NULL
+            ");
+            
+        }
+
+
 }

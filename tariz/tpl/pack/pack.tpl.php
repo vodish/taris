@@ -12,17 +12,11 @@ $pack           =   new pack($start);
 #
 $user   =   user::dbList();
 $access =   access::dbList($pack->bc);
-#
-#
-access::actionSave($pack->project);
-access::actionCreateLink();
+
 
 # не найден пользователь
 #
 if ( ! $pack->user )    url::redir("/");
-
-
-
 
 
 
