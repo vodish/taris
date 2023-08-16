@@ -24,7 +24,7 @@ if ( ! pack::$user )    url::redir("/");
 # проект
 #
 project::init();
-load::$title    =   project::getTitle();
+project::setTitle();
 #
 #
 project::actionCreate();

@@ -2,22 +2,25 @@
 class project
 {
     static $id;
-    static $name;
     
 
     static function init()
     {
-        self::$id   =   $id = pack::$project;
-        self::$name =   pack::$list[ $id ]['name'];
+        self::$id   =   pack::$project;
     }
 
     
-    static function getTitle()
+    static function setTitle()
     {
         $projectName    =   pack::$list[ pack::$project ]['name'];
-        $packName       =   pack::$list[ pack::$start ]['name'];
+        $title          =   $projectName;
+        
+        if ( pack::$start != pack::$project )
+        {
+            $title  .= ' / '.   pack::$list[ pack::$start ]['name'];
+        }
 
-        return $projectName. ' / '. $packName;
+        return load::$title  =  $title;
     }
 
 
