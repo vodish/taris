@@ -77,7 +77,7 @@ class line
         #
         self::makeRows($_POST['line']);
         
-
+        
         # редирект на просмотр
         #
         url::redir( url::$dir[0],  null, ['save'=>time()] );
