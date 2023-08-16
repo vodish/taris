@@ -4,53 +4,54 @@ load::$layout   =   'default.tpl.php';
 
 # пачки пользователя
 #
-$start          =   (int)url::$level[0];
-$pack           =   new pack($start);
+$start  =   (int)url::$level[0];
+pack::dbInit($start);
+
 
 # пользователи
 # права
 #
-$user   =   user::dbInit();
-$access =   access::dbInit($pack->bc);
+user::dbInit();
+access::dbInit();
 
 
 # не найден пользователь
 #
-if ( ! $pack->user )    url::redir("/");
+if ( ! pack::$user )    url::redir("/");
 
 
 
 # проект
 #
-$proId          =   $pack->project;
-$project        =   new project($pack);
-load::$title    =   $pack->getTitle();
+project::init();
+load::$title    =   project::getTitle();
 #
 #
-$project->actionCreate();
-$project->actionCansel();
+project::actionCreate();
+project::actionCansel();
 
 
+// load::vdd();
 
 ?>
 <div class="nav1">
     <div class="bc">
         <a href="/" class="logo"><b>T</b>ari<b>Z</b></a>
         <?
-        $bcProject  =   array_reverse($project->bc);
+        $bc =   array_reverse(pack::$bc);
 
-        foreach( $bcProject as $v )
+        foreach( $bc as $v )
         {
-            $v  =   $pack->list[ $v ];
+            $v  =   pack::$list[ $v ];
             ?>
             <i>/</i>
-            <a href="/<?= $v['id'] ?>" class="<?= $v['id']==$proId && !isset(url::$level[1]) ? 'active': '' ?>"><?= $v['name'] ?></a>
+            <a href="/<?= $v['id'] ?>" class="<?= $v['id']==project::$id && !isset(url::$level[1]) ? 'active': '' ?>"><?= $v['name'] ?></a>
             <?
         }
 
-        if ( $start != $proId ) {
+        if ( $start != project::$id ) {
             echo '<i>/</i>';
-            echo '<a href="/' .$start. '" class="current z">' .$pack->list[$start]['name']. '</a>';
+            echo '<a href="/' .$start. '" class="current z">' .pack::$list[$start]['name']. '</a>';
         }
         ?>
     </div>
@@ -62,8 +63,8 @@ $project->actionCansel();
         ?>
         
         <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?> b" id="edit">Записи</a>
-        <?= $start == $proId  && isset($pack->bc[1]) && !isset(url::$level[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">-&nbsp;Проект</a>' : '' ?>
-        <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+&nbsp;Проект</a>' : '' ?>
+        <?= $start == project::$id  && isset(pack::$bc[1]) && !isset(url::$level[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">-&nbsp;Проект</a>' : '' ?>
+        <?= $start != project::$id && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+&nbsp;Проект</a>' : '' ?>
         
         <i class="sep"></i>
         <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>

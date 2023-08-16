@@ -1,26 +1,24 @@
 <?php
 class project
 {
-    /**  @var pack $pack */
-    private $pack;
+    static $id;
+    static $name;
+    
 
-    public $id;
-    public $name;
-    public $access_yaml;
-    public $bc;
-
-
-    public function __construct(pack &$pack)
+    static function init()
     {
-        $this->pack         =   $pack;
-        
-        $this->id           =   $id = $pack->project;
-        $this->name         =   $pack->list[ $id ]['name'];
-        $this->access_yaml  =   $pack->list[ $id ]['access_yaml'];
-        $this->bc           =&  $pack->bc;
+        self::$id   =   $id = pack::$project;
+        self::$name =   pack::$list[ $id ]['name'];
     }
 
     
+    static function getTitle()
+    {
+        $projectName    =   pack::$list[ pack::$project ]['name'];
+        $packName       =   pack::$list[ pack::$start ]['name'];
+
+        return $projectName. ' / '. $packName;
+    }
 
 
 
@@ -29,20 +27,20 @@ class project
 
     # получить дерево проекта как текст, для редактирования
     #
-    public function asText( $start,  $level=0,  $text='' )
+    static function asText( $start,  $level=0,  $text='' )
     {
-        $children   =   $this->pack->parent[ $start ] ??  array();
+        $children   =   pack::$parent[ $start ] ??  array();
         
         foreach( $children as $id )
         {
-            $isProject  =   $this->pack->list[ $id ]['is_project'];
-            $sub        =   $this->pack->parent[ $id ] ?? null;
+            $isProject  =   pack::$list[ $id ]['is_project'];
+            $sub        =   pack::$parent[ $id ] ?? null;
 
-            $text       .=  str_repeat(" ", $level*4).  $this->pack->list[ $id ]['name']. '  ' .$id. "\n";
+            $text       .=  str_repeat(" ", $level*4).  pack::$list[ $id ]['name']. '  ' .$id. "\n";
 
             if ( !$isProject  && isset($sub) )
             {
-                $text   =   $this->asText($id, ($level+1), $text);
+                $text   =   self::asText($id, ($level+1), $text);
             }
         }
 
@@ -52,17 +50,17 @@ class project
 
 
     # получить дерево проекта как html
-    public function asTree( $start,  $level=0,  $html='' )
+    static function asTree( $start,  $level=0,  $html='' )
     {
-        $children   =   $this->pack->parent[ $start ] ??  array();
+        $children   =   pack::$parent[ $start ] ??  array();
         
         foreach( $children as $id )
         {
-            $name       =   $this->pack->list[ $id ]['name'];
-            $isProject  =   $this->pack->list[ $id ]['is_project'];
-            $sub        =   $this->pack->parent[ $id ] ?? null;
+            $name       =   pack::$list[ $id ]['name'];
+            $isProject  =   pack::$list[ $id ]['is_project'];
+            $sub        =   pack::$parent[ $id ] ?? null;
 
-            $cactive    =   $id == $this->pack->start ?  ' active':  '';
+            $cactive    =   $id == pack::$start ?  ' active':  '';
             $cproject   =   $isProject ?  ' project':  '';
 
             $html       .=  '<div class="name' .$cactive. $cproject. '"><a href="/' .$id. '">' .$name. '</a></div>';
@@ -70,7 +68,7 @@ class project
             if ( !$isProject  && isset($sub) )
             {
                 $html   .=  '<div class="sub">';
-                $html   =   $this->asTree($id, ($level+1), $html);
+                $html   =   self::asTree($id, ($level+1), $html);
                 $html   .=  '</div>';
             }
         }
@@ -82,14 +80,14 @@ class project
 
     # сохранить новое дерево проекта
     #
-    public function actionSave()
+    static function actionSave()
     {
         if ( empty($_POST['tree']) )    return;
 
         
         # передать на обработку
         #
-        $packBack   =   $this->makeRows($_POST['tree']);
+        $packBack   =   self::makeRows($_POST['tree']);
         
 
         # редирект на просмотр
@@ -105,9 +103,9 @@ class project
         # распарсить пришедшее дерево проекта
         # и передать на сохранение в базу
         #
-        private function makeRows($text)
+        private static function makeRows($text)
         {
-            $user       =   $this->pack->user;
+            $user       =   pack::$user;
 
 
             # разбить текст по-строчно, каждая пачка на своей строке
@@ -145,7 +143,7 @@ class project
                 #
                 $lines[ $id5 ]  =   $indent5;
                 $parent         =   null;
-                $parent5        =   $this->setParent5($lines, $indent5);
+                $parent5        =   self::setParent5($lines, $indent5);
                 #
                 # все записи запись
                 #
@@ -165,18 +163,18 @@ class project
 
             # сохранить записи в бд
             #
-            $this->dbSave($rows);
+            self::dbSave($rows);
 
             
             # вернуть текущую пачку или пачку проекта
             #
-            return $idArr[ $this->pack->start ] ?? $this->id;
+            return $idArr[ pack::$start ] ?? self::$id;
         }
 
 
         # определить родителя5
         #
-        private function setParent5($lines, $indent5)
+        private static function setParent5($lines, $indent5)
         {
             $reverse    =   array_reverse($lines);
             
@@ -191,19 +189,19 @@ class project
 
         # получить текущий список записей проекта
         #
-        private function getChildrenList($start, $list=[])
+        private static function getChildrenList($start, $list=[])
         {
-            $children   =   $this->pack->parent[ $start ] ??  array();
+            $children   =   pack::$parent[ $start ] ??  array();
         
             foreach( $children as $id )
             {
                 $list[]     =   $id;
-                $isProject  =   $this->pack->list[ $id ]['is_project'];
-                $sub        =   $this->pack->parent[ $id ] ?? null;
+                $isProject  =   pack::$list[ $id ]['is_project'];
+                $sub        =   pack::$parent[ $id ] ?? null;
 
                 if ( !$isProject  && isset($sub) )
                 {
-                    $list   =   $this->getChildrenList($id, $list);
+                    $list   =   self::getChildrenList($id, $list);
                 }
             }
             
@@ -213,7 +211,7 @@ class project
 
         # сохранить записи в базу
         #
-        private function dbSave($rows)
+        private static function dbSave($rows)
         {
             // load::vdd($rows);
 
@@ -258,7 +256,7 @@ class project
                         JOIN `rows`     ON `pack`.`id` = `rows`.`id`
                 SET
                      `pack`.`name`      =   `rows`.`name`
-                    ,`pack`.`parent`    =   IF(`rows`.`parent5` IS NULL, " .db::v($this->id). ",  (SELECT `id`  FROM `rows` as `r1`  WHERE `id5` = `rows`.`parent5`  LIMIT 1) )
+                    ,`pack`.`parent`    =   IF(`rows`.`parent5` IS NULL, " .db::v(self::$id). ",  (SELECT `id`  FROM `rows` as `r1`  WHERE `id5` = `rows`.`parent5`  LIMIT 1) )
                     ,`pack`.`order`     =   `rows`.`order`
                     ,`pack`.`user`      =   `rows`.`user`
                     ,`pack`.`id5`       =   NULL
@@ -267,7 +265,7 @@ class project
 
             # удалить не актуальные пачки, которых нет в текущих записях
             #
-            $currentPack    =   $this->getChildrenList( $this->id, [-1] );
+            $currentPack    =   self::getChildrenList( self::$id, [-1] );
             #
             db::query("
                 DELETE
@@ -286,14 +284,14 @@ class project
     
     # сохранить новое дерево проекта
     #
-    public function actionCreate()
+    static function actionCreate()
     {
         if ( !isset($_GET['actionProjectCreate']) )    return;
         
 
         # поставить отметку в базе
         #
-        db::query("UPDATE `pack`  SET `is_project` = 1  WHERE `id` = " .db::v($this->pack->start) );
+        db::query("UPDATE `pack`  SET `is_project` = 1  WHERE `id` = " .db::v(pack::$start) );
 
 
         # редирект на просмотр
@@ -305,18 +303,18 @@ class project
 
     # отменить проект
     #
-    public function actionCansel()
+    static function actionCansel()
     {
         if ( !isset($_GET['actionProjectCansel']) )    return;
 
         # убрать отметку в базе
         #
-        db::query("UPDATE `pack`  SET `is_project` = 0  WHERE `id` = " .db::v($this->id) );
+        db::query("UPDATE `pack`  SET `is_project` = 0  WHERE `id` = " .db::v(self::$id) );
 
 
         # редирект на просмотр
         #
-        url::redir( url::$path. url::fset(['actionProjectCansel'=>null]),  null, ['save'=>time()] );
+        url::redir( url::$path. url::fset(['actionProjectCansel'=>null]),  null,  ['save'=>time()] );
     }
 
 

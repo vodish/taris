@@ -1,30 +1,26 @@
 <?
-# крошки проекта
-#
-$bc =  array_reverse($pack->bc);
-#
-#
-access::$pack   =&  $pack;
 access::actionSave();
 access::actionCreateLink();
 
-
-// load::vd(access::$list);
+// load::vd( access::$list );
+// load::vd( array_reverse(pack::$bc) );
 
 ?>
 
 
 <div class="access2">
     <?
-    foreach( $bc as $k => $packId )
+    $bc =  array_reverse(pack::$bc);
+
+    foreach( $bc as $packId )
     {
-        $name   =   $pack->list[ $packId ]['name'];
+        $name   =   pack::$list[ $packId ]['name'];
         ?>
         <div class="pack">
-            <?= $packId != $pack->project?  '<a class="name z" href="/' .$packId. '/access">' .$name. '</a>' :  '<div class="name">' .$name. '</div>' ?>
+            <?= $packId != project::$id?  '<a class="name z" href="/' .$packId. '/access">' .$name. '</a>' :  '<div class="name">' .$name. '</div>' ?>
             
             <?
-            if ( $packId == $pack->project )
+            if ( $packId == project::$id )
             {
                 ?>
                 <div class="opts">
@@ -39,8 +35,8 @@ access::actionCreateLink();
         </div>
         <?
 
-        if ( !($list =  $access[ $packId ] ?? null) )   continue;   # нет записей
-        if ( $packId == $pack->project )                continue;   # текущий проект
+        if ( !($list =  access::$list[ $packId ] ?? null) )     continue;   # нет записей
+        if ( $packId == project::$id )                          continue;   # текущий проект
         
         echo access::asHtml($packId);
     }
@@ -50,7 +46,7 @@ access::actionCreateLink();
 
 
 <form action="<?= url::$dir[1] ?>" class="tree access" method="post">
-    <textarea class="ace" name="access" data-mode="ace/mode/yaml" data-minLines="5" data-showGutter="false"><?= access::asText($pack->project) ?></textarea>
+    <textarea class="ace" name="access" data-mode="ace/mode/yaml" data-minLines="5" data-showGutter="false"><?= access::asText(project::$id) ?></textarea>
     <div class="submit">
         <div></div>
         <button class="save" id="btn-save">Сохранить</button>

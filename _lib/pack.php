@@ -1,20 +1,19 @@
 <?php
 class pack
 {
-    public $start;
-    public $user;
-    public $project =   null;
+    static $start;
+    static $project;
+    static $user;
     
-    public $list    =   array();
-    public $parent  =   array();
-    public $bc      =   array();
+    static $list    =   array();
+    static $parent  =   array();
+    static $bc      =   array();
     
 
     # получить все пачки пользователя
     #
-    public function __construct($start)
+    static function dbInit($start)
     {
-
         db::query("
             SELECT
                 *
@@ -31,16 +30,10 @@ class pack
         {
             db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
             
-            $this->list[ $v['id'] ] =   $v;
-            $this->parent[ $v['parent'] ][] =   $v['id'];
+            self::$list[ $v['id'] ] =   $v;
+            self::$parent[ $v['parent'] ][] =   $v['id'];
         }
 
-        
-        # свойства проекта
-        #
-        $this->start    =   $start;
-        $this->user     =   $this->list[ $start ]['user'] ?? null;
-        
 
 
         # определить крошки проекта
@@ -48,26 +41,22 @@ class pack
         #
         $packId =   $start;
         #
-        while( isset($this->list[ $packId ]) )
+        while( isset(self::$list[ $packId ]) )
         {
-            $pack       =   $this->list[ $packId ];
+            $pack       =   self::$list[ $packId ];
             $packId     =   $pack['parent'];
 
             if ( !$pack['is_project'] )     continue;
             
-            $this->bc[] =   $pack['id'];
+            self::$bc[] =   $pack['id'];
         }
         #
-        $this->project  =   $this->bc[0];
+        #
+        self::$project  =   self::$bc[0];
+        self::$start    =   $start;
+        self::$user     =   self::$list[ $start ]['user'];
 
 
     }
     
-    public function getTitle()
-    {
-        $projectName    =   $this->list[ $this->project ]['name'];
-        $packName       =   $this->list[ $this->start ]['name'];
-
-        return $projectName. ' / '. $packName;
-    }
 }

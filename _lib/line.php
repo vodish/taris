@@ -1,25 +1,22 @@
 <?php
 class line
 {
-    /**  @var pack $pack */
-    private $pack;
-
-    public $file;
-    public $list    =   array();
-    public $parent  =   array();
+    static $file;
+    static $list    =   array();
+    static $parent  =   array();
 
 
-    public function __construct(pack &$pack)
+    static function dbInit()
     {
-        $this->pack =   $pack;
-        
+        $file   =   pack::$list[ pack::$start ]['file'];
+
         # получить файл из базы
         #
-        $this->file =   db::one("SELECT *  FROM `file`  WHERE `id` = " .db::v($pack->list[ $pack->start ]['file']));
-        db::cast($this->file, ['int'=>['id']]);
+        self::$file =   db::one("SELECT *  FROM `file`  WHERE `id` = " .db::v($file));
+        db::cast(self::$file, ['int'=>['id']]);
         #
         #
-        if ( empty($this->file) )   return;
+        if ( empty(self::$file) )   return;
 
 
 
@@ -31,7 +28,7 @@ class line
             FROM
                 `line`
             WHERE
-                `file` = " .db::v($this->file['id']). "
+                `file` = " .db::v(self::$file['id']). "
             ORDER BY
                 `order`
         ");
@@ -40,19 +37,19 @@ class line
         {
             db::cast($v, array('int'=>['file', 'order']));
 
-            $this->list[ $v['id5'] ] = $v;
-            $this->parent[ $v['parent5'] ] = $v['id5'];
+            self::$list[ $v['id5'] ] = $v;
+            self::$parent[ $v['parent5'] ] = $v['id5'];
         }
         
     }
 
     # получить все строки в виде текста
     #
-    public function asText()
+    static function asText()
     {
         $content = '';
 
-        foreach( $this->list as $v )
+        foreach( self::$list as $v )
         {
             $content    .=  "\n" .str_repeat(' ', $v['space']). $v['content'];
         }
@@ -68,17 +65,17 @@ class line
 
     # сохранить содержание файла
     #
-    public function actionSave()
+    static function actionSave()
     {
         if ( empty($_POST['line']) )    return;
 
         # добавить файл в базу
         #
-        $this->addFile();
+        self::addFile();
         
         # передать на обработку
         #
-        $this->makeRows($_POST['line']);
+        self::makeRows($_POST['line']);
         
 
         # редирект на просмотр
@@ -91,25 +88,25 @@ class line
         # добавить файл в базу, если его нету
         # и связать его с текущей пачкой
         #
-        private function addFile()
+        private static function addFile()
         {
-            if ( !empty($this->file) )  return;
+            if ( !empty(self::$file) )  return;
 
             db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
 
-            $this->file['id']   =   db::lastId();
+            self::$file['id']   =   db::lastId();
 
-            db::query("UPDATE `pack`  SET `file` = " .db::v($this->file['id']). "  WHERE `id` = " .db::v($this->pack->start) );
+            db::query("UPDATE `pack`  SET `file` = " .db::v(self::$file['id']). "  WHERE `id` = " .db::v(pack::$start) );
             
 
-            return $this->file;
+            return self::$file;
         }
 
         
         # распарсить пришедшее дерево проекта
         # и передать на сохранение в базу
         #
-        private function makeRows($text)
+        private static function makeRows($text)
         {
 
             # разбить текст по-строчно, каждая пачка на своей строке
@@ -135,7 +132,7 @@ class line
 
                 # параметры текущей записи
                 #
-                $file       =   $this->file['id'];
+                $file       =   self::$file['id'];
                 $order      =   $k + 1;
                 $id5        =   md5( trim($content) .$k );
                 $space      =   isset($space[0])  ?  strlen($space[0])  :   0;
@@ -145,12 +142,12 @@ class line
                 # вспомогательная переменная
                 #
                 $lines[ $id5 ]  =   $space;
-                $parent5        =   $this->findParent5($lines, $space);
+                $parent5        =   self::findParent5($lines, $space);
                 
 
                 # представление строки в html с левым отступом
                 #
-                $view       =   $this->view($offset, $space, $content);
+                $view       =   self::view($offset, $space, $content);
                 
 
                 # все записи запись
@@ -171,14 +168,14 @@ class line
 
             # сохранить записи в бд
             #
-            $this->dbSave($rows);
+            self::dbSave($rows);
         }
 
             
 
             # найти родителя5
             #
-            private function findParent5($lines, $space)
+            private static function findParent5($lines, $space)
             {
                 $reverse    =   array_reverse($lines);
                 
@@ -193,7 +190,7 @@ class line
 
             # преобразовать строку в безопасный хтмл
             #
-            public function view(int &$offset, int $space, string $content)
+            public static function view(int &$offset, int $space, string $content)
             {
                 # разрешенные теги и аттрибуты
                 #
@@ -236,13 +233,13 @@ class line
         
         # сохранить записи в базу
         #
-        private function dbSave($rows)
+        private static function dbSave($rows)
         {
 
             # удалить текущие записи
             # добавить новые записи
             #
-            db::query("DELETE FROM `line`  WHERE `file` = " .db::v($this->file['id']) );
+            db::query("DELETE FROM `line`  WHERE `file` = " .db::v(self::$file['id']) );
             
             db::query("
                 INSERT INTO `line` (

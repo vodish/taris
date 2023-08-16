@@ -1,15 +1,13 @@
 <?php
 # записи
 #
-$line   =   new line($pack);
-#
-#
-$line->actionSave();
+line::dbInit();
+line::actionSave();
 
 ?>
 
 <form class="tree" method="post">
-    <textarea class="ace" name="line" data-mode="ace/mode/html"><?= $line->asText() ?></textarea>
+    <textarea class="ace" name="line" data-mode="ace/mode/html"><?= line::asText() ?></textarea>
     <div class="submit">
         <div></div>
         <button class="save" id="btn-save">Сохранить</button>

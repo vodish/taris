@@ -1,12 +1,12 @@
 <?
 # сохранить дерево проекта
 #
-$project->actionSave();
+project::actionSave();
 
 ?>
 
 <form class="tree" method="post">
-    <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim($project->asText( $proId )) ?></textarea>
+    <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim(project::asText( project::$id )) ?></textarea>
     <div class="submit">
         <div></div>
         <button class="save" id="btn-save">Сохранить</button>

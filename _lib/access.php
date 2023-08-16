@@ -1,14 +1,12 @@
 <?php
 class access
 {
-    /**  @var pack $pack */
-    static $pack;
     static $list;
     
 
-    static function dbInit($packBc)
+    static function dbInit()
     {
-        $packBc =   empty($packBc)? [null]: $packBc;
+        $packIn =   pack::$bc?  pack::$bc :  [-1];
 
         # получить все запии из таблицы прав
         #
@@ -18,7 +16,7 @@ class access
             FROM
                 `access`
             WHERE
-                `pack` IN (" .implode(",", $packBc). ")
+                `pack` IN (" .implode(",", $packIn). ")
             ORDER BY
                 `id`
         ");
@@ -66,6 +64,8 @@ class access
         
         foreach( $access as $email => $v )
         {
+            if ( $v['role'] == 'Owner' )    continue;
+
             $is_email   =   filter_var($email, FILTER_VALIDATE_EMAIL);
             
             $text   .=  $email. ":\n";
@@ -109,7 +109,7 @@ class access
         #
         private static function dbSave($text)
         {
-            $proId  =   self::$pack->project;
+            $proId  =   pack::$project;
             $parse  =   yaml_parse($text);
             $parse  =   is_array($parse) ?  $parse :  array();
             $rows   =   array();
@@ -187,6 +187,8 @@ class access
                 SET
                      `access`.`role`     =   `new`.`role`
                     ,`access`.`comment`  =   `new`.`comment`
+
+                -- todo: кроме владельца
             ");
             #
             # удалить лишние записи
@@ -202,6 +204,7 @@ class access
                 WHERE
                     `access`.`pack` = " .db::v($proId). "
                     AND `new`.`email` IS NULL
+                    -- todo: кроме владельца
             ");
             
         }

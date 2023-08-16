@@ -1,15 +1,14 @@
 <?
-$line   =   new line($pack);
+line::dbInit();
 ?>
-
 
 <div class="pro">
     <div class="tree">
-        <?= $project->asTree( $proId ) ?>
+        <?= project::asTree( project::$id ) ?>
     </div>
     <div class="file">
         <?
-        foreach($line->list as $v)  echo $v['view'];
+        foreach(line::$list as $v)  echo $v['view'];
         ?>
     </div>
 </div>
