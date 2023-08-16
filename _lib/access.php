@@ -6,7 +6,7 @@ class access
     static $list;
     
 
-    static function dbList($packBc)
+    static function dbInit($packBc)
     {
         $packBc =   empty($packBc)? [null]: $packBc;
 
@@ -33,15 +33,6 @@ class access
     }
     
 
-
-    # добавить ссылку
-    #
-    static function actionCreateLink()
-    {
-        if ( !isset($_GET['createAccessLink']) )     return;
-
-        load::vdd($_GET);
-    }
 
     # список прав для пачке как html
     #
@@ -91,6 +82,15 @@ class access
 
 
 
+    # добавить ссылку
+    #
+    static function actionCreateLink()
+    {
+        if ( !isset($_GET['createAccessLink']) )     return;
+
+        load::vdd($_GET);
+    }
+
 
     # сохранить права
     #
@@ -107,7 +107,7 @@ class access
 
         # сохранить в базе
         #
-        static function dbSave($text)
+        private static function dbSave($text)
         {
             $proId  =   self::$pack->project;
             $parse  =   yaml_parse($text);

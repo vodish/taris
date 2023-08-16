@@ -10,8 +10,8 @@ $pack           =   new pack($start);
 # пользователи
 # права
 #
-$user   =   user::dbList();
-$access =   access::dbList($pack->bc);
+$user   =   user::dbInit();
+$access =   access::dbInit($pack->bc);
 
 
 # не найден пользователь
@@ -62,13 +62,13 @@ $project->actionCansel();
         ?>
         
         <a href="<?= url::$dir[0]. (@url::$level[1]!='line' ? '/line': '') ?>" class="<?= @url::$level[1]=='line'? 'active': '' ?> b" id="edit">Записи</a>
+        <?= $start == $proId  && isset($pack->bc[1]) && !isset(url::$level[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">-&nbsp;Проект</a>' : '' ?>
+        <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+&nbsp;Проект</a>' : '' ?>
+        
         <i class="sep"></i>
         <a href="<?= url::$dir[0]. (@url::$level[1]!='tree' ? '/tree': '') ?>" class="<?= @url::$level[1]=='tree'? 'active': '' ?>">Дерево</a>
         <a href="<?= url::$dir[0]. (@url::$level[1]!='access' ? '/access': '') ?>" class="<?= @url::$level[1]=='access'? 'active': '' ?>">Доступ</a>
         
-        <?= $start == $proId  && isset($pack->bc[1]) && !isset(url::$level[1])  ? '<a href="' .url::$dir[0].     '?actionProjectCansel">-&nbsp;Проект</a>' : '' ?>
-        <?= $start != $proId && !isset(url::$level[1]) ? '<a href="' .url::$dir[0]. '?actionProjectCreate">+&nbsp;Проект</a>' : '' ?>
-
     </div>
 </div>
 <?

@@ -10,7 +10,7 @@ user::actionCodeCheck();
 #
 # список профилей
 #
-user::dbList();
+user::dbInit();
 
 
 ?>

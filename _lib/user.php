@@ -6,7 +6,7 @@ class user
 
     # получить список профилей
     #
-    static function dbList()
+    static function dbInit()
     {
         if ( !is_array(@$_COOKIE['token']) )     return array();
 
@@ -37,9 +37,6 @@ class user
 
         return  self::$list;
     }
-
-
-
 
 
     # отправить код вохода
