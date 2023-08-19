@@ -1,1 +1,1 @@
-<? require_once '../../_lib/_config.php' ?>
+<? require_once '../app.php' ?>

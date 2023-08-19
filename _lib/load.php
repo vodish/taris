@@ -1,77 +1,57 @@
 <?php
 class load
 {
-    static	$dirtpl;
-    static	$layout;
-	static	$tpl;
-	static	$body;
-	
-    static	$title;
+    static  $uiList =   array();
+    static  $title;
     
 
-    static function renderpage()
+    static function setUi($file)
     {
-		do {
-            self::$tpl      =   self::$layout;
-            ob_start();
-            require_once        self::$dirtpl. '/' .self::$layout;
-            self::$body     =   ob_get_clean();
-        }
-        while (self::$tpl != self::$layout);
-        
-        die( self::$body );
+        self::$uiList[]	=	ltrim($file, '/');
     }
-    
-    
-	
-	static function makefile($file, $tpl, $addtime=true, $php=true)
-	{
-	    chdir($_SERVER['DOCUMENT_ROOT']);
-	    
-	    $dirlib    =   dirname(__FILE__);
-	    $file      =   trim($file, '/');
-	    $dir       =   dirname($file);
-	    $md5file   =   file_exists($file)?  md5_file($file):  '';
-	    
-	    
-	    $tplfile   =   trim($tpl, '/');
-	    if ( file_exists(self::$dirtpl. '/' .$tplfile) )   $tplfile =  self::$dirtpl. '/' .$tplfile;
-	    if ( file_exists(      $dirlib. '/' .$tplfile) )   $tplfile =        $dirlib. '/' .$tplfile;
-	    
-	    
-	    if ( !file_exists($dir) )
+
+    static function ui($file)
+    {
+        if ( !in_array($file, self::$uiList) )		return;
+        
+        require	 $file;
+    }
+
+
+
+
+
+    static function makefile($to, $from, $addtime=true)
+    {
+        $url    =   $to;
+        $to     =   ltrim($to, "/");
+        $from   =   ltrim($from, "/");
+        
+        # создать папку
+        #
+        if ( !is_dir( $mkdir = dirname($to) ) )
 	    {
 	        umask(0);
-	        mkdir($dir, 0777, true);
+	        mkdir($mkdir, 0777, true);
 	    }
-	    
-	    
-	    if ( !$php || in_array(substr($tplfile, -3, 3), array('png','gif','jpg','peg')) )
-	    {
-	        $md5tpl    =   md5_file($tplfile);
-	        
-	        if ( $md5file != $md5tpl )   copy($tplfile, $file);
-	    }
-	    elseif ( !file_exists($tplfile) )
-	    {
-	        $md5tpl    =   md5($tpl);
-	        
-	        if ( $md5tpl != $md5file ) file_put_contents($file, $tpl, LOCK_EX);
-	    }
-	    else
-	    {
-	        ob_start();
-    	    require_once $tplfile;
-    	    $content   =   ob_get_clean();
-    	    $md5tpl    =   md5( $content );
-    	    
-    	    if ( $md5tpl != $md5file )     file_put_contents($file, $content, LOCK_EX);
-	    }
-	    
-	    
-	    return  '/'.$file. ($addtime? '?'.$md5tpl: '');
+
+        # сокопировать файл в указанное место
+        #
+        if ( is_file($from) )
+        {
+            copy($from, $to);
+            $url    .=   $addtime? '?'.md5_file($from): '';
+        }   
+        else {
+            file_put_contents($to, $from);
+            $url    .=   $addtime? '?'.md5($from): '';
+        }                    
+
+
+        return $url;
 	}
 	
+
 
 	static function vd($var=null, $print_r=null, $trace=true)
 	{

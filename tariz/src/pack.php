@@ -10,6 +10,7 @@ class pack
     static $bc      =   array();
     
 
+
     # получить все пачки пользователя
     #
     static function dbInit($start)
@@ -33,7 +34,7 @@ class pack
             self::$list[ $v['id'] ] =   $v;
             self::$parent[ $v['parent'] ][] =   $v['id'];
         }
-
+        
 
 
         # определить крошки проекта
