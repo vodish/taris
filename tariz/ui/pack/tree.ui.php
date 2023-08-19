@@ -7,8 +7,8 @@
     </div>
 </form>
 
-<script src="<?= load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false) ?>"></script>
-<script src="<?= load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false) ?>"></script>
+<script src="<?= load::makefile('/t/ace/ace.js', '../../_lib/inc/ace/ace.js', true, false) ?>"></script>
+<script src="<?= load::makefile('/t/ace/mode-yaml.js', '../../_lib/inc/ace/mode-yaml.js', true, false) ?>"></script>
 <? // echo '<script src="' .load::makefile('/t/ace/theme-tomorrow_night.min.js', 'inc/ace/theme-tomorrow_night.min.js', true, false). '"></script>'. "\n"; ?>
 
-<script src="<?= load::makefile('/t/_page.js', '_page.js') ?>"></script>
+<script src="<?= load::makefile('/t/_page.js', '../ui/pack/pack.js') ?>"></script>
