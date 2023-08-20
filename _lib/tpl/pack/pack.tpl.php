@@ -31,7 +31,7 @@ project::actionCreate();
 project::actionCansel();
 
 
-// load::vdd();
+// ui::vdd();
 
 ?>
 <div class="nav1">

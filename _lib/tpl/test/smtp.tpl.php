@@ -11,7 +11,7 @@ if ( !empty($_GET['to']) )
         <p>Параграф</p>'
     );
     
-    load::vd($result, 1);
+    ui::vd($result, 1);
 }
 else {
     ?>

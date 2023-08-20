@@ -88,7 +88,7 @@ class access
     {
         if ( !isset($_GET['createAccessLink']) )     return;
 
-        load::vdd($_GET);
+        ui::vdd($_GET);
     }
 
 
@@ -114,7 +114,7 @@ class access
             $parse  =   is_array($parse) ?  $parse :  array();
             $rows   =   array();
 
-            // load::vdd($parse);
+            // ui::vdd($parse);
 
 
             # создать временные записи в базе для операций

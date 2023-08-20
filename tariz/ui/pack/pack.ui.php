@@ -47,7 +47,7 @@ $start  =   pack::$start;
 # редактирование файла
 # ностройка прав пачки
 #
-load::ui('../ui/pack/view.ui.php');
-load::ui('../ui/pack/line.ui.php');
-load::ui('../ui/pack/tree.ui.php');
-load::ui('../ui/pack/access.ui.php');
+ui::include('../ui/pack/view.ui.php');
+ui::include('../ui/pack/line.ui.php');
+ui::include('../ui/pack/tree.ui.php');
+ui::include('../ui/pack/access.ui.php');

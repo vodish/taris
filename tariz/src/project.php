@@ -20,7 +20,7 @@ class project
             $title  .= ' / '.   pack::$list[ pack::$start ]['name'];
         }
 
-        return load::$title  =  $title;
+        return ui::$title  =  $title;
     }
 
 
@@ -120,7 +120,7 @@ class project
             $lines      =   array();
             $rows       =   array();
             $idArr      =   array();  # массив для проверки уделения текущей пачки
-            // load::vd($list);
+            // ui::vd($list);
 
 
             # пройти по строкам
@@ -217,7 +217,7 @@ class project
         #
         private static function dbSave($rows)
         {
-            // load::vdd($rows);
+            // ui::vdd($rows);
 
             # создать актуальное дерево проекта
             #
@@ -249,7 +249,7 @@ class project
 
             
             // $rows = db::select("SELECT *  FROM `rows` ");
-            // load::vd($rows, 1);
+            // ui::vd($rows, 1);
             
 
             # обновить записи пачек

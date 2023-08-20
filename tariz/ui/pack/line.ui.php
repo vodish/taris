@@ -7,9 +7,9 @@
     </div>
 </form>
 
-<script src="<?= load::makefile('/t/ace/ace.js', '../../_lib/inc/ace/ace.js') ?>"></script>
-<script src="<?= load::makefile('/t/ace/mode-html.js', '../../_lib/inc/ace/mode-html.js') ?>"></script>
-<script src="<?= load::makefile('/t/ace/emmet.js', '../../_lib/inc/ace/emmet.js') ?>"></script>
-<script src="<?= load::makefile('/t/ace/ext-emmet.js', '../../_lib/inc/ace/ext-emmet.js') ?>"></script>
+<script src="<?= ui::makefile('/t/ace/ace.js', '../../_lib/inc/ace/ace.js') ?>"></script>
+<script src="<?= ui::makefile('/t/ace/mode-html.js', '../../_lib/inc/ace/mode-html.js') ?>"></script>
+<script src="<?= ui::makefile('/t/ace/emmet.js', '../../_lib/inc/ace/emmet.js') ?>"></script>
+<script src="<?= ui::makefile('/t/ace/ext-emmet.js', '../../_lib/inc/ace/ext-emmet.js') ?>"></script>
 
-<script src="<?= load::makefile('/t/pack.js', '../ui/pack/pack.js') ?>"></script>
+<script src="<?= ui::makefile('/t/pack.js', '../ui/pack/pack.js') ?>"></script>

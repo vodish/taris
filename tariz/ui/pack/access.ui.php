@@ -44,7 +44,7 @@
     </div>
 </form>
 
-<script src="<?= load::makefile('/t/ace/ace.js', '../../_lib/inc/ace/ace.js', true, false) ?>"></script>
-<script src="<?= load::makefile('/t/ace/mode-yaml.js', '../../_lib/inc/ace/mode-yaml.js', true, false) ?>"></script>
+<script src="<?= ui::makefile('/t/ace/ace.js', '../../_lib/inc/ace/ace.js', true, false) ?>"></script>
+<script src="<?= ui::makefile('/t/ace/mode-yaml.js', '../../_lib/inc/ace/mode-yaml.js', true, false) ?>"></script>
 
-<script src="<?= load::makefile('/t/pack.js', '../ui/pack/pack.js') ?>"></script>
+<script src="<?= ui::makefile('/t/pack.js', '../ui/pack/pack.js') ?>"></script>

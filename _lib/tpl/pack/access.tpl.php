@@ -2,8 +2,8 @@
 access::actionSave();
 access::actionCreateLink();
 
-// load::vd( access::$list );
-// load::vd( array_reverse(pack::$bc) );
+// ui::vd( access::$list );
+// ui::vd( array_reverse(pack::$bc) );
 
 ?>
 
@@ -53,7 +53,7 @@ access::actionCreateLink();
     </div>
 </form>
 
-<script src="<?= load::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false) ?>"></script>
-<script src="<?= load::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false) ?>"></script>
+<script src="<?= ui::makefile('/t/ace/ace.js', 'inc/ace/ace.js', true, false) ?>"></script>
+<script src="<?= ui::makefile('/t/ace/mode-yaml.js', 'inc/ace/mode-yaml.js', true, false) ?>"></script>
 
-<script src="<?= load::makefile('/t/_page.js', '_page.js') ?>"></script>
+<script src="<?= ui::makefile('/t/_page.js', '_page.js') ?>"></script>

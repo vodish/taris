@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= load::$title ?></title>
+    <title><?= ui::$title ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-language" content="ru" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,15 +16,15 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     
-    <script src="<?= load::makefile('/t/tariz.js', '../ui/tariz.js') ?>" ></script>
-    <link href="<?= load::makefile('/t/tariz.css', '../ui/tariz.css') ?>" rel="Stylesheet" />
+    <script src="<?= ui::makefile('/t/tariz.js', '../ui/tariz.js') ?>" ></script>
+    <link href="<?= ui::makefile('/t/tariz.css', '../ui/tariz.css') ?>" rel="Stylesheet" />
     
 </head>
 <body>
 
 <?
-load::ui('../ui/main/main.ui.php');
-load::ui('../ui/pack/pack.ui.php');
+ui::include('../ui/main/main.ui.php');
+ui::include('../ui/pack/pack.ui.php', );
 ?>
 
 </body>

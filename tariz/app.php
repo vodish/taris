@@ -30,4 +30,4 @@ state::pack();
 
 # 2 # загрузить ui
 #
-load::ui('../ui/default.ui.php');
+ui::include('../ui/default.ui.php');

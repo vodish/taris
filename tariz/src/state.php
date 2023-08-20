@@ -1,8 +1,6 @@
 <?php
 class state
-{
-
-    
+{    
     # главная страница
     #
     static function main()
@@ -11,9 +9,12 @@ class state
 
         # компоненты ui
         #
-        load::setUi('../ui/default.ui.php');
-        load::setUi('../ui/main/main.ui.php');
-        load::$title    =   'Состояние + Компоненты';
+        ui::$title =  'Состояние + Компоненты';
+        #
+        ui::reg('../ui/default.ui.php');
+        ui::reg('../ui/main/main.ui.php');
+        ui::reg('../ui/main/item.ui.php');
+        
         
 
         # подключиться к бд
@@ -40,8 +41,8 @@ class state
 
         # компоненты ui
         #
-        load::setUi('../ui/default.ui.php');
-        load::setUi('../ui/pack/pack.ui.php');
+        ui::reg('../ui/default.ui.php');
+        ui::reg('../ui/pack/pack.ui.php');
 
 
         # подключиться к базе
@@ -56,6 +57,8 @@ class state
         #
         project::init();
         project::setTitle();
+        project::actionCreate();
+        project::actionCansel();
 
 
         # не найден пользователь
@@ -67,32 +70,34 @@ class state
         #
         if ( !isset(url::$level[1]) )
         {
+            ui::reg('../ui/pack/view.ui.php');
+
             line::dbInit();
-            load::setUi('../ui/pack/view.ui.php');
+
         }              
         elseif ( url::$level[1]=='line' )
         {
-            # сохранить содержание файла
+            ui::reg('../ui/pack/line.ui.php');
+
             line::dbInit();
             line::actionSave();
-            load::setUi('../ui/pack/line.ui.php');
+            
         }
         elseif  ( url::$level[1]=='tree' )
         {
-            # сохранить дерево проекта
+            ui::reg('../ui/pack/tree.ui.php');
+
             project::actionSave();
-            load::setUi('../ui/pack/tree.ui.php');
+
         }
         elseif ( url::$level[1]=='access' )
         {
-            # сохрание права
+            ui::reg('../ui/pack/access.ui.php');
+
             access::actionSave();
             access::actionCreateLink();
             
-            load::setUi('../ui/pack/access.ui.php');
         }
-
-        
 
     }
 

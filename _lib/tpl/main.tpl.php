@@ -1,6 +1,6 @@
 <?php
 load::$layout   =   'default.tpl.php';
-load::$title    =   'Состояние + Компоненты';
+ui::$title    =   'Состояние + Компоненты';
 
 # пользователи
 # операции авторизации
@@ -51,4 +51,4 @@ user::dbInit();
 </div>
 
 
-<script src="<?= load::makefile('/t/main.js', 'main.js') ?>"></script>
+<script src="<?= ui::makefile('/t/main.js', 'main.js') ?>"></script>
