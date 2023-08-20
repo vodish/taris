@@ -34,8 +34,5 @@
     </div>
 </div>
 
-<?
-ui::include('sdvsdv/sdvsd');
-?>
 
 <script src="<?= ui::makefile('/t/main.js', '../ui/main/main.js') ?>"></script>

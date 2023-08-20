@@ -1,8 +1,9 @@
 <script>
+  // @ts-nocheck
   import { url, href } from "./state/url";
   import Main from "./ui/Main.svelte";
   import Pack from "./ui/Pack.svelte";
-  
+
 </script>
 
 <h3>Default: 

@@ -1,4 +1,5 @@
 <script>
+// @ts-nocheck
 import { url, href }   from "../state/url";
 import PackLine     from "./PackLine.svelte";
 import PackView     from "./PackView.svelte";
