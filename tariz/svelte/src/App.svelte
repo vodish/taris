@@ -7,7 +7,7 @@
 
 <h3>Default: 
   <button on:click={()=> href("/")  }>Main</button>
-  <button on:click={(e)=> href("/1") }>Pack</button>
+  <button on:click={()=> href("/1") }>Pack</button>
 </h3>
 
 {#if $url.path == '/' }  <Main />
