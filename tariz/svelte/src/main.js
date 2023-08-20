@@ -1,6 +1,5 @@
 // @ts-nocheck
 import './app.css'
-import './state/url'
 import App  from './App.svelte'
 
 const app = new App({
