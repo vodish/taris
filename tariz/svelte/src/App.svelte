@@ -1,5 +1,5 @@
 <script>
-  import { uiDefault as ui } from "./state/ui";
+  import { uiDefault, href } from "./state/ui";
   import Main from "./ui/Main.svelte";
   import Pack from "./ui/Pack.svelte";
 
@@ -8,10 +8,10 @@
 </script>
 
 <h3>Default: 
-  <button on:click={()=> $ui = ["Main"] }>Main</button>
-  <button on:click={()=> $ui = ["Pack"] }>Pack</button>
+  <button on:click={()=> {$uiDefault = ["Main"]; href("/"); } }>Main</button>
+  <button on:click={()=> {$uiDefault = ["Pack"]; href("/1"); } }>Pack</button>
 </h3>
 
-{#if $ui.includes('Main') }  <Main /> {/if}
-{#if $ui.includes('Pack') }  <Pack /> {/if}
+{#if $uiDefault.includes('Main') }  <Main /> {/if}
+{#if $uiDefault.includes('Pack') }  <Pack /> {/if}
   
