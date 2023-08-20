@@ -10,7 +10,7 @@
   <button on:click={()=> href("/1") }>Pack</button>
 </h3>
 
-{#if $url.path == '/' }  <Main />
-{:else if $url.path }  <Pack />
+{#if $url.path == '/'     }  <Main />
+{:else if +$url.level[0]  }  <Pack />
 {/if}
   
