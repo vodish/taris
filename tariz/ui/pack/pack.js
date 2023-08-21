@@ -43,10 +43,11 @@ function ace_init(selector)
             useWorker: false,           // отключить проверку синтаксиса - worker файл
             // тема раскраски кода
             // theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ?  'ace/theme/tomorrow_night':  '')      
+            setAutoScrollEditorIntoView: true,
         });
         ace1[i].focus();
         // авторесайз
-        ace1[i].setAutoScrollEditorIntoView(true);
+        // ace1[i].setAutoScrollEditorIntoView(true);
         
         sess1[i] = ace1[i].getSession();
         sess1[i].setValue( $(t).val() );
