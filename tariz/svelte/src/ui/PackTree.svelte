@@ -17,4 +17,4 @@ onMount(() => {
 });
 </script>
 
-<div id="ace9" class="ace" style="width: 100%; height: 200px;" />
+<div id="ace9" class="ace" />

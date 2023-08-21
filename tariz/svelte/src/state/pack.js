@@ -12,7 +12,6 @@ export let access_view      =   writable("")
 export let access_content   =   writable("")
 
 export let ace_option       =   {
-    // enableEmmet: true,
     minLines: 10,
     fontSize: "13px",
     fontFamily: "var(--font1)",
