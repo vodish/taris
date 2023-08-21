@@ -29,44 +29,85 @@ button:hover    { background-color: #ccc; }
 *::-webkit-scrollbar-thumb  { border-radius: 1px; background: #ccc; }
 
 
+/* main */
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+.main1          {  margin: 5em auto; display: flex; gap: 6vw; align-items: flex-start; }
+.main1 .pic1        { width: 100%; max-width: 300px; margin-top: -7em; transform: rotate(-10deg); }
+.main1 .pic1.active { margin-top: -6em; transform: rotate(-2deg); }
+.main1 .login       { width: 300px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
+.main1 .login .email         { width: 200px; flex-grow: 1; }
+.main1 .login .code          { width: 80px; text-align: center; }
+.main1 .login div.err        { font-size: 0.8em; color: var(--link); margin-top: 2px; }
+.main1 .login div.err:empty  { display: none; }
+.main1 .login input.err      { border: solid 2px var(--link); }
+.main1 .login + .note        { font-size: 0.9em; margin-top: 0.8em; }
+.main1 .login + .note > *:not(.active)   { display: none; }
+.main1 .login + .note .back              { width: fit-content; border-bottom: solid 1px #ccc; cursor: pointer; }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  color: wheat;
-}
-button:hover {
-  border-color: #646cff;
-}
-/* button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-} */
+.main1 .auth > *:not(.active)    { display: none; }
 
-/* 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
+.main1 .userlist    { margin-top: 2em; display: flex; gap: 2ch; flex-wrap: wrap; }
+.main1 .userlist > *    { background-color: #eee; padding: 6px 10px; border-radius: 3px; }
+
+
+/* pack */
+
+.nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding: 5px 0 3px 0; margin-bottom: 2em; position: sticky; top: -1px; background-color: var(--white); z-index: 5; }
+.nav1 .logo         { text-transform: uppercase; font-size: 14px; }
+.nav1 .logo b       { font-weight: normal; }
+.nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
+.nav1 .bc *:first-child { margin-left: -0.5ch; }
+.nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
+.nav1 .bc > a       { padding: 4px 1ch; }
+.nav1 .opt          { display: flex; }
+.nav1 .opt > *      { padding: 4px 1ch; }
+.nav1 .opt > .sep   { display: inline-block; width: 1ch; }
+.nav1 .opt > .save  { margin-right: 2ch; }
+.nav1 .opt > .b     { font-weight: bold; }
+.nav1 .active       { color: inherit; background-color: #eee; border-radius: 3px; margin-left: 0.5ch; }
+.nav1 .current      { color: inherit; }
+
+
+/* project */
+
+.pro                { display: flex; gap: 2vw; }
+.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 4px; border-right: solid 1px #eee; }
+.pro > .tree .name > a      { padding: 3px; display: inline-block; }
+.pro > .tree .active        { background-color: #eee; border-radius: 3px; cursor: default; }
+.pro > .tree .active > a    { color: inherit; }
+.pro > .tree .project       { margin-top: 0.2em; }
+.pro > .tree .project > a   { font-weight: bold; }
+.pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
+
+
+.pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
+.pro > .file *:not(img):empty   { height: 1em; }
+.pro > .file  img           { max-width: 100%; }
+.pro > .file > pre          { background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; white-space: break-spaces; }
+.pro > .file > div > h1     { margin: 0 0 0.5em 0; }
+.pro > .file > div > h2     { margin: 0 0 0.4em 0; }
+.pro > .file > div > h3     { margin: 0 0 0.3em 0; }
+.pro > .file > div > h4     { margin: 0 0 0.2em 0; }
+.pro > .file > div > h5     { margin: 0 0 0.1em 0; }
+.pro > .file a[target="_blank"]  { text-decoration: underline; text-decoration-color: #ccc; }
+
+
+
+
+/* editor */
+
+.ace     { font-family: 'Source Code Pro'; font-size: 13px; width: 100%; height: 30em; border: none; background-color: transparent; }
+.ace_scroller    { margin-left: 1ch; }
+form.tree  .submit  { display: flex; justify-content: space-between; align-items: baseline; gap: 2ch; border-top: solid 1px #eee; padding: 2vh 1vw 0 1vw; }
+form.tree  .save    { display: block; }
+
+
+/* access */
+
+.access2    .pack   { display: flex; justify-content: space-between; margin: 1em 0 0.5ch 0; padding-bottom: 0.3em; border-bottom: solid 1px #ccc; }
+.access2    .pack .name   { margin-right: 2ch; }
+.access2    .pack .opts   { display: flex; }
+.access2    .pack .opts > *   { margin: 0 0.7ch; }
+.access2    pre     { margin-left: 4ch; white-space: pre-wrap; font-family: var(--font1); font-size: 13px; line-height: 1.4em;; }
+
+form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
