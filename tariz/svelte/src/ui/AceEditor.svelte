@@ -1,8 +1,16 @@
 <script lang="ts">
+  /**
+   * svelte component https://www.npmjs.com/package/svelte-ace
+   * based by https://github.com/thlorenz/brace
+   * 
+   * translation of vue component to svelte:
+   * @link https://github.com/chairuosen/vue2-ace-editor/blob/91051422b36482eaf94271f1a263afa4b998f099/index.js
+   **/
+
+
   import { createEventDispatcher, tick, onMount, onDestroy } from "svelte";
   import * as ace from "brace";
-  // import "brace/ext/emmet";
-  
+
   const EDITOR_ID = `svelte-ace-editor-div:${Math.floor(
     Math.random() * 10000000000
   )}`;
@@ -22,13 +30,11 @@
     paste: string;
   }>();
 
-  /**
-   * translation of vue component to svelte:
-   * @link https://github.com/chairuosen/vue2-ace-editor/blob/91051422b36482eaf94271f1a263afa4b998f099/index.js
-   **/
+
+
   export let value: string = ""; // String, required
-  export let lang: string = "json"; // String
-  export let theme: string = null;// "chrome"; // String
+  export let mode: string = "text"; // String
+  // export let theme: string = ""; // String
   export let height: string = "100%"; // null for 100, else integer, used as percent
   export let width: string = "100%"; // null for 100, else integer, used as percent
   export let options: any = {}; // Object
@@ -55,14 +61,14 @@
     }
   }
 
-  $: watchTheme(theme);
-  function watchTheme(newTheme: string) {
-    if (editor) {
-      editor.setTheme("ace/theme/" + newTheme);
-    }
-  }
+  // $: watchTheme(theme);
+  // function watchTheme(newTheme: string) {
+  //   if (editor) {
+  //     editor.setTheme("ace/theme/" + newTheme);
+  //   }
+  // }
 
-  $: watchMode(lang);
+  $: watchMode(mode);
   function watchMode(newOption: any) {
     if (editor) {
       editor.getSession().setMode("ace/mode/" + newOption);
@@ -95,21 +101,19 @@
   }
 
   onMount(() => {
-    lang = lang || "text";
-    // theme = theme || "chrome";
 
+    mode = mode || "text";
+    
     editor = ace.edit(EDITOR_ID);
-
     dispatch("init", editor);
     editor.$blockScrolling = Infinity;
-    // editor.setOption("enableEmmet", true);
-    editor.getSession().setMode("ace/mode/" + lang);
+    editor.getSession().setMode("ace/mode/" + mode);
     editor.setValue(value, 1);
     editor.setReadOnly(readonly)
     contentBackup = value;
     setEventCallBacks();
-    if (theme)    editor.setTheme("ace/theme/" + theme);
-    if (options)  editor.setOptions(options);
+    if (options.theme)  editor.setTheme("ace/theme/" + options.theme);
+    if (options)        editor.setOptions(options);
   });
 
   const ValidPxDigitsRegEx = /^\d*$/;
@@ -129,7 +133,7 @@
     editor.onCursorChange = () => dispatch("cursorChange");
     editor.onCut = () => {
       const copyText = editor.getCopyText();
-      console.log("cut event : ", copyText);
+      //console.log("cut event : ", copyText);
       editor.insert("");
       dispatch("cut");
     };
@@ -137,7 +141,7 @@
       dispatch("documentChange", obj);
     editor.onFocus = () => dispatch("focus");
     editor.onPaste = (text) => {
-      console.log("paste event : ", text);
+      //console.log("paste event : ", text);
       editor.insert(text);
       dispatch("paste", text);
     };
@@ -151,4 +155,4 @@
   }
 </script>
 
-<div id={EDITOR_ID} style="width:{px(width)};height:{px(height)}" />
+<div id={EDITOR_ID} style="width:{px(width)};height:{px(height)};" />
