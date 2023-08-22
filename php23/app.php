@@ -8,8 +8,8 @@ ini_set('display_errors','On');
 # авто подключение классов
 #
 spl_autoload_register( function($name) {
-    if ( is_file($file = "../src/$name.php") )     require_once $file;
-    if ( is_file($file = "../../_lib/$name.php") ) require_once $file;
+    if ( is_file($file = "../state/$name.php") )    require_once $file;
+    if ( is_file($file = "../lib/$name.php") )      require_once $file;
 });
 #
 #
@@ -28,6 +28,9 @@ state::main();
 state::pack();
 
 
-# 2 # загрузить ui
+# 2 # отдать ui
 #
 ui::include('../ui/default.ui.php');
+
+
+# 3 # отдать api json

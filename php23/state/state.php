@@ -100,6 +100,5 @@ class state
         }
 
     }
-
         
 }
