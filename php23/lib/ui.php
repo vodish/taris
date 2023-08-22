@@ -3,13 +3,19 @@ class ui
 {
     static $list;
     static $title;
-
+    static $pwa =   false;
     
+
+    # зарегистрировать шаблон
+    #
     static function reg($file)
     {
         self::$list[]	=	ltrim($file, '/');
     }
 
+
+    # подключить шаблон
+    #
     static function include($file)
     {
         if ( !is_file($file))

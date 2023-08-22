@@ -1,6 +1,8 @@
 <?php
 class state
-{    
+{   
+    
+
     # главная страница
     #
     static function main()

@@ -58,7 +58,7 @@ class user
         #
         # сохранить в куке
         #
-        load::setcookie('code', md5($email.$code.$code));
+        cookie::set('code', md5($email.$code.$code));
 
 
         # отправить письмо
@@ -112,8 +112,8 @@ class user
         ");
         #
         #
-        load::delcookie('code');
-        load::setcookie('token[' .$_POST['email']. ']', $token, (time()*3600*24*30));
+        cookie::del('code');
+        cookie::set('token[' .$_POST['email']. ']', $token, (time()*3600*24*30));
 
         
 
