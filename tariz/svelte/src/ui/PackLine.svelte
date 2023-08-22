@@ -1,12 +1,11 @@
 <script>
-  import { line_content, ace_option } from "../state/pack";
+import { onDestroy } from "svelte";
+import { line_content } from "../state/pack";
+import AceHtml from "./ace/AceHtml.svelte";
 
-  // import AceEditor from "./AceEditor.svelte";
-  // import "brace/mode/html";
-  // import "brace/ext/emmet";
-  // import "brace/mode/yaml";  
-  // ace_option.showPrintMargin = true;
-  
+onDestroy(()=>{
+  console.log(`сохранить line_content на сервере`)
+})
 
 </script>
 
@@ -14,4 +13,4 @@
 
 <hr>
 <br>
-<!-- <AceEditor width="100%" mode="html" options={ace_option} bind:value={$line_content} /> -->
+<AceHtml bind:value={$line_content} />
