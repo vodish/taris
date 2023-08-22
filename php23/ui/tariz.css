@@ -71,7 +71,7 @@ button:hover    { background-color: #ccc; }
 /* project */
 
 .pro                { display: flex; gap: 2vw; }
-.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 4px; border-right: solid 1px #eee; }
+.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 0; border-right: solid 1px #eee; }
 .pro > .tree .name > a      { padding: 3px; display: inline-block; }
 .pro > .tree .active        { background-color: #eee; border-radius: 3px; cursor: default; }
 .pro > .tree .active > a    { color: inherit; }
