@@ -8,9 +8,7 @@
 #
 function sd($dir, $list=[])
 {
-    $sd =   scandir($dir);
-
-    foreach ( $sd as $file )
+    foreach ( scandir($dir) as $file )
     {
         if ( in_array($file, ['.', '..']) ) continue;
         $sub    =   "$dir/$file";
@@ -27,6 +25,12 @@ function sd($dir, $list=[])
 $todir  =   "../php23/www";
 $dist   =   "dist";
 $files  =   sd($dist);
+
+
+# удалить прошлые сборки
+#
+foreach (glob("$todir/assets/index*") as $filename)  unlink($filename);
+
 
 # переложить файлы
 #
