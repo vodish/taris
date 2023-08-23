@@ -12,11 +12,12 @@ class api
         #
         if ( in_array($_SERVER['HTTP_HOST'], ['k.tariz']) )     return;
 
-
-        self::$pwa = true;
-
-        if ( isset($_SERVER['HTTP_API_KEY']) )      return;
-
+        # api запрос
+        # 
+        if ( isset($_SERVER['HTTP_API_KEY']) ) {
+            self::$pwa = true;
+            return;
+        }
         
         # отдать бандл svelte
         #

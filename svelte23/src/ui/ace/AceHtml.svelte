@@ -1,15 +1,12 @@
 <script>
 import { onMount } from "svelte";
 
-import * as ace from "ace-builds";
-import "ace-builds/src-noconflict/mode-html";
-import "ace-builds/src-noconflict/ext-emmet";
-
 // аттрибуты
 export let value =  "";
 
 
 onMount(()=> {
+    // @ts-ignore
     let ace9    =   ace.edit('ace9');
     ace9.session.setMode('ace/mode/html')
     ace9.setOptions({
@@ -28,7 +25,3 @@ onMount(()=> {
 </script>
 
 <div id="ace9" class="ace" />
-
-<svelte:head>
-    <script src="https://cdn.jsdelivr.net/npm/emmet-core@1.0.0/emmet.min.js"></script>
-</svelte:head>

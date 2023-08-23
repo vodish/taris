@@ -1,8 +1,10 @@
 <?php
 # команда для деплоя из папки svelte23
+# 
 # C:\OpenServer\modules\php\PHP_8.0\php.exe deploy.php
 
-# сканировать все файлы
+
+# сканировать папку рекурсивно
 #
 function sd($dir, $list=[])
 {
@@ -11,29 +13,33 @@ function sd($dir, $list=[])
     foreach ( $sd as $file )
     {
         if ( in_array($file, ['.', '..']) ) continue;
-        if ( "$dir/$file" == "../../svelte23/dist/index.html" ) continue;
-
-        if ( is_dir( ($next = "$dir/$file") ) )     $list   =   sd($next, $list);
-        
-        $list[] =   $next;
+        $sub    =   "$dir/$file";
+        $list[] =   $sub;
+        if ( is_dir($sub) )     $list =  sd($sub, $list);
     }
 
     return $list;
 }
 
 
-# переложить все фалы и папки
+# сканировать сборку в папке dist
 #
 $todir  =   "../php23/www";
 $dist   =   "dist";
 $files  =   sd($dist);
 
-print_r($files);
-
-foreach($files as $f)
+# переложить файлы
+#
+foreach( $files as $from )
 {
-    // $mkdir  =   str_replace($dir, "", $f);
-    // if ( !is_dir($fi) )
-    // mkdir(dirname($file))
-    // copy($f, str_replace($dir, "", $f));
+    $to  =   $todir. substr($from, strlen($dist));
+
+    if ( is_dir($from) )
+    {
+        if ( !is_dir($to) ) mkdir($to, 0777);
+        continue;
+    }
+
+    copy($from, $to);
 }
+
