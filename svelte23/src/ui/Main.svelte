@@ -25,7 +25,7 @@ function send()
     step    =   "code"
     code    =   ""
     error   =   ""
-    delay   =   5
+    delay   =   60
     let timer =  setInterval(() => {
         delay--;
         if ( delay > 0 )    return
