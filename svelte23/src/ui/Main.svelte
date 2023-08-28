@@ -30,14 +30,14 @@ function send()
         delay--;
         if ( delay > 0 )    return
         clearInterval(timer)
-        console.log("удаление интервала")
-        console.log(timer);
     }, 1000 )
 }
 
 
 function keyup()
 {
+    code    =   code.replace(/\D+/g, '')
+
     if ( code.length == 4 )
     {
         error = "Отправить код на проверку"
