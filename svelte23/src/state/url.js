@@ -15,6 +15,9 @@ function parse()
     url.set({path, level, dir})
 }
 
+/**
+ * @param {string} href
+ */
 export function href(href='')
 {
     if ( window.location.pathname == href )  return;

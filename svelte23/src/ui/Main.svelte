@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { href, url, request } from "../state/url";
+import { href, request } from "../state/url";
 
 
 let userlist    =   [
@@ -53,7 +53,7 @@ function keyup()
             
             console.log(res);
         })
-        
+
     } else {
         error = ""
     }
