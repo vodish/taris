@@ -24,7 +24,7 @@
 
 <?
 ui::include('../ui/main/main.ui.php');
-ui::include('../ui/pack/pack.ui.php', );
+ui::include('../ui/pack/pack.ui.php');
 ?>
 
 </body>
