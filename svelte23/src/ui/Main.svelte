@@ -16,7 +16,7 @@ let email       =   ""
 let code        =   ""
 let error       =   ""
 let delay
-
+let rtoken      =   "rtoken123"
 
 // обработчики
 
@@ -34,7 +34,7 @@ function send()
     }, 1000 )
 
 
-    request('/api/main/send-code', { rt: "rt", email: email }, (res)=>{
+    request('/api/main/send-code', { rtoken, email }, (res)=>{
         if ( !res.send || res.send != 'ok' ) {
             error = 'Error...';
         }
@@ -49,7 +49,11 @@ function keyup()
 
     if ( code.length == 4 )
     {
-        error = "Отправить код на проверку"
+        request('/api/main/check-code', { rtoken, email, code }, (res)=>{
+            
+            console.log(res);
+        })
+        
     } else {
         error = ""
     }
