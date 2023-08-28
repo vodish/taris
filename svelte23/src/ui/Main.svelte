@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { href, url } from "../state/url";
+import { href, url, request } from "../state/url";
 
 
 let userlist    =   [
@@ -25,12 +25,21 @@ function send()
     step    =   "code"
     code    =   ""
     error   =   ""
+
     delay   =   60
     let timer =  setInterval(() => {
         delay--;
         if ( delay > 0 )    return
         clearInterval(timer)
     }, 1000 )
+
+
+    request('/api/main/send-code', { rt: "rt", email: email }, (res)=>{
+        if ( !res.send || res.send != 'ok' ) {
+            error = 'Error...';
+        }
+        console.log(res);
+    })
 }
 
 
@@ -45,6 +54,8 @@ function keyup()
         error = ""
     }
 }
+
+
 
 </script>
 

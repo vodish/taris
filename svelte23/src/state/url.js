@@ -22,3 +22,28 @@ export function href(href='')
     window.history.pushState({}, "", href)
     parse()
 }
+
+
+/**
+ * @param {string | URL} url
+ * @param {Object} data
+ * @param {(arg0: Object) => any} cb
+ */
+export function request(url, data = {}, cb)
+{
+    let fd  =   new FormData()
+    for( let k in data )  fd.append(k, data[k])
+    
+    let xhr =   new XMLHttpRequest()
+    xhr.open('POST', url);
+    xhr.responseType = 'json';
+    xhr.send(fd)
+    xhr.onload = () => cb(xhr.response)
+
+    // xhr.onload = () => {
+    //     if ( !xhr.response.send || xhr.response.send != 'ok' ) {
+    //         error = 'Error...';
+    //     }
+    //     console.log(xhr.response);
+    // }
+}
