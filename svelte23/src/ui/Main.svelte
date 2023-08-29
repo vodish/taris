@@ -18,6 +18,9 @@ let error       =   ""
 let delay
 let rtoken      =   "rtoken123"
 
+
+
+
 // обработчики
 
 function send()
@@ -26,7 +29,7 @@ function send()
     code    =   ""
     error   =   ""
 
-    delay   =   60
+    delay   =   3
     let timer =  setInterval(() => {
         delay--;
         if ( delay > 0 )    return
@@ -35,8 +38,8 @@ function send()
 
 
     request('/api/main/send-code', { rtoken, email }, (res)=>{
-        if ( !res.send || res.send != 'ok' ) {
-            error = 'Error...';
+        if ( !res || res.send != "ok" ) {
+            error = 'Error...'
         }
         console.log(res);
     })
@@ -70,12 +73,14 @@ function keyup()
         <div class="auth">
 
             {#if step == "email" }
+
                 <div class="login">
                     <input class="email" type="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа">
                     <button class="send" on:click={send}>Tariz</button>
                 </div>
                 
             {:else if step == "code"}
+                
                 <div class="login">
                     <div>
                         <div>Код из письма</div>
@@ -89,16 +94,20 @@ function keyup()
                 {:else}
                     <div class="note"><a href="/" class="back" on:click|preventDefault={()=>step="email"}>Повторить вход</a></div>
                 {/if}
+
             {/if}
 
         </div>
 
+
         {#if userlist.length }
+
             <div class="userlist">
                 {#each userlist as v }
                     <a href={v.url} on:click|preventDefault={(e)=>href(e.target.href)}>{v.email}</a>
                 {/each}
             </div>
+
         {/if}
 
     </div>

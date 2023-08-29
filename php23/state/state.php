@@ -1,7 +1,29 @@
 <?php
 class state
 {   
-    
+    static $rtoken;
+
+
+    # определение токена для одноразовых запросов к api
+    #
+    static function rtoken()
+    {
+        if ( !isset($_POST['rtoken']) )     return;
+
+
+        # создать новый токен
+        # почистить историю токенов
+        #
+        $_SESSION['rtoken'][]   =   self::$rtoken =   md5( session_id(). time() );
+        #
+        for($c=count($_SESSION['ft']);  $c > 10;  $c--)     array_shift($_SESSION['ft']);
+    }
+
+
+
+
+
+
 
     # главная страница
     #
@@ -15,7 +37,6 @@ class state
         #
         ui::reg('../ui/default.ui.php');
         ui::reg('../ui/main/main.ui.php');
-        ui::reg('../ui/main/item.ui.php');
         
         
 
@@ -37,6 +58,8 @@ class state
     }
 
 
+    # Проект
+    #
     static function pack()
     {
         if ( !isset(url::$level[0]) || !is_numeric(url::$level[0]) )    return;
@@ -102,5 +125,7 @@ class state
         }
 
     }
-        
+    
+
+
 }

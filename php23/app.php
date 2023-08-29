@@ -17,27 +17,19 @@ spl_autoload_register( function($name) {
 
 
 
-#  ПРИЛОЖЕНИЕ
+# ПРИЛОЖЕНИЕ
 #
-# бандл для svelte23
-#
-api::svelte23();
-
-
-# 1 состояние
+# 1 создать данные (состояние)
 #
 url::parse($_SERVER['REQUEST_URI'], true);
+rtoken::init();
 state::main();
 state::pack();
 
 
-# 2 отдать api json
+# 2 отдать данные (в обертке)
 #
-// api::project();
-api::end();
-
-
-# 3 отдать ui серверный варик
-#
+ui::include('../ui/svelte.bundle.php');
+ui::include('../ui/rtoken.api.php');
 ui::include('../ui/default.ui.php');
 

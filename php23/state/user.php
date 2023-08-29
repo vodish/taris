@@ -44,7 +44,6 @@ class user
     static function actionCodeSend()
     {
         if ( empty($_POST['actionCodeSend']) )  return;
-        if ( empty($_POST['ft']) )              return;
         if ( empty($_POST['email']) )           return;
         #
         if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"send":"ok1"}');
@@ -71,23 +70,24 @@ class user
     }
 
 
+
+
     # проверить код вохода
     #
     static function actionCodeCheck()
     {
         if ( empty($_POST['actionCodeCheck']) ) return;
-        if ( empty($_POST['ft']) )              return;
         if ( empty($_POST['email']) )           return;
         if ( empty($_POST['code']) )            return;
         if ( empty($_COOKIE['code']) )          return;
         #
-        if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"check":"ok1"}');
+        if ( !rtoken::check() )      die('{"check":"ok1"}');
         
 
 
         # проверить код
         #
-        if ( $_COOKIE['code'] != md5($_POST['email'].$_POST['code'].$_POST['code']) )
+        if ( $_COOKIE['code'] != md5($_POST['email']. $_POST['code']. $_POST['code']) )
         {
             die('{"check":"Неверный код..."}');
         }
@@ -124,6 +124,8 @@ class user
 
         die('{"check": "OK", "redir": "/' .$user['start']. '"}');
     }
+
+
 
 
         # зарегистрировать нового пользователя
