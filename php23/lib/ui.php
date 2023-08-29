@@ -3,14 +3,30 @@ class ui
 {
     static $list;
     static $title;
-    static $pwa =   false;
+    static $pwa     =   false;
+
+    static $json    =   array();
     
 
-    # зарегистрировать шаблон
+    # зарегистрировать шаблон html
     #
-    static function reg($file)
+    static function html($file)
     {
+        if ( rtoken::$value )   return;
+
         self::$list[]	=	ltrim($file, '/');
+    }
+
+    # 
+    #
+    static function jsonApi()
+    {
+        if ( empty(self::$json) )   return;
+
+        header('Content-Type: application/json; charset=utf-8');
+        
+        echo  json_encode(self::$json);
+        die;
     }
 
 

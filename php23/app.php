@@ -27,9 +27,8 @@ state::main();
 state::pack();
 
 
-# 2 отдать данные (в обертке)
+# 2 отдать данные
 #
+ui::jsonApi();
 ui::include('../ui/svelte.bundle.php');
-ui::include('../ui/rtoken.api.php');
 ui::include('../ui/default.ui.php');
-

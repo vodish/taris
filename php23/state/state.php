@@ -31,14 +31,14 @@ class state
     {
         if ( url::$path != '/' )    return;
 
-        # компоненты ui
+        # вывод ui
         #
-        ui::$title =  'Состояние + Компоненты';
+        ui::$title =  'Taris.pro';
         #
-        ui::reg('../ui/default.ui.php');
-        ui::reg('../ui/main/main.ui.php');
+        ui::html('../ui/default.ui.php');
+        ui::html('../ui/main/main.ui.php');
         
-        
+
 
         # подключиться к бд
         #
@@ -47,8 +47,9 @@ class state
         # пользователи
         # операции авторизации
         #
-        user::actionCodeSend();
-        user::actionCodeCheck();
+        user::apiUserList();
+        user::apiCodeSend();
+        user::apiCodeCheck();
         
         
         # список профилей
@@ -66,8 +67,8 @@ class state
 
         # компоненты ui
         #
-        ui::reg('../ui/default.ui.php');
-        ui::reg('../ui/pack/pack.ui.php');
+        ui::html('../ui/default.ui.php');
+        ui::html('../ui/pack/pack.ui.php');
 
 
         # подключиться к базе
@@ -95,14 +96,14 @@ class state
         #
         if ( !isset(url::$level[1]) )
         {
-            ui::reg('../ui/pack/view.ui.php');
+            ui::html('../ui/pack/view.ui.php');
 
             line::dbInit();
 
         }              
         elseif ( url::$level[1]=='line' )
         {
-            ui::reg('../ui/pack/line.ui.php');
+            ui::html('../ui/pack/line.ui.php');
 
             line::dbInit();
             line::actionSave();
@@ -110,14 +111,14 @@ class state
         }
         elseif  ( url::$level[1]=='tree' )
         {
-            ui::reg('../ui/pack/tree.ui.php');
+            ui::html('../ui/pack/tree.ui.php');
 
             project::actionSave();
 
         }
         elseif ( url::$level[1]=='access' )
         {
-            ui::reg('../ui/pack/access.ui.php');
+            ui::html('../ui/pack/access.ui.php');
 
             access::actionSave();
             access::actionCreateLink();

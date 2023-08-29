@@ -26,11 +26,11 @@ class rtoken
 
     # проверить токен
     #
-    static function check()
+    static function check($json='{}')
     {
         if ( in_array( $_POST['rtoken'],  ($_SESSION['rtoken'] ?? []) ) )   return true;
 
-        self::$response =   "Invalid rtoken ". time();
+        self::$response =   $json;
 
         return false;
     }

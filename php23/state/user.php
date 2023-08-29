@@ -41,7 +41,37 @@ class user
 
     # отправить код вохода
     #
-    static function actionCodeSend()
+    static function apiUserList()
+    {
+        if ( empty($_POST['apiUserList']) )         return;
+        if ( !rtoken::check('{"send":"ok1"}') )     return;
+        
+        
+
+        # код входа
+        #
+        $email      =   $_POST['email'];
+        $code       =   rand(1000, 9999);
+        $subject    =   rawurlencode('Код входа: ' .$code );
+        #
+        # сохранить в куке
+        #
+        cookie::set('code', md5($email.$code.$code));
+
+
+        # отправить письмо
+        #
+        // $smtp       =   new smtp();
+        // $result     =   $smtp->send($email, $subject, 'Смотрите в тему письма.');
+        
+        ui::$json["send"]   =   'ok';
+        ui::$json["code"]   =   $code;
+    }
+
+
+    # отправить код вохода
+    #
+    static function apiCodeSend()
     {
         if ( empty($_POST['actionCodeSend']) )  return;
         if ( empty($_POST['email']) )           return;
@@ -74,7 +104,7 @@ class user
 
     # проверить код вохода
     #
-    static function actionCodeCheck()
+    static function apiCodeCheck()
     {
         if ( empty($_POST['actionCodeCheck']) ) return;
         if ( empty($_POST['email']) )           return;
