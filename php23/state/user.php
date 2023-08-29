@@ -73,7 +73,7 @@ class user
     #
     static function apiCodeSend()
     {
-        if ( empty($_POST['actionCodeSend']) )  return;
+        if ( empty($_POST['apiCodeSend']) )  return;
         if ( empty($_POST['email']) )           return;
         #
         if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"send":"ok1"}');
@@ -106,7 +106,7 @@ class user
     #
     static function apiCodeCheck()
     {
-        if ( empty($_POST['actionCodeCheck']) ) return;
+        if ( empty($_POST['apiCodeCheck']) ) return;
         if ( empty($_POST['email']) )           return;
         if ( empty($_POST['code']) )            return;
         if ( empty($_COOKIE['code']) )          return;

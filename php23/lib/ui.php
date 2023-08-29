@@ -23,8 +23,9 @@ class ui
     {
         if ( empty(self::$json) )   return;
 
+        self::$json['rtoken'] = rtoken::init();
+
         header('Content-Type: application/json; charset=utf-8');
-        
         echo  json_encode(self::$json);
         die;
     }

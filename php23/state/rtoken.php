@@ -10,7 +10,7 @@ class rtoken
     #
     static function init()
     {
-        if ( !isset($_POST['rtoken']) )     return;
+        //if ( !isset($_POST['rtoken']) )     return;
 
 
         # создать новый токен
@@ -18,21 +18,32 @@ class rtoken
         #
         $_SESSION['rtoken'][]   =   self::$value =   md5( session_id(). time() );
         #
-        for($c=count($_SESSION['ft']);  $c > 10;  $c--)     array_shift($_SESSION['ft']);
+        for($c=count($_SESSION['rtoken']);  $c > 10;  $c--)     array_shift($_SESSION['rtoken']);
+
+        return rtoken::$value;
     }
 
 
+    # удалить токен
+    #
+    static function drop()
+    {
+        if ( !isset($_POST['rtoken']) )     return;
+        if ( empty($_SESSION['rtoken']) )   return;
+
+        $key    =   array_search($_POST['rtoken'], $_SESSION['rtoken']);
+
+        unset($_SESSION['rtoken'][ $key ]);
+
+        return rtoken::init();
+    }
 
 
     # проверить токен
     #
-    static function check($json='{}')
+    static function check()
     {
-        if ( in_array( $_POST['rtoken'],  ($_SESSION['rtoken'] ?? []) ) )   return true;
-
-        self::$response =   $json;
-
-        return false;
+        return in_array( $_POST['rtoken'],  ($_SESSION['rtoken'] ?? []) );
     }
 
 }
