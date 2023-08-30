@@ -1,7 +1,11 @@
-import { writable } from "svelte/store";
+import {get, writable} from 'svelte/store'
 
 
-export let url =  writable({})
+export let url      =   writable({})
+export let rtoken   =   writable(document.body.dataset.rtoken)
+
+
+// инициализация и отслеживание
 parse()
 window.addEventListener('popstate', parse)
 
@@ -15,6 +19,8 @@ function parse()
     url.set({path, level, dir})
 }
 
+
+// экспортные функции
 /**
  * @param {string} href
  */
@@ -34,19 +40,23 @@ export function href(href='')
  */
 export function request(url, data = {}, cb)
 {
+    // console.log($rtoken)
+
     let fd  =   new FormData()
+    fd.append("rtoken", get(rtoken))
     for( let k in data )  fd.append(k, data[k])
     
     let xhr =   new XMLHttpRequest()
     xhr.open('POST', url);
     xhr.responseType = 'json';
     xhr.send(fd)
-    xhr.onload = () => cb(xhr.response)
-
-    // xhr.onload = () => {
-    //     if ( !xhr.response.send || xhr.response.send != 'ok' ) {
-    //         error = 'Error...';
-    //     }
-    //     console.log(xhr.response);
-    // }
+    xhr.onload = () => {
+        if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
+        cb(xhr.response)
+    }
 }
+
+
+
+
+// export { rtoken, url, href, request }

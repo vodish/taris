@@ -3,22 +3,20 @@
 import { href, request } from "../state/url";
 
 
-
 // переменные входа
 let userlist    =   []
-
-let step        =   "email"
 let email       =   ""
 let code        =   ""
-let error       =   ""
-let delay
-let rtoken      =   "rtoken123"
-let wait        =   false
 
+
+let step        =   "email"
+let delay
+let error       =   ""
+let wait        =   false
 
 // запросы
 
-request('/api/user/list', { rtoken }, (res)=>{
+request('/api/user/list', {}, (res)=>{
     if ( !res || !res.userList )    return
     userlist = res.userList
 })
@@ -40,7 +38,7 @@ function send()
     }, 1000 )
 
 
-    request('/api/user/get-code', { rtoken, email }, (res)=>{
+    request('/api/user/get-code', { email }, (res)=>{
         if ( !res || res.send != "ok" ) {
             error = 'Error...'
         }
@@ -56,9 +54,8 @@ function keyup(e)
     if ( code.length == 4 && wait === false )
     {
         wait = true;
-        request('/api/user/check-code', { rtoken, email, code }, (res)=>{
+        request('/api/user/check-code', { email, code }, (res)=>{
             
-            rtoken  =   res.rtoken
             error   =   res.check
             console.log(res);
         })
@@ -69,9 +66,11 @@ function keyup(e)
     }
 }
 
-
-
 </script>
+
+<svelte:head>
+    <title>Taris.pro - {window.location.host}</title>
+</svelte:head>
 
 
 <div class="main1">
