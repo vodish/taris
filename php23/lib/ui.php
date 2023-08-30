@@ -33,6 +33,16 @@ class ui
 
 
 
+
+    # отдать бандл
+    #
+    static function bundleSvelteDie()
+    {
+        
+    }
+
+
+
     # отдать по api json
     #
     static function jsonDie()
@@ -47,6 +57,9 @@ class ui
         echo  json_encode(self::$json);
         die;
     }
+
+
+
 
 
 
