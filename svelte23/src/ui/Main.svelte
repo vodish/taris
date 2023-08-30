@@ -3,13 +3,9 @@
 import { href, request } from "../state/url";
 
 
-let userlist    =   [
-    // { url: "/1", email: "vodish@yandex.ru" },
-    // { url: "/558", email: "p.karasev@psw.ru" },
-];
-
 
 // переменные входа
+let userlist    =   []
 
 let step        =   "email"
 let email       =   ""
@@ -18,6 +14,14 @@ let error       =   ""
 let delay
 let rtoken      =   "rtoken123"
 let wait        =   false
+
+
+// запросы
+
+request('/api/user/list', { rtoken }, (res)=>{
+    if ( !res || !res.userList )    return
+    userlist = res.userList
+})
 
 
 // обработчики
@@ -45,7 +49,7 @@ function send()
 }
 
 
-function keyup()
+function keyup(e)
 {
     code    =   code.replace(/\D+/g, '')
     
@@ -54,6 +58,8 @@ function keyup()
         wait = true;
         request('/api/user/check-code', { rtoken, email, code }, (res)=>{
             
+            rtoken  =   res.rtoken
+            error   =   res.check
             console.log(res);
         })
 
@@ -105,11 +111,12 @@ function keyup()
 
             <div class="userlist">
                 {#each userlist as v }
-                    <a href={v.url} on:click|preventDefault={(e)=>href(e.target.href)}>{v.email}</a>
+                    <a href={"/" + v.start} on:click|preventDefault={(e)=>href(e.target.href)}>{v.email}</a>
                 {/each}
             </div>
 
         {/if}
+        
 
     </div>
 </div>

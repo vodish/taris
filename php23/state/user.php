@@ -44,7 +44,7 @@ class user
 
         while( $v = db::fetch() )
         {
-            user::$list[ $v['email'] ]  =  $v;
+            user::$list[]  =  $v;
         }
 
 
