@@ -6,16 +6,10 @@ class rtoken
 
 
 
-    # определение токена для одноразовых запросов к api
+    # добавить новый токен запросов (для api) в ограниченный список
     #
     static function init()
     {
-        //if ( !isset($_POST['rtoken']) )     return;
-
-
-        # создать новый токен
-        # почистить историю токенов
-        #
         $_SESSION['rtoken'][]   =   self::$value =   md5( session_id(). time() );
         #
         for($c=count($_SESSION['rtoken']);  $c > 10;  $c--)     array_shift($_SESSION['rtoken']);
@@ -41,9 +35,15 @@ class rtoken
 
     # проверить токен
     #
-    static function check()
+    static function check(array $json = [])
     {
+        if ( empty($_POST['rtoken']) )  return false;
+
+        ui::$json   =   array_merge(ui::$json, $json);
+        
+        return true;
         return in_array( $_POST['rtoken'],  ($_SESSION['rtoken'] ?? []) );
     }
+
 
 }

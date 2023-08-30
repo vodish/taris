@@ -1,15 +1,28 @@
 <?php
 class user
 {
-    static $list = array();
+    static $list    =   array();
 
 
     # получить список профилей
     #
-    static function dbInit()
+    static function list()
     {
-        if ( !is_array(@$_COOKIE['token']) )     return array();
+        # условие выполнения функции
+        #
+        if ( is_array(@$_COOKIE['token']) )
+        {
+            if ( url::$path == "/" )    $exec = true;
+            if ( url::start("/api/user/list")  && rtoken::check() )    $exec = true;
+        }
+        #
+        if ( !isset($exec) )    return user::$list;
+        
 
+
+
+        # список пользователей ищ базы
+        #
         foreach($_COOKIE['token'] as $email => $token)
         {
             $where[] = "(`token`.`email` = " .db::v($email). " AND `token`.`token` = " .db::v($token). " AND `token`.`is_active` = 1)";
@@ -31,20 +44,36 @@ class user
 
         while( $v = db::fetch() )
         {
-            self::$list[ $v['email'] ]  =  $v;
+            user::$list[ $v['email'] ]  =  $v;
         }
+
+
+
+        # html
+        #
+        ui::$title =  'Taris.pro';
+        ui::html('../ui/default.ui.php');
+        ui::html('../ui/main/main.ui.php');
+
+
+        # json
+        #
+        ui::$json['userList']   =   user::$list;
 
 
         return  self::$list;
     }
 
 
+
+
     # отправить код вохода
     #
-    static function apiUserList()
+    static function getCode()
     {
-        if ( empty($_POST['apiUserList']) )         return;
-        if ( !rtoken::check('{"send":"ok1"}') )     return;
+        if ( ! rtoken::check() )                    return;
+        if ( ! url::start('/api/user/get-code') )   return;
+        if ( empty($_POST['email']) )               return;
         
         
 
@@ -64,39 +93,11 @@ class user
         // $smtp       =   new smtp();
         // $result     =   $smtp->send($email, $subject, 'Смотрите в тему письма.');
         
-        ui::$json["send"]   =   'ok';
+
+        # json переменные
+        #
+        ui::$json["send"]   =   "ok";
         ui::$json["code"]   =   $code;
-    }
-
-
-    # отправить код вохода
-    #
-    static function apiCodeSend()
-    {
-        if ( empty($_POST['apiCodeSend']) )  return;
-        if ( empty($_POST['email']) )           return;
-        #
-        if ( !isset( $_SESSION['ft'][ $_POST['ft'] ] ) )      die('{"send":"ok1"}');
-        
-
-        # код входа
-        #
-        $email      =   $_POST['email'];
-        $code       =   rand(1000, 9999);
-        $subject    =   rawurlencode('Код входа: ' .$code );
-        #
-        # сохранить в куке
-        #
-        cookie::set('code', md5($email.$code.$code));
-
-
-        # отправить письмо
-        #
-        // $smtp       =   new smtp();
-        // $result     =   $smtp->send($email, $subject, 'Смотрите в тему письма.');
-        
-        
-        die('{"send":"ok", "code":' .$code. '}');
     }
 
 
@@ -104,14 +105,14 @@ class user
 
     # проверить код вохода
     #
-    static function apiCodeCheck()
+    static function checkCode()
     {
-        if ( empty($_POST['apiCodeCheck']) ) return;
-        if ( empty($_POST['email']) )           return;
-        if ( empty($_POST['code']) )            return;
-        if ( empty($_COOKIE['code']) )          return;
-        #
-        if ( !rtoken::check() )      die('{"check":"ok1"}');
+        if ( ! rtoken::check() )                    return;
+        if ( ! url::start('/user/check-code') )     return;
+        if ( empty($_COOKIE['code']) )              return;
+        if ( empty($_POST['email']) )               return;
+        if ( empty($_POST['code']) )                return;
+        
         
 
 
@@ -119,7 +120,7 @@ class user
         #
         if ( $_COOKIE['code'] != md5($_POST['email']. $_POST['code']. $_POST['code']) )
         {
-            die('{"check":"Неверный код..."}');
+            return rtoken::check(['check'=>"Неверный код..."]);
         }
 
 
@@ -151,8 +152,12 @@ class user
         #
         $user   =   self::dbCreate($_POST['email']);
         
+        
 
-        die('{"check": "OK", "redir": "/' .$user['start']. '"}');
+        # json переменные
+        #
+        ui::$json["check"]  =   "ok";
+        ui::$json["redir"]  =   "/". $user['start'];
     }
 
 

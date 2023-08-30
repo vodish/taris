@@ -34,6 +34,13 @@ class url
         return $parse;
     }
 
+
+
+    static function replace()
+    {
+        
+    }
+
     
     static function start( $str )
     {

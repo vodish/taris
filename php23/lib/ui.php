@@ -1,10 +1,8 @@
 <?php
 class ui
 {
-    static $list;
     static $title;
-    static $pwa     =   false;
-
+    static $html    =   array();
     static $json    =   array();
     
 
@@ -12,22 +10,7 @@ class ui
     #
     static function html($file)
     {
-        if ( rtoken::$value )   return;
-
-        self::$list[]	=	ltrim($file, '/');
-    }
-
-    # 
-    #
-    static function jsonApi()
-    {
-        if ( empty(self::$json) )   return;
-
-        self::$json['rtoken'] = rtoken::init();
-
-        header('Content-Type: application/json; charset=utf-8');
-        echo  json_encode(self::$json);
-        die;
+        self::$html[]	=	ltrim($file, '/');
     }
 
 
@@ -41,11 +24,37 @@ class ui
             return;
         }
 
-        if ( !in_array($file, self::$list) )    return ;
+        if ( !in_array($file, ui::$html) )    return ;
 
         
         include $file;
     }
+
+
+
+
+    # отдать по api json
+    #
+    static function jsonDie()
+    {
+        if ( empty($_POST['rtoken']) )  return;
+        if ( empty(self::$json) )       return;
+
+
+        ui::$json['rtoken']   =   rtoken::init();
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo  json_encode(self::$json);
+        die;
+    }
+
+
+
+
+
+
+
+
 
 
     static function makefile($to, $from, $addtime=true)
@@ -84,7 +93,7 @@ class ui
         echo '<pre style="max-width: 90%; overflow: auto;">';
         echo  $trace!==null ?  $backtrace[$trace]['file']. '::' .$backtrace[$trace]['line']. "\n" :  '';
         $print_r === null ?  print_r($var) :  var_dump($var);
-        echo '</pre>';
+        echo '</pre>'. "\n";
 
     }
 

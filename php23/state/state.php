@@ -1,63 +1,8 @@
 <?php
 class state
 {   
-    static $rtoken;
 
-
-    # определение токена для одноразовых запросов к api
-    #
-    static function rtoken()
-    {
-        if ( !isset($_POST['rtoken']) )     return;
-
-
-        # создать новый токен
-        # почистить историю токенов
-        #
-        $_SESSION['rtoken'][]   =   self::$rtoken =   md5( session_id(). time() );
-        #
-        for($c=count($_SESSION['ft']);  $c > 10;  $c--)     array_shift($_SESSION['ft']);
-    }
-
-
-
-
-
-
-
-    # главная страница
-    #
-    static function main()
-    {
-        if ( url::$path != '/' )    return;
-
-        # вывод ui
-        #
-        ui::$title =  'Taris.pro';
-        #
-        ui::html('../ui/default.ui.php');
-        ui::html('../ui/main/main.ui.php');
-        
-
-
-        # подключиться к бд
-        #
-        db::init();
-
-        # пользователи
-        # операции авторизации
-        #
-        user::apiUserList();
-        user::apiCodeSend();
-        user::apiCodeCheck();
-        
-        
-        # список профилей
-        #
-        user::dbInit();
-        
-    }
-
+    
 
     # Проект
     #
@@ -78,7 +23,7 @@ class state
         #
         db::init();
         pack::dbInit( (int)url::$level[0] );
-        user::dbInit();
+        user::list();
         access::dbInit();
         #
         project::init();

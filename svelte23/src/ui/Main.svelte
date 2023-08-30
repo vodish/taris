@@ -37,7 +37,7 @@ function send()
     }, 1000 )
 
 
-    request('/api/main/send-code', { rtoken, email }, (res)=>{
+    request('/api/user/get-code', { rtoken, apiCodeSend:1, email }, (res)=>{
         if ( !res || res.send != "ok" ) {
             error = 'Error...'
         }
@@ -52,7 +52,7 @@ function keyup()
 
     if ( code.length == 4 )
     {
-        request('/api/main/check-code', { rtoken, email, code }, (res)=>{
+        request('/api/user/check-code', { rtoken, apiCodeCheck:1, email, code }, (res)=>{
             
             console.log(res);
         })
@@ -74,10 +74,10 @@ function keyup()
 
             {#if step == "email" }
 
-                <div class="login">
-                    <input class="email" type="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа">
-                    <button class="send" on:click={send}>Tariz</button>
-                </div>
+                <form class="login" on:submit|preventDefault={send}>
+                    <input class="email" type="email" name="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа">
+                    <button class="send">Tariz</button>
+                </form>
                 
             {:else if step == "code"}
                 

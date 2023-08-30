@@ -19,16 +19,27 @@ spl_autoload_register( function($name) {
 
 # ПРИЛОЖЕНИЕ
 #
-# 1 создать данные (состояние)
+# состояние: создать данные
 #
 url::parse($_SERVER['REQUEST_URI'], true);
-rtoken::init();
-state::main();
+db::init();
+#
+#
+# главная страница
+#
+user::getCode();
+user::checkCode();
+user::list();
+#
+#
+# проект
+#
 state::pack();
+
 
 
 # 2 отдать данные
 #
-ui::jsonApi();
+ui::jsonDie();
 ui::include('../ui/svelte.bundle.php');
 ui::include('../ui/default.ui.php');
