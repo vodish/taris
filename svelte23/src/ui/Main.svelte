@@ -30,7 +30,7 @@ function send()
     code    =   ""
     error   =   ""
 
-    delay   =   3
+    delay   =   10
     let timer =  setInterval(() => {
         delay--;
         if ( delay > 0 )    return
@@ -74,7 +74,7 @@ function keyup(e)
 
 
 <div class="main1">
-    <img class="pic1 { userlist.length > 0? "active": '' }" src="/i/pic1.jpg" alt="Tariz" />
+    <img class="pic1 { userlist.length > 0? "active": '' }" src="/i/pic1.jpg" alt="Taris" />
     <div>
         <div class="auth">
 
