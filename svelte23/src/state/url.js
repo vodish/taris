@@ -1,4 +1,4 @@
-import {get, writable} from 'svelte/store'
+import {get as storeGet, writable} from 'svelte/store'
 
 
 export let url      =   writable({})
@@ -43,7 +43,7 @@ export function request(url, data = {}, cb)
     // console.log($rtoken)
 
     let fd  =   new FormData()
-    fd.append("rtoken", get(rtoken))
+    fd.append("rtoken", storeGet(rtoken))   // добавить rtoken для запросов
     for( let k in data )  fd.append(k, data[k])
     
     let xhr =   new XMLHttpRequest()

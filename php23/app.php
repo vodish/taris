@@ -40,6 +40,7 @@ state::pack();
 
 # 2 отдать данные
 #
+// отдать бандл если пришел запрос без rtoken
 ui::jsonDie();
 ui::include('../ui/svelte.bundle.php');
 ui::include('../ui/default.ui.php');
