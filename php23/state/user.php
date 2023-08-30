@@ -71,9 +71,9 @@ class user
     #
     static function getCode()
     {
-        if ( ! rtoken::check() )                    return;
-        if ( ! url::start('/api/user/get-code') )   return;
-        if ( empty($_POST['email']) )               return;
+        if ( ! rtoken::check() )                        return;
+        if ( ! url::start('/api/user/get-code') )       return;
+        if ( empty($_POST['email']) )                   return;
         
         
 
@@ -107,15 +107,14 @@ class user
     #
     static function checkCode()
     {
-        if ( ! rtoken::check() )                    return;
-        if ( ! url::start('/user/check-code') )     return;
-        if ( empty($_COOKIE['code']) )              return;
-        if ( empty($_POST['email']) )               return;
-        if ( empty($_POST['code']) )                return;
+        if ( ! rtoken::check() )                        return;
+        if ( ! url::start('/api/user/check-code') )     return;
+        if ( empty($_COOKIE['code']) )                  return;
+        if ( empty($_POST['email']) )                   return;
+        if ( empty($_POST['code']) )                    return;
         
         
-
-
+        
         # проверить код
         #
         if ( $_COOKIE['code'] != md5($_POST['email']. $_POST['code']. $_POST['code']) )

@@ -42,6 +42,7 @@ class rtoken
         ui::$json   =   array_merge(ui::$json, $json);
         
         return true;
+        
         return in_array( $_POST['rtoken'],  ($_SESSION['rtoken'] ?? []) );
     }
 

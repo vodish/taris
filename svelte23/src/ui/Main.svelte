@@ -17,8 +17,7 @@ let code        =   ""
 let error       =   ""
 let delay
 let rtoken      =   "rtoken123"
-
-
+let wait        =   false
 
 
 // обработчики
@@ -37,7 +36,7 @@ function send()
     }, 1000 )
 
 
-    request('/api/user/get-code', { rtoken, apiCodeSend:1, email }, (res)=>{
+    request('/api/user/get-code', { rtoken, email }, (res)=>{
         if ( !res || res.send != "ok" ) {
             error = 'Error...'
         }
@@ -49,16 +48,18 @@ function send()
 function keyup()
 {
     code    =   code.replace(/\D+/g, '')
-
-    if ( code.length == 4 )
+    
+    if ( code.length == 4 && wait === false )
     {
-        request('/api/user/check-code', { rtoken, apiCodeCheck:1, email, code }, (res)=>{
+        wait = true;
+        request('/api/user/check-code', { rtoken, email, code }, (res)=>{
             
             console.log(res);
         })
 
-    } else {
-        error = ""
+    } else if ( code.length < 4 ) {
+        wait    =   false;
+        error   =   ""
     }
 }
 
