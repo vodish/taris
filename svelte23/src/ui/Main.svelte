@@ -13,13 +13,19 @@ let step        =   "email"
 let delay
 let error       =   ""
 let wait        =   false
+let cssPic1     =   ""
 
 // запросы
 
 request('/api/user/list', {}, (res)=>{
-    if ( !res || !res.userList )    return
-    userlist = res.userList
+    if ( !res || !res.userList ) {
+        cssPic1 =   "empty"
+        return
+    }
+    userlist    =   res.userList
+    cssPic1     =   ""
 })
+
 
 
 // обработчики
@@ -74,7 +80,7 @@ function keyup(e)
 
 
 <div class="main1">
-    <img class="pic1 { userlist.length > 0? "active": '' }" src="/i/pic1.jpg" alt="Taris" />
+    <img class="pic1 {cssPic1}" src="/i/pic1.jpg" alt="Taris" />
     <div>
         <div class="auth">
 
