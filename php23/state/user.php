@@ -13,15 +13,19 @@ class user
         if ( is_array(@$_COOKIE['token']) )
         {
             if ( url::$path == "/" )    $exec = true;
-            if ( url::start("/api/user/list")  && rtoken::check() )    $exec = true;
+            if ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )    $exec = true;
+        }
+        elseif ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )
+        {
+            return  ui::$json['userList'] = array();
         }
         #
         if ( !isset($exec) )    return user::$list;
         
 
+        
 
-
-        # список пользователей ищ базы
+        # список пользователей из базы
         #
         foreach($_COOKIE['token'] as $email => $token)
         {
@@ -59,7 +63,7 @@ class user
         # json
         #
         ui::$json['userList']   =   user::$list;
-
+        
 
         return  self::$list;
     }
@@ -71,9 +75,10 @@ class user
     #
     static function getCode()
     {
-        if ( ! rtoken::check() )                        return;
-        if ( ! url::start('/api/user/get-code') )       return;
-        if ( empty($_POST['email']) )                   return;
+        if ( ! rtoken::check() )                return;
+        if ( ! url::start('/api') )             return;
+        if ( empty($_POST['userGetCode']) )     return;
+        if ( empty($_POST['email']) )           return;
         
         
 
@@ -107,11 +112,12 @@ class user
     #
     static function checkCode()
     {
-        if ( ! rtoken::check() )                        return;
-        if ( ! url::start('/api/user/check-code') )     return;
-        if ( empty($_COOKIE['code']) )                  return;
-        if ( empty($_POST['email']) )                   return;
-        if ( empty($_POST['code']) )                    return;
+        if ( ! rtoken::check() )                return;
+        if ( ! url::start('/api') )             return;
+        if ( empty($_POST['userCheckCode']) )   return;
+        if ( empty($_COOKIE['code']) )          return;
+        if ( empty($_POST['email']) )           return;
+        if ( empty($_POST['code']) )            return;
         
         
         

@@ -22,11 +22,18 @@ function parse()
 
 // экспортные функции
 /**
- * @param {string} href
+ * @param {string | object} href
  */
-export function href(href='')
-{
-    if ( window.location.pathname == href )  return;
+export function href(href)
+{   
+    if ( typeof href === 'object'  && href.srcElement.tagName == "A")
+    {
+        href.preventDefault()
+        href = href.srcElement.pathname
+    }
+
+
+    if ( window.location.pathname == href )  return
 
     window.history.pushState({}, "", href)
     parse()
@@ -34,29 +41,23 @@ export function href(href='')
 
 
 /**
- * @param {string | URL} url
  * @param {Object} data
  * @param {(arg0: Object) => any} cb
  */
-export function request(url, data = {}, cb)
+export function api(data, cb)
 {
-    // console.log($rtoken)
-
     let fd  =   new FormData()
-    fd.append("rtoken", storeGet(rtoken))   // добавить rtoken для запросов
-    for( let k in data )  fd.append(k, data[k])
+        fd.append("rtoken", storeGet(rtoken))
+        for( let k in data )  fd.append(k, data[k])
     
     let xhr =   new XMLHttpRequest()
-    xhr.open('POST', url);
-    xhr.responseType = 'json';
-    xhr.send(fd)
-    xhr.onload = () => {
-        if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
-        cb(xhr.response)
-    }
+        xhr.open('POST', "/api");
+        xhr.responseType = 'json';
+        xhr.send(fd)
+        xhr.onload = () => {
+            if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
+            cb(xhr.response)
+        }
 }
 
 
-
-
-// export { rtoken, url, href, request }
