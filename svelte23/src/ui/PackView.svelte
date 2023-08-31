@@ -1,15 +1,32 @@
 <script>
 // @ts-nocheck
 
-import { packTree, packView } from "../state/store";
-import { url, href } from "../state/url";
+import { packId, packBc, packTitle, packTree, packView } from "../state/store";
+import { url, href, api } from "../state/url";
 
 
 function handleApi(e)
 {
     e.preventDefault()
     href(e)
-    console.log( $url.level[0] )
+    
+    api({
+        pack: $url.level[0],
+        packId:1,
+        packTitle:1,
+        packBc:1,
+        packTree:1,
+        packView:1,
+        },
+        (res) => {
+            packId.set(res.packId)
+            packTitle.set(res.packTitle)
+            packBc.set(res.packBc)
+            packTree.set(res.packTree)
+            packView.set(res.packView)
+        }
+    )
+
     
 }
 
