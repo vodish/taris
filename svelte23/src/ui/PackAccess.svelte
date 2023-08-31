@@ -8,5 +8,5 @@ onDestroy(()=>{
 })
 </script>
 
-<p>PackAccess</p>
+
 <AceYaml bind:value={$access_content} />

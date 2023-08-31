@@ -9,9 +9,6 @@ import PackAccess     from "./PackAccess.svelte";
 </script>
 
 
-
-
-
 <div class="nav1">
     <div class="bc">
         <a href="/" class="logo" on:click={href}>Taris</a>
@@ -25,6 +22,7 @@ import PackAccess     from "./PackAccess.svelte";
         <span>+&nbsp;Проект</span>
 
         <i class="sep"></i>
+        <a href="/1" on:click={href}>Просмотр</a>
         <a href="/1/line" on:click={href} class="b">Записи</a>
         <a href="/1/tree" on:click={href}>Дерево</a>
         <a href="/1/access" on:click={href}>Доступ</a>
@@ -32,15 +30,6 @@ import PackAccess     from "./PackAccess.svelte";
 </div>
 
 
-<hr>
-
-<h4>
-  Pack: 
-  <button on:click={()=> href("/1") }>View</button>
-  <button on:click={()=> href("/1/line") }>Line</button>
-  <button on:click={()=> href("/1/tree") }>Tree</button>
-  <button on:click={()=> href("/1/access") }>Access</button>
-</h4>
 
 {#if $url.level[1] == undefined     }   <PackView />
 {:else if $url.level[1] == "line"   }   <PackLine />

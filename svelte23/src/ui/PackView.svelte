@@ -1,8 +1,12 @@
 <script>
 import { line_view } from "../state/pack";
 </script>
-<p>PackView</p>
 
-<hr>
-<br>
-{@html $line_view}
+<div class="pro">
+    <div class="tree">
+        tree
+    </div>
+    <div class="file">
+        {@html $line_view}
+    </div>
+</div>

@@ -9,8 +9,5 @@ onDestroy(()=>{
 
 </script>
 
-<p>PackLine</p>
 
-<hr>
-<br>
 <AceHtml bind:value={$line_content} />
