@@ -11,10 +11,21 @@ class pack
     
 
 
-    # получить все пачки пользователя
+    # получить все пачки пользователя по url
     #
-    static function dbInit($start)
+    static function init()
     {
+        if      ( pack::$start )    return;
+        if      ( isset(url::$level[0])  && is_numeric(url::$level[0]) )                    $start = url::$level[0];
+        elseif  ( url::start('/api')  && !empty($_POST['pack'])  && $_POST['pack'] > 0 )    $start = $_POST['pack'];
+        #
+        if      ( ! isset($start) )   return;
+
+
+
+        # получить все пачки пользователя
+        #
+        #
         db::query("
             SELECT
                 *
@@ -31,8 +42,8 @@ class pack
         {
             db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
             
-            self::$list[ $v['id'] ] =   $v;
-            self::$parent[ $v['parent'] ][] =   $v['id'];
+            pack::$list[ $v['id'] ] =   $v;
+            pack::$parent[ $v['parent'] ][] =   $v['id'];
         }
         
 
@@ -42,22 +53,36 @@ class pack
         #
         $packId =   $start;
         #
-        while( isset(self::$list[ $packId ]) )
+        while( isset(pack::$list[ $packId ]) )
         {
-            $pack       =   self::$list[ $packId ];
+            $pack       =   pack::$list[ $packId ];
             $packId     =   $pack['parent'];
 
             if ( !$pack['is_project'] )     continue;
             
-            self::$bc[] =   $pack['id'];
+            pack::$bc[] =   $pack['id'];
+
         }
         #
         #
-        self::$project  =   self::$bc[0];
-        self::$start    =   $start;
-        self::$user     =   self::$list[ $start ]['user'];
+        pack::$project  =   pack::$bc[0];
+        pack::$start    =   $start;
+        pack::$user     =   pack::$list[ $start ]['user'];
 
+
+
+        # ui
+        #
+        ui::$json["packId"]         =   $start;
+        ui::$json["packTitle"]      =   project::setTitle();
+        ui::$json["packBc"]         =   project::apiBc();
+        ui::$json["packTree"]       =   project::treeArray(pack::$project);
+        ui::$json["packView"]       =   'отобразить содержание в html'; //line::asHtml();
+        
 
     }
     
+
+
+
 }

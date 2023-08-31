@@ -24,6 +24,24 @@ class project
     }
 
 
+    static function apiBc()
+    {
+        $arr    =   array();
+        $bc     =   array_reverse(pack::$bc);
+
+        foreach( $bc as $v )
+        {
+            $v  =   pack::$list[ $v ];
+            $arr[] = array(
+                'id'    =>  $v['id'],
+                'name'  =>  $v['name'],
+            );
+        }
+        
+        return $arr;
+    }
+
+
 
 
 
@@ -52,8 +70,11 @@ class project
     }
 
 
+
+
     # получить дерево проекта как html
-    static function asTree( $start,  $level=0,  $html='' )
+    #
+    static function treeHtml( $start,  $level=0,  $html='' )
     {
         $children   =   pack::$parent[ $start ] ??  array();
         
@@ -72,7 +93,7 @@ class project
             if ( !$isProject  && isset($sub) )
             {
                 $html   .=  '<div class="sub">';
-                $html   =   self::asTree($id, ($level+1), $html);
+                $html   =   self::treeHtml($id, ($level+1), $html);
                 $html   .=  '</div>';
             }
         }
@@ -80,6 +101,39 @@ class project
         return $html;
     }
 
+
+
+
+    # получить дерево проекта как массив для json
+    #
+    static function treeArray( $start,  $level=0,  $arr=array() )
+    {
+        
+        $children   =   pack::$parent[ $start ] ??  array();
+        
+        // ui::vd($start);
+        // ui::vd($children);
+        // ui::vd(pack::$parent);
+
+        foreach( $children as $id )
+        {
+            $name       =   pack::$list[ $id ]['name'];
+            $isProject  =   pack::$list[ $id ]['is_project'];
+            $sub        =   pack::$parent[ $id ] ?? null;
+
+            $arr[]      =   array('id'=>$id, 'name'=>$name, 'project'=>$isProject, 'level'=>$level);
+            
+            if ( !$isProject  && isset($sub) )
+            {
+                $arr   =   self::treeArray($id, ($level+1), $arr);
+            }
+
+            // ui::vd($arr);
+
+        }
+        
+        return $arr;
+    }
 
 
     # сохранить новое дерево проекта

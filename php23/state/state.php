@@ -9,6 +9,7 @@ class state
     static function pack()
     {
         if ( !isset(url::$level[0]) || !is_numeric(url::$level[0]) )    return;
+        
 
         # компоненты ui
         #
@@ -22,7 +23,8 @@ class state
         # права
         #
         db::init();
-        pack::dbInit( (int)url::$level[0] );
+        pack::init( (int)url::$level[0] );
+        
         user::list();
         access::dbInit();
         #

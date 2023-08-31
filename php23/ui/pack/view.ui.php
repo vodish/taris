@@ -1,7 +1,7 @@
 
 <div class="pro">
     <div class="tree">
-        <?= project::asTree( project::$id ) ?>
+        <?= project::treeHtml( project::$id ) ?>
     </div>
     <div class="file">
         <?

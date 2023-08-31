@@ -4,12 +4,18 @@ import { href, api } from "../state/url";
 import { userList } from "../state/store";
 
 
+
 // инициализация
 
-api( {userList:1},  ({ userList: list }) => userList.set(list) )
+if ( $userList == false )
+{
+    api( {userList:1},  ({ userList: list }) => userList.set(list) )
+}
+
 
 
 // переменные входа
+
 let email       =   ""
 let code        =   ""
 
@@ -58,8 +64,7 @@ function checkCode(e)
             if ( check != "ok" ) {
                 error = 'Error...'
             }
-            error   =   res.check
-            console.log(res);
+            error   =   check
         })
 
     } else if ( code.length < 4 ) {
@@ -108,7 +113,7 @@ function checkCode(e)
 
         </div>
 
-        {#if $userList.length }
+        {#if $userList && $userList.length }
 
             <div class="userlist">
                 {#each $userList as v }

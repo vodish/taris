@@ -34,6 +34,8 @@ user::list();
 #
 # проект
 #
+pack::init();
+
 state::pack();
 
 

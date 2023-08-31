@@ -43,6 +43,16 @@ class line
         
     }
 
+
+
+    # получить все строки в виде html
+    #
+    static function asHtml()
+    {
+        return  implode('', line::$list);
+    }
+
+
     # получить все строки в виде текста
     #
     static function asText()
@@ -54,7 +64,7 @@ class line
             $content    .=  "\n" .str_repeat(' ', $v['space']). $v['content'];
         }
 
-        return substr($content, 1);
+        return  substr($content, 1);
     }
 
 
