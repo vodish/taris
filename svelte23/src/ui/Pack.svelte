@@ -34,16 +34,16 @@ pack1($url.path)
         <span>+&nbsp;Проект</span>
 
         <i class="sep"></i>
-        <a href="/1/line" on:click={pack1} class="b">Записи</a>
-        <a href="/1/tree" on:click={pack1}>Дерево</a>
-        <a href="/1/access" on:click={pack1}>Доступ</a>
+        <a href="/{$pack.start}/line" on:click={pack1} class="b">Записи</a>
+        <a href="/{$pack.start}/tree" on:click={pack1}>Дерево</a>
+        <a href="/{$pack.start}/access" on:click={pack1}>Доступ</a>
     </div>
 </div>
 
 
 
-{#if $view == 'html'     }   <PackView />
-{:else if $view == "line"   }   <PackLine />
-{:else if $view == "tree"   }   <PackTree />
-{:else if $view == "access" }   <PackAccess />
+{#if        $view == 'html'     }   <PackView />
+{:else if   $view == "line"     }   <PackLine />
+{:else if   $view == "tree"     }   <PackTree />
+{:else if   $view == "access"   }   <PackAccess />
 {/if}

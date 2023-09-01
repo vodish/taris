@@ -5,7 +5,7 @@
     </div>
     <div class="file">
         <?
-        foreach(line::$list as $v)  echo $v['view'];
+        foreach(line::$list ?? [] as $v)  echo $v['view'];
         ?>
     </div>
 </div>

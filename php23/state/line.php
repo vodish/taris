@@ -66,7 +66,7 @@ class line
 
         $content = '';
 
-        foreach( self::$list as $v )
+        foreach( self::$list ?? [] as $v )
         {
             $content    .=  "\n" .str_repeat(' ', $v['space']). $v['content'];
         }

@@ -64,12 +64,12 @@ export function pack1(href)
         
         pack.set(res.pack)
 
-        if ( res.lineHtml !== undefined )       lineHtml.set(res.lineHtml || false)
-        if ( res.lineText !== undefined )       lineHtml.set(res.lineText)
-        if ( res.treeText !== undefined )       lineHtml.set(res.treeText)
-        if ( res.accessText !== undefined )     lineHtml.set(res.accessText)
+        if ( res.lineHtml !== undefined )       lineHtml.set(res.lineHtml)
+        if ( res.lineText !== undefined )       lineText.set(res.lineText)
+        if ( res.treeText !== undefined )       treeText.set(res.treeText)
+        if ( res.accessText !== undefined )     accessText.set(res.accessText)
         
-        // console.log(res)
+        //console.log(res)
         
         changeUrl(href.path)
     })

@@ -5,7 +5,9 @@ import { onMount } from "svelte";
 export let value =  "";
 
 
+
 onMount(()=> {
+    console.log(value)
     // @ts-ignore
     let ace9    =   ace.edit('ace9');
     ace9.session.setMode('ace/mode/html')
