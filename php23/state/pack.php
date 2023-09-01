@@ -65,7 +65,9 @@ class pack
         pack::$user     =   pack::$list[ $start ]['user'];
 
 
-        
+        # открытая пачка
+        #
+        if (pack::$bc[0] != $start )    array_unshift(pack::$bc , $start);
 
     }
     

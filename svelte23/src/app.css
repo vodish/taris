@@ -57,7 +57,7 @@ button:hover    { background-color: #ccc; }
 .nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
 .nav1 .bc > a       { padding: 4px 1ch; }
 .nav1 .opt          { display: flex; }
-.nav1 .opt > *      { padding: 4px 1ch; }
+.nav1 .opt > *      { padding: 4px 1ch; border-radius: 2px; }
 .nav1 .opt > .sep   { display: inline-block; width: 1ch; }
 .nav1 .opt > .save  { margin-right: 2ch; }
 .nav1 .opt > .b     { font-weight: bold; }

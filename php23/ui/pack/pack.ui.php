@@ -10,16 +10,13 @@ $start  =   pack::$start;
 
         foreach( $bc as $v )
         {
-            $v  =   pack::$list[ $v ];
+            $v      =   pack::$list[ $v ];
+            $class  =   $v['id']==project::$id && !isset(url::$level[1]) ? 'active': '';
+            $class  .=  $v['id']==pack::$start ? 'current': '';
             ?>
             <i>/</i>
-            <a href="/<?= $v['id'] ?>" class="<?= $v['id']==project::$id && !isset(url::$level[1]) ? 'active': '' ?>"><?= $v['name'] ?></a>
+            <a href="/<?= $v['id'] ?>" class="<?= $class ?>"><?= $v['name'] ?></a>
             <?
-        }
-
-        if ( $start != project::$id ) {
-            echo '<i>/</i>';
-            echo '<a href="/' .$start. '" class="current z">' .pack::$list[$start]['name']. '</a>';
         }
         ?>
     </div>

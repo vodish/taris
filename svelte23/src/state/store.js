@@ -17,6 +17,8 @@ export let lineText     =   writable('')
 export let treeText     =   writable('')
 export let accessText   =   writable('')
 
+export let testAce      =   writable('фром сторе')
+
 
 
 
@@ -36,27 +38,26 @@ export function pack1(href)
     
 
     // параметры запроса к api
-    let data    =   { pack: href.level[0] }
+    let data    =   { pack: href.level[0], view: "html" }
 
     if ( ! href.level[1] )
     {
         data.lineHtml   =   href.level[0]
-        view.set("html")
     }
     else if ( href.level[1] == 'line' )
     {
         data.lineText   =   href.level[0]
-        view.set("line")
+        data.view       =   "line"
     }
     else if ( href.level[1] == 'tree' )
     {
         data.treeText   =   href.level[0]
-        view.set("triee")
+        data.view       =   "triee"
     }
     else if ( href.level[1] == 'access' )
     {
         data.accessText =   href.level[0]
-        view.set("access")
+        data.view       =   "access"
     }
 
 
@@ -64,12 +65,15 @@ export function pack1(href)
         
         pack.set(res.pack)
 
-        if ( res.lineHtml !== undefined )       lineHtml.set(res.lineHtml)
-        if ( res.lineText !== undefined )       lineText.set(res.lineText)
-        if ( res.treeText !== undefined )       treeText.set(res.treeText)
-        if ( res.accessText !== undefined )     accessText.set(res.accessText)
+        if ( res.lineHtml !== undefined )   { lineHtml.set(res.lineHtml) }
+        if ( res.lineText !== undefined )   { lineText.set(res.lineText) }
+        if ( res.treeText !== undefined )   { treeText.set(res.treeText) }
+        if ( res.accessText !== undefined ) { accessText.set(res.accessText) }
         
+        
+        view.set(data.view)
         changeUrl(href.path)
+        
     })
     
 }

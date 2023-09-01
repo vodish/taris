@@ -5,7 +5,6 @@ import { onMount } from "svelte";
 export let value = "";
 
 
-
 onMount(()=> {
     
     // @ts-ignore
@@ -23,10 +22,9 @@ onMount(()=> {
     })
     ace9.setValue(value, 1)
     ace9.on('change', () => value = ace9.getValue())
-    console.log(value)
+    
 })
 </script>
 
-{@html value}
 
 <div id="ace9" class="ace" />
