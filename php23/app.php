@@ -34,10 +34,8 @@ user::list();
 #
 # проект
 #
-pack::init();
-
+pack::api();
 state::pack();
-
 
 
 # 2 отдать данные

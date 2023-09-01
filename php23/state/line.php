@@ -2,8 +2,8 @@
 class line
 {
     static $file;
-    static $list    =   array();
-    static $parent  =   array();
+    static $list;
+    static $parent;
 
 
     static function dbInit()
@@ -49,7 +49,12 @@ class line
     #
     static function asHtml()
     {
-        return  implode('', line::$list);
+        if ( !isset(line::$file) )  line::dbInit();
+
+        $view   =   array_column(line::$list, 'view');
+        $view   =   implode('', $view);
+
+        return  $view;
     }
 
 
@@ -57,6 +62,8 @@ class line
     #
     static function asText()
     {
+        if ( !isset(line::$file) )  line::dbInit();
+
         $content = '';
 
         foreach( self::$list as $v )

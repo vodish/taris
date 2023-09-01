@@ -6,21 +6,31 @@ export let rtoken   =   writable(document.body.dataset.rtoken)
 
 
 // инициализация и отслеживание
-parse()
-window.addEventListener('popstate', parse)
 
-function parse()
+url.set( parse(window.location.pathname) )
+window.addEventListener('popstate', () => url.set( parse(window.location.pathname) ) )
+
+
+// console.log( storeGet(url) )
+
+// экспортные функции
+
+
+/**
+ * @param {string} path
+ */
+export function parse(path)
 {
-    let path    =   window.location.pathname
     let level   =   path == '/' ?  [] :  path.substring(1).split('/')
     let dir     =   [];
     level.map( (v, i) => dir[i] = `${i ? dir[i-1]: ''}/${v}` )
 
-    url.set({path, level, dir})
+    return {path, level, dir}
 }
 
 
-// экспортные функции
+
+
 /**
  * @param {string | object} href
  */
@@ -29,15 +39,16 @@ export function href(href)
     if ( typeof href === 'object'  && href.srcElement.tagName == "A")
     {
         href.preventDefault()
-        href = href.srcElement.pathname
+        href    =   href.srcElement.pathname
     }
 
-
-    if ( window.location.pathname == href )  return
-
-    window.history.pushState({}, "", href)
-    parse()
+    if ( window.location.pathname != href )
+    {
+        window.history.pushState({}, "", href)
+        url.set( parse(href) )
+    }
 }
+
 
 
 /**
@@ -59,5 +70,7 @@ export function api(data, cb)
             cb(xhr.response)
         }
 }
+
+
 
 

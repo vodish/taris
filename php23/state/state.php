@@ -8,6 +8,7 @@ class state
     #
     static function pack()
     {
+        if ( url::start('/api') )   return;
         if ( !isset(url::$level[0]) || !is_numeric(url::$level[0]) )    return;
         
 
@@ -22,7 +23,7 @@ class state
         # пользователи
         # права
         #
-        db::init();
+        // db::init();
         pack::init( (int)url::$level[0] );
         
         user::list();
@@ -34,10 +35,6 @@ class state
         project::actionCansel();
 
 
-        # не найден пользователь
-        #
-        // if ( ! pack::$user )    url::redir("/");
-        
 
         # варианты
         #

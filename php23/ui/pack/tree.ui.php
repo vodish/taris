@@ -1,6 +1,6 @@
 
 <form class="tree" method="post">
-    <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim(project::asText( project::$id )) ?></textarea>
+    <textarea class="ace" name="tree" data-mode="ace/mode/yaml"><?= trim(project::treeText( project::$id )) ?></textarea>
     <div class="submit">
         <div></div>
         <button class="save" id="btn-save">Сохранить</button>

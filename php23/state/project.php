@@ -46,9 +46,10 @@ class project
 
 
 
+    # получить дерево проекта как html
     # получить дерево проекта как текст, для редактирования
     #
-    static function asText( $start,  $level=0,  $text='' )
+    static function treeText( $start,  $level=0,  $text='' )
     {
         $children   =   pack::$parent[ $start ] ??  array();
         
@@ -61,13 +62,14 @@ class project
 
             if ( !$isProject  && isset($sub) )
             {
-                $text   =   self::asText($id, ($level+1), $text);
+                $text   =   self::treeText($id, ($level+1), $text);
             }
         }
 
 
         return $text;
     }
+
 
 
 
@@ -108,28 +110,24 @@ class project
     #
     static function treeArray( $start,  $level=0,  $arr=array() )
     {
-        
         $children   =   pack::$parent[ $start ] ??  array();
         
-        // ui::vd($start);
-        // ui::vd($children);
-        // ui::vd(pack::$parent);
-
         foreach( $children as $id )
         {
             $name       =   pack::$list[ $id ]['name'];
             $isProject  =   pack::$list[ $id ]['is_project'];
             $sub        =   pack::$parent[ $id ] ?? null;
+            $pack       =   array('id'=>$id, 'project'=>$isProject, 'level'=>$level);
 
-            $arr[]      =   array('id'=>$id, 'name'=>$name, 'project'=>$isProject, 'level'=>$level);
+
+            $arr[]      =   $pack;
+            pack::toHeap(['id'=>$id, 'name'=>$name]);
+            
             
             if ( !$isProject  && isset($sub) )
             {
                 $arr   =   self::treeArray($id, ($level+1), $arr);
             }
-
-            // ui::vd($arr);
-
         }
         
         return $arr;

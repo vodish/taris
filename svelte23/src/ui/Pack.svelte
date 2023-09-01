@@ -5,42 +5,25 @@ import PackLine         from "./PackLine.svelte";
 import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
-import { packId, packBc, packTitle, packTree, packView }       from "../state/store";
+import { view, pack, pack1 }       from "../state/store";
     
 
-api({
-    pack: $url.level[0],
-    packId:1,
-    packTitle:1,
-    packBc:1,
-    packTree:1,
-    packView:1,
-    },
-    (res) => {
-        packId.set(res.packId)
-        packTitle.set(res.packTitle)
-        packBc.set(res.packBc)
-        packTree.set(res.packTree)
-        packView.set(res.packView)
-    }
-)
 
+pack1($url.path)
 
 
 
 </script>
 
-<svelte:head><title>{$packTitle}</title></svelte:head>
+<svelte:head><title>{$pack.title}</title></svelte:head>
 
 <div class="nav1">
     <div class="bc">
         <a href="/" class="logo" on:click={href}>Taris</a>
 
-        {#if $packBc}
-            {#each $packBc as v }
-                <a href={"/" + v.id} on:click={href}>{v.name}</a>            
-            {/each}
-        {/if}
+        {#each $pack.bc as id }
+            <a href={"/" + id} on:click={pack1} class="{$pack.project==id? 'active': ''}">{$pack.heap[id].name}</a>            
+        {/each}
 
     </div>
 
@@ -51,17 +34,16 @@ api({
         <span>+&nbsp;Проект</span>
 
         <i class="sep"></i>
-        <a href="/1" on:click={href}>Просмотр</a>
-        <a href="/1/line" on:click={href} class="b">Записи</a>
-        <a href="/1/tree" on:click={href}>Дерево</a>
-        <a href="/1/access" on:click={href}>Доступ</a>
+        <a href="/1/line" on:click={pack1} class="b">Записи</a>
+        <a href="/1/tree" on:click={pack1}>Дерево</a>
+        <a href="/1/access" on:click={pack1}>Доступ</a>
     </div>
 </div>
 
 
 
-{#if $url.level[1] == undefined     }   <PackView />
-{:else if $url.level[1] == "line"   }   <PackLine />
-{:else if $url.level[1] == "tree"   }   <PackTree />
-{:else if $url.level[1] == "access" }   <PackAccess />
+{#if $view == 'html'     }   <PackView />
+{:else if $view == "line"   }   <PackLine />
+{:else if $view == "tree"   }   <PackTree />
+{:else if $view == "access" }   <PackAccess />
 {/if}

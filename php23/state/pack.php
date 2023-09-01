@@ -8,20 +8,14 @@ class pack
     static $list    =   array();
     static $parent  =   array();
     static $bc      =   array();
+    static $heap    =   array();
     
 
 
     # получить все пачки пользователя по url
     #
-    static function init()
+    static function init($start)
     {
-        if      ( pack::$start )    return;
-        if      ( isset(url::$level[0])  && is_numeric(url::$level[0]) )                    $start = url::$level[0];
-        elseif  ( url::start('/api')  && !empty($_POST['pack'])  && $_POST['pack'] > 0 )    $start = $_POST['pack'];
-        #
-        if      ( ! isset($start) )   return;
-
-
 
         # получить все пачки пользователя
         #
@@ -62,6 +56,7 @@ class pack
             
             pack::$bc[] =   $pack['id'];
 
+            pack::toHeap($pack);
         }
         #
         #
@@ -70,19 +65,52 @@ class pack
         pack::$user     =   pack::$list[ $start ]['user'];
 
 
-
-        # ui
-        #
-        ui::$json["packId"]         =   $start;
-        ui::$json["packTitle"]      =   project::setTitle();
-        ui::$json["packBc"]         =   project::apiBc();
-        ui::$json["packTree"]       =   project::treeArray(pack::$project);
-        ui::$json["packView"]       =   'отобразить содержание в html'; //line::asHtml();
         
 
     }
     
 
+    static function toHeap($pack)
+    {
+        pack::$heap[ $pack['id'] ]  =   array(
+            'id'    =>  $pack['id'],
+            'name'  =>  $pack['name'],
+        );
+    }
+
+
+
+
+
+    static function api()
+    {
+        if ( ! url::start('/api') )     return;
+        if ( empty($_POST['pack']) )    return;
+        if ( $_POST['pack'] < 1 )       return;
+        
+
+        # получить все пачки про
+        #
+        pack::init( $_POST['pack'] );
+        
+
+        # ui
+        #
+        // line::dbInit();
+        ui::$json['pack']['id']         =   pack::$start;
+        ui::$json['pack']['title']      =   project::setTitle();
+        ui::$json['pack']['project']    =   pack::$project;
+        ui::$json['pack']['bc']         =   array_reverse(pack::$bc);
+        ui::$json['pack']['tree']       =   project::treeArray( pack::$project );
+        ui::$json['pack']['heap']       =&  pack::$heap;
+        
+
+        if ( isset($_POST['lineHtml']) )    ui::$json['lineHtml']   =   line::asHtml();
+        if ( isset($_POST['lineText']) )    ui::$json['lineText']   =   line::asText();
+        if ( isset($_POST['treeText']) )    ui::$json['treeText']   =   project::treeText( pack::$project );
+        if ( isset($_POST['accessText']) )  ui::$json['accessText'] =   "access pack::api() access";
+
+    }
 
 
 }
