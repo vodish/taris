@@ -51,7 +51,7 @@ class line
     {
         if ( !isset(line::$file) )  line::dbInit();
 
-        $view   =   array_column(line::$list, 'view');
+        $view   =   line::$list ?  array_column(line::$list, 'view') :  [];
         $view   =   implode('', $view);
 
         return  $view;

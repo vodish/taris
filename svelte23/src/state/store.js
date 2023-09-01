@@ -1,5 +1,5 @@
 import { writable, get } from "svelte/store";
-import { url, rtoken, api, parse } from "./url";
+import { url, parse, api, href as changeUrl } from "./url";
 
 
 // главная
@@ -61,37 +61,40 @@ export function pack1(href)
 
 
     api(data, (res) => {
-        // console.log(res)
+        
         pack.set(res.pack)
 
-        if ( res.lineHtml )     lineHtml.set(res.lineHtml || false)
-        if ( res.lineText )     lineHtml.set(res.lineText)
-        if ( res.treeText )     lineHtml.set(res.treeText)
-        if ( res.accessText )   lineHtml.set(res.accessText)
+        if ( res.lineHtml !== undefined )       lineHtml.set(res.lineHtml || false)
+        if ( res.lineText !== undefined )       lineHtml.set(res.lineText)
+        if ( res.treeText !== undefined )       lineHtml.set(res.treeText)
+        if ( res.accessText !== undefined )     lineHtml.set(res.accessText)
         
+        // console.log(res)
+        
+        changeUrl(href.path)
     })
     
 }
 
 
 
-/**
- * @param {Object} data
- * @param {(arg0: Object) => any} cb
- */
-export function pack2(data, cb)
-{
+// /**
+//  * @param {Object} data
+//  * @param {(arg0: Object) => any} cb
+//  */
+// export function pack2(data, cb)
+// {
     
-    let fd  =   new FormData()
-        fd.append("rtoken", get(rtoken))
-        for( let k in data )  fd.append(k, data[k])
+//     let fd  =   new FormData()
+//         fd.append("rtoken", get(rtoken))
+//         for( let k in data )  fd.append(k, data[k])
     
-    let xhr =   new XMLHttpRequest()
-        xhr.open('POST', "/api");
-        xhr.responseType = 'json';
-        xhr.send(fd)
-        xhr.onload = () => {
-            if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
-            cb(xhr.response)
-        }
-}
+//     let xhr =   new XMLHttpRequest()
+//         xhr.open('POST', "/api");
+//         xhr.responseType = 'json';
+//         xhr.send(fd)
+//         xhr.onload = () => {
+//             if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
+//             cb(xhr.response)
+//         }
+// }
