@@ -22,6 +22,7 @@ pack1($url.path)
         <a href="/" class="logo" on:click={href}>Taris</a>
 
         {#each $pack.bc as id }
+            <i>/</i>
             <a href={"/" + id} on:click={pack1} class="{$pack.project==id? 'active': ''} {$pack.start==id && $pack.project!=id? 'current': ''}">
                 {$pack.heap[id].name}
             </a>
