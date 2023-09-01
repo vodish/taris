@@ -2,12 +2,12 @@
 import { onMount } from "svelte";
 
 // аттрибуты
-export let value =  "";
+export let value = "";
 
 
 
 onMount(()=> {
-    console.log(value)
+    
     // @ts-ignore
     let ace9    =   ace.edit('ace9');
     ace9.session.setMode('ace/mode/html')
@@ -23,7 +23,10 @@ onMount(()=> {
     })
     ace9.setValue(value, 1)
     ace9.on('change', () => value = ace9.getValue())
+    console.log(value)
 })
 </script>
+
+{@html value}
 
 <div id="ace9" class="ace" />

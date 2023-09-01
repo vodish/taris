@@ -69,8 +69,6 @@ export function pack1(href)
         if ( res.treeText !== undefined )       treeText.set(res.treeText)
         if ( res.accessText !== undefined )     accessText.set(res.accessText)
         
-        //console.log(res)
-        
         changeUrl(href.path)
     })
     
