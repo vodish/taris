@@ -7,10 +7,7 @@ import { userList } from "../state/store";
 
 // инициализация
 
-if ( $userList == false )
-{
-    api( {userList:1},  ({ userList: list }) => userList.set(list) )
-}
+apiUserList()
 
 
 
@@ -23,13 +20,21 @@ let step        =   "email"
 let delay
 let error       =   ""
 let wait        =   false
-let cssPic1     =   ""
 
 
 
 // обработчики
 
-function getCode()
+function apiUserList()
+{
+    if ( $userList !== false )  return
+    
+    api( {userList:1},  ({ userList: list }) => userList.set(list) )
+    
+}
+
+
+function apiGetCode()
 {
     step    =   "code"
     code    =   ""
@@ -52,7 +57,7 @@ function getCode()
 }
 
 
-function checkCode(e)
+function apiCheckCode(e)
 {
     code    =   code.replace(/\D+/g, '')
     
@@ -88,7 +93,7 @@ function checkCode(e)
 
             {#if step == "email" }
 
-                <form class="login" on:submit|preventDefault={getCode}>
+                <form class="login" on:submit|preventDefault={apiGetCode}>
                     <input class="email" type="email" name="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа">
                     <button class="send">Tariz</button>
                 </form>
@@ -100,7 +105,7 @@ function checkCode(e)
                         <div>Код из письма</div>
                         {#if error != ""} <div class="err">{error}</div> {/if}
                     </div>
-                    <input class="code {error==""?"": "err"}" bind:value={code} on:keyup={checkCode} maxlength="4" autocomplete="off">
+                    <input class="code {error==""?"": "err"}" bind:value={code} on:keyup={apiCheckCode} maxlength="4" autocomplete="off">
                 </div>
 
                 {#if delay > 0}
