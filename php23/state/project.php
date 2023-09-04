@@ -117,10 +117,9 @@ class project
             $name       =   pack::$list[ $id ]['name'];
             $isProject  =   pack::$list[ $id ]['is_project'];
             $sub        =   pack::$parent[ $id ] ?? null;
-            $pack       =   array('id'=>$id, 'project'=>$isProject, 'level'=>$level);
+            
+            $arr[]      =   ['id'=>$id, 'project'=>$isProject, 'level'=>$level];;
 
-
-            $arr[]      =   $pack;
             pack::toHeap(['id'=>$id, 'name'=>$name]);
             
             

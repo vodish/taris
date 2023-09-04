@@ -11,7 +11,7 @@
 }
 
 *               { padding: 0; margin: 0; }
-html,body       { font-family: var(--font); color: var(--black); font-size: 14px; }
+html,body       { font-family: var(--font); color: var(--black); font-size: 14px; -webkit-font-smoothing: antialiased; }
 a               { color: var(--link); text-decoration: none; }
 a:hover			{ color: var(--black); }
 a.z             { color: var(--black); }
