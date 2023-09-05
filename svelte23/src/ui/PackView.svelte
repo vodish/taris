@@ -3,14 +3,14 @@
 import { pack, pack1, lineHtml } from "../state/store";
 
 
-document.addEventListener('keydown', function(e) {
+document.onkeydown = (e) => {
     
     if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
         e.preventDefault()
-        document.getElementById('btn-line').click()
+        pack1(`/${$pack.start}/line`)
     }
-})
+}
 
 </script>
 

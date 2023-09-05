@@ -1,14 +1,14 @@
 <script>
-import { onMount } from "svelte";
+import { onDestroy, onMount } from "svelte";
 
 // аттрибуты
-export let value = "";
-
+export let value = ""
+let ace9;
 
 onMount(()=> {
     
     // @ts-ignore
-    let ace9    =   ace.edit('ace9');
+    ace9    =   ace.edit('ace9');
     ace9.session.setMode('ace/mode/html')
     ace9.setOptions({
         minLines: 10,
@@ -22,7 +22,18 @@ onMount(()=> {
     })
     ace9.setValue(value, 1)
     ace9.on('change', () => value = ace9.getValue())
-    
+    ace9.focus();
+
+    let gotoLine = sessionStorage.getItem('gotoLine')
+    ace9.gotoLine(gotoLine || 1);
+})
+
+onDestroy(()=>{
+
+    // сохранить позицию курсора
+    var currline = ace9.getSelectionRange().start.row;
+    sessionStorage.setItem('gotoLine', currline+1);
+    // console.log(currline)
 })
 </script>
 

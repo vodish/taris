@@ -21,6 +21,7 @@ onMount(()=> {
     })
     ace9.setValue(value, 1)
     ace9.on('change', () => value = ace9.getValue())
+    ace9.focus();
 })
 </script>
 
