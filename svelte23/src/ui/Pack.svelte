@@ -29,10 +29,10 @@ pack1($url.path)
     </div>
 
     <div class="opt">
-        <i class="save" id="saved">Saved</i>
+        <!-- <i class="save" id="saved">Saved</i> -->
         
-        <span>-&nbsp;Проект</span>
-        <span>+&nbsp;Проект</span>
+        <!-- <span>-&nbsp;Проект</span> -->
+        <!-- <span>+&nbsp;Проект</span> -->
 
         <i class="sep"></i>
         <a href="/{$pack.start}/line" on:click={pack1} class="b">Записи</a>

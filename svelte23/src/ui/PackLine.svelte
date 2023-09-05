@@ -7,7 +7,9 @@ import AceHtml from "./ace/AceHtml.svelte";
 
 function save()
 {
-    api({pack: $pack.start, line: $lineText}, (res)=>pack1(`/${$pack.start}`))
+    api({pack: $pack.start, line: $lineText}, (res)=>{
+        pack1(`/${$pack.start}`)
+    })
 }
 
 
@@ -16,7 +18,6 @@ document.onkeydown = (e) => {
     {
         e.preventDefault()
         save()
-        pack1(`/${$pack.start}`)
     }
 }
 </script>

@@ -112,7 +112,6 @@ class line
         line::addFile();                    # добавить файл
         line::makeRows($_POST['line']);     # сохранить содержание
         line::dbInit();                     # порочитать новое содержание
-        
     }
 
 
