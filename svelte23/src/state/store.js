@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { writable, get } from "svelte/store";
 import { url, parse, api, href } from "./url";
 
@@ -20,9 +21,7 @@ export let accessText   =   writable('')
 
 
 
-/**
- * @param {String | Object} _href
- */
+
 export function pack1(_href)
 {
     if ( typeof _href === 'object'  && _href.srcElement.tagName == "A")
@@ -31,7 +30,7 @@ export function pack1(_href)
         _href    =   _href.srcElement.pathname
     }
 
-    let $url    =   get(url);
+    ui.update(v => v.push("Pack.svelte") )
     _href        =   parse(_href)
     
 
@@ -72,6 +71,8 @@ export function pack1(_href)
         view.set(data.view)
         href(_href.path)
         
+
+        console.log( get(ui) )
     })
     
 }
