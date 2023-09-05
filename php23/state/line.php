@@ -102,6 +102,20 @@ class line
 
 
 
+    # сохранирть через api
+    #
+    static function apiSave()
+    {
+        if ( empty($_POST['line']) )    return;
+
+        line::dbInit();                     # порочитать новое содержание
+        line::addFile();                    # добавить файл
+        line::makeRows($_POST['line']);     # сохранить содержание
+        line::dbInit();                     # порочитать новое содержание
+        
+    }
+
+
         # добавить файл в базу, если его нету
         # и связать его с текущей пачкой
         #
@@ -180,6 +194,7 @@ class line
                         , " .db::v($parent5).    "   as `parent5`
                         , 0   as `user`
                 ";
+
             }
             
 

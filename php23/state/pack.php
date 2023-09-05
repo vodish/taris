@@ -91,14 +91,18 @@ class pack
         if ( $_POST['pack'] < 1 )       return;
         
 
-        # получить все пачки про
+        
+        # получить все пачки
         #
         pack::init( $_POST['pack'] );
         
+        # сохранить содержание
+        #
+        line::apiSave();
+
 
         # ui
         #
-        // line::dbInit();
         ui::$json['pack']['start']      =   pack::$start;
         ui::$json['pack']['title']      =   project::setTitle();
         ui::$json['pack']['project']    =   pack::$project;
@@ -114,5 +118,7 @@ class pack
 
     }
 
+
+    
 
 }

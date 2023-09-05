@@ -1,12 +1,13 @@
 <script>
 // @ts-nocheck
-import { lineText, pack1, pack} from "../state/store";
+import { api } from "../state/url";
+import { lineText, pack1, pack } from "../state/store";
 import AceHtml from "./ace/AceHtml.svelte";
 
 
 function save()
 {
-    // alert("get save")
+    api({pack: $pack.start, line: $lineText}, (res)=>pack1(`/${$pack.start}`))
 }
 
 
