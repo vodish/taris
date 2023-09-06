@@ -1,11 +1,11 @@
 <script>
 // @ts-nocheck
-import { url, href, api }    from "../state/url";
+import { href }    from "../state/url";
 import PackLine         from "./PackLine.svelte";
 import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
-import { view, pack, pack1 }       from "../state/store";
+import { view, pack, pack1, url }       from "../state/store";
     
 
 

@@ -1,28 +1,49 @@
 // @ts-nocheck
 import { writable, get } from "svelte/store";
-import { url, parse, api, href } from "./url";
+import { parse, api, href, popstate } from "./url";
 
-// компоненты
-export let ui           =   writable([])
+
+// окружение
+
+export let url          =   writable( {} )
+export let rtoken       =   writable( document.body.dataset.rtoken )
+export let data         =   writable( {} )
+export let ui           =   writable( [] )
 
 
 // главная
-export let userList     =   writable(false)
+
+export let userList     =   writable( false )
 
 
 // пачка
-export let view         =   writable("")
-export let pack         =   writable({bc: [], tree:[]})
-export let lineHtml     =   writable('')
-export let lineText     =   writable('')
-export let treeText     =   writable('')
-export let accessText   =   writable('')
+
+export let view         =   writable( "" )
+export let pack         =   writable( {bc: [], tree:[]} )
+export let lineHtml     =   writable( "" )
+export let lineText     =   writable( "" )
+export let treeText     =   writable( "" )
+export let accessText   =   writable( "" )
 
 
 
+// инициализация
+
+popstate()
+window.addEventListener( 'popstate',  popstate )
 
 
-export function pack1(_href)
+
+// обработчики
+
+export function MainPage()
+{
+    console.log("Обработчик главной страницы")
+}
+
+
+
+export function pack1( _href )
 {
     if ( typeof _href === 'object'  && _href.srcElement.tagName == "A")
     {
