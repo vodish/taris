@@ -13,6 +13,13 @@ document.onkeydown = (e) => {
     }
 }
 
+
+function pack1()
+{
+    alert("переход по ссылке в дереве");
+}
+
+
 </script>
 
 <div class="pro">
