@@ -3,19 +3,43 @@ import * as store from './store'
 
 
 
-// экспортные функции
+let $url
+
+
+
+// слушатель адресной строки
 
 export function popstate()
 {
     store.url.set( parse(window.location.pathname) )
-    
+    $url = get( store.url )
 
-
-    
-    store.MainPage()
+    MainPage()
 }
 
 
+
+
+// обработчики запросов
+
+function MainPage()
+{
+
+    console.log(`popstate ${$url.path}`);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// вспомогательные функции общего назначения
 
 /**
  * @param {string | object} href
@@ -71,7 +95,6 @@ export function api(data, cb)
             cb(xhr.response)
         }
 }
-
 
 
 

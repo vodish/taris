@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { writable, get } from "svelte/store";
 import { parse, api, href, popstate } from "./url";
-
+export { href }
 
 // окружение
 
@@ -28,18 +28,11 @@ export let accessText   =   writable( "" )
 
 
 // инициализация
-
 popstate()
 window.addEventListener( 'popstate',  popstate )
 
 
 
-// обработчики
-
-export function MainPage()
-{
-    console.log("Обработчик главной страницы")
-}
 
 
 
