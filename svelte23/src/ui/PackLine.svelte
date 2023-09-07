@@ -1,7 +1,6 @@
 <script>
 // @ts-nocheck
-import { api } from "../state/url";
-import { lineText, pack1, pack } from "../state/store";
+import { lineText, pack } from "../state/store";
 import AceHtml from "./ace/AceHtml.svelte";
 
 

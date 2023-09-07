@@ -1,9 +1,4 @@
-import { get } from 'svelte/store'
-import * as store from './store'
-
-
-
-let $url
+import { url, rtoken, get } from './store'
 
 
 
@@ -11,29 +6,8 @@ let $url
 
 export function popstate()
 {
-    store.url.set( parse(window.location.pathname) )
-    $url = get( store.url )
-
-    MainPage()
+    url.set( parse(window.location.pathname) )
 }
-
-
-
-
-// обработчики запросов
-
-function MainPage()
-{
-
-    console.log(`popstate ${$url.path}`);
-}
-
-
-
-
-
-
-
 
 
 
@@ -83,7 +57,7 @@ export function parse(path)
 export function api(data, cb)
 {
     let fd  =   new FormData()
-        fd.append("rtoken", get(store.rtoken))
+        fd.append("rtoken", get(rtoken))
         for( let k in data )  fd.append(k, data[k])
     
     let xhr =   new XMLHttpRequest()
@@ -91,10 +65,7 @@ export function api(data, cb)
         xhr.responseType = 'json';
         xhr.send(fd)
         xhr.onload = () => {
-            if ( xhr.response && xhr.response.rtoken )      store.rtoken.set(xhr.response.rtoken)
+            if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
             cb(xhr.response)
         }
 }
-
-
-

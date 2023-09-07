@@ -1,15 +1,19 @@
 <script>
 // @ts-nocheck
-import { href }    from "../state/url";
+import { url, href }    from "../state/url";
 import PackLine         from "./PackLine.svelte";
 import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
-import { view, pack, pack1, url }       from "../state/store";
+import { pack, pack1 }       from "../state/store";
     
 
 
 pack1($url.path)
+
+
+
+
 
 </script>
 
@@ -43,8 +47,8 @@ pack1($url.path)
 
 
 
-{#if        $view == 'html'     }   <PackView />
-{:else if   $view == "line"     }   <PackLine />
-{:else if   $view == "tree"     }   <PackTree />
-{:else if   $view == "access"   }   <PackAccess />
+{#if        ! $url.level[1]             }   <PackView />
+{:else if   $url.level[1] == "line"     }   <PackLine />
+{:else if   $url.level[1] == "tree"     }   <PackTree />
+{:else if   $url.level[1] == "access"   }   <PackAccess />
 {/if}

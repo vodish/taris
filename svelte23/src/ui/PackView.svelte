@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { pack, pack1, lineHtml } from "../state/store";
+import { pack, lineHtml } from "../state/store";
 
 
 document.onkeydown = (e) => {
@@ -8,6 +8,7 @@ document.onkeydown = (e) => {
     if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
         e.preventDefault()
+
         pack1(`/${$pack.start}/line`)
     }
 }

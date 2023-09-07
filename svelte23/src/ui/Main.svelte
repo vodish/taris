@@ -1,7 +1,6 @@
 <script>
 // @ts-nocheck
-import { href, api } from "../state/url";
-import { userList } from "../state/store";
+import { href, api, userList } from "../state/store";
 
 
 
@@ -30,7 +29,6 @@ function apiUserList()
     if ( $userList !== false )  return
     
     api( {userList:1},  ({ userList: list }) => userList.set(list) )
-    
 }
 
 
@@ -122,7 +120,7 @@ function apiCheckCode(e)
 
             <div class="userlist">
                 {#each $userList as v }
-                    <a href={"/" + v.start} on:click={href}>{v.email}</a>
+                    <a href={"/" + v.start} onclick={href}>{v.email}</a>
                 {/each}
             </div>
 
