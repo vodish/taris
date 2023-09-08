@@ -7,13 +7,6 @@ import PackAccess       from "./PackAccess.svelte";
 import { url, get, href, hpack, pack }    from "../state/store";
     
 
-// инициализация
-
-if ( get(url).level[0] != get(pack).start )
-{
-    hpack( window.location.pathname )
-}
-
 
 
 
@@ -35,10 +28,9 @@ if ( get(url).level[0] != get(pack).start )
     </div>
 
     <div class="opt">
-        <i class="save" id="saved">Saved</i>
-        
+        <!-- <i class="save" id="saved">Saved</i>
         <span>-&nbsp;Проект</span>
-        <span>+&nbsp;Проект</span>
+        <span>+&nbsp;Проект</span> -->
 
         <i class="sep"></i>
         <a href="/{$pack.start}/line" on:click={hpack} class="b">Записи</a>

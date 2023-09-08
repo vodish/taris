@@ -12,7 +12,6 @@ export function hpack(href)
         href    =   href.srcElement.pathname
     }
     
-
     let url     =   store.parse(href)
     
     let wait    =   ["pack"]

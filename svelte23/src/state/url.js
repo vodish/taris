@@ -1,13 +1,24 @@
-import { url, rtoken, get } from './store'
+// @ts-nocheck
+import { url, rtoken, get, pack, hpack } from './store'
 
 
 
 
+export function popstate()
+{
+    let url1    =   parse(window.location.pathname)
+    url.set(url1)
+
+
+    // слежение за пачками: вперед назад
+    if ( url1.level[0] && url1.level[0] != get(pack).start )
+    {
+        hpack( window.location.pathname )
+    }
+}
 
 
 
-
-// вспомогательные функции общего назначения
 
 /**
  * @param {string | object} href

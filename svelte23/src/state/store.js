@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { writable, get } from "svelte/store";
-import { href, api, parse  } from "./url";
+import { href, api, parse, popstate } from "./url";
 import { hpack } from "./pack";
 
 // реэкспорт
@@ -11,10 +11,7 @@ export { hpack }
 
 
 // окружение
-
-export let url          =   writable( parse(window.location.pathname) )
-window.addEventListener( 'popstate',  () => url.set( parse(window.location.pathname) ) )
-
+export let url          =   writable()
 export let rtoken       =   writable( document.body.dataset.rtoken )
 export let data         =   writable( {} )
 
@@ -30,7 +27,8 @@ export let accessText   =   writable( "" )
 
 
 // инициализация
-
+popstate()
+window.addEventListener( 'popstate',  popstate )
 
 
 
