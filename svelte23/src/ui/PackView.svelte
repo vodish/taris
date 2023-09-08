@@ -9,14 +9,8 @@ document.onkeydown = (e) => {
     {
         e.preventDefault()
 
-        pack1(`/${$pack.start}/line`)
+        hpack(`/${$pack.start}/line`)
     }
-}
-
-
-function pack1()
-{
-    alert("переход по ссылке в дереве");
 }
 
 
