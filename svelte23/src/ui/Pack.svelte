@@ -1,16 +1,18 @@
 <script>
 // @ts-nocheck
-import { url, href }    from "../state/url";
 import PackLine         from "./PackLine.svelte";
 import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
-import { pack, pack1 }       from "../state/store";
+import { url, get, href, hpack, pack }    from "../state/store";
     
 
+// инициализация
 
-pack1($url.path)
-
+if ( get(url).level[0] != get(pack).start )
+{
+    hpack( window.location.pathname )
+}
 
 
 
@@ -25,7 +27,7 @@ pack1($url.path)
 
         {#each $pack.bc as id }
             <i>/</i>
-            <a href={"/" + id} on:click={pack1} class="{$pack.project==id? 'active': ''} {$pack.start==id && $pack.project!=id? 'current': ''}">
+            <a href={"/" + id} on:click={hpack} class="{$pack.project==id? 'active': ''} {$pack.start==id && $pack.project!=id? 'current': ''}">
                 {$pack.heap[id].name}
             </a>
         {/each}
@@ -33,15 +35,15 @@ pack1($url.path)
     </div>
 
     <div class="opt">
-        <!-- <i class="save" id="saved">Saved</i> -->
+        <i class="save" id="saved">Saved</i>
         
-        <!-- <span>-&nbsp;Проект</span> -->
-        <!-- <span>+&nbsp;Проект</span> -->
+        <span>-&nbsp;Проект</span>
+        <span>+&nbsp;Проект</span>
 
         <i class="sep"></i>
-        <a href="/{$pack.start}/line" on:click={pack1} class="b">Записи</a>
-        <a href="/{$pack.start}/tree" on:click={pack1}>Дерево</a>
-        <a href="/{$pack.start}/access" on:click={pack1}>Доступ</a>
+        <a href="/{$pack.start}/line" on:click={hpack} class="b">Записи</a>
+        <a href="/{$pack.start}/tree" on:click={hpack}>Дерево</a>
+        <a href="/{$pack.start}/access" on:click={hpack}>Доступ</a>
     </div>
 </div>
 

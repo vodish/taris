@@ -1,6 +1,6 @@
 <script>
 import { onDestroy } from "svelte";
-import { access_content } from "../state/pack";
+import { accessText } from "../state/store";
 import AceYaml from "./ace/AceYaml.svelte";
 
 onDestroy(()=>{
@@ -9,4 +9,4 @@ onDestroy(()=>{
 </script>
 
 
-<AceYaml bind:value={$access_content} />
+<AceYaml bind:value={$accessText} />

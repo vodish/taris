@@ -1,6 +1,6 @@
 <script>
 import { onDestroy } from 'svelte';
-import { tree_content } from '../state/pack';
+import { treeText } from '../state/store';
 import AceYaml from './ace/AceYaml.svelte';
 
 
@@ -12,4 +12,4 @@ onDestroy(()=>{
 
 
 
-<AceYaml bind:value={$tree_content} />
+<AceYaml bind:value={$treeText} />

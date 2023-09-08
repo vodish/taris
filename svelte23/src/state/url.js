@@ -2,12 +2,6 @@ import { url, rtoken, get } from './store'
 
 
 
-// слушатель адресной строки
-
-export function popstate()
-{
-    url.set( parse(window.location.pathname) )
-}
 
 
 
@@ -20,17 +14,18 @@ export function popstate()
  */
 export function href(href)
 {   
-    if ( typeof href === 'object'  && href.srcElement.tagName == "A")
-    {
+    if ( typeof href === 'object'  && href.srcElement.tagName == "A") {
         href.preventDefault()
         href    =   href.srcElement.pathname
     }
 
-    if ( window.location.pathname == href )     return
+    if ( window.location.pathname == href ) {
+        return
+    }
 
 
     window.history.pushState({}, "", href)
-    popstate()
+    url.set( parse(href) )
 }
 
 
@@ -56,16 +51,32 @@ export function parse(path)
  */
 export function api(data, cb)
 {
-    let fd  =   new FormData()
-        fd.append("rtoken", get(rtoken))
-        for( let k in data )  fd.append(k, data[k])
-    
+    data.rtoken =   get(rtoken)
+
+    let formData = new FormData();
+    buildFormData(formData, data);
+
     let xhr =   new XMLHttpRequest()
         xhr.open('POST', "/api");
         xhr.responseType = 'json';
-        xhr.send(fd)
+        xhr.send(formData)
         xhr.onload = () => {
             if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
             cb(xhr.response)
         }
+}
+
+
+
+function buildFormData(formData, data, parentKey)
+{
+    if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob)) {
+        Object.keys(data).forEach(key => {
+            buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+        });
+    } else {
+        const value = data == null ? '' : data;
+
+        formData.append(parentKey, value);
+    }
 }

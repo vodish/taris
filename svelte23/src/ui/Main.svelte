@@ -1,12 +1,14 @@
 <script>
 // @ts-nocheck
-import { href, api, userList } from "../state/store";
-
+import { api, userList, hpack } from "../state/store";
 
 
 // инициализация
 
-apiUserList()
+if ( $userList == false )
+{   
+    api( {userList:1},  ({ userList: list }) => userList.set(list) )
+}
 
 
 
@@ -23,13 +25,6 @@ let wait        =   false
 
 
 // обработчики
-
-function apiUserList()
-{
-    if ( $userList !== false )  return
-    
-    api( {userList:1},  ({ userList: list }) => userList.set(list) )
-}
 
 
 function apiGetCode()
@@ -120,7 +115,7 @@ function apiCheckCode(e)
 
             <div class="userlist">
                 {#each $userList as v }
-                    <a href={"/" + v.start} onclick={href}>{v.email}</a>
+                    <a href={"/" + v.start} on:click={hpack}>{v.email}</a>
                 {/each}
             </div>
 

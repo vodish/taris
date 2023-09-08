@@ -90,7 +90,7 @@ class pack
         if ( empty($_POST['pack']) )    return;
         if ( $_POST['pack'] < 1 )       return;
         
-
+        
         
         # получить все пачки
         #
@@ -103,18 +103,23 @@ class pack
 
         # ui
         #
-        ui::$json['pack']['start']      =   pack::$start;
-        ui::$json['pack']['title']      =   project::setTitle();
-        ui::$json['pack']['project']    =   pack::$project;
-        ui::$json['pack']['bc']         =   array_reverse(pack::$bc);
-        ui::$json['pack']['tree']       =   project::treeArray( pack::$project );
-        ui::$json['pack']['heap']       =&  pack::$heap;
+        $wait   =   $_POST['wait'] ?? [];
+
+        if ( in_array('pack', $wait) )
+        {
+            ui::$json['pack']['start']      =   pack::$start;
+            ui::$json['pack']['title']      =   project::setTitle();
+            ui::$json['pack']['project']    =   pack::$project;
+            ui::$json['pack']['bc']         =   array_reverse(pack::$bc);
+            ui::$json['pack']['tree']       =   project::treeArray( pack::$project );
+            ui::$json['pack']['heap']       =&  pack::$heap;
+        }
         
 
-        if ( isset($_POST['lineHtml']) )    ui::$json['lineHtml']   =   line::asHtml();
-        if ( isset($_POST['lineText']) )    ui::$json['lineText']   =   line::asText();
-        if ( isset($_POST['treeText']) )    ui::$json['treeText']   =   project::treeText( pack::$project );
-        if ( isset($_POST['accessText']) )  ui::$json['accessText'] =   "access pack::api() access";
+        if ( in_array('lineHtml', $wait) )    ui::$json['lineHtml']   =   line::asHtml();
+        if ( in_array('lineText', $wait) )    ui::$json['lineText']   =   line::asText();
+        if ( in_array('treeText', $wait) )    ui::$json['treeText']   =   project::treeText( pack::$project );
+        if ( in_array('accessText', $wait) )  ui::$json['accessText'] =   "access pack::api() access";
 
     }
 
