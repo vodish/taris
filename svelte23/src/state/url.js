@@ -10,7 +10,7 @@ export function popstate()
     url.set(url1)
 
 
-    // слежение за пачками: вперед назад
+    // слежение за пачками: инициализация, вперед, назад
     if ( url1.level[0] && url1.level[0] != get(pack).start )
     {
         hpack( window.location.pathname )
