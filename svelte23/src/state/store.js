@@ -20,7 +20,7 @@ export let userList     =   writable( false )
 
 export let pack         =   writable( {bc: [], tree:[]} )
 export let lineHtml     =   writable( "" )
-export let lineText     =   writable( "" )
+export let lineText     =   writable( false )
 export let treeText     =   writable( "" )
 export let accessText   =   writable( "" )
 

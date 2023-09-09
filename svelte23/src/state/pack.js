@@ -30,9 +30,7 @@ export function hpack(href)
             store[field].set( res[ field ] )
         })
         
-        
         store.href(href)
-        
     })
     
 }

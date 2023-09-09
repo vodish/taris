@@ -111,7 +111,12 @@ class line
         line::dbInit();                     # порочитать новое содержание
         line::addFile();                    # добавить файл
         line::makeRows($_POST['line']);     # сохранить содержание
-        line::dbInit();                     # порочитать новое содержание
+
+        # порочитать новое содержание
+        line::$file     =   null;
+        line::$list     =   null;
+        line::$parent   =   null;
+        line::dbInit();
     }
 
 
