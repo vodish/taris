@@ -99,9 +99,19 @@ class pack
         # сохранить содержание
         #
         line::apiSave();
+        
+        # сохранить дерево
+        #
+        if ( isset($_POST['tree']) )
+        {
+            # передать на обработку
+            # перечитать пачку
+            project::makeRows($_POST['tree']);
+            pack::init( pack::$start );
+        }
 
 
-        # ui
+        # вернуть состояние
         #
         $wait   =   $_POST['wait'] ?? [];
 

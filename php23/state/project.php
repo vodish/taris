@@ -138,13 +138,16 @@ class project
     static function actionSave()
     {
         if ( empty($_POST['tree']) )    return;
-
         
         # передать на обработку
         #
         $packBack   =   self::makeRows($_POST['tree']);
         
+        # перечитать пачку
+        #
+        pack::init( pack::$start );
 
+        
         # редирект на просмотр
         #
         url::redir( "/{$packBack}",  null, ['save'=>time()] );
@@ -158,7 +161,7 @@ class project
         # распарсить пришедшее дерево проекта
         # и передать на сохранение в базу
         #
-        private static function makeRows($text)
+        static function makeRows($text)
         {
             $user       =   pack::$user;
 

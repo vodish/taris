@@ -1,15 +1,29 @@
 <script>
-import { onDestroy } from 'svelte';
-import { treeText } from '../state/store';
+// @ts-nocheck
+import { pack, treeText, api, href } from "../state/store";
 import AceYaml from './ace/AceYaml.svelte';
 
 
-onDestroy(()=>{
-  console.log(`сохранить дерево проекта на сервере`)
-})
+function save()
+{
+    api({pack: $pack.start, tree: $treeText, wait: ["pack"]}, (res)=>{
+        pack.set(res.pack)
+        href(`/${$pack.start}`)
+    })
+}
+
+document.onkeydown = (e) => {
+    if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
+    {
+        e.preventDefault()
+        save()
+    }
+}
 
 </script>
 
+{#if $treeText !== false} <AceYaml bind:value={$treeText} />
+{/if}
 
-
-<AceYaml bind:value={$treeText} />
+<br>
+<button id="ctrl-s" on:click={save}>Сохранить</button>
