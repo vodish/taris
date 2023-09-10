@@ -26,7 +26,7 @@ export function hpack(href)
     store.api({ pack: url.level[0], wait }, (res) => {
         
         wait.map((field)=>{
-            if ( ! res[ field ] )   return
+            if ( res[ field ] === undefined )   return
             store[field].set( res[ field ] )
         })
         

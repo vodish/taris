@@ -13,8 +13,6 @@ export { hpack }
 // окружение
 export let url          =   writable()
 export let rtoken       =   writable( document.body.dataset.rtoken )
-export let data         =   writable( {} )
-
 
 export let userList     =   writable( false )
 
