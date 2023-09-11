@@ -109,7 +109,7 @@ class line
     #
     static function apiSave()
     {
-        if ( empty($_POST['line']) )    return;
+        if ( !isset($_POST['line']) )    return;
 
         line::dbInit();                     # порочитать новое содержание
         line::addFile();                    # добавить файл

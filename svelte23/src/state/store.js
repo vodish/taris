@@ -15,16 +15,16 @@ export let rtoken       =   writable( document.body.dataset.rtoken )
 export let userList     =   writable( false )
 
 export let pack         =   writable( {bc: [], tree:[]} )
-export let lineHtml     =   writable( false )
-export let lineText     =   writable( false )
-export let treeText     =   writable( false )
-export let accessText   =   writable( false )
+export let lineHtml     =   writable("")
+export let lineText     =   writable("")
+export let treeText     =   writable("")
+export let accessText   =   writable("")
 
 
 
 // инициализация
 popstate()
-window.addEventListener( 'popstate',  popstate )
+window.addEventListener( "popstate",  popstate )
 
 
 
