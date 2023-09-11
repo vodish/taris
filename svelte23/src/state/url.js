@@ -113,7 +113,7 @@ export function api(data, cb)
     data.rtoken =   Store.get(Store.rtoken)
 
     let formData = new FormData();
-    buildFormData(formData, data);
+    toFd(formData, data);
 
     let xhr =   new XMLHttpRequest()
         xhr.open('POST', "/api");
@@ -127,11 +127,11 @@ export function api(data, cb)
 
 
 
-function buildFormData(formData, data, parentKey)
+function toFd(formData, data, parentKey)
 {
     if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob)) {
         Object.keys(data).forEach(key => {
-            buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+            toFd(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
         });
     } else {
         const value = data == null ? '' : data;
