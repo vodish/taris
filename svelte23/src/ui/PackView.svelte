@@ -23,6 +23,6 @@ document.onkeydown = (e) => {
         {/each}
     </div>
     <div class="file">
-        {@html $lineHtml}
+        {@html $lineHtml !== false ?  $lineHtml: '' }
     </div>
 </div>

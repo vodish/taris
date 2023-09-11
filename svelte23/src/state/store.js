@@ -1,13 +1,11 @@
 // @ts-nocheck
 import { writable, get } from "svelte/store";
-import { href, api, parse, popstate } from "./url";
-import { hpack } from "./pack";
+import { href, hpack, api, parse, popstate } from "./url";
+// import { hpack } from "./pack";
 
 // реэкспорт
-
 export { get }
-export { href, api, parse }
-export { hpack }
+export { href, hpack, api, parse }
 
 
 // окружение

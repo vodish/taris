@@ -1,7 +1,6 @@
 // @ts-nocheck
-import { url, rtoken, get, pack, hpack } from './store'
-
-
+import { url, rtoken, get, pack } from './store'
+import * as Store from './store'
 
 
 export function popstate()
@@ -38,6 +37,55 @@ export function href(href)
     window.history.pushState({}, "", href)
     url.set( parse(href) )
 }
+
+
+
+
+/**
+ * @param {string | Object} href
+ */
+export function hpack(href)
+{
+    if ( typeof href === 'object'  && href.srcElement.tagName == "A") {
+        href.preventDefault()
+        href    =   href.srcElement.pathname
+    }
+    
+    let parse   =   Store.parse(href)
+    let wait    =   ["pack"]
+    
+    if      ( parse.level[1] == undefined )  wait.push("lineHtml")
+    else if ( parse.level[1] == 'line' )     wait.push("lineText")
+    else if ( parse.level[1] == 'tree' )     wait.push("treeText")
+    else if ( parse.level[1] == 'access' )   wait.push("accessText")
+
+
+    // обновить состояние
+    // затем перейти по ссылке
+    Store.api({ pack: parse.level[0], wait }, (res) => {
+        
+        wait.map((field)=>{
+            if ( res[ field ] === undefined )   return
+            Store[field].set( res[ field ] )
+        })
+        
+        Store.href(href)
+    })
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
