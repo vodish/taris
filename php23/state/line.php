@@ -53,7 +53,7 @@ class line
 
         $view   =   line::$list ?  array_column(line::$list, 'view') :  [];
         $view   =   implode('', $view);
-
+        
         return  $view;
     }
 
@@ -64,14 +64,17 @@ class line
     {
         if ( !isset(line::$file) )  line::dbInit();
 
-        $content = '';
+        $content    =   '';
 
         foreach( self::$list ?? [] as $v )
         {
             $content    .=  "\n" .str_repeat(' ', $v['space']). $v['content'];
         }
 
-        return  substr($content, 1);
+        $content    =   empty($content) ?  $content :  substr($content, 1);
+        
+
+        return  $content;
     }
 
 
