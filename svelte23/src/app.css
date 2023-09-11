@@ -81,6 +81,7 @@ button:hover    { background-color: #ccc; }
 .pro > .file *:not(img):empty   { height: 1em; }
 .pro > .file  img           { max-width: 100%; }
 .pro > .file > pre          { font-family: monospace; font-size: 14px; background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; white-space: break-spaces; }
+.pro > .file > pre.white    { background-color: inherit; padding: 0; white-space: break-spaces; }
 .pro > .file > div > h1     { margin: 0 0 0.5em 0; }
 .pro > .file > div > h2     { margin: 0 0 0.4em 0; }
 .pro > .file > div > h3     { margin: 0 0 0.3em 0; }
