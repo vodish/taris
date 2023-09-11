@@ -1,16 +1,16 @@
 // @ts-nocheck
-import { url, rtoken, get, pack } from './store'
 import * as Store from './store'
+
 
 
 export function popstate()
 {
-    let url1    =   parse(window.location.pathname)
-    url.set(url1)
+    let url    =   parse(window.location.pathname)
+    Store.url.set(url)
 
 
     // слежение за пачками: инициализация, вперед, назад
-    if ( url1.level[0] && url1.level[0] != get(pack).start )
+    if ( url.level[0] && url.level[0] != Store.get( Store.pack ).start )
     {
         hpack( window.location.pathname )
     }
@@ -35,7 +35,7 @@ export function href(href)
 
 
     window.history.pushState({}, "", href)
-    url.set( parse(href) )
+    Store.url.set( parse(href) )
 }
 
 
@@ -51,18 +51,18 @@ export function hpack(href)
         href    =   href.srcElement.pathname
     }
     
-    let parse   =   Store.parse(href)
+    let url   =   Store.parse(href)
     let wait    =   ["pack"]
     
-    if      ( parse.level[1] == undefined )  wait.push("lineHtml")
-    else if ( parse.level[1] == 'line' )     wait.push("lineText")
-    else if ( parse.level[1] == 'tree' )     wait.push("treeText")
-    else if ( parse.level[1] == 'access' )   wait.push("accessText")
+    if      ( url.level[1] == undefined )  wait.push("lineHtml")
+    else if ( url.level[1] == 'line' )     wait.push("lineText")
+    else if ( url.level[1] == 'tree' )     wait.push("treeText")
+    else if ( url.level[1] == 'access' )   wait.push("accessText")
 
 
     // обновить состояние
     // затем перейти по ссылке
-    Store.api({ pack: parse.level[0], wait }, (res) => {
+    Store.api( {pack: url.level[0], wait} ,  (res) => {
         
         wait.map((field)=>{
             if ( res[ field ] === undefined )   return
@@ -110,7 +110,7 @@ export function parse(path)
  */
 export function api(data, cb)
 {
-    data.rtoken =   get(rtoken)
+    data.rtoken =   Store.get(Store.rtoken)
 
     let formData = new FormData();
     buildFormData(formData, data);
@@ -120,7 +120,7 @@ export function api(data, cb)
         xhr.responseType = 'json';
         xhr.send(formData)
         xhr.onload = () => {
-            if ( xhr.response && xhr.response.rtoken )      rtoken.set(xhr.response.rtoken)
+            if ( xhr.response && xhr.response.rtoken )      Store.rtoken.set(xhr.response.rtoken)
             cb(xhr.response)
         }
 }

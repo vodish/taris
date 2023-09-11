@@ -22,8 +22,7 @@ document.onkeydown = (e) => {
 
 </script>
 
-{#if $lineText !== false} <AceHtml bind:value={$lineText} />
-{/if}
+{#if $pack.start} <AceHtml bind:value={$lineText} /> {/if}
 
 <br>
 <button id="ctrl-s" on:click={save}>Сохранить</button>
