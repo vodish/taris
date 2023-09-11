@@ -4,6 +4,8 @@ import { pack, treeText, api, href } from "../state/store";
 import AceYaml from './ace/AceYaml.svelte';
 
 
+
+
 function save()
 {
     api({pack: $pack.start, tree: $treeText, wait: ["pack"]}, (res)=>{
@@ -22,8 +24,7 @@ document.onkeydown = (e) => {
 
 </script>
 
-{#if $treeText !== false} <AceYaml bind:value={$treeText} />
-{/if}
+{#if $treeText !== false} <AceYaml bind:value={$treeText} /> {/if}
 
 <br>
 <button id="ctrl-s" on:click={save}>Сохранить</button>

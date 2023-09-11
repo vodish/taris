@@ -5,10 +5,10 @@ class pack
     static $project;
     static $user;
     
-    static $list    =   array();
-    static $parent  =   array();
-    static $bc      =   array();
-    static $heap    =   array();
+    static $list;
+    static $parent;
+    static $bc;
+    static $heap;
     
 
 
@@ -16,6 +16,10 @@ class pack
     #
     static function init($start)
     {
+        pack::$list     =   array();
+        pack::$parent   =   array();
+        pack::$bc       =   array();
+        pack::$heap     =   array();
 
         # получить все пачки пользователя
         #
@@ -106,6 +110,7 @@ class pack
         {
             # передать на обработку
             # перечитать пачку
+            project::init();
             project::makeRows($_POST['tree']);
             pack::init( pack::$start );
         }
@@ -131,7 +136,7 @@ class pack
         if ( in_array('treeText', $wait) )    ui::$json['treeText']   =   project::treeText( pack::$project );
         if ( in_array('accessText', $wait) )  ui::$json['accessText'] =   "access pack::api() access";
 
-        
+
     }
 
 
