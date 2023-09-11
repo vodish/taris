@@ -112,7 +112,7 @@ class pack
             # перечитать пачку
             project::init();
             project::makeRows($_POST['tree']);
-            pack::init( pack::$start );
+            pack::init( pack::$start ); // здесь подставлять ид проекта, если удалена текущая пачка
         }
 
 
