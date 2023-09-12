@@ -119,7 +119,7 @@ export function api(data, cb)
         xhr.open('POST', "/api");
         xhr.send(formData)
         xhr.onload = () => {
-            
+
             let res = {};
             try     { res = JSON.parse(xhr.response) }
             catch   { Store.apierr.set(xhr.response) }
@@ -134,13 +134,11 @@ export function api(data, cb)
 
 function toFd(formData, data, parentKey)
 {
-    if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob)) {
-        Object.keys(data).forEach(key => {
-            toFd(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
-        });
-    } else {
-        const value = data == null ? '' : data;
-
-        formData.append(parentKey, value);
+    if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob))
+    {
+        Object.keys(data).forEach( key => toFd(formData,  data[key],  (parentKey ? `${parentKey}[${key}]` : key)) );
+    }
+    else {
+        formData.append(parentKey,  (data == null ? '' : data) );
     }
 }
