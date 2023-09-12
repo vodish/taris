@@ -1,0 +1,39 @@
+<h2>Список запросов API</h2>
+
+<b>rtoken</b> - одноразовая подпись каждого запроса, меняется при использовании.
+
+<pre class="white">
+Входящие запросы на /api
+
+-- список пользователей
+user::list()
+
+
+-- получить список пользователей
+
+    $_POST[userGetCode] =   1
+    $_POST[email]       =   email@email.com
+
+    user::getCode()
+
+
+user::checkCode()   -- проверить код
+
+
+-- получить пачку
+
+$_POST[pack]
+    + $lineHtml
+    + $lineText
+    + $treeText
+    + $accessText
+
+pack::getPack()
+
+
+
+user::checkCode()   -- список пользователей
+user::checkCode()   -- список пользователей
+user::checkCode()   -- список пользователей
+</pre>
+

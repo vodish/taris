@@ -50,7 +50,7 @@ function apiGetCode()
 }
 
 
-function apiCheckCode(e)
+function apiCheckCode()
 {
     code    =   code.replace(/\D+/g, '')
     
@@ -111,13 +111,11 @@ function apiCheckCode(e)
         </div>
 
         {#if $userList && $userList.length }
-
             <div class="userlist">
                 {#each $userList as v }
                     <a href={"/" + v.start} on:click={hpack}>{v.email}</a>
                 {/each}
             </div>
-
         {/if}
         
 
