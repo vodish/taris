@@ -8,19 +8,20 @@ class user
     #
     static function list()
     {
-        # условие выполнения функции
-        #
-        if ( is_array(@$_COOKIE['token']) )
-        {
-            if ( url::$path == "/" )    $exec = true;
-            if ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )    $exec = true;
-        }
-        elseif ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )
-        {
-            return  ui::$json['userList'] = array();
-        }
-        #
-        if ( !isset($exec) )    return user::$list;
+        if ( !empty($_POST['action']) )
+        // # условие выполнения функции
+        // #
+        // if ( is_array(@$_COOKIE['token']) )
+        // {
+        //     if ( url::$path == "/" )    $exec = true;
+        //     if ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )    $exec = true;
+        // }
+        // elseif ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )
+        // {
+        //     return  ui::$json['userList'] = array();
+        // }
+        // #
+        // if ( !isset($exec) )    return user::$list;
         
 
         
