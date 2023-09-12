@@ -6,19 +6,33 @@
 Входящие запросы на /api
 
 -- список пользователей
-user::list()
+    $_POST[userList]    =   1
+    $_POST[wait]        =   [userList]
+
+    user::list()
+
+    $json[userList] = text
 
 
 -- получить список пользователей
 
     $_POST[userGetCode] =   1
     $_POST[email]       =   email@email.com
+    $_POST[wait]        =   [send, code]
 
     user::getCode()
 
+    $json[send] = text
+    $json[code] = 1234
 
-user::checkCode()   -- проверить код
 
+-- проверить код
+    $_POST[userGetCode] =   1
+    $_POST[email]       =   email@email.com
+    $_POST[code]        =   1234
+
+    user::checkCode()
+    
 
 -- получить пачку
 
