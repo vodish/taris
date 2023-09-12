@@ -28,7 +28,10 @@ button:hover    { background-color: #ccc; }
 *::-webkit-scrollbar        { width: 8px; height: 8px; background-color: inherit; }
 *::-webkit-scrollbar-thumb  { border-radius: 1px; background: #ccc; }
 
-.apierr         { background-color: #fddbdb; padding: 20px; margin-bottom: 2em; }
+pre.apierr      { background-color: #fddbdb; padding: 20px; margin-bottom: 2em; }
+pre.apierr h1   { font-size: 1.1em; }
+pre.apierr h2   { font-size: 1em; }
+pre.apierr h3   { font-size: 1em; }
 
 
 
