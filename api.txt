@@ -6,7 +6,9 @@
 Входящие запросы на /api
 
 -- список пользователей
-    $_POST[userList]    =   1
+    
+    /api
+    $_POST[action]      =   userList  |  [userList]
     $_POST[wait]        =   [userList]
 
     user::list()
@@ -14,9 +16,10 @@
     $json[userList] = text
 
 
--- получить список пользователей
+-- получить код для входа
 
-    $_POST[userGetCode] =   1
+    /api
+    $_POST[action]      =   userGetCode
     $_POST[email]       =   email@email.com
     $_POST[wait]        =   [send, code]
 
@@ -26,7 +29,8 @@
     $json[code] = 1234
 
 
--- проверить код
+-- войти по коду
+
     $_POST[userGetCode] =   1
     $_POST[email]       =   email@email.com
     $_POST[code]        =   1234
