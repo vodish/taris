@@ -117,10 +117,14 @@ export function api(data, cb)
 
     let xhr =   new XMLHttpRequest()
         xhr.open('POST', "/api");
-        xhr.responseType = 'json';
+        xhr.responseType = 'text';
         xhr.send(formData)
         xhr.onload = () => {
+            console.log(xhr)
+
             if ( xhr.response && xhr.response.rtoken )      Store.rtoken.set(xhr.response.rtoken)
+            if ( !xhr.response )                            Store.apierr.set(xhr.response)
+            
             cb(xhr.response)
         }
 }

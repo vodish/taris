@@ -24,7 +24,7 @@ class pack
         # получить все пачки пользователя
         #
         #
-        db::query("
+        db::query("-
             SELECT
                 *
             FROM

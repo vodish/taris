@@ -28,6 +28,9 @@ button:hover    { background-color: #ccc; }
 *::-webkit-scrollbar        { width: 8px; height: 8px; background-color: inherit; }
 *::-webkit-scrollbar-thumb  { border-radius: 1px; background: #ccc; }
 
+.apierr         { background-color: #ffcdcd; padding: 20px; margin-bottom: 2em; }
+
+
 
 /* main */
 

@@ -1,11 +1,12 @@
 <script>
 // @ts-nocheck
-import { url } from "./state/store";
+import { url, apierr } from "./state/store";
 
 import Main from "./ui/Main.svelte";
 import Pack from "./ui/Pack.svelte";
 </script>
 
+{@html $apierr ?  `<div class="apierr">${$apierr}</div>` : ''}
 
 
 {#if $url.path == "/"     }             <Main />

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { writable, get } from "svelte/store";
 import { href, hpack, api, parse, popstate } from "./url";
-// import { hpack } from "./pack";
+
 
 // реэкспорт
 export { get }
@@ -11,6 +11,7 @@ export { href, hpack, api, parse }
 // окружение
 export let url          =   writable()
 export let rtoken       =   writable( document.body.dataset.rtoken )
+export let apierr       =   writable('')
 
 export let userList     =   writable( false )
 

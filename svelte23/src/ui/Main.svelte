@@ -78,7 +78,6 @@ function apiCheckCode(e)
 </svelte:head>
 
 
-
 <div class="main1">
     <img class="pic1 {$userList.length==0? 'empty': ''}" src="/i/pic1.jpg" alt="Taris" />
     <div>
