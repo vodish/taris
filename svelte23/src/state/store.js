@@ -10,7 +10,7 @@ export { href, hpack, api, parse }
 
 // окружение
 export let url          =   writable()
-export let rtoken       =   writable( document.body.dataset.rtoken )
+// export let rtoken       =   writable( document.body.dataset.rtoken )
 export let apierr       =   writable('')
 
 export let userList     =   writable( false )

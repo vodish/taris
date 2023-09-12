@@ -6,7 +6,7 @@ import Main from "./ui/Main.svelte";
 import Pack from "./ui/Pack.svelte";
 </script>
 
-{@html $apierr ?  `<div class="apierr">${$apierr}</div>` : ''}
+{@html $apierr ?  `<pre class="apierr">${$apierr}</pre>` : ''}
 
 
 {#if $url.path == "/"     }             <Main />

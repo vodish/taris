@@ -1,6 +1,11 @@
 // @ts-nocheck
 import * as Store from './store'
 
+let rtoken  =   document.body.dataset.rtoken;
+
+
+
+
 
 
 export function popstate()
@@ -81,15 +86,6 @@ export function hpack(href)
 
 
 
-
-
-
-
-
-
-
-
-
 /** парсит строку
  * @param {string} path
  */
@@ -104,28 +100,33 @@ export function parse(path)
 
 
 
+
+
+
+
 /**
  * @param {Object} data
  * @param {(arg0: Object) => any} cb
  */
 export function api(data, cb)
 {
-    data.rtoken =   Store.get(Store.rtoken)
+    data.rtoken =   rtoken
 
     let formData = new FormData();
     toFd(formData, data);
 
     let xhr =   new XMLHttpRequest()
         xhr.open('POST', "/api");
-        xhr.responseType = 'text';
         xhr.send(formData)
         xhr.onload = () => {
-            console.log(xhr)
-
-            if ( xhr.response && xhr.response.rtoken )      Store.rtoken.set(xhr.response.rtoken)
-            if ( !xhr.response )                            Store.apierr.set(xhr.response)
             
-            cb(xhr.response)
+            let res = {};
+            try     { res = JSON.parse(xhr.response) }
+            catch   { Store.apierr.set(xhr.response) }
+            
+            if ( res.rtoken )      rtoken = res.rtoken
+            
+            cb(res)
         }
 }
 

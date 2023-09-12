@@ -24,7 +24,7 @@ class pack
         # получить все пачки пользователя
         #
         #
-        db::query("-
+        db::query("
             SELECT
                 *
             FROM
@@ -44,7 +44,6 @@ class pack
             pack::$parent[ $v['parent'] ][] =   $v['id'];
         }
         
-
 
         # определить крошки проекта
         # определить текущий проект
