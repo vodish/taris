@@ -7,7 +7,7 @@
 
 -- список пользователей
     
-    /api
+    /
     $_POST[action]      =   userList  |  [userList]
     $_POST[wait]        =   [userList]
 
