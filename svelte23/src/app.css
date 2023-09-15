@@ -8,6 +8,13 @@
     --eee:      #eee;
     --font:     'Fira Sans', sans-serif;
     --font1:    'Source Code Pro', monospace;
+
+    --darkFon: #242528;
+    --darkColor: #ffffffd1;
+    --darkLink: #d55c5f;
+    --darkPreFon: #171717;
+    --darkPreColor: #af9e7d;
+    --darkLine: #333;
 }
 
 *               { padding: 0; margin: 0; }
@@ -115,3 +122,65 @@ form.tree  .save    { display: block; }
 .access2    pre     { margin-left: 4ch; white-space: pre-wrap; font-family: var(--font1); font-size: 13px; line-height: 1.4em;; }
 
 form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* темная тема */
+
+@media (prefers-color-scheme: dark)
+{
+    body        { background-color: var(--darkFon); color: var(--darkColor); }
+    a           { color: var(--darkLink); }
+	a:hover     { color: var(--link); }
+
+    .nav1       { background-color: var(--darkFon); border-bottom-color: var(--darkLine); }
+	.nav1 .active   { background-color: var(--darkPreFon); }
+
+    .pro > .tree    { border-right-color: var(--darkLine); }
+    .pro > .tree .active { background-color: var(--darkPreFon); }
+
+    .pro > .file > pre:not(.white)       { background-color: var(--darkPreFon); color: var(--darkPreColor); }
+	.pro > .file > pre ._tag  { color: #6b82ff; }
+	.pro > .file > pre ._tag_attr_val { color: #1b9f20; }
+
+    .ace_editor { color: var(--darkColor); }
+    .ace-tm .ace_gutter { background-color: var(--darkPreFon); color: var(--darkColor); }
+    .ace-tm .ace_gutter-active-line { background-color: var(--darkFon); }
+}
+
+
+
+
