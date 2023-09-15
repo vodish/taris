@@ -183,8 +183,8 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 
 
     .ace_editor { color: var(--darkColor); }
-    .ace-tm .ace_gutter { background-color: var(--darkPreFon); color: var(--darkColor); }
-    .ace-tm .ace_gutter-active-line { background-color: var(--darkFon); }
+    .ace-tm .ace_gutter { background-color: #2e2e2e; color: var(--darkColor); }
+    .ace-tm .ace_gutter-active-line { background-color: var(--darkPreFon); }
     .ace-tm .ace_marker-layer .ace_active-line { background: var(--darkPreFon); }
     .ace-tm .ace_meta.ace_tag   { color: #CC6666; }
     .ace-tm .ace_indent-guide   { background: none; }
