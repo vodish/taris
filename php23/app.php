@@ -17,8 +17,6 @@ spl_autoload_register( function($name) {
 
 
 
-# ПРИЛОЖЕНИЕ
-#
 # состояние: создать данные
 #
 url::parse($_SERVER['REQUEST_URI'], true);
