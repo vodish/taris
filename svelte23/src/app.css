@@ -10,7 +10,7 @@
     --font1:    'Source Code Pro', monospace;
 
     --darkFon: #242528;
-    --darkColor: #ffffffd1;
+    --darkColor: #ffffffa5;
     --darkLink: #d55c5f;
     --darkPreFon: #171717;
     --darkPreColor: #af9e7d;
@@ -186,7 +186,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
     .pro > .tree    { border-right-color: var(--darkLine); }
     .pro > .tree .active { background-color: var(--darkPreFon); }
 
-    .pro > .file > pre:not(.white)       { background-color: var(--darkPreFon); color: var(--darkPreColor); }
+    .pro > .file > pre:not(.white)       { background-color: var(--darkPreFon); color: var(--darkColor); }
 	.pro > .file > pre ._tag  { color: #6b82ff; }
 	.pro > .file > pre ._tag_attr_val { color: #1b9f20; }
 
