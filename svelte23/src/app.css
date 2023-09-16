@@ -172,7 +172,11 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
     a           { color: var(--darkLink); }
 	a:hover     { color: var(--link); }
     .apierr     { color: var(--darkLine); }
+    input       { background-color: var(--darkFon); color: var(--darkColor); border-color: transparent; }
+    button      { background-color: #222; color: var(--darkColor); border-color: transparent; }
+    button:hover { background-color: #333; }
 
+    
     .main1 .login   { background-color: var(--darkPreFon); border-bottom-color: transparent; }
     .main1 .userlist > * { background-color: var(--darkPreFon); }
 

@@ -74,12 +74,12 @@ function apiCheckCode()
 </script>
 
 <svelte:head>
-    <title>Taris.pro - {window.location.host}</title>
+    <title>Taris.pro</title>
 </svelte:head>
 
 
 <div class="main1">
-    <img class="pic1 {$userList.length==0? 'empty': ''}" src="/i/pic1.jpg" alt="Taris" />
+    <img class="pic1 {$userList.length==0? 'empty': ''}" src="/i/pic1d.png" alt="Taris" />
     <div>
         <div class="auth">
 
@@ -87,7 +87,7 @@ function apiCheckCode()
 
                 <form class="login" on:submit|preventDefault={apiGetCode}>
                     <input class="email" type="email" name="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа">
-                    <button class="send">Tariz</button>
+                    <button class="send">Taris</button>
                 </form>
                 
             {:else if step == "code"}
