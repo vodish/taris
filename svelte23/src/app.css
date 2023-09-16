@@ -15,6 +15,10 @@
     --darkPreFon: #171717;
     --darkPreColor: #af9e7d;
     --darkLine: #333;
+    --darkTag: #CC6666;
+    --darkAttr: #4a744b;
+    --darkNum: #6b6bbd;
+
 }
 
 *               { padding: 0; margin: 0; }
@@ -185,18 +189,18 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 
 
     .ace_editor { color: var(--darkColor); }
-    .ace-tm .ace_gutter { background-color: #2e2e2e; color: var(--darkColor); }
+    .ace-tm .ace_gutter { background-color: #2e2e2e; color: #666; }
     .ace-tm .ace_gutter-active-line { background-color: var(--darkPreFon); }
-    .ace-tm .ace_meta.ace_tag   { color: #CC6666; }
+    .ace-tm .ace_meta.ace_tag   { color: var(--darkTag); }
     .ace-tm .ace_indent-guide   { background: none; }
     .ace-tm .ace_cursor { color: #AEAFAD; }
     .ace-tm .ace_marker-layer .ace_selection { background: #373B41; }
-    .ace-tm .ace_attribute-name { color:#4a744b !important; }
-    .ace-tm .ace_string { color: #4a744b; }
+    .ace-tm .ace_attribute-name { color:var(--darkAttr) !important; }
+    .ace-tm .ace_string { color: var(--darkAttr); }
     .ace-tm .ace_marker-layer .ace_active-line { background: var(--darkPreFon); }
     .ace-tm .ace_marker-layer .ace_bracket { border: 1px solid #555; }
     .ace-tm .ace_marker-layer .ace_selected-word { background: #555; border: 1px solid var(--darkPreFon); }
-    
+    .ace-tm .ace_constant.ace_numeric { color: var(--darkNum); }
 }
 
 

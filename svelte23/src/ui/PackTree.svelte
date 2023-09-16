@@ -24,7 +24,7 @@ document.onkeydown = (e) => {
 
 </script>
 
-{#if $treeText !== false} <AceYaml bind:value={$treeText} /> {/if}
+{#if $pack.start} <AceYaml bind:value={$treeText} /> {/if}
 
 <br>
 <button id="ctrl-s" on:click={save}>Сохранить</button>
