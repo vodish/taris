@@ -23,7 +23,14 @@ class db_pdo
 
 
         $this->dsn      =   $dsn;
-        $this->connect  =   new PDO($dsn, $user??null, $pass??null, [ PDO::ATTR_EMULATE_PREPARES => true ]) or die('cant connect...: ' . pg_last_error());
+
+		try {
+        	@$this->connect  =   new PDO($dsn, $user??null, $pass??null, [ PDO::ATTR_EMULATE_PREPARES => true ]);
+		}
+		catch (Exception $e) {
+			echo '<b>Cant connect to db...</b><br />';
+			die($e->errorInfo[2] ?? '');
+		}
     }
 	
 	
