@@ -1,14 +1,17 @@
 <?php
 class pack
 {
-    static $start;
-    static $project;
-    static $user;
-    
+    # by init()
     static $list;
     static $parent;
     static $bc;
     static $heap;
+    static $start;
+    static $project;
+    static $user;
+    static $file;
+
+    
     
 
 
@@ -66,6 +69,7 @@ class pack
         pack::$project  =   pack::$bc[0];
         pack::$start    =   $start;
         pack::$user     =   pack::$list[ $start ]['user'];
+        pack::$file     =   pack::$list[ $start ]['file'];
 
 
         # открытая пачка
