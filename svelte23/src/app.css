@@ -8,17 +8,6 @@
     --eee:      #eee;
     --font:     'Fira Sans', sans-serif;
     --font1:    'Source Code Pro', monospace;
-
-    --darkFon: #242528;
-    --darkColor: #ffffffa5;
-    --darkLink: #d55c5f;
-    --darkPreFon: #171717;
-    --darkPreColor: #af9e7d;
-    --darkLine: #333;
-    --darkTag: #CC6666;
-    --darkAttr: #4a744b;
-    --darkNum: #6b6bbd;
-
 }
 
 *               { padding: 0; margin: 0; }
@@ -98,8 +87,8 @@ pre.apierr br:first-child { display: none; }
 .pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
 .pro > .file *:not(img):empty   { height: 1em; }
 .pro > .file  img           { max-width: 100%; }
-.pro > .file > pre          { font-family: monospace; font-size: 14px; background-color: #eee; padding: 1ch 1.5ch; max-width: max-content; border-radius: 1px; white-space: break-spaces; }
-.pro > .file > pre.white    { background-color: inherit; padding: 0; white-space: break-spaces; }
+.pro > .file > pre          { font-family: monospace; font-size: 14px; max-width: max-content; border-radius: 1px; white-space: break-spaces; }
+.pro > .file > pre.bold     { background-color: #eee; padding: 1ch 1.5ch; }
 .pro > .file > div > h1     { margin: 0 0 0.5em 0; }
 .pro > .file > div > h2     { margin: 0 0 0.4em 0; }
 .pro > .file > div > h3     { margin: 0 0 0.3em 0; }
@@ -160,7 +149,17 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 
 
 
-
+:root {
+    --darkFon: #242528;
+    --darkColor: #ffffffc7;
+    --darkLink: #d55c5f;
+    --darkPreFon: #171717;
+    --darkPreColor: #af9e7d;
+    --darkLine: #333;
+    --darkTag: #CC6666;
+    --darkAttr: #4a744b;
+    --darkNum: #6b6bbd;
+}
 
 
 /* темная тема */
@@ -186,8 +185,9 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
     .pro > .tree    { border-right-color: var(--darkLine); }
     .pro > .tree .active { background-color: var(--darkPreFon); }
 
-    .pro > .file > pre:not(.white)       { background-color: var(--darkPreFon); color: var(--darkColor); }
-	.pro > .file > pre ._tag  { color: #6b82ff; }
+    .pro > .file > pre      { color: var(--darkColor); }
+    .pro > .file > pre.bold     { background-color: var(--darkPreFon); }
+	.pro > .file > pre ._tag    { color: #6b82ff; }
 	.pro > .file > pre ._tag_attr_val { color: #1b9f20; }
 
 

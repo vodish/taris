@@ -5,7 +5,6 @@ import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
 import { url, href, hpack, pack }    from "../state/store";
-
 </script>
 
 <svelte:head><title>{$pack.title}</title></svelte:head>
