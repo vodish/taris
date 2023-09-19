@@ -80,6 +80,23 @@ class line
 
 
 
+    # сохранирть через api
+    #
+    static function apiSave()
+    {
+        if ( !isset($_POST['line']) )    return;
+
+        line::dbInit();                     # порочитать новое содержание
+        line::addFile();                    # добавить файл
+        line::makeRows($_POST['line']);     # сохранить содержание
+
+        # порочитать новое содержание
+        line::$file     =   null;
+        line::$list     =   null;
+        line::$parent   =   null;
+        line::dbInit();
+    }
+
 
 
 
@@ -103,24 +120,6 @@ class line
         url::redir( url::$dir[0],  null, ['save'=>time()] );
     }
 
-
-
-    # сохранирть через api
-    #
-    static function apiSave()
-    {
-        if ( !isset($_POST['line']) )    return;
-
-        line::dbInit();                     # порочитать новое содержание
-        line::addFile();                    # добавить файл
-        line::makeRows($_POST['line']);     # сохранить содержание
-
-        # порочитать новое содержание
-        line::$file     =   null;
-        line::$list     =   null;
-        line::$parent   =   null;
-        line::dbInit();
-    }
 
 
         # добавить файл в базу, если его нету
@@ -229,7 +228,7 @@ class line
 
             # преобразовать строку в безопасный хтмл
             #
-            public static function view(int &$offset, int $space, string $content)
+            private static function view(int &$offset, int $space, string $content)
             {
                 # разрешенные теги и аттрибуты
                 #
