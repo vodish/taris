@@ -16,22 +16,27 @@ spl_autoload_register( function($name) {
 
 
 
-# состояние: создать данные
+# входящий запрос
 #
-url::parse($_SERVER['REQUEST_URI'], true);
-request::init();
-db::init();
-//
+url::parse( $_SERVER['REQUEST_URI'], true );
+req::init();
 
-# главная страница
+
+
+# окружение
 #
-user::getCode();
-user::checkCode();
+db::init();
+
+
+# главная операции
+#
+// user::getCode();
+// user::checkCode();
 // user::list();
 
 
 /*
-# операции с пачкой
+# пачка операции
 #
 pack::init();
 project::add();
@@ -42,5 +47,8 @@ access::save();
 
 */
 
+
 # 2 отдать данные
 #
+res::json();
+res::kit();

@@ -1,5 +1,5 @@
 <?php
-class request
+class req
 {
     static function init()
     {
