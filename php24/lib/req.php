@@ -1,38 +1,43 @@
 <?php
 class req
 {
+    static $param;
+    static $wait;
 
-    static function toMain()
+
+    static function forMain()
     {
         if ( url::$path != '/' )    return;
 
-        $_POST['wait']  =   ['userLst'];
-
+        req::$wait  =   ['userLst'];
     }
 
-    static function toPack()
+    static function forPack()
     {
-        if ( ! url::$level[0] )                 return;
+        if ( !isset(url::$level[0]) )           return;
         if ( ! is_numeric(url::$level[0]) )     return;
+        if ( url::$level[0] < 1 )               return;
 
         
-        $_POST['pack']  =   url::$level[0];
-        $_POST['wait']  =   ['pack'];
+        req::$param['pack'] =   url::$level[0];
+        req::$wait[]        =   'pack';
 
-        if      ( !isset(url::$level[1]) )      $_POST['wait']  =   ['lineHtml'];
-        elseif  ( url::$level[1] == 'line' )    $_POST['wait']  =   ['lineText'];
-        elseif  ( url::$level[1] == 'tree' )    $_POST['wait']  =   ['treeText'];
-        elseif  ( url::$level[1] == 'access' )  $_POST['wait']  =   ['accessArray', 'accessText'];
+        if      ( !isset(url::$level[1]) )      req::$wait[]  =   'lineHtml';
+        elseif  ( url::$level[1] == 'line' )    req::$wait[]  =   'lineText';
+        elseif  ( url::$level[1] == 'tree' )    req::$wait[]  =   'treeText';
+        elseif  ( url::$level[1] == 'access' )  req::$wait    =   array_merge(req::$wait, ['accessArray', 'accessText']);
+        
     }
 
 
-    static function init()
+
+
+    static function check()
     {
-        # привести запрос к единому формату
-        #
-        if ( url::$level[0] )
-
-
+        
+        ui::vd(req::$param);
+        ui::vd(req::$wait);
+        die;
     }
 
 
