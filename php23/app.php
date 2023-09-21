@@ -21,13 +21,27 @@ spl_autoload_register( function($name) {
 #
 url::parse($_SERVER['REQUEST_URI'], true);
 db::init();
-#
-#
+
+
 # главная страница
 #
 user::getCode();
 user::checkCode();
 user::list();
+
+
+/*
+# операции с пачкой
+#
+pack::init();
+project::add();
+project::remove();
+line::save();
+tree::save();
+access::save();
+
+*/
+
 #
 #
 # проект
