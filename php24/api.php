@@ -54,5 +54,5 @@ access::save();
 
 # 2 отдать данные
 #
-res::json();
-res::html();
+ans::json();
+ans::html();

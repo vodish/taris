@@ -1,18 +1,18 @@
 <?php
-class res
+class ans
 {
     static $render;
 
 
     static function json()
     {
-        if ( res::$render != 'json' )  return;
+        if ( ans::$render != 'json' )  return;
 
     }
 
     static function html()
     {
-        if ( res::$render != 'html' )  return;
+        if ( ans::$render != 'html' )  return;
         
 
     }

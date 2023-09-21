@@ -7,18 +7,25 @@ class req
 
     static function forMain()
     {
+        if ( $_POST )               return;
         if ( url::$path != '/' )    return;
+        
 
-        req::$wait  =   ['userLst'];
+        ans::$render    =   'html';
+        req::$wait      =   ['userLst'];
     }
 
+
+    
     static function forPack()
     {
+        if ( $_POST )                           return;
         if ( !isset(url::$level[0]) )           return;
         if ( ! is_numeric(url::$level[0]) )     return;
         if ( url::$level[0] < 1 )               return;
 
-        
+
+        ans::$render        =   'html';
         req::$param['pack'] =   url::$level[0];
         req::$wait[]        =   'pack';
 
