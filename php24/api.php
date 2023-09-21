@@ -17,8 +17,12 @@ spl_autoload_register( function($name) {
 
 
 # входящий запрос
+# определить операции на выполнение и переменные на отдачу
 #
 url::parse( $_SERVER['REQUEST_URI'], true );
+#
+req::toMain();
+req::toPack();
 req::init();
 
 
@@ -51,4 +55,4 @@ access::save();
 # 2 отдать данные
 #
 res::json();
-res::kit();
+res::html();
