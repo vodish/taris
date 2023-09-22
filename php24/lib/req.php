@@ -4,27 +4,28 @@ class req
     static $param;
     static $wait;
 
-    static $render;
+    
 
-
-    static function forMain()
+    # запрос главной страницы
+    #
+    static function fromMain()
     {
         if ( $_POST )               return;
         if ( url::$path != '/' )    return;
         
         # тип ответа
         #
-        req::$render    =   'html';
+        res::$render    =   'html';
 
 
         # ответ
         #
-        req::$wait      =   ['userLst'];
+        req::$wait      =   ['userList'];
     }
-
-
-    
-    static function forPack()
+    #
+    # запрос страницы пака
+    #
+    static function fromPack()
     {
         if ( $_POST )                           return;
         if ( !isset(url::$level[0]) )           return;
@@ -33,7 +34,7 @@ class req
         
         # тип ответа
         #
-        req::$render        =   'html';
+        res::$render        =   'html';
         
 
         # зависимости и операции
@@ -55,8 +56,9 @@ class req
 
 
 
-
-    static function check()
+    # запросы к api
+    #
+    static function fromApi()
     {
         if ( empty($_POST['rtoken']) )      return;
         if ( !isset(url::$level[0]) )       return;
@@ -64,14 +66,55 @@ class req
 
         # тип ответа
         #
-        req::$render    =   "json";
+        res::$render    =   "json";
 
 
+        # главная страница
+        #
+        self::userList();
+        self::userGetCode();
+        self::userCheckCode();
+        
 
-        ui::vd(req::$param);
-        ui::vd(req::$wait);
+
+        ui::vd($_POST);
+
+        ui::vd(self::$wait);
+        // ui::vd(self::$param);
+        // ui::vd(self::$wait);
         die;
     }
+
+
+    # идентификация запросов
+    #
+    private static function userList()
+    {
+        if ( ! isset($_POST['wait']) )                  return;
+        if ( ! in_array('userList', $_POST['wait']) )   return;
+
+        self::$wait   =   ['userList'];
+    }
+
+
+    private static function userGetCode()
+    {
+        if ( !isset($_POST['userGetCode']) )    return;
+        if ( empty($_POST['email']) )           return;
+
+        self::$param[]          =   'userGetCode';
+        self::$param['email']   =   $_POST['email'];
+    }
+
+    private static function userCheckCode()
+    {
+        if ( !isset($_POST['userGetCode']) )    return;
+        if ( empty($_POST['email']) )           return;
+
+        self::$param[]          =   'userGetCode';
+        self::$param['email']   =   $_POST['email'];
+    }
+
 
 
 

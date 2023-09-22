@@ -21,9 +21,9 @@ spl_autoload_register( function($name) {
 #
 url::parse( $_SERVER['REQUEST_URI'], true );
 #
-req::forMain();
-req::forPack();
-req::check();
+req::fromMain();
+req::fromPack();
+req::fromApi();
 
 
 

@@ -1,19 +1,15 @@
 <script>
 // @ts-nocheck
+
+import { onMount } from "svelte";
 import { api, userList, hpack } from "../state/store";
 
-
-// инициализация
-
-if ( $userList == false )
-{   
-    api( {userList:1},  (res) => userList.set(res.userList) )
-}
 
 
 
 // переменные входа
 
+let emailRef;
 let email       =   ""
 let code        =   ""
 
@@ -21,6 +17,21 @@ let step        =   "email"
 let delay
 let error       =   ""
 let wait        =   false
+
+
+// инициализация
+
+onMount(() =>{
+
+    emailRef.focus();
+
+    if ( $userList == false )
+    {   
+        api( {userList:1, wait:["userList"]},  (res) => userList.set(res.userList) )
+    }
+});
+
+
 
 
 
@@ -71,6 +82,8 @@ function apiCheckCode()
     }
 }
 
+
+
 </script>
 
 <svelte:head>
@@ -86,7 +99,7 @@ function apiCheckCode()
             {#if step == "email" }
 
                 <form class="login" on:submit|preventDefault={apiGetCode}>
-                    <input class="email" type="email" name="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа">
+                    <input class="email" type="email" name="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа" bind:this={emailRef} />
                     <button class="send">Taris</button>
                 </form>
                 

@@ -1,15 +1,19 @@
 <?php
 class res
 {
+    static $render;
+
+
+    
     static function json()
     {
-        if ( req::$render != 'json' )  return;
+        if ( self::$render != 'json' )  return;
 
     }
 
     static function html()
     {
-        if ( req::$render != 'html' )  return;
+        if ( self::$render != 'html' )  return;
         
 
     }
