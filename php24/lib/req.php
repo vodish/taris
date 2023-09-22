@@ -76,14 +76,26 @@ class req
         self::userCheckCode();
         
 
+        # пак
+        #
+        // self::
+
+
 
         ui::vd($_POST);
-
         ui::vd(self::$wait);
+
         // ui::vd(self::$param);
         // ui::vd(self::$wait);
         die;
     }
+
+
+
+
+
+
+
 
 
     # идентификация запросов
@@ -99,8 +111,8 @@ class req
 
     private static function userGetCode()
     {
-        if ( !isset($_POST['userGetCode']) )    return;
-        if ( empty($_POST['email']) )           return;
+        if ( !isset($_POST['userGetCode']) )            return;
+        if ( empty($_POST['email']) )                   return;
 
         self::$param[]          =   'userGetCode';
         self::$param['email']   =   $_POST['email'];
@@ -108,12 +120,21 @@ class req
 
     private static function userCheckCode()
     {
-        if ( !isset($_POST['userGetCode']) )    return;
-        if ( empty($_POST['email']) )           return;
+        if ( !isset($_POST['userGetCode']) )            return;
+        if ( empty($_POST['email']) )                   return;
 
         self::$param[]          =   'userGetCode';
         self::$param['email']   =   $_POST['email'];
     }
+
+
+
+
+
+
+
+
+
 
 
 
