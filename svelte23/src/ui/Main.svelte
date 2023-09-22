@@ -7,7 +7,7 @@ import { api, userList, hpack } from "../state/store";
 
 if ( $userList == false )
 {   
-    api( {userList:1},  ({ userList: list }) => userList.set(list) )
+    api( {userList:1},  (res) => userList.set(res.userList) )
 }
 
 
