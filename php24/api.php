@@ -16,30 +16,24 @@ spl_autoload_register( function($name) {
 
 
 
+# окружение
 # входящий запрос
-# определить операции на выполнение и переменные на отдачу
 #
 url::parse( $_SERVER['REQUEST_URI'], true );
 #
-req::fromMain();
-req::fromPack();
+req::fromUrl();
 req::fromApi();
-
-
-
-# окружение
 #
 db::init();
 
 
-# главная операции
+
+/*
+# операции
 #
 // user::getCode();
 // user::checkCode();
-// user::list();
 
-
-/*
 # пачка операции
 #
 pack::init();
@@ -48,11 +42,10 @@ project::remove();
 line::save();
 tree::save();
 access::save();
-
 */
 
 
-# 2 отдать данные
+# результат
 #
 res::json();
 res::html();
