@@ -8,23 +8,7 @@ class user
     #
     static function list()
     {
-        // if ( !empty($_POST['action']) )
-
-        # условие выполнения функции
-        #
-        if ( is_array(@$_COOKIE['token']) )
-        {
-            if ( url::$path == "/" )    $exec = true;
-            if ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )    $exec = true;
-        }
-        elseif ( url::start("/api")  && rtoken::check()  && isset($_POST['userList']) )
-        {
-            return  ui::$json['userList'] = array();
-        }
-        #
-        if ( !isset($exec) )    return user::$list;
-        
-
+        if ( !is_array(@$_COOKIE['token']) )    return array();
         
 
         # список пользователей из базы
@@ -34,7 +18,7 @@ class user
             $where[] = "(`token`.`email` = " .db::v($email). " AND `token`.`token` = " .db::v($token). " AND `token`.`is_active` = 1)";
         }
 
-        db::query("
+        $list   =   db::select("
             SELECT
                  `user`.`id`
                 ,`user`.`email`
@@ -47,27 +31,9 @@ class user
             ORDER BY
                 `user`.`id`
         ");
-
-        while( $v = db::fetch() )
-        {
-            user::$list[]  =  $v;
-        }
-
-
-
-        # html
-        #
-        ui::$title =  'Taris.pro';
-        ui::html('../ui/default.ui.php');
-        ui::html('../ui/main/main.ui.php');
-
-
-        # json
-        #
-        ui::$json['userList']   =   user::$list;
         
 
-        return  self::$list;
+        return  $list;
     }
 
 

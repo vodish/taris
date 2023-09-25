@@ -29,7 +29,7 @@ db::init();
 
 
 /*
-# операции
+# операции по параметрам
 #
 // user::getCode();
 // user::checkCode();
@@ -45,7 +45,20 @@ access::save();
 */
 
 
+# операции для ожиданий
+#
+// wait::userList()
+// wait::packStart()
+// wait::packBc()
+// wait::packTitle()
+// wait::packStart()
+// wait::packStart()
+// wait::packStart()
+
+
+
 # результат
 #
+res::vars();
 res::json();
 res::html();
