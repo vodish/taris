@@ -44,9 +44,7 @@ class req
     }
 
 
-
-
-
+    
     
     # развернуть сокращение для перменной pack*
     #
@@ -85,7 +83,7 @@ class req
         res::$render    =   "json";
 
 
-        # ожидания
+        # ожидаемые данные
         #
         if ( !empty($_POST['wait']) && is_array($_POST['wait']) )
         {
@@ -93,42 +91,13 @@ class req
             unset($_POST['wait']);
         }
 
-
-
-        # операции
+        
+        # параметры
         #
         req::$param = $_POST;
         
     }        
 
 
-    # группа переменных
-    #
-    private static function packCheckWait($wait)
-    {
-        $add    =   array();
-        $vars   =   array(
-            'packStart',
-            'packBc',
-            'packTree',
-            'packHeap',
-            'packMenu',
-            'packTitle',
-            'packProject',
-        );
-        
-        foreach( $vars as $v )
-        {
-            if ( ! in_array($v, $wait) )        continue;
-            if ( in_array($v, req::$wait) )     continue;
-
-            $add[] = $v;
-        }
-        
-
-        return  array_merge(req::$wait, $add);
-    }
-
-    
 
 }
