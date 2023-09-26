@@ -8,7 +8,7 @@ class user
     #
     static function list()
     {
-        if ( !is_array(@$_COOKIE['token']) )    return array();
+        if ( !is_array(@$_COOKIE['token']) )        return array();
         
 
         # список пользователей из базы

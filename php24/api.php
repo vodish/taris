@@ -1,13 +1,11 @@
 <?php
-# отображение ошибок
+# настройки
 #
 error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors','On');
-#
-# сессия
-#
 session_start();
-#
+
+
 # авто подключение классов
 #
 spl_autoload_register( function($name) {
@@ -16,8 +14,7 @@ spl_autoload_register( function($name) {
 
 
 
-# окружение
-# входящий запрос
+# запрос
 #
 url::parse( $_SERVER['REQUEST_URI'], true );
 #
@@ -45,20 +42,27 @@ access::save();
 */
 
 
-# операции для ожиданий
+# подготовка данных ответа
 #
-// wait::userList()
-// wait::packStart()
-// wait::packBc()
-// wait::packTitle()
-// wait::packStart()
-// wait::packStart()
-// wait::packStart()
-
-
-
-# результат
+res::userList();
 #
-res::vars();
+res::packStart();
+res::packBc();
+res::packTree();
+res::packHeap();
+res::packMenu();
+res::packTitle();
+res::packProject();
+res::lineHtml();
+res::lineText();
+res::treeText();
+res::accessHtml();
+res::accessText();
+
+
+
+
+# ответ
+#
 res::json();
 res::html();

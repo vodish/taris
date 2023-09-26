@@ -15,53 +15,33 @@ class req
         #
         res::$render    =   'html';
 
-        self::fromMain();
-        self::fromPack();
-        
-        
-    }
 
 
-    
         # запрос главной страницы
         #
-        private static function fromMain()
+        if ( url::$path == '/' )
         {
-            if ( url::$path != '/' )                return;
-
-            req::$wait      =   ['userList'];
+            req::$wait  =  array('userList');
         }
+        
+
+
+        # запрос страницы пачки
         #
-        # запрос страницы пака
-        #
-        private static function fromPack()
+        elseif ( isset(url::$level[0])  && is_numeric(url::$level[0])  && url::$level[0] > 1 )
         {
-            if ( ! isset(url::$level[0]) )          return;
-            if ( ! is_numeric(url::$level[0]) )     return;
-            if ( url::$level[0] < 1 )               return;
-            
-
-            # операция
-            #
             req::$param['pack'] =   url::$level[0];
+            req::$wait          =   self::packSokr(['pack*']);
             
-
-            # ответ
-            #
-            $wait       =   self::packSokr(['pack*']);
-            req::$wait  =   self::packCheckWait($wait);
-
             
-
             if      ( !isset(url::$level[1]) )      req::$wait[]  =   'lineHtml';
             elseif  ( url::$level[1] == 'line' )    req::$wait[]  =   'lineText';
             elseif  ( url::$level[1] == 'tree' )    req::$wait[]  =   'treeText';
             elseif  ( url::$level[1] == 'access' )  req::$wait    =   array_merge(req::$wait, ['accessArray', 'accessText']);
-            else                                    req::$wait[]  =   '404';
-            
+            else    req::$wait[]  =   '404';      
         }
-
-
+        
+    }
 
 
 
@@ -105,102 +85,49 @@ class req
         res::$render    =   "json";
 
 
-        # главная страница
+        # ожидания
         #
-        self::mainInit();
-        self::userGetCode();
-        self::userCheckCode();
-        #
-        #
-        self::packInit();
+        if ( !empty($_POST['wait']) && is_array($_POST['wait']) )
+        {
+            req::$wait  =   self::packSokr($_POST['wait']);
+            unset($_POST['wait']);
+        }
 
+
+
+        # операции
+        #
+        req::$param = $_POST;
+        
     }        
 
 
-
-        # идентификация запросов
-        #
-        private static function mainInit()
+    # группа переменных
+    #
+    private static function packCheckWait($wait)
+    {
+        $add    =   array();
+        $vars   =   array(
+            'packStart',
+            'packBc',
+            'packTree',
+            'packHeap',
+            'packMenu',
+            'packTitle',
+            'packProject',
+        );
+        
+        foreach( $vars as $v )
         {
-            if ( ! isset($_POST['wait']) )                  return;
-            if ( ! in_array('userList', $_POST['wait']) )   return;
+            if ( ! in_array($v, $wait) )        continue;
+            if ( in_array($v, req::$wait) )     continue;
 
-            self::$wait   =   ['userList'];
-
-            
+            $add[] = $v;
         }
+        
 
-        private static function userGetCode()
-        {
-            if ( !isset($_POST['userGetCode']) )            return;
-            if ( empty($_POST['email']) )                   return;
-
-            self::$param[]          =   'userGetCode';
-            self::$param['email']   =   $_POST['email'];
-        }
-
-        private static function userCheckCode()
-        {
-            if ( !isset($_POST['userGetCode']) )            return;
-            if ( empty($_POST['email']) )                   return;
-
-            self::$param[]          =   'userGetCode';
-            self::$param['email']   =   $_POST['email'];
-        }
-
-
-        private static function packInit()
-        {
-            if ( ! isset($_POST['pack']) )          return;
-            if ( ! is_numeric($_POST['pack']) )     return;
-            if ( $_POST['pack'] < 1 )               return;
-            if ( empty($_POST['wait']) )            return;
-            
-
-            
-            # параметры
-            #
-            req::$param['pack'] =   $_POST['pack'];
-
-
-            # ожидания
-            #
-            $_POST['wait']  =   self::packSokr( $_POST['wait'] );
-            req::$wait      =   self::packCheckWait( $_POST['wait'] );
-
-        }
-
-
-
-            private static function packCheckWait($wait)
-            {
-                $add    =   array();
-                $vars   =   array(
-                    'packStart',
-                    'packBc',
-                    'packTree',
-                    'packHeap',
-                    'packMenu',
-                    'packTitle',
-                    'packProject',
-                    'lineHtml',
-                    'lineText',
-                    'treeText',
-                    'accessHtml',
-                    'accessText',
-                );
-                
-                foreach( $vars as $v )
-                {
-                    if ( ! in_array($v, $wait) )        continue;
-                    if ( in_array($v, req::$wait) )     continue;
-
-                    $add[] = $v;
-                }
-                
-
-                return  array_merge(req::$wait, $add);
-            }
+        return  array_merge(req::$wait, $add);
+    }
 
     
 
