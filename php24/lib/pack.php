@@ -1,29 +1,50 @@
 <?php
 class pack
 {
-    # by init()
-    static $list;
-    static $parent;
-    static $bc;
-    static $heap;
-    static $start;
-    static $project;
-    static $user;
-    static $file;
-
-    
+    ############################################################
+    # фасад
     
 
+    /** @var pack */
+    static $pack;
 
-    # получить все пачки пользователя по url
-    #
+
     static function init($start=null)
     {
-        pack::$list     =   array();
-        pack::$parent   =   array();
-        pack::$bc       =   array();
-        pack::$heap     =   array();
+        if ( empty(req::$param['pack']) && $start==null )   return;
 
+        $start  =   $start  ??  req::$param['pack'];
+
+        self::$pack = new pack($start);
+    }
+    
+
+    static function toHeap($pack)
+    {
+        self::$pack->heap[ $pack['id'] ]  =   array(
+            'id'    =>  $pack['id'],
+            'name'  =>  $pack['name'],
+        );
+    }
+
+
+
+
+    ############################################################
+    # объект
+    
+    public $start;
+    public $list;
+    public $parent;
+    public $bc;
+    public $heap;
+    public $project;
+    public $user;
+    public $file;
+
+    
+    function __construct($start)
+    {
         # получить все пачки пользователя
         #
         #
@@ -43,49 +64,45 @@ class pack
         {
             db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
             
-            pack::$list[ $v['id'] ] =   $v;
-            pack::$parent[ $v['parent'] ][] =   $v['id'];
+            $this->list[ $v['id'] ] =   $v;
+            $this->parent[ $v['parent'] ][] =   $v['id'];
         }
         
-
+    
         # определить крошки проекта
         # определить текущий проект
         #
         $packId =   $start;
         #
-        while( isset(pack::$list[ $packId ]) )
+        while( isset($this->list[ $packId ]) )
         {
-            $pack       =   pack::$list[ $packId ];
+            $pack       =   $this->list[ $packId ];
             $packId     =   $pack['parent'];
-
+    
             if ( !$pack['is_project'] )     continue;
             
-            pack::$bc[] =   $pack['id'];
-
+            $this->bc[] =   $pack['id'];
+    
             pack::toHeap($pack);
         }
         #
         #
-        pack::$project  =   pack::$bc[0];
-        pack::$start    =   $start;
-        pack::$user     =   pack::$list[ $start ]['user'];
-        pack::$file     =   pack::$list[ $start ]['file'];
-
-
-        # открытая пачка
+        $this->start    =   $start;
+        $this->project  =   $this->bc[0];
+        $this->user     =   $this->list[ $start ]['user'];
+        $this->file     =   $this->list[ $start ]['file'];
+    
+    
+        # добавить в крошки открытую пачку, если она не проект
         #
-        if (pack::$bc[0] != $start )    array_unshift(pack::$bc , $start);
-
+        if ($this->bc[0] != $start )    array_unshift($this->bc , $start);
+        
     }
+
+
     
 
-    static function toHeap($pack)
-    {
-        pack::$heap[ $pack['id'] ]  =   array(
-            'id'    =>  $pack['id'],
-            'name'  =>  $pack['name'],
-        );
-    }
+    
 
 
 

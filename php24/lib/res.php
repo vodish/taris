@@ -5,7 +5,7 @@ class res
     static $ret  =  array();
     
 
-    
+
     static function html()
     {
         if ( self::$render != 'html' )  return;
@@ -53,64 +53,64 @@ class res
 
     static function packStart()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
-        self::$ret['packStart'] =   pack::$start;
+        self::$ret['packStart'] =   pack::$pack->start;
     }
 
     static function packBc()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
 
-        // self::$ret['packStart'] =   pack::$start;
+        // self::$ret['packStart'] =   pack::$pack->start;
     }
     
     static function packTree()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
-        // self::$ret['packStart'] =   pack::$start;
+        // self::$ret['packStart'] =   pack::$pack->start;
     }
     
     static function packHeap()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
-        // self::$ret['packStart'] =   pack::$start;
+        // self::$ret['packStart'] =   pack::$pack->start;
     }
     
     static function packMenu()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
-        // self::$ret['packStart'] =   pack::$start;
+        // self::$ret['packStart'] =   pack::$pack->start;
     }
     
     static function packTitle()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
-        // self::$ret['packTitle'] =   pack::$start;
+        // self::$ret['packTitle'] =   pack::$pack->start;
     }
     
     static function packProject()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
-        // self::$ret['packTitle'] =   pack::$start;
+        // self::$ret['packTitle'] =   pack::$pack->start;
     }
     
     static function lineHtml()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
 
@@ -118,7 +118,7 @@ class res
     
     static function lineText()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
 
@@ -126,7 +126,7 @@ class res
     
     static function treeText()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
 
@@ -134,7 +134,7 @@ class res
     
     static function accessHtml()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
 
@@ -142,7 +142,7 @@ class res
     
     static function accessText()
     {
-        if ( ! pack::$start )                           return;
+        if ( ! pack::$pack->start )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
 

@@ -25,7 +25,7 @@ db::init();
 
 
 
-/*
+
 # операции по параметрам
 #
 // user::getCode();
@@ -34,12 +34,12 @@ db::init();
 # пачка операции
 #
 pack::init();
-project::add();
-project::remove();
-line::save();
-tree::save();
-access::save();
-*/
+// project::add();
+// project::remove();
+// line::save();
+// tree::save();
+// access::save();
+
 
 
 # подготовка данных ответа
