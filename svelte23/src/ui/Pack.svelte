@@ -4,19 +4,19 @@ import PackLine         from "./PackLine.svelte";
 import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
-import { url, href, hpack, pack }    from "../state/store";
+import { url, href, hpack, packStart, packBc, packHeap, packProject, packTitle }    from "../state/store";
 </script>
 
-<svelte:head><title>{$pack.title}</title></svelte:head>
+<svelte:head><title>{$packTitle}</title></svelte:head>
 
 <div class="nav1">
     <div class="bc">
         <a href="/" class="logo" on:click={href}>Taris</a>
 
-        {#each $pack.bc as id }
+        {#each $packBc as id }
             <i>/</i>
-            <a href={"/" + id} on:click={hpack} class="{$pack.project==id? 'active': ''} {$pack.start==id && $pack.project!=id? 'current': ''}">
-                {$pack.heap[id].name}
+            <a href={"/" + id} on:click={hpack} class="{$packProject==id? 'active': ''} {$packStart==id && $packProject!=id? 'current': ''}">
+                {$packHeap[id].name}
             </a>
         {/each}
 
@@ -28,9 +28,9 @@ import { url, href, hpack, pack }    from "../state/store";
         <span>+&nbsp;Проект</span> -->
 
         <i class="sep"></i>
-        <a href="/{$pack.start}/line" on:click={hpack} class="b">Записи</a>
-        <a href="/{$pack.start}/tree" on:click={hpack}>Дерево</a>
-        <a href="/{$pack.start}/access" on:click={hpack}>Доступ</a>
+        <a href="/{$packStart}/line" on:click={hpack} class="b">Записи</a>
+        <a href="/{$packStart}/tree" on:click={hpack}>Дерево</a>
+        <a href="/{$packStart}/access" on:click={hpack}>Доступ</a>
     </div>
 </div>
 

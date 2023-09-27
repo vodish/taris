@@ -8,7 +8,7 @@ export default defineConfig({
     port: 5006,
     proxy: {
       '/api': {
-        target: 'http://k.tariz',
+        target: 'http://k.taris24',
         changeOrigin: true,
       }
     }

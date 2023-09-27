@@ -57,7 +57,15 @@ export function hpack(href)
     }
     
     let url   =   Store.parse(href)
-    let wait    =   ["pack"]
+    let wait    =   [
+        'packStart',
+        'packBc',
+        'packTree',
+        'packHeap',
+        'packMenu',
+        'packTitle',
+        'packProject',
+    ];
     
     if      ( url.level[1] == undefined )  wait.push("lineHtml")
     else if ( url.level[1] == 'line' )     wait.push("lineText")
@@ -70,7 +78,8 @@ export function hpack(href)
     Store.api( {pack: url.level[0], wait} ,  (res) => {
         
         wait.map((field)=>{
-            if ( res[ field ] === undefined )   return
+            if ( res[ field ] === undefined )   return;
+
             Store[field].set( res[ field ] )
         })
         
