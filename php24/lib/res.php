@@ -97,17 +97,7 @@ class res
     }
     
     
-    static function packHeap()
-    {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        
-
-        self::$ret[__FUNCTION__]  =   pack::$heap;
-    }
-    
-
-    static function packTree()
+    static function treePack()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
@@ -124,6 +114,13 @@ class res
     }
     
 
+    static function packHeap()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+        
+        self::$ret[__FUNCTION__]  =   pack::$heap;
+    }
 
 
 
@@ -141,7 +138,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-
+        self::$ret[__FUNCTION__]  =   line::asText();
     }
     
 
@@ -175,7 +172,7 @@ class res
 
     static function wait()
     {
-        return;
+        // return;
 
         self::$ret['wait'] = req::$wait;
         

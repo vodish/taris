@@ -1,14 +1,14 @@
 <script>
 // @ts-nocheck
-import { pack, lineText, lineHtml, api, href } from "../state/store";
+import { packStart, lineText, lineHtml, api, href } from "../state/store";
 import AceHtml from "./ace/AceHtml.svelte";
 
 
 function save()
 {
-    api({pack: $pack.start, line: $lineText, wait: ["lineHtml"]}, (res)=>{
+    api({pack: $packStart, line: $lineText, wait: ["lineHtml"]}, (res)=>{
         lineHtml.set(res.lineHtml)
-        href(`/${$pack.start}`)
+        href(`/${$packStart}`)
     })
 }
 
@@ -22,7 +22,7 @@ document.onkeydown = (e) => {
 
 </script>
 
-{#if $pack.start} <AceHtml bind:value={$lineText} /> {/if}
+{#if $packStart} <AceHtml bind:value={$lineText} /> {/if}
 
 <br>
 <button id="ctrl-s" on:click={save}>Сохранить</button>

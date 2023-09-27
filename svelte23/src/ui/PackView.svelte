@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { hpack, packStart, packTree, packHeap, lineHtml } from "../state/store";
+import { hpack, packStart, treePack, packHeap, lineHtml } from "../state/store";
 
 
 document.onkeydown = (e) => {
@@ -14,12 +14,17 @@ document.onkeydown = (e) => {
 }
 
 
+
 </script>
+
 
 <div class="pro">
     <div class="tree">
-        {#each $packTree as v }
-            <div class="name {v.project? 'project': ''} {v.id == $packStart? 'active': ''}" style="margin-left: {v.level * 20}px;"><a href={"/" + v.id} on:click={hpack}>{$packHeap[v.id].name}</a></div>
+        {#each $treePack as v }
+            <div class="name {v.project? 'project': ''} {v.id == $packStart? 'active': ''}" style="margin-left: {v.level * 20}px;">
+                
+                <a href={"/" + v.id} on:click={hpack}>{$packHeap[v.id].name}</a>
+            </div>
         {/each}
     </div>
     <div class="file">

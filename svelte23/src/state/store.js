@@ -16,7 +16,6 @@ export let userList     =   writable( false )
 export let pack         =   writable( {bc: [], tree:[]} )
 export let packStart    =   writable( false )
 export let packBc       =   writable( [] )
-export let packTree     =   writable( [] )
 export let packHeap     =   writable( [] )
 export let packMenu     =   writable( [] )
 export let packTitle    =   writable( "" )
@@ -24,7 +23,10 @@ export let packProject  =   writable( false )
 
 export let lineHtml     =   writable( "" )
 export let lineText     =   writable( "" )
+
+export let treePack     =   writable( [] )
 export let treeText     =   writable( "" )
+
 export let accessText   =   writable( "" )
 
 
