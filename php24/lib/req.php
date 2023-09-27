@@ -34,11 +34,11 @@ class req
             req::$wait  =   [
                 'packStart',
                 'packBc',
-                'packTree',
                 'packHeap',
                 'packMenu',
                 'packTitle',
                 'packProject',
+                'treePack',
             ];
             
             
