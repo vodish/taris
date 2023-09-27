@@ -80,7 +80,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;
 
-        
+
         $title  =   pack::$pack->list[ pack::$pack->start ]['name'];
         
         if ( pack::$pack->start != pack::$pack->project )
@@ -91,16 +91,18 @@ class res
         self::$ret[__FUNCTION__]    =   $title;
     }
     
-
-    static function packTree()
+    
+    static function packHeap()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;
-
-        // self::$ret['packStart'] =   pack::$pack->start;
+        
+        
+        self::$ret[__FUNCTION__] =   pack::$pack->heap;
     }
     
-    static function packHeap()
+
+    static function packTree()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;

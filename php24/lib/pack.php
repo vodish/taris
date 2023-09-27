@@ -19,14 +19,6 @@ class pack
     }
     
 
-    static function toHeap($pack)
-    {
-        self::$pack->heap[ $pack['id'] ]  =   array(
-            'id'    =>  $pack['id'],
-            'name'  =>  $pack['name'],
-        );
-    }
-
 
 
 
@@ -34,10 +26,10 @@ class pack
     # объект
     
     public $start;
-    public $list;
-    public $parent;
-    public $bc;
-    public $heap;
+    public $list        =   [];
+    public $parent      =   [];
+    public $bc          =   [];
+    public $heap        =   [];
     public $project;
     public $user;
     public $file;
@@ -86,27 +78,40 @@ class pack
             
             $this->bc[] =   $pack['id'];
     
-            pack::toHeap($pack);
+            $this->toHeap($pack);
         }
         
         
-        # добавить в крошки открытую пачку
-        #
-        $this->project  =   $this->bc[0];
-        $this->bc       =   array_reverse( $this->bc );
-        $this->bc       =   $start != $this->project ?  array_merge( $this->bc, [$start] ) :  $this->bc;
         
-        
-        # определить состояние
+        # определения
         #
         $this->start    =   $start;
+        $this->project  =   $this->bc[0];
+        $this->bc       =   array_reverse( $this->bc );
         $this->user     =   $this->list[ $start ]['user'];
         $this->file     =   $this->list[ $start ]['file'];
+
+
+        # добавить в крошки открытую пачку
+        #
+        if ( $start != $this->project )
+        {
+            $this->bc[] =   $start;
+            $this->toHeap( $this->list[ $start ] );
+        }
         
     }
 
 
     
+
+    function toHeap($pack)
+    {
+        $this->heap[ $pack['id'] ]  =   array(
+            'id'    =>  $pack['id'],
+            'name'  =>  $pack['name'],
+        );
+    }
 
     
 
