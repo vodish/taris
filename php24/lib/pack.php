@@ -1,14 +1,14 @@
 <?php
 class pack
 {
-    static $start    =   null;
-    static $list     =   [];
-    static $parent   =   [];
-    static $bc       =   [];
-    static $heap     =   [];
-    static $project  =   null;
-    static $user     =   null;
-    static $file     =   null;
+    static $start;
+    static $list;
+    static $parent;
+    static $bc;
+    static $heap;
+    static $project;
+    static $user;
+    static $file;
 
 
     static function init( $start = null )
@@ -91,7 +91,7 @@ class pack
         self::$bc       =   array_reverse( self::$bc );
         self::$user     =   self::$list[ $start ]['user'];
         self::$file     =   self::$list[ $start ]['file'];
-
+        
 
         # добавить в крошки открытую пачку
         #

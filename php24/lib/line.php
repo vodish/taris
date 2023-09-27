@@ -6,9 +6,10 @@ class line
     static $parent;
 
 
-    static function dbInit()
+    static function dbInit( $fileId = null )
     {
-        $file   =   pack::$list[ pack::$start ]['file'];
+        $file   =   $fileId  ?? pack::$file  ?? null;
+
 
         # получить файл из базы
         #

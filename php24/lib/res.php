@@ -51,6 +51,11 @@ class res
 
     
 
+
+
+    # данные пачки
+    #
+
     static function packStart()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
@@ -115,16 +120,20 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        self::$ret[__FUNCTION__]  =   pack::$start;
+        self::$ret[__FUNCTION__]  =   [];
     }
     
+
+
+
+
+
     static function lineHtml()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        
-        // self::$ret[__FUNCTION__]  =   line::asHtml();
+        self::$ret[__FUNCTION__]  =   line::asHtml();
     }
     
     static function lineText()
@@ -135,6 +144,11 @@ class res
 
     }
     
+
+
+
+
+
     static function treeText()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
@@ -161,7 +175,7 @@ class res
 
     static function wait()
     {
-        // return;
+        return;
 
         self::$ret['wait'] = req::$wait;
         
