@@ -1,45 +1,41 @@
 <?php
 class pack
 {
-    ############################################################
-    # фасад
-    
+    static $start    =   null;
+    static $list     =   [];
+    static $parent   =   [];
+    static $bc       =   [];
+    static $heap     =   [];
+    static $project  =   null;
+    static $user     =   null;
+    static $file     =   null;
 
-    /** @var pack */
-    static $pack;
 
-
-    static function init($start=null)
+    static function init( $start = null )
     {
-        if ( empty(req::$param['pack']) && $start==null )   return;
+        # значения по-умолчанию
+        #
+        self::$start    =   null;
+        self::$list     =   [];
+        self::$parent   =   [];
+        self::$bc       =   [];
+        self::$heap     =   [];
+        self::$project  =   null;
+        self::$user     =   null;
+        self::$file     =   null;
 
-        $start  =   $start  ??  req::$param['pack'];
 
-        self::$pack = new pack($start);
-    }
-    
+        # конструктор
+        #
+        $start  =   $start  ??  req::$param['pack'] ?? null;
+        #        
+        if ( empty($start) )    return;
 
-
-
-
-    ############################################################
-    # объект
-    
-    public $start;
-    public $list        =   [];
-    public $parent      =   [];
-    public $bc          =   [];
-    public $heap        =   [];
-    public $project;
-    public $user;
-    public $file;
-
-    
-    function __construct($start)
-    {
-        $start  =   intval($start);
+        
 
         # получить все пачки пользователя
+        #
+        $start  =   intval($start);
         #
         #
         db::query("
@@ -58,13 +54,13 @@ class pack
         {
             db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
             
-            $this->list[ $v['id'] ] =   $v;
-            $this->parent[ $v['parent'] ][] =   $v['id'];
+            self::$list[ $v['id'] ] =   $v;
+            self::$parent[ $v['parent'] ][] =   $v['id'];
         }
         
         # не найдена пачка
         #
-        if ( empty($this->list) )
+        if ( empty(self::$list) )
         {
             return;
         }
@@ -75,34 +71,34 @@ class pack
         #
         $packId =   $start;
         #
-        while( isset($this->list[ $packId ]) )
+        while( isset(self::$list[ $packId ]) )
         {
-            $pack       =   $this->list[ $packId ];
+            $pack       =   self::$list[ $packId ];
             $packId     =   $pack['parent'];
     
             if ( !$pack['is_project'] )     continue;
             
-            $this->bc[] =   $pack['id'];
+            self::$bc[] =   $pack['id'];
     
-            $this->toHeap($pack);
+            self::toHeap($pack);
         }
         
 
         # определения
         #
-        $this->start    =   $start;
-        $this->project  =   $this->bc[0] ?? $start;
-        $this->bc       =   array_reverse( $this->bc );
-        $this->user     =   $this->list[ $start ]['user'];
-        $this->file     =   $this->list[ $start ]['file'];
+        self::$start    =   $start;
+        self::$project  =   self::$bc[0] ?? $start;
+        self::$bc       =   array_reverse( self::$bc );
+        self::$user     =   self::$list[ $start ]['user'];
+        self::$file     =   self::$list[ $start ]['file'];
 
 
         # добавить в крошки открытую пачку
         #
-        if ( $start != $this->project )
+        if ( $start != self::$project )
         {
-            $this->bc[] =   $start;
-            $this->toHeap( $this->list[ $start ] );
+            self::$bc[] =   $start;
+            self::toHeap( self::$list[ $start ] );
         }
         
     }
@@ -110,72 +106,12 @@ class pack
 
     
 
-    function toHeap($pack)
+    static function toHeap( $pack )
     {
-        $this->heap[ $pack['id'] ]  =   array(
+        self::$heap[ $pack['id'] ]  =   array(
             'id'    =>  $pack['id'],
             'name'  =>  $pack['name'],
         );
     }
-
-    
-
-
-
-
-
-    static function api()
-    {
-        if ( ! url::start('/api') )     return;
-        if ( empty($_POST['pack']) )    return;
-        if ( $_POST['pack'] < 1 )       return;
-        
-        
-        
-        # получить все пачки
-        #
-        pack::init( $_POST['pack'] );
-        
-        # сохранить содержание
-        #
-        line::apiSave();
-        
-        # сохранить дерево
-        #
-        if ( isset($_POST['tree']) )
-        {
-            # передать на обработку
-            # перечитать пачку
-            project::init();
-            project::makeRows($_POST['tree']);
-            pack::init( pack::$start ); // здесь подставлять ид проекта, если удалена текущая пачка
-        }
-
-
-        # вернуть состояние
-        #
-        $wait   =   $_POST['wait'] ?? [];
-
-        if ( in_array('pack', $wait) )
-        {
-            ui::$json['pack']['start']      =   pack::$start;
-            ui::$json['pack']['title']      =   project::setTitle();
-            ui::$json['pack']['project']    =   pack::$project;
-            ui::$json['pack']['bc']         =   array_reverse(pack::$bc);
-            ui::$json['pack']['tree']       =   project::treeArray( pack::$project );
-            ui::$json['pack']['heap']       =&  pack::$heap;
-        }
-        
-
-        if ( in_array('lineHtml', $wait) )    ui::$json['lineHtml']   =   line::asHtml();
-        if ( in_array('lineText', $wait) )    ui::$json['lineText']   =   line::asText();
-        if ( in_array('treeText', $wait) )    ui::$json['treeText']   =   project::treeText( pack::$project );
-        if ( in_array('accessText', $wait) )  ui::$json['accessText'] =   "access pack::api() access";
-
-
-    }
-
-
-    
 
 }

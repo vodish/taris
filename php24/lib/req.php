@@ -28,7 +28,7 @@ class req
 
         # запрос страницы пачки
         #
-        elseif ( isset(url::$level[0])  && is_numeric(url::$level[0])  && url::$level[0] > 1 )
+        elseif ( isset(url::$level[0])  && is_numeric(url::$level[0])  && url::$level[0] > 0 )
         {
             req::$param['pack'] =   url::$level[0];
             req::$wait          =   self::packSokr(['pack*']);
