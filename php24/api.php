@@ -58,6 +58,7 @@ res::lineText();
 res::treeText();
 res::accessHtml();
 res::accessText();
+res::wait();
 
 
 

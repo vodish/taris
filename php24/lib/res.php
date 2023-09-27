@@ -97,7 +97,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;
         
-        
+
         self::$ret[__FUNCTION__] =   pack::$pack->heap;
     }
     
@@ -154,8 +154,16 @@ class res
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;
+        
+    }
 
 
+    static function wait()
+    {
+        // return;
+
+        self::$ret['wait'] = req::$wait;
+        
     }
 
 
