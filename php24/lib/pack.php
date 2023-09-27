@@ -45,6 +45,8 @@ class pack
     
     function __construct($start)
     {
+        $start  =   intval($start);
+
         # получить все пачки пользователя
         #
         #
@@ -68,7 +70,8 @@ class pack
             $this->parent[ $v['parent'] ][] =   $v['id'];
         }
         
-    
+        
+
         # определить крошки проекта
         # определить текущий проект
         #
@@ -85,17 +88,20 @@ class pack
     
             pack::toHeap($pack);
         }
+        
+        
+        # добавить в крошки открытую пачку
         #
+        $this->project  =   $this->bc[0];
+        $this->bc       =   array_reverse( $this->bc );
+        $this->bc       =   $start != $this->project ?  array_merge( $this->bc, [$start] ) :  $this->bc;
+        
+        
+        # определить состояние
         #
         $this->start    =   $start;
-        $this->project  =   $this->bc[0];
         $this->user     =   $this->list[ $start ]['user'];
         $this->file     =   $this->list[ $start ]['file'];
-    
-    
-        # добавить в крошки открытую пачку, если она не проект
-        #
-        if ($this->bc[0] != $start )    array_unshift($this->bc , $start);
         
     }
 

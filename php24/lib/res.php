@@ -53,97 +53,105 @@ class res
 
     static function packStart()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-
-        self::$ret['packStart'] =   pack::$pack->start;
+        if ( ! isset(pack::$pack) )                     return;
+        
+        self::$ret[__FUNCTION__]    =   pack::$pack->start;
     }
 
-    static function packBc()
+    static function packProject()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-
-
-        // self::$ret['packStart'] =   pack::$pack->start;
+        if ( ! isset(pack::$pack) )                     return;
+        
+        self::$ret[__FUNCTION__]    =   pack::$pack->project;
     }
     
+    static function packBc()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
+
+        self::$ret[__FUNCTION__]    =   pack::$pack->bc;
+    }
+    
+    static function packTitle()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
+
+        
+        $title  =   pack::$pack->list[ pack::$pack->start ]['name'];
+        
+        if ( pack::$pack->start != pack::$pack->project )
+        {
+            $title = pack::$pack->list[ pack::$pack->project ]['name']. ' / '. $title;
+        }
+        
+        self::$ret[__FUNCTION__]    =   $title;
+    }
+    
+
     static function packTree()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
         // self::$ret['packStart'] =   pack::$pack->start;
     }
     
     static function packHeap()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
         // self::$ret['packStart'] =   pack::$pack->start;
     }
     
     static function packMenu()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
         // self::$ret['packStart'] =   pack::$pack->start;
     }
     
-    static function packTitle()
-    {
-        if ( ! isset(pack::$pack) )                     return;
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-
-        // self::$ret['packTitle'] =   pack::$pack->start;
-    }
-    
-    static function packProject()
-    {
-        if ( ! isset(pack::$pack) )                     return;
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-
-        // self::$ret['packTitle'] =   pack::$pack->start;
-    }
-    
     static function lineHtml()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
 
     }
     
     static function lineText()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
 
     }
     
     static function treeText()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
 
     }
     
     static function accessHtml()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
 
     }
     
     static function accessText()
     {
-        if ( ! isset(pack::$pack) )                     return;
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! isset(pack::$pack) )                     return;
 
 
     }
