@@ -21,11 +21,11 @@ export let packMenu     =   writable( [] )
 export let packTitle    =   writable( "" )
 export let packProject  =   writable( false )
 
-export let lineHtml     =   writable( "" )
-export let lineText     =   writable( "" )
-
 export let treePack     =   writable( [] )
 export let treeText     =   writable( "" )
+
+export let lineHtml     =   writable( "" )
+export let lineText     =   writable( "" )
 
 export let accessText   =   writable( "" )
 
