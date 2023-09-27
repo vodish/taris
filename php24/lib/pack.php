@@ -62,6 +62,12 @@ class pack
             $this->parent[ $v['parent'] ][] =   $v['id'];
         }
         
+        # не найдена пачка
+        #
+        if ( empty($this->list) )
+        {
+            return;
+        }
         
 
         # определить крошки проекта
@@ -81,12 +87,11 @@ class pack
             $this->toHeap($pack);
         }
         
-        
-        
+
         # определения
         #
         $this->start    =   $start;
-        $this->project  =   $this->bc[0];
+        $this->project  =   $this->bc[0] ?? $start;
         $this->bc       =   array_reverse( $this->bc );
         $this->user     =   $this->list[ $start ]['user'];
         $this->file     =   $this->list[ $start ]['file'];

@@ -78,7 +78,7 @@ class res
     static function packTitle()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( ! isset(pack::$pack) )                     return;
+        if ( empty(pack::$pack->start) )                return;
 
 
         $title  =   pack::$pack->list[ pack::$pack->start ]['name'];
@@ -98,7 +98,7 @@ class res
         if ( ! isset(pack::$pack) )                     return;
         
 
-        self::$ret[__FUNCTION__] =   pack::$pack->heap;
+        self::$ret[__FUNCTION__]  =   pack::$pack->heap;
     }
     
 
@@ -107,7 +107,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;
 
-        // self::$ret['packStart'] =   pack::$pack->start;
+        self::$ret[__FUNCTION__]  =   tree::array( pack::$pack->project );
     }
     
     static function packMenu()
@@ -115,7 +115,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;
 
-        // self::$ret['packStart'] =   pack::$pack->start;
+        self::$ret[__FUNCTION__]  =   pack::$pack->start;
     }
     
     static function lineHtml()
@@ -123,7 +123,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( ! isset(pack::$pack) )                     return;
 
-
+        self::$ret[__FUNCTION__]  =   pack::$pack->start;
     }
     
     static function lineText()
