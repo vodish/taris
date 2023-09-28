@@ -172,7 +172,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 	a:hover     { color: var(--link); }
     .apierr     { color: var(--darkLine); }
     input       { background-color: var(--darkFon); color: var(--darkColor); border-color: transparent; }
-    button      { background-color: #222; color: var(--darkColor); border-color: transparent; }
+    button      { background-color: #3e3e3e; color: var(--darkColor); border-color: transparent; }
     button:hover { background-color: #333; }
 
 

@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { pack, treeText, api, href } from "../state/store";
+import { packStart, treeText, api, href } from "../state/store";
 import AceYaml from './ace/AceYaml.svelte';
 
 
@@ -8,9 +8,11 @@ import AceYaml from './ace/AceYaml.svelte';
 
 function save()
 {
-    api({pack: $pack.start, tree: $treeText, wait: ["pack"]}, (res)=>{
-        pack.set(res.pack)
-        href(`/${$pack.start}`)
+    api({pack: $packStart, tree: $treeText, wait: ["packStart", "treePack"]}, (res)=>{
+        // pack.set(res.pack)
+        packStart.set(res.packStart)
+        pactreePack.set(res.treePack)
+        href(`/${$packStart}`)
     })
 }
 
@@ -24,7 +26,7 @@ document.onkeydown = (e) => {
 
 </script>
 
-{#if $pack.start} <AceYaml bind:value={$treeText} /> {/if}
+{#if $packStart} <AceYaml bind:value={$treeText} /> {/if}
 
 <br>
 <button id="ctrl-s" on:click={save}>Сохранить</button>

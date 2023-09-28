@@ -1,11 +1,10 @@
 <script>
-import { onDestroy } from "svelte";
-import { accessText } from "../state/store";
+import { accessPack, accessText } from "../state/store";
 import AceYaml from "./ace/AceYaml.svelte";
 
-onDestroy(()=>{
-    console.log(`обновить права на сервере`)
-})
+// onDestroy(()=>{
+//     console.log(`обновить права на сервере`)
+// })
 </script>
 
 

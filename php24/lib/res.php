@@ -97,13 +97,7 @@ class res
     }
     
     
-    static function treePack()
-    {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-
-        self::$ret[__FUNCTION__]  =   tree::array( pack::$project );
-    }
+    
     
     static function packMenu()
     {
@@ -140,20 +134,29 @@ class res
 
         self::$ret[__FUNCTION__]  =   line::asText();
     }
-    
 
 
 
 
+    static function treePack()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+        self::$ret[__FUNCTION__]  =   tree::array( pack::$project );
+    }
 
     static function treeText()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-
+        self::$ret[__FUNCTION__]  =   tree::asText( pack::$project );
     }
-    
+
+
+
+
     static function accessHtml()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
@@ -170,9 +173,10 @@ class res
     }
 
 
+
     static function wait()
     {
-        // return;
+        return;
 
         self::$ret['wait'] = req::$wait;
         

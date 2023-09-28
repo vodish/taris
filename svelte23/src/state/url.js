@@ -15,7 +15,7 @@ export function popstate()
 
 
     // слежение за пачками: инициализация, вперед, назад
-    if ( url.level[0] && url.level[0] != Store.get( Store.pack ).start )
+    if ( url.level[0] && url.level[0] != Store.get( Store.packStart ) )
     {
         hpack( window.location.pathname )
     }

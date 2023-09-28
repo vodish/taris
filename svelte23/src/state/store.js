@@ -13,7 +13,7 @@ export let apierr       =   writable( "" )
 
 export let userList     =   writable( false )
 
-export let pack         =   writable( {bc: [], tree:[]} )
+
 export let packStart    =   writable( false )
 export let packBc       =   writable( [] )
 export let packHeap     =   writable( [] )
@@ -27,6 +27,7 @@ export let treeText     =   writable( "" )
 export let lineHtml     =   writable( "" )
 export let lineText     =   writable( "" )
 
+export let accessPack   =   writable( [] )
 export let accessText   =   writable( "" )
 
 
