@@ -28,5 +28,5 @@ document.onkeydown = (e) => {
 
 {#if $packStart} <AceYaml bind:value={$treeText} /> {/if}
 
-<br>
+<br />
 <button id="ctrl-s" on:click={save}>Сохранить</button>
