@@ -11,8 +11,10 @@ class line
         if ( empty(pack::$file) )   return;
         if ( self::$init        )   return;
         
-
+        # инициализация прошла
+        #
         self::$init =   true;
+
 
         # получить все записи из базы
         #
@@ -27,10 +29,12 @@ class line
         {
             db::cast($v, array('int'=>['file', 'order']));
 
-            self::$text .=  "\n" .str_repeat(' ', $v['space']). $v['content'];
-            self::$html .=  $v['view'];
+            self::$text .=  "\n" .str_repeat(' ', $v['space']). $v['text'];
+            self::$html .=  $v['html'];
         }
         
+
+        self::$text =   substr(self::$text, 1);
     }
 
     
@@ -73,7 +77,7 @@ class line
             if ( !empty(pack::$file) )      return;
             
             db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
-
+            
             pack::$file =   db::lastId();
 
             db::query("UPDATE `pack`  SET `file` = " .db::v(pack::$file). "  WHERE `id` = " .db::v(pack::$start) );
@@ -83,18 +87,22 @@ class line
         # распарсить пришедшее дерево проекта
         # и передать на сохранение в базу
         #
-        private static function makeRows($text)
+        private static function makeRows($newContent)
         {
 
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
-            $text       =   strtr($text, ["\r"=>'', "\t"=>"    "]);
-            $list       =   explode("\n", $text);
+            $newContent =   strtr($newContent, ["\r"=>'', "\t"=>"    "]);
+            $list       =   explode("\n", $newContent);
             $lines      =   array();
             $rows       =   array();
             $offset     =   0;
 
+            # сбросить содержание
+            #
+            self::$text =   '';
+            self::$html =   '';
 
 
             # пройти по строкам
@@ -120,12 +128,16 @@ class line
                 #
                 $lines[ $id5 ]  =   $space;
                 $parent5        =   self::findParent5($lines, $space);
-                
-
+                #
                 # новое представление строки в html с левым отступом
                 #
-                $view           =   self::view($offset, $space, $content);
-                $new[ $id5 ]    =   $view;
+                $html           =   self::view($offset, $space, $content);
+                
+                # актуальное содержание
+                #
+                self::$text     .=  "\n". $content;
+                self::$html     .=  $html;
+
 
                 # все записи запись
                 #
@@ -133,8 +145,8 @@ class line
                     SELECT 
                           " .db::v($file).       "   as `file`
                         , " .db::v($space).      "   as `space`
-                        , " .db::v($content).    "   as `content`
-                        , " .db::v($view).       "   as `view`
+                        , " .db::v($content).    "   as `text`
+                        , " .db::v($html).       "   as `html`
                         , " .db::v($order).      "   as `order`
                         , " .db::v($id5).        "   as `id5`
                         , " .db::v($parent5).    "   as `parent5`
@@ -143,15 +155,17 @@ class line
 
             }
             
+            // ui::vdd(self::$html);
+
+            # обновить данные состояния
+            #
+            self::$init =   true;
+            self::$text =   substr(self::$text, 1);
 
             # сохранить записи в бд
             #
             self::dbSave($rows);
 
-
-            # обновить список строчек
-            #
-            self::$list = $new;
         }
 
             
@@ -228,8 +242,8 @@ class line
                 INSERT INTO `line` (
                       `file`
                     , `space`
-                    , `content`
-                    , `view`
+                    , `text`
+                    , `html`
                     , `order`
                     , `id5`
                     , `parent5`

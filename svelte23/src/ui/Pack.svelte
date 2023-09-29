@@ -42,7 +42,7 @@ function menu(e)
         <div class="name">Название</div>
         <div class="menu">
             
-            <span on:click={menu}>-&nbsp;Проект</span>
+            <span>-&nbsp;Проект</span>
             <span>+&nbsp;Проект</span>
             <a href="/{$packStart}/line" on:click={hpack} class="b9 active">Записи</a>
             <a href="/{$packStart}/tree" on:click={hpack}>Дерево</a>
