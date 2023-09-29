@@ -41,12 +41,13 @@ function menu(e)
     <div class="burger" >
         <div class="name">Название</div>
         <div class="menu">
-            
-            <span>-&nbsp;Проект</span>
-            <span>+&nbsp;Проект</span>
             <a href="/{$packStart}/line" on:click={hpack} class="b9 active">Записи</a>
             <a href="/{$packStart}/tree" on:click={hpack}>Дерево</a>
             <a href="/{$packStart}/access" on:click={hpack}>Доступ</a>
+
+            <span>-&nbsp;Проект</span>
+            <span>+&nbsp;Проект</span>
+            
         </div>
     </div>
 </div>
