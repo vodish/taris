@@ -37,9 +37,6 @@ class line
         self::$text =   substr(self::$text, 1);
     }
 
-    
-
-
 
     # сохранить содержание файла
     #
@@ -57,14 +54,6 @@ class line
         # сохранить содержание в бд
         #
         line::makeRows(req::$param['line']);
-
-        /*
-        makeRows
-            foreach
-                findParent5()
-                view()
-            dbSave()
-        */
     }
 
 
@@ -125,15 +114,14 @@ class line
                 
 
                 # вспомогательная переменная
+                # новое представление строки в html с левым отступом
                 #
                 $lines[ $id5 ]  =   $space;
                 $parent5        =   self::findParent5($lines, $space);
                 #
-                # новое представление строки в html с левым отступом
-                #
-                $html           =   self::view($offset, $space, $content);
+                $html           =   self::toHtml($offset, $space, $content);
                 
-                # актуальное содержание
+                # актуальное состояние
                 #
                 self::$text     .=  "\n". $content;
                 self::$html     .=  $html;
@@ -155,12 +143,13 @@ class line
 
             }
             
-            // ui::vdd(self::$html);
+            
 
             # обновить данные состояния
             #
             self::$init =   true;
             self::$text =   substr(self::$text, 1);
+
 
             # сохранить записи в бд
             #
@@ -187,7 +176,7 @@ class line
 
             # преобразовать строку в безопасный хтмл
             #
-            private static function view(int &$offset, int $space, string $content)
+            private static function toHtml(int &$offset, int $space, string $content)
             {
                 # разрешенные теги и аттрибуты
                 #
