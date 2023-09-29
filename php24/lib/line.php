@@ -1,124 +1,66 @@
 <?php
 class line
 {
-    static $file;
-    static $list;
-    static $parent;
+    static $init    =   false;
+    static $text    =   '';
+    static $html    =   '';
 
 
-    static function dbInit( $fileId = null )
+    static function dbInit()
     {
-        $file   =   $fileId  ?? pack::$file  ?? null;
+        if ( empty(pack::$file) )   return;
+        if ( self::$init        )   return;
+        
 
-
-        # получить файл из базы
-        #
-        self::$file =   db::one("SELECT *  FROM `file`  WHERE `id` = " .db::v($file));
-        db::cast(self::$file, ['int'=>['id']]);
-        #
-        #
-        if ( empty(self::$file) )   return;
-
-
+        self::$init =   true;
 
         # получить все записи из базы
         #
         db::query("
-            SELECT
-                *
-            FROM
-                `line`
-            WHERE
-                `file` = " .db::v(self::$file['id']). "
-            ORDER BY
-                `order`
+            SELECT  *
+            FROM  `line`
+            WHERE  `file` = " .db::v(pack::$file). "
+            ORDER BY  `order`
         ");
 
         while( $v = db::fetch() )
         {
             db::cast($v, array('int'=>['file', 'order']));
 
-            self::$list[ $v['id5'] ] = $v;
-            self::$parent[ $v['parent5'] ] = $v['id5'];
+            self::$text .=  "\n" .str_repeat(' ', $v['space']). $v['content'];
+            self::$html .=  $v['view'];
         }
         
     }
 
-
-
-    # получить все строки в виде html
-    #
-    static function asHtml()
-    {
-        if ( !isset(line::$file) )  line::dbInit();
-
-        $view   =   line::$list ?  array_column(line::$list, 'view') :  [];
-        $view   =   implode('', $view);
-        
-        return  $view;
-    }
-
-
-    # получить все строки в виде текста
-    #
-    static function asText()
-    {
-        if ( !isset(line::$file) )  line::dbInit();
-
-        $content    =   '';
-
-        foreach( self::$list ?? [] as $v )
-        {
-            $content    .=  "\n" .str_repeat(' ', $v['space']). $v['content'];
-        }
-
-        $content    =   empty($content) ?  $content :  substr($content, 1);
-        
-
-        return  $content;
-    }
-
-
-
-
-    # сохранирть через api
-    #
-    static function apiSave()
-    {
-        if ( !isset($_POST['line']) )    return;
-
-        line::dbInit();                     # порочитать новое содержание
-        line::addFile();                    # добавить файл
-        line::makeRows($_POST['line']);     # сохранить содержание
-
-        # порочитать новое содержание
-        line::$file     =   null;
-        line::$list     =   null;
-        line::$parent   =   null;
-        line::dbInit();
-    }
-
+    
 
 
 
     # сохранить содержание файла
     #
-    static function actionSave()
+    static function save()
     {
-        if ( empty($_POST['line']) )    return;
+        if ( empty(pack::$start) )          return;
+        if ( !isset(req::$param['line']) )  return;
 
-        # добавить файл в базу
+        # подключиться к файлу содержания
         #
-        self::addFile();
+        line::setFile();
         
-        # передать на обработку
+
+        # сохранить содержание в переменнную
+        # сохранить содержание в бд
         #
-        self::makeRows($_POST['line']);
-        
-        
-        # редирект на просмотр
-        #
-        url::redir( url::$dir[0],  null, ['save'=>time()] );
+        line::makeRows(req::$param['line']);
+
+        /*
+        makeRows
+            foreach
+                findParent5()
+                view()
+            dbSave()
+        */
     }
 
 
@@ -126,18 +68,15 @@ class line
         # добавить файл в базу, если его нету
         # и связать его с текущей пачкой
         #
-        private static function addFile()
+        private static function setFile()
         {
-            if ( !empty(self::$file) )  return;
-
+            if ( !empty(pack::$file) )      return;
+            
             db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
 
-            self::$file['id']   =   db::lastId();
+            pack::$file =   db::lastId();
 
-            db::query("UPDATE `pack`  SET `file` = " .db::v(self::$file['id']). "  WHERE `id` = " .db::v(pack::$start) );
-            
-
-            return self::$file;
+            db::query("UPDATE `pack`  SET `file` = " .db::v(pack::$file). "  WHERE `id` = " .db::v(pack::$start) );
         }
 
         
@@ -170,7 +109,7 @@ class line
 
                 # параметры текущей записи
                 #
-                $file       =   self::$file['id'];
+                $file       =   pack::$file;
                 $order      =   $k + 1;
                 $id5        =   md5( trim($content) .$k );
                 $space      =   isset($space[0])  ?  strlen($space[0])  :   0;
@@ -183,10 +122,10 @@ class line
                 $parent5        =   self::findParent5($lines, $space);
                 
 
-                # представление строки в html с левым отступом
+                # новое представление строки в html с левым отступом
                 #
-                $view       =   self::view($offset, $space, $content);
-                
+                $view           =   self::view($offset, $space, $content);
+                $new[ $id5 ]    =   $view;
 
                 # все записи запись
                 #
@@ -208,6 +147,11 @@ class line
             # сохранить записи в бд
             #
             self::dbSave($rows);
+
+
+            # обновить список строчек
+            #
+            self::$list = $new;
         }
 
             
@@ -278,7 +222,7 @@ class line
             # удалить текущие записи
             # добавить новые записи
             #
-            db::query("DELETE FROM `line`  WHERE `file` = " .db::v(self::$file['id']) );
+            db::query("DELETE FROM `line`  WHERE `file` = " .db::v( pack::$file ) );
             
             db::query("
                 INSERT INTO `line` (

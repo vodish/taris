@@ -5,6 +5,13 @@ import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
 import { url, href, hpack, packStart, packBc, packHeap, packProject, packTitle }    from "../state/store";
+
+
+function menu(e)
+{
+    console.log(e.target)
+}
+
 </script>
 
 
@@ -27,16 +34,17 @@ import { url, href, hpack, packStart, packBc, packHeap, packProject, packTitle }
 
     <div class="opt">
         <!-- <i class="save" id="saved">Saved</i> -->
-        <!-- <span>-&nbsp;Проект</span> -->
-        <!-- <span>+&nbsp;Проект</span> -->
         <!-- <i class="sep"></i> -->
     </div>
 
-    <div class="burger">
+    
+    <div class="burger" >
         <div class="name">Название</div>
         <div class="menu">
-            <a href="/{$packStart}/line" on:click={hpack} class="b9 active">Обзор</a>
-            <a href="/{$packStart}/line" on:click={hpack} class="b9 active">Править</a>
+            
+            <span on:click={menu}>-&nbsp;Проект</span>
+            <span>+&nbsp;Проект</span>
+            <a href="/{$packStart}/line" on:click={hpack} class="b9 active">Записи</a>
             <a href="/{$packStart}/tree" on:click={hpack}>Дерево</a>
             <a href="/{$packStart}/access" on:click={hpack}>Доступ</a>
         </div>

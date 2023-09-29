@@ -124,7 +124,9 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        self::$ret[__FUNCTION__]  =   line::asHtml();
+        line::dbInit();
+
+        self::$ret[__FUNCTION__]  =   line::$html;
     }
     
     static function lineText()
@@ -132,7 +134,9 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        self::$ret[__FUNCTION__]  =   line::asText();
+        line::dbInit();
+
+        self::$ret[__FUNCTION__]  =   line::$text;
     }
 
 
