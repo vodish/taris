@@ -155,7 +155,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        self::$ret[__FUNCTION__]  =   tree::asText( pack::$project );
+        self::$ret[__FUNCTION__]  =   tree::text( pack::$project );
     }
 
 
