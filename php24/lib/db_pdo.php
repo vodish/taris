@@ -10,26 +10,18 @@ class db_pdo
     
     
     
-    public function __construct($dsn='rs_karasev_test')
+    public function __construct($dsn='taris_test')
     {
         # [PDO]  // into php.ini
-        # pdo.dsn.rs_karasev_test = "mysql:host=localhost;port=3306;dbname=DB_NAME;charset=utf8mb4;user=USER_NAME;password=USER_PASSWORD"
-		
-        if ( PATH_SEPARATOR == ';' ) {
-			$dsn = 'mysql:host=localhost;port=3311;dbname=tariz_test;charset=utf8mb4;user=tariz;password=eMEoBEvCum';
-			$user = 'tariz';
-			$pass = 'eMEoBEvCum';
-		}	
-
-
         $this->dsn      =   $dsn;
+        // $this->dsn      =   'taris_prod';
 
 		try {
         	@$this->connect  =   new PDO($dsn, $user??null, $pass??null, [ PDO::ATTR_EMULATE_PREPARES => true ]);
 		}
 		catch (Exception $e) {
 			echo '<b>Cant connect to db...</b><br />';
-			die($e->errorInfo[2] ?? '');
+			die( $e->errorInfo[2] ?? '' );
 		}
     }
 	
