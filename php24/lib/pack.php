@@ -56,7 +56,7 @@ class pack
 
         # получить все пачки хозяина
         #
-        db::query("SELECT  * FROM `pack`  WHERE `user` = " .self::$user['id']. " ORDER BY `order`");
+        db::query("SELECT *  FROM `pack`  WHERE `user` = " .self::$user['id']. " ORDER BY `order`");
         #
         #
         while ( $v = db::fetch() )

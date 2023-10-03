@@ -58,38 +58,43 @@ class tree
 
     # сохранить новое дерево проекта
     #
-    static function save()
-    {
-        if ( empty(pack::$start)    )   return;
-        if ( empty($_POST['tree'])  )   return;
+    // static function save()
+    // {
+    //     if ( empty(pack::$start)    )   return;
+    //     if ( empty($_POST['tree'])  )   return;
         
-        # передать на обработку
-        #
-        $packBack   =   self::makeRows($_POST['tree']);
+    //     # передать на обработку
+    //     #
+    //     $packBack   =   self::makeRows($_POST['tree']);
         
-        # перечитать пачку
-        #
-        // pack::init( pack::$start );
+    //     # перечитать пачку
+    //     #
+    //     // pack::init( pack::$start );
 
-    }
+    // }
 
         
         # распарсить пришедшее дерево проекта
         # и передать на сохранение в базу
         #
-        static function makeRows($text)
+        static function save()
         {
-            $user       =   pack::$user;
-
+            if ( empty(pack::$start)    )   return;
+            if ( empty($_POST['tree'])  )   return;
+            
 
             # разбить текст по-строчно, каждая пачка на своей строке
             # вспомогательные переменные
             #
-            $tree       =   str_replace("\r", '', $text);
-            $list       =   explode("\n", $tree);
+            $source     =   $_POST['tree'];
+            $source     =   str_replace("\r", '', $source);
+            $list       =   explode("\n", $source);
+            #
             $lines      =   array();
             $rows       =   array();
             $idArr      =   array();  # массив для проверки уделения текущей пачки
+            #
+            $user       =   pack::$user;
             // ui::vd($list);
 
 
@@ -97,7 +102,7 @@ class tree
             #
             foreach( $list as $k => $v )
             {
-                if ( empty($v) )    continue;
+                // if ( empty($v) )    continue;
 
                 # распарсить строки пачек
                 #
