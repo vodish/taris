@@ -11,10 +11,11 @@ class pack
     static $file;
 
 
-    static function init( $start = null )
+    # значения по-умолчанию
+    #
+    static function clear()
     {
-        # значения по-умолчанию
-        #
+        
         self::$start    =   null;
         self::$list     =   [];
         self::$parent   =   [];
@@ -23,31 +24,39 @@ class pack
         self::$project  =   null;
         self::$user     =   null;
         self::$file     =   null;
+    }
 
 
+
+    static function init( $start = null )
+    {
         # конструктор
         #
-        $start  =   $start  ??  req::$param['pack'] ?? null;
+        self::clear();
+        #
+        $start  =   $start  ??  req::$param['pack']  ??  null;
         #        
         if ( empty($start) )    return;
 
+
+        # достать user.id из pack.id
+        #
+        $ulen   =   substr($start, 0, 1);           # длина user.id
+        $user   =   substr($start, 1, $ulen);       # id пользака
+        
         
 
-        # получить все пачки пользователя
+        # получить хозяина
         #
-        $start  =   intval($start);
+        self::$user =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)." ");
         #
+        if ( empty(self::$user) )   return;
+
+
+
+        # получить все пачки хозяина
         #
-        db::query("
-            SELECT
-                *
-            FROM
-                `pack`
-            WHERE
-                `user` = (SELECT `user`  FROM `pack`  WHERE `id` = " .db::v($start). ")
-            ORDER BY
-                `order`
-        ");
+        db::query("SELECT  * FROM `pack`  WHERE `user` = " .self::$user['id']. " ORDER BY `order`");
         #
         #
         while ( $v = db::fetch() )
@@ -60,11 +69,17 @@ class pack
         
         # не найдена пачка
         #
-        if ( empty(self::$list) )
-        {
-            return;
-        }
+        if ( empty(self::$list) )   return;
         
+
+
+        # получить права пачек
+        #
+
+
+
+
+
 
         # определить крошки проекта
         # определить текущий проект
