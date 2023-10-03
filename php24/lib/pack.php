@@ -59,10 +59,10 @@ class pack
         db::query("SELECT *  FROM `pack`  WHERE `user` = " .self::$user['id']. " ORDER BY `order`");
         #
         #
-        while ( $v = db::fetch() )
+        while ( $v = db::fetch(['int'=>['id', 'parent', 'is_project', 'order', 'user', 'file']]) )
         {
-            db::cast($v, array('int'=>['id', 'parent', 'is_project', 'order']));
-            
+            ui::vd($v, 1);
+
             self::$list[ $v['id'] ] =   $v;
             self::$parent[ $v['parent'] ][] =   $v['id'];
         }

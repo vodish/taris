@@ -16,9 +16,12 @@ class db
         return self::lastId();
     }
     
-    static function fetch()
+    static function fetch($types=[])
     {
-        return self::$db->fetch();
+        $row    =   self::$db->fetch();
+        self::$db->cast($row, $types);
+        
+        return  $row;
     }
     
     static function select($query, $params=[])
