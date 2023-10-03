@@ -61,8 +61,6 @@ class pack
         #
         while ( $v = db::fetch(['int'=>['id', 'parent', 'is_project', 'order', 'user', 'file']]) )
         {
-            ui::vd($v, 1);
-
             self::$list[ $v['id'] ] =   $v;
             self::$parent[ $v['parent'] ][] =   $v['id'];
         }
@@ -71,7 +69,7 @@ class pack
         #
         if ( empty(self::$list) )   return;
         
-
+        ui::vd(self::$list);
 
         # получить права пачек
         #
