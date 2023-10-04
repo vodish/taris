@@ -120,7 +120,6 @@ class project
             
             $arr[]      =   ['id'=>$id, 'project'=>$isProject, 'level'=>$level];;
 
-            pack::toHeap(['id'=>$id, 'name'=>$name]);
             
             
             if ( !$isProject  && isset($sub) )

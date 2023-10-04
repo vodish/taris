@@ -139,14 +139,6 @@ class res
     }
     
 
-    static function packHeap()
-    {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        
-        self::$ret[__FUNCTION__]  =   pack::$heap;
-    }
-
 
 
 

@@ -16,8 +16,6 @@ class tree
             $sub        =   pack::$parent[ $id ] ?? null;
             
             $arr[]      =   ['id'=>$id, 'project'=>$isProject, 'level'=>$level];;
-
-            pack::toHeap(['id'=>$id, 'name'=>$name]);
             
             
             if ( !$isProject  && isset($sub) )
