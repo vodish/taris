@@ -86,7 +86,20 @@ class pack
         
 
 
-        # дерево проекта
+        
+        
+        # крошки проекта
+        #
+        while ( isset( self::$list[ $start ] ) )
+        {
+            self::$bc[] =   $start;
+            $start  =   self::$list[ $start ]['project'];
+        }
+        
+
+
+        
+        # дерево проекта - на отдаче данных (packHeap - куча не нужна, сделать без неё)
         #
         // foreach( self::$tree[ self::$project ] as &$v )
         // {
@@ -96,21 +109,6 @@ class pack
         //         'name'  =>  self::$list[ $v ]['name'],
         //     );
         // }
-
-        
-        
-        # крошки проекта
-        #
-        while ( isset( self::$list[ $start ] ) )
-        {
-            self::$bc[] =   array(
-                'id'    =>  self::$list[ $start ]['id'],
-                'name'  =>  self::$list[ $start ]['name'],
-            );
-
-            $start  =   self::$list[ $start ]['project'];
-        }
-        
 
         # крошки
         #
