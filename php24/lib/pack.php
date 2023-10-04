@@ -79,21 +79,44 @@ class pack
 
         # определения
         #
-        self::$start    =   (int)$start;
+        self::$start    =   $start  =  (int) $start;
         self::$project  =   self::$list[ self::$start ]['project'];
         self::$user     =   self::$list[ self::$start ]['user'];
         self::$file     =   self::$list[ self::$start ]['file'];
         
 
 
+        # дерево проекта
+        #
+        // foreach( self::$tree[ self::$project ] as &$v )
+        // {
+        //     $v  =   array(
+        //         'id'    =>  self::$list[ $v ]['id'],
+        //         'space' =>  self::$list[ $v ]['space'],
+        //         'name'  =>  self::$list[ $v ]['name'],
+        //     );
+        // }
+
+        
+        
         # крошки проекта
         #
+        while ( isset( self::$list[ $start ] ) )
+        {
+            self::$bc[] =   array(
+                'id'    =>  self::$list[ $start ]['id'],
+                'name'  =>  self::$list[ $start ]['name'],
+            );
+
+            $start  =   self::$list[ $start ]['project'];
+        }
         
 
-
-
+        # крошки
+        #
         ui::vd( self::$start );
         ui::vd( self::$project );
+        ui::vd( self::$bc );
         ui::vd( self::$_user );
         ui::vd( self::$file );
         ui::vd( self::$tree );
