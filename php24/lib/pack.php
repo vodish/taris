@@ -3,13 +3,14 @@ class pack
 {
     static $start;
     static $list;
-    static $parent;
+    static $tree;
     static $bc;
     static $heap;
     static $project;
     static $user;
     static $file;
-
+    static $_user;
+    
 
     # значения по-умолчанию
     #
@@ -18,12 +19,13 @@ class pack
         
         self::$start    =   null;
         self::$list     =   [];
-        self::$parent   =   [];
+        self::$tree     =   [];
         self::$bc       =   [];
         self::$heap     =   [];
         self::$project  =   null;
         self::$user     =   null;
         self::$file     =   null;
+        self::$_user    =   null;
     }
 
 
@@ -48,28 +50,57 @@ class pack
 
         # получить хозяина
         #
-        self::$user =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)." ");
+        self::$_user  =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)." ");
         #
-        if ( empty(self::$user) )   return;
+        db::cast(self::$_user, ['int'=>['id', 'start', 'counter']]);
+        #
+        if ( empty(self::$_user) )   return;
 
 
 
         # получить все пачки хозяина
         #
-        db::query("SELECT *  FROM `pack`  WHERE `user` = " .self::$user['id']. " ORDER BY `order`");
+        db::query("SELECT *  FROM `pack`  WHERE `user` = " .self::$_user['id']. " ORDER BY `order`");
         #
         #
-        while ( $v = db::fetch(['int'=>['id', 'parent', 'is_project', 'order', 'user', 'file']]) )
+        while ( $v = db::fetch(['int'=>['id', 'project', 'order', 'user', 'file']]) )
         {
             self::$list[ $v['id'] ] =   $v;
-            self::$parent[ $v['parent'] ][] =   $v['id'];
+            self::$tree[ $v['project'] ][] =   $v['id'];
         }
         
         # не найдена пачка
         #
         if ( empty(self::$list) )   return;
         
-        ui::vd(self::$list);
+
+
+
+
+        # определения
+        #
+        self::$start    =   (int)$start;
+        self::$project  =   self::$list[ self::$start ]['project'];
+        self::$user     =   self::$list[ self::$start ]['user'];
+        self::$file     =   self::$list[ self::$start ]['file'];
+        
+
+
+        # крошки проекта
+        #
+        
+
+
+
+        ui::vd( self::$start );
+        ui::vd( self::$project );
+        ui::vd( self::$_user );
+        ui::vd( self::$file );
+        ui::vd( self::$tree );
+        //ui::vd( self::$list );
+        die;
+
+
 
         # получить права пачек
         #
