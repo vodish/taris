@@ -2,34 +2,28 @@
 class pack
 {
     static $start;
+    static $project;
     static $list;
     static $tree;
     static $bc;
-    static $heap;
-    static $project;
-    static $user;
     static $file;
-    static $_user;
     
 
     # значения по-умолчанию
     #
     static function clear()
     {
-        
         self::$start    =   null;
+        self::$project  =   null;
         self::$list     =   [];
         self::$tree     =   [];
         self::$bc       =   [];
-        self::$heap     =   [];
-        self::$project  =   null;
-        self::$user     =   null;
         self::$file     =   null;
-        self::$_user    =   null;
     }
 
 
-
+    # инициализация пачек
+    #
     static function init( $start = null )
     {
         # конструктор
@@ -50,17 +44,16 @@ class pack
 
         # получить хозяина
         #
-        self::$_user  =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)." ");
+        $user  =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)." ");
+        db::cast($user, ['int'=>['id', 'start', 'counter']]);
         #
-        db::cast(self::$_user, ['int'=>['id', 'start', 'counter']]);
-        #
-        if ( empty(self::$_user) )   return;
+        if ( empty($user) )   return;
 
 
 
         # получить все пачки хозяина
         #
-        db::query("SELECT *  FROM `pack`  WHERE `user` = " .self::$_user['id']. " ORDER BY `order`");
+        db::query("SELECT *  FROM `pack`  WHERE `user` = " .$user['id']. " ORDER BY `order`");
         #
         #
         while ( $v = db::fetch(['int'=>['id', 'project', 'order', 'user', 'file']]) )
@@ -81,7 +74,10 @@ class pack
         #
         self::$start    =   $start  =  (int) $start;
         self::$project  =   self::$list[ self::$start ]['project'];
-        self::$user     =   self::$list[ self::$start ]['user'];
+        user::$id       =   $user['id'];
+        user::$email    =   $user['email'];
+        user::$start    =   $user['start'];
+        user::$counter  =   $user['counter'];
         self::$file     =   self::$list[ self::$start ]['file'];
         
 

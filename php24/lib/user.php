@@ -1,6 +1,14 @@
 <?php
 class user
 {
+    # хозяин пачки
+    #
+    static $id;
+    static $email;
+    static $start;
+    static $counter;
+
+
     static $list    =   array();
 
 
@@ -69,8 +77,8 @@ class user
 
         # json переменные
         #
-        ui::$json["send"]   =   "ok";
-        ui::$json["code"]   =   $code;
+        // ui::$json["send"]   =   "ok";
+        // ui::$json["code"]   =   $code;
     }
 
 
@@ -129,8 +137,8 @@ class user
 
         # json переменные
         #
-        ui::$json["check"]  =   "ok";
-        ui::$json["redir"]  =   "/". $user['start'];
+        // ui::$json["check"]  =   "ok";
+        // ui::$json["redir"]  =   "/". $user['start'];
     }
 
 
