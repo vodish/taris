@@ -59,13 +59,11 @@ export function hpack(href)
     let url   =   Store.parse(href)
     let wait    =   [
         'packStart',
+        'packProject',
         'packBc',
         'packTree',
-        'packHeap',
         'packMenu',
         'packTitle',
-        'packProject',
-        'treePack',
     ];
     
     if      ( url.level[1] == undefined )  wait.push("lineHtml")

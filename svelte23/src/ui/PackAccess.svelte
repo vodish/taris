@@ -1,5 +1,5 @@
 <script>
-import { packBc, packHeap, accessPack, accessText } from "../state/store";
+import { packBc, accessPack, accessText } from "../state/store";
 import AceYaml from "./ace/AceYaml.svelte";
 
 // onDestroy(()=>{
@@ -14,7 +14,7 @@ import AceYaml from "./ace/AceYaml.svelte";
 </style>
 
 
-
+<!--
 {#each $packBc as v}
     <div class="pack">
         <div class="name">{$packHeap[ v ].name}</div>
@@ -23,6 +23,7 @@ import AceYaml from "./ace/AceYaml.svelte";
         </div>
     </div>
 {/each}
+-->
 
 <br />
 <AceYaml bind:value={$accessText} />

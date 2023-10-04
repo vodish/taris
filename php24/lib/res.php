@@ -77,7 +77,38 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        self::$ret[__FUNCTION__]    =   pack::$bc;
+        $bc =   array_reverse(pack::$bc);
+
+        foreach($bc as &$v)
+        {
+            $v   =   array(
+                'id'        =>  pack::$list[ $v ]['id'],
+                'name'      =>  pack::$list[ $v ]['name'],
+            );
+        }
+
+        self::$ret[__FUNCTION__]  =  $bc;
+    }
+    
+    static function packTree()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+        $tree   =   pack::$tree[ pack::$project ] ?? array();
+        
+        foreach( $tree as &$v )
+        {
+            $v  =   array(
+                'id'    =>  pack::$list[ $v ]['id'],
+                'space' =>  pack::$list[ $v ]['space'],
+                'name'  =>  pack::$list[ $v ]['name'],
+                '_p'    =>  isset(pack::$tree[ $v ]) ?  'project' :  '',
+                '_a'    =>  $v == pack::$start ?  'active' :  '',
+            );
+        }
+
+        self::$ret[__FUNCTION__]  =  $tree;
     }
     
     static function packTitle()

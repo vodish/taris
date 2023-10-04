@@ -4,7 +4,7 @@ import PackLine         from "./PackLine.svelte";
 import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
-import { url, href, hpack, packStart, packBc, packHeap, packProject, packTitle }    from "../state/store";
+import { url, href, hpack, packStart, packProject, packBc, packTitle }    from "../state/store";
 
 
 function menu(e)
@@ -21,13 +21,18 @@ function menu(e)
     <div class="bc">
         <a href="/" class="logo" on:click={href}>Taris</a>
 
-        {#each $packBc as id }
+        
+        {#each $packBc as pack }
             <i>/</i>
-            <a href={"/" + id} on:click={hpack} class="{$packProject==id? 'active': ''} {$packStart==id && $packProject!=id? 'current': ''}">
-                {$packHeap[id].name}
-            </a>
+            <a  href={"/" + pack.id}
+                on:click={hpack}
+                class="
+                    {$packProject==pack.id? 'active': ''}
+                    {$packStart==pack.id && $packProject!=pack.id? 'current': ''}
+                "
+            >{pack.name}</a>
         {/each}
-
+        
     </div>
 
     
