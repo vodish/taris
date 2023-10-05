@@ -99,14 +99,14 @@ class res
 
         $tree   =   pack::$tree[ pack::$start ]  ??  pack::$tree[ pack::$project ]  ??  [];
         
-        foreach( $tree as &$v )
+        foreach( $tree as &$pack )
         {
             $v  =   array(
-                'id'    =>  pack::$list[ $v ]['id'] ?? '',
-                'space' =>  pack::$list[ $v ]['space'],
-                'name'  =>  trim(pack::$list[ $v ]['name']),
-                '_prj'  =>  isset(pack::$tree[ $v ]) ?  'self' :  '',
-                '_act'  =>  $v == pack::$start ?  'active' :  '',
+                'id'    =>  $pack['id'] ?? '',
+                'space' =>  $pack['space'],
+                'name'  =>  $pack['name'],
+                '_prj'  =>  isset(pack::$tree[ $pack['id'] ]) ?  'self' :  '',
+                '_act'  =>  $pack['id'] == pack::$start ?  'active' :  '',
             );
         }
 
@@ -174,12 +174,11 @@ class res
 
         $tree   =   pack::$tree[ pack::$start ]  ??  pack::$tree[ pack::$project ]  ??  [];
         $text   =   '';
-        foreach( $tree as $v )
+        foreach( $tree as $pack )
         {
-            $pack   =   pack::$list[ $v ];
             $space  =   str_repeat(" ", $pack['space']);
-            $id     =   empty($pack['name'])?  '':  $v;
-            $text  .=   $space.  $pack['name'].  '    '.  $id.  "\n";
+            $id     =   empty($pack['name']) ?  '' :  $pack['id'];
+            $text  .=   $space.  $pack['name'].  '    '.  $pack['id'].  "\n";
         }
         
         self::$ret[__FUNCTION__]  =   $text;

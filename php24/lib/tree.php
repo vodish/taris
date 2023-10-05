@@ -2,13 +2,45 @@
 class tree
 {
     
+    private static function parseline($str)
+    {
+        preg_match("#^\s*#", $str, $_before);
+        preg_match("#\s+\d+$#", $str, $_after);
+        #
+        $space  =   (int) $_before[0] ?? 0;
+        $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
+        $name   =   mb_substr($str, mb_strlen($_before[0]), -mb_strlen($_after[0]??0));
+
+        return [
+            'user'      =>  null,
+            'id'        =>  $id,
+            'project'   =>  null,
+            'name'      =>  $name,
+            'space'     =>  $space,
+            'order'     =>  null,
+            'file'      =>  null,
+        ];
+    }
+
+
+    private static function toLog()
+    {
+        $log = array();
+
+        foreach( pack::$tree as $project => $list )
+        {
+            // $log[] = 
+        }
+    }
+
+
+
 
     # распарсить пришедшее дерево проекта
     # и передать на сохранение в базу
     #
     static function save()
     {
-        // return;
         # отладка
         #
         res::treeText();
@@ -27,50 +59,35 @@ class tree
         $source     =   str_replace("\r", '', $source);
         $source     =   trim($source);
         $list       =   explode("\n", $source);
-        #
-        $lines      =   array();
-        $rows       =   array();
-        $idArr      =   array();  # массив для проверки уделения текущей пачки
-        
+        $tree       =   array();
+
 
         # пройти по строкам
         #
         foreach( $list as $k => $ls )
         {
             # распарсить строки пачек
-            #
-            preg_match("#^\s*#", $ls, $_before);
-            preg_match("#\s+\d+$#", $ls, $_after);
-            #
-            $space  =   (int) $_before[0] ?? 0;
-            $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
-            $name   =   mb_substr($ls, mb_strlen($_before[0]), -mb_strlen($_after[0]??0));
-            #
             # выдать новый id для новой записи
             #
-            $id     =   $id===null && !empty($name) ?  ++user::$counter : $id;
+            $v              =   self::parseline($ls);
             #
-            #
-            $rows[] =   array(
-                'user'      =>  user::$id,
-                'id'        =>  $id,
-                'project'   =>  pack::$project,
-                'name'      =>  mb_substr($ls, mb_strlen($_before[0]??0), -mb_strlen($_after[0]??0)),
-                'space'     =>  $space,
-                'order'     =>  $k,
-                'file'      =>  isset(pack::$list[ $id ])?  pack::$list[ $id ]['file']:  0,
-            );
+            $v['id']        =   $v['id']===null && !empty($v['name']) ?  ++user::$counter : $v['id'];
+            $v['user']      =   user::$id;
+            $v['project']   =   pack::$project;
+            $v['order']     =   $k;
+            $v['file']      =   isset(pack::$list[ $v['id'] ])?  pack::$list[ $v['id'] ]['file']:  0;
             
-            // ui::vd($ls, 1);
-            // $next = ++user::$counter;
-            // ui::vd($next);
-            // ui::vd($row);
-            // echo '<hr>';
 
-            // break;
+            pack::$list[ $v['id'] ]  =  $v;
+            $tree[]  =  $v['id'];
         }
 
-        ui::vd( $rows );
+
+        # заменить ветку в деревe
+        #
+        pack::$tree[ pack::$project ]   =   $tree;
+
+        ui::vd( $tree );
         die;
         
 

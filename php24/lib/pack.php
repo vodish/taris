@@ -70,7 +70,7 @@ class pack
             $counter[]  =   substr(strval($v['id']),  $ulen+1);
 
             self::$list[ $v['id'] ] =   $v;
-            self::$tree[ $v['project'] ][] =   $v['id'];
+            self::$tree[ $v['project'] ][] =   $v;
         }
         #
         # не найдена пачка
