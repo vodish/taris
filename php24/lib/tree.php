@@ -44,7 +44,7 @@ class tree
 
 
 
-    
+
     # сохранить дерево с обновленной веткой пачек
     #
     static function save()
@@ -127,7 +127,64 @@ class tree
     {
         if ( $oldlog == $newlog )  return;
 
-        ui::vd('Сохранить в лог');
+
+        # сохранить в лог
+        #
+        // db::query("
+        //     INSERT INTO `log` (
+        //          `user`
+        //         ,`author`
+        //         ,`author_email`
+        //         ,`target`
+        //         ,`row`
+        //         ,`json`
+        //     )
+        //     VALUES (
+        //         " .db::v(user::$id). "
+        //         " .db::v(0). "
+        //         " .db::v('0'). "
+        //         " .db::v('pack'). "
+        //         " .db::v(null). "
+        //         " .db::v($newlog). "
+        //     )
+        // ");
+        
+
+
+        # создать записи пачек
+        #
+        $rows = '';
+        foreach( pack::$tree as $list )
+        {
+            foreach( $list as $pack )
+            {
+                $row = '';
+                foreach($pack as $v)    $row .= ','. db::v($v);
+                $rows .= ',('. substr($row, 1). ')'. "\n";
+            }
+        }
+        $rows = substr($rows, 1);
+
+
+        
+        // # обновить дерево
+        // #
+        // db::query("DELETE FROM `pack` WHERE `user` = " .db::v(user::$id) );
+        
+        db::query("-
+            INSERT INTO `pack` (
+                 `user`
+                ,`id`
+                ,`project`
+                ,`space`
+                ,`name`
+                ,`order`
+                ,`file`
+            )
+            VALUES
+            " .$rows. "
+        ");
+
         ui::vd('Обновить дерево хозяина');
 
 
