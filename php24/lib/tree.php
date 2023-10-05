@@ -2,6 +2,8 @@
 class tree
 {
     
+    # распарсить строчку пачки
+    #
     private static function parseline($str)
     {
         preg_match("#^\s*#", $str, $_before);
@@ -11,12 +13,6 @@ class tree
         $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
         $name   =   mb_substr($str, mb_strlen($_before[0]), -mb_strlen($_after[0]??0));
 
-        // if ( empty(trim($str)) )
-        // {
-        //     ui::vd($space);
-        //     ui::vd($_before);
-        //     ui::vdd($str, 1);
-        // }
 
         return [
             'user'      =>  null,
@@ -30,11 +26,13 @@ class tree
     }
 
 
+    # дерево в json для лога
+    #
     private static function toLog()
     {
         $log    =   array();
-        ui::vd(pack::$tree[112]);
-        foreach( pack::$tree[112] as $rows )
+        // ui::vd(pack::$tree[112]);
+        foreach( pack::$tree as $rows )
         {
             foreach( $rows as $r )  $log[] =  $r;
         }
@@ -46,9 +44,8 @@ class tree
 
 
 
-
-    # распарсить пришедшее дерево проекта
-    # и передать на сохранение в базу
+    
+    # сохранить дерево с обновленной веткой пачек
     #
     static function save()
     {
@@ -102,86 +99,23 @@ class tree
         # создать новый лог
         #
         pack::$tree[ pack::$project ]   =   $tree;
+        #
         $newlog     =   self::toLog();
         
-        
-        
-        ui::vd( res::$ret['treeText'] );
-        ui::vd( $oldlog );
-        ui::vd( $newlog );
-        ui::vd( $oldlog == $newlog, 1 );
-        die;
-        
-
 
         
-        ##############################################################
-        # пройти по строкам
+        // ui::vd( res::$ret['treeText'] );
+        // ui::vd( $oldlog );
+        // ui::vd( $newlog );
+        // ui::vd( $oldlog == $newlog, 1 );
+        // die;
+        
+
+        # сохранить новое дерево проекта
         #
-        foreach( $list as $k => $v )
-        {
-            // if ( empty($v) )    continue;
-
-            # распарсить строки пачек
-            #
-            preg_match("#^\s+#", $v, $indent5m);
-            preg_match("#\s\d+$#", $v, $idm);
-            #
-            #
-            $order          =   $user + $k;
-            $id5            =   md5( session_id(). time(). $order );
-            $indent5        =   isset($indent5m[0])  ?  strlen($indent5m[0])  :   0;
-            $id             =   isset($idm[0])       ?  (int)trim($idm[0])    :   0;
-            $name           =   trim( substr($v, $indent5, strlen($v) - $indent5 - strlen($idm[0] ?? '') ) );
-            $idArr[ $id ]   =   $id;
-            #
-            #
-            # определить родителя из текста
-            #
-            $lines[ $id5 ]  =   $indent5;
-            $parent         =   null;
-            $parent5        =   self::setParent5($lines, $indent5);
-            #
-            # все записи запись
-            #
-            $rows[] = "
-                SELECT 
-                        " .db::v($id5).        "   as `id5`
-                    , " .db::v($parent5).    "   as `parent5`
-                    , " .db::v($id).         "   as `id`
-                    , " .db::v($parent).     "   as `parent`
-                    , " .db::v($name).       "   as `name`
-                    , " .db::v($order).      "   as `order`
-                    , " .db::v($user).       "   as `user`
-            ";
-            
-        }
+        self::dbSave($oldlog, $newlog);
         
-
-        # сохранить записи в бд
-        #
-        self::dbSave($rows);
-
-        
-        # вернуть текущую пачку или пачку проекта
-        #
-        //return $idArr[ pack::$start ] ?? self::$id;
     }
-
-
-        # определить родителя5
-        #
-        private static function setParent5($lines, $indent5)
-        {
-            $reverse    =   array_reverse($lines);
-            
-            foreach( $reverse as $key => $indent )
-            {
-                if ( $indent < $indent5 )   return $key;
-            }
-        
-            return null;
-        }
 
 
     
@@ -189,8 +123,16 @@ class tree
 
     # сохранить записи в базу
     #
-    private static function dbSave($rows)
+    private static function dbSave($oldlog, $newlog)
     {
+        if ( $oldlog == $newlog )  return;
+
+        ui::vd('Сохранить в лог');
+        ui::vd('Обновить дерево хозяина');
+
+
+        die;
+
         // ui::vdd($rows);
 
         # создать актуальное дерево проекта
@@ -256,26 +198,5 @@ class tree
 
     }
 
-
-        # получить текущий список записей проекта
-        #
-        private static function getChildrenList($start, $list=[])
-        {
-            $children   =   pack::$parent[ $start ] ??  array();
-        
-            foreach( $children as $id )
-            {
-                $list[]     =   $id;
-                $isProject  =   pack::$list[ $id ]['is_project'];
-                $sub        =   pack::$parent[ $id ] ?? null;
-
-                if ( !$isProject  && isset($sub) )
-                {
-                    $list   =   self::getChildrenList($id, $list);
-                }
-            }
-            
-            return $list;
-        }
 
 }
