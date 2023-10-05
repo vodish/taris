@@ -27,10 +27,14 @@ class tree
     {
         $log = array();
 
-        foreach( pack::$tree as $project => $list )
+        foreach( pack::$tree as $rows )
         {
-            // $log[] = 
+            foreach( $rows as $r )  $log[] = $r;
         }
+        
+        $log    =   json_encode($log);
+
+        return $log;
     }
 
 
@@ -51,6 +55,11 @@ class tree
         if ( empty(pack::$start)            )   return;
         if ( !isset(req::$param['tree'])    )   return;
         
+
+        # текущее содержание
+        # 
+        $oldlog     =   self::toLog();
+
 
         # разбить текст по-строчно, каждая пачка на своей строке
         # вспомогательные переменные
@@ -76,18 +85,23 @@ class tree
             $v['project']   =   pack::$project;
             $v['order']     =   $k;
             $v['file']      =   isset(pack::$list[ $v['id'] ])?  pack::$list[ $v['id'] ]['file']:  0;
-            
-
-            pack::$list[ $v['id'] ]  =  $v;
-            $tree[]  =  $v['id'];
+            #
+            #
+            $tree[]  =  $v;
         }
 
 
         # заменить ветку в деревe
+        # создать новый лог
         #
         pack::$tree[ pack::$project ]   =   $tree;
-
-        ui::vd( $tree );
+        $newlog     =   self::toLog();
+        
+        
+        
+        ui::vd( $oldlog );
+        ui::vd( $newlog );
+        ui::vd( $oldlog == $newlog, 1 );
         die;
         
 
