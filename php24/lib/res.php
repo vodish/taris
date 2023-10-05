@@ -177,7 +177,7 @@ class res
         {
             $space  =   str_repeat(" ", $pack['space']);
             $id     =   empty($pack['name']) ?  '' :  '    '.  $pack['id'];
-            $text  .=   $space.  $pack['name'].  $pack['id'].  "\n";
+            $text  .=   $space.  $pack['name'].  $id.  "\n";
         }
         
         self::$ret[__FUNCTION__]  =   $text;
