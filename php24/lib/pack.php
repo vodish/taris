@@ -81,7 +81,6 @@ class pack
         
 
         
-        
         # крошки проекта
         #
         while ( isset( self::$list[ $start ] ) )
@@ -89,18 +88,6 @@ class pack
             self::$bc[] =   $start;
             $start  =   self::$list[ $start ]['project'];
         }
-        
-
-        
-
-        # крошки
-        #
-        // ui::vd( self::$start );
-        // ui::vd( self::$project );
-        // ui::vd( self::$bc );
-        // ui::vd( self::$tree );
-        // ui::vd( self::$file );
-        // die;
         
     }
 

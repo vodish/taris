@@ -24,13 +24,7 @@ function menu(e)
         
         {#each $packBc as pack }
             <i>/</i>
-            <a  href={"/" + pack.id}
-                on:click={hpack}
-                class="
-                    {$packProject==pack.id? 'active': ''}
-                    {$packStart==pack.id && $packProject!=pack.id? 'current': ''}
-                "
-            >{pack.name}</a>
+            <a  href={"/" + pack.id} on:click={hpack} class="{pack._act} {pack._cur}">{pack.name}</a>
         {/each}
         
     </div>

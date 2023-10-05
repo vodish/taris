@@ -79,11 +79,13 @@ class res
 
         $bc =   array_reverse(pack::$bc);
 
-        foreach($bc as &$v)
+        foreach($bc as $k => &$v)
         {
             $v   =   array(
-                'id'        =>  pack::$list[ $v ]['id'],
-                'name'      =>  pack::$list[ $v ]['name'],
+                'id'    =>  pack::$list[ $v ]['id'],
+                'name'  =>  pack::$list[ $v ]['name'],
+                '_act'  =>  '', //!isset($bc[$k+1]) ?  'active' : '',
+                '_cur'  =>  pack::$start == $v ?  'current' : '',
             );
         }
 
@@ -95,16 +97,17 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        $tree   =   pack::$tree[ pack::$project ] ?? array();
+        $tree   =   pack::$tree[ pack::$start ]  ??  pack::$tree[ pack::$project ]  ??  [];
         
+
         foreach( $tree as &$v )
         {
             $v  =   array(
                 'id'    =>  pack::$list[ $v ]['id'],
                 'space' =>  pack::$list[ $v ]['space'],
                 'name'  =>  pack::$list[ $v ]['name'],
-                '_p'    =>  isset(pack::$tree[ $v ]) ?  'project' :  '',
-                '_a'    =>  $v == pack::$start ?  'active' :  '',
+                '_prj'  =>  isset(pack::$tree[ $v ]) ?  'self' :  '',
+                '_act'  =>  $v == pack::$start ?  'active' :  '',
             );
         }
 
@@ -119,7 +122,7 @@ class res
 
         $title  =   pack::$list[ pack::$start ]['name'];
         
-        if ( pack::$start != pack::$project )
+        if ( isset(pack::$list[ pack::$project ]) )
         {
             $title = pack::$list[ pack::$project ]['name']. ' / '. $title;
         }
@@ -164,14 +167,6 @@ class res
 
 
 
-
-    static function treePack()
-    {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-
-        self::$ret[__FUNCTION__]  =   tree::array( pack::$project );
-    }
 
     static function treeText()
     {

@@ -14,8 +14,8 @@
 html,body       { font-family: var(--font); color: var(--black); font-size: 14px; -webkit-font-smoothing: antialiased; }
 a               { color: var(--link); text-decoration: none; }
 a:hover			{ color: var(--black); }
-a.z             { color: var(--black); }
-a.z:hover		{ color: var(--link); }
+a.self          { color: var(--black); }
+a.self:hover	{ color: var(--link); }
 
 body            { max-width: 1280px; margin: 0.5em auto 2em auto; padding: 0 15px; box-sizing: border-box; }
 h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
@@ -90,7 +90,7 @@ pre.apierr br:first-child { display: none; }
 .pro > .tree .active        { background-color: #eee; border-radius: 3px; cursor: default; }
 .pro > .tree .active > a    { color: inherit; }
 .pro > .tree .project       { margin-top: 0.2em; }
-.pro > .tree .project > a   { font-weight: bold; }
+.pro > .tree .project > a   { color: inherit; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
 
@@ -180,6 +180,9 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
     *::-webkit-scrollbar-thumb  { background: #333; }
     a           { color: var(--darkLink); }
 	a:hover     { color: var(--link); }
+    a.self          { color: var(--darkPreColor); }
+    a.self:hover	{ color: var(--link); }
+
     .apierr     { color: var(--darkLine); }
     input       { background-color: var(--darkFon); color: var(--darkColor); border-color: transparent; }
     input:focus { outline: solid 1px var(--darkColor); }
