@@ -7,16 +7,23 @@ class tree
         preg_match("#^\s*#", $str, $_before);
         preg_match("#\s+\d+$#", $str, $_after);
         #
-        $space  =   (int) $_before[0] ?? 0;
+        $space  =   strlen($_before[0]);
         $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
         $name   =   mb_substr($str, mb_strlen($_before[0]), -mb_strlen($_after[0]??0));
+
+        // if ( empty(trim($str)) )
+        // {
+        //     ui::vd($space);
+        //     ui::vd($_before);
+        //     ui::vdd($str, 1);
+        // }
 
         return [
             'user'      =>  null,
             'id'        =>  $id,
             'project'   =>  null,
-            'name'      =>  $name,
             'space'     =>  $space,
+            'name'      =>  $name,
             'order'     =>  null,
             'file'      =>  null,
         ];
@@ -25,14 +32,14 @@ class tree
 
     private static function toLog()
     {
-        $log = array();
-
-        foreach( pack::$tree as $rows )
+        $log    =   array();
+        ui::vd(pack::$tree[112]);
+        foreach( pack::$tree[112] as $rows )
         {
-            foreach( $rows as $r )  $log[] = $r;
+            foreach( $rows as $r )  $log[] =  $r;
         }
         
-        $log    =   json_encode($log);
+        $log    =   json_encode($log, JSON_UNESCAPED_UNICODE);
 
         return $log;
     }
@@ -99,6 +106,7 @@ class tree
         
         
         
+        ui::vd( res::$ret['treeText'] );
         ui::vd( $oldlog );
         ui::vd( $newlog );
         ui::vd( $oldlog == $newlog, 1 );

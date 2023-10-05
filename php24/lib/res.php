@@ -97,9 +97,9 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        $tree   =   pack::$tree[ pack::$start ]  ??  pack::$tree[ pack::$project ]  ??  [];
+        $tree   =   pack::$tree[ pack::$project ];
         
-        foreach( $tree as &$pack )
+        foreach( pack::$tree[ pack::$project ] as &$pack )
         {
             $v  =   array(
                 'id'    =>  $pack['id'] ?? '',
@@ -172,13 +172,12 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        $tree   =   pack::$tree[ pack::$start ]  ??  pack::$tree[ pack::$project ]  ??  [];
         $text   =   '';
-        foreach( $tree as $pack )
+        foreach( pack::$tree[ pack::$project ] as $pack )
         {
             $space  =   str_repeat(" ", $pack['space']);
-            $id     =   empty($pack['name']) ?  '' :  $pack['id'];
-            $text  .=   $space.  $pack['name'].  '    '.  $pack['id'].  "\n";
+            $id     =   empty($pack['name']) ?  '' :  '    '.  $pack['id'];
+            $text  .=   $space.  $pack['name'].  $pack['id'].  "\n";
         }
         
         self::$ret[__FUNCTION__]  =   $text;
