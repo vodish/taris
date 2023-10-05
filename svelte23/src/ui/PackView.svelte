@@ -8,12 +8,9 @@ document.onkeydown = (e) => {
     if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
         e.preventDefault()
-
         hpack(`/${$packStart}/line`)
     }
 }
-
-
 
 </script>
 

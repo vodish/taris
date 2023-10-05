@@ -173,7 +173,17 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        self::$ret[__FUNCTION__]  =   tree::text( pack::$project );
+        $tree   =   pack::$tree[ pack::$start ]  ??  pack::$tree[ pack::$project ]  ??  [];
+        $text   =   '';
+        foreach( $tree as $id )
+        {
+            $pack   =   pack::$list[ $id ];
+            $text   .=  str_repeat(" ", $pack['space']).  $pack['name']. '    ' .$id. "\n";
+        }
+
+        // ui::vd( pack::$tree );
+
+        self::$ret[__FUNCTION__]  =   substr($text, 1);
     }
 
 
@@ -195,14 +205,6 @@ class res
     }
 
 
-
-    static function wait()
-    {
-        return;
-
-        self::$ret['wait'] = req::$wait;
-        
-    }
 
 
     

@@ -54,18 +54,13 @@ res::packTree();
 res::packMenu();
 res::packTitle();
 #
-// res::treePack();
 res::treeText();
-#
 res::lineHtml();
 res::lineText();
 #
 res::accessHtml();
 res::accessText();
 #
-#
-// res::wait();
-
 // ui::vd( res::$ret );
 
 
