@@ -34,10 +34,10 @@ db::init();
 # пачка операции
 #
 pack::init();
-// project::add();
-// project::remove();
 line::save();
 tree::save();
+// project::add();
+// project::remove();
 // access::save();
 
 

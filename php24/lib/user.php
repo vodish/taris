@@ -44,7 +44,10 @@ class user
         return  $list;
     }
 
+    // static function nextid()
+    // {
 
+    // }
 
 
     # отправить код вохода

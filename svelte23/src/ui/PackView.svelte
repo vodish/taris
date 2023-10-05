@@ -19,8 +19,10 @@ document.onkeydown = (e) => {
     <div class="tree">
         
         {#each $packTree as pack }
-            <div class="name {pack._act}" style="margin-left: {pack.space/2}ch;">
-                <a href={"/" + pack.id} on:click={hpack} class="{pack._prj}">{pack.name}</a>
+            <div class="{pack._act}{!pack.id? 'empty': ''}" style="margin-left: {pack.space/2}ch;">
+                {#if pack.id }
+                    <a href={"/" + pack.id} on:click={hpack} class="{pack._prj}">{pack.name}</a>
+                {/if}
             </div>
         {/each}
         

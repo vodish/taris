@@ -3,29 +3,19 @@ class tree
 {
     
 
-    # сохранить новое дерево проекта
-    #
-    // static function save()
-    // {
-    //     if ( empty(pack::$start)    )   return;
-    //     if ( empty($_POST['tree'])  )   return;
-        
-    //     # передать на обработку
-    //     #
-    //     $packBack   =   self::makeRows($_POST['tree']);
-        
-    //     # перечитать пачку
-    //     #
-    //     // pack::init( pack::$start );
-
-    // }
-
-        
     # распарсить пришедшее дерево проекта
     # и передать на сохранение в базу
     #
     static function save()
     {
+        // return;
+        # отладка
+        #
+        res::treeText();
+        req::$param['tree'] =   res::$ret['treeText'];
+        
+
+
         if ( empty(pack::$start)            )   return;
         if ( !isset(req::$param['tree'])    )   return;
         
@@ -35,6 +25,7 @@ class tree
         #
         $source     =   req::$param['tree'];
         $source     =   str_replace("\r", '', $source);
+        $source     =   trim($source);
         $list       =   explode("\n", $source);
         #
         $lines      =   array();
@@ -42,10 +33,50 @@ class tree
         $idArr      =   array();  # массив для проверки уделения текущей пачки
         
 
+        # пройти по строкам
+        #
+        foreach( $list as $k => $ls )
+        {
+            # распарсить строки пачек
+            #
+            preg_match("#^\s*#", $ls, $_before);
+            preg_match("#\s+\d+$#", $ls, $_after);
+            #
+            $space  =   (int) $_before[0] ?? 0;
+            $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
+            $name   =   mb_substr($ls, mb_strlen($_before[0]), -mb_strlen($_after[0]??0));
+            #
+            # выдать новый id для новой записи
+            #
+            $id     =   $id===null && !empty($name) ?  ++user::$counter : $id;
+            #
+            #
+            $rows[] =   array(
+                'user'      =>  user::$id,
+                'id'        =>  $id,
+                'project'   =>  pack::$project,
+                'name'      =>  mb_substr($ls, mb_strlen($_before[0]??0), -mb_strlen($_after[0]??0)),
+                'space'     =>  $space,
+                'order'     =>  $k,
+                'file'      =>  isset(pack::$list[ $id ])?  pack::$list[ $id ]['file']:  0,
+            );
+            
+            // ui::vd($ls, 1);
+            // $next = ++user::$counter;
+            // ui::vd($next);
+            // ui::vd($row);
+            // echo '<hr>';
 
-        ui::vd($list);
+            // break;
+        }
+
+        ui::vd( $rows );
         die;
+        
 
+
+        
+        ##############################################################
         # пройти по строкам
         #
         foreach( $list as $k => $v )

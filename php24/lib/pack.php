@@ -46,17 +46,29 @@ class pack
         #
         $user  =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)  );
         #
-        db::cast($user, ['int'=>['id', 'start', 'counter']]);
+        db::cast($user, ['int'=>['id', 'start']]);
         if ( empty($user) )   return;
 
 
 
         # получить все пачки хозяина
         #
-        db::query("SELECT *  FROM `pack`  WHERE `user` = " .$user['id']. " ORDER BY `order`");
+        db::query("
+            SELECT
+                *
+            FROM
+                `pack`
+            WHERE
+                `user` = " .$user['id']. "
+            ORDER BY
+                 `project`
+                ,`order`
+        ");
         #
         while ( $v = db::fetch(['int'=>['id', 'project', 'order', 'user', 'file']]) )
         {
+            $counter[]  =   substr(strval($v['id']),  $ulen+1);
+
             self::$list[ $v['id'] ] =   $v;
             self::$tree[ $v['project'] ][] =   $v['id'];
         }
@@ -66,7 +78,7 @@ class pack
         if ( empty(self::$list) )   return;
         
 
-
+        // ui::vdd($counter);
 
 
         # определения
@@ -76,7 +88,7 @@ class pack
         user::$id       =   $user['id'];
         user::$email    =   $user['email'];
         user::$start    =   $user['start'];
-        user::$counter  =   $user['counter'];
+        user::$counter  =   max($counter);
         self::$file     =   self::$list[ self::$start ]['file'];
         
 

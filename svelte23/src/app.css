@@ -86,7 +86,8 @@ pre.apierr br:first-child { display: none; }
 
 .pro                { display: flex; gap: 2vw; }
 .pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 4px; border-right: solid 1px #eee; }
-.pro > .tree .name > a      { padding: 3px; display: inline-block; }
+.pro > .tree a      { padding: 3px; display: inline-block; }
+.pro > .tree .empty         { height: 0.7em; }
 .pro > .tree .active        { background-color: #eee; border-radius: 3px; cursor: default; }
 .pro > .tree .active > a    { color: inherit; }
 .pro > .tree .project       { margin-top: 0.2em; }
