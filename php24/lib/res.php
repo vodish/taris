@@ -175,10 +175,12 @@ class res
 
         $tree   =   pack::$tree[ pack::$start ]  ??  pack::$tree[ pack::$project ]  ??  [];
         $text   =   '';
-        foreach( $tree as $id )
+        foreach( $tree as $v )
         {
-            $pack   =   pack::$list[ $id ];
-            $text   .=  str_repeat(" ", $pack['space']).  $pack['name']. '    ' .$id. "\n";
+            $pack   =   pack::$list[ $v ];
+            $space  =   str_repeat(" ", $pack['space']);
+            $id     =   empty($pack['name'])?  '':  $v;
+            $text  .=   $space.  $pack['name'].  '    '.  $id.  "\n";
         }
 
         // ui::vd( pack::$tree );
