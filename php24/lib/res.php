@@ -182,9 +182,7 @@ class res
             $id     =   empty($pack['name'])?  '':  $v;
             $text  .=   $space.  $pack['name'].  '    '.  $id.  "\n";
         }
-
-        // ui::vd( pack::$tree );
-
+        
         self::$ret[__FUNCTION__]  =   substr($text, 1);
     }
 
