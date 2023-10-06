@@ -8,10 +8,15 @@ class tree
     {
         preg_match("#^\s*#", $str, $_before);
         preg_match("#\s+\d+$#", $str, $_after);
-        #
+        
+        
         $space  =   strlen($_before[0]);
         $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
-        $name   =   mb_substr($str, mb_strlen($_before[0]), -mb_strlen($_after[0]??0));
+        $name   =   mb_substr(
+            $str,
+            mb_strlen($_before[0]),
+            isset($_after[0]) ? -mb_strlen($_after[0]): null
+        );
 
 
         return [
@@ -31,7 +36,7 @@ class tree
     private static function toLog()
     {
         $log    =   array();
-        // ui::vd(pack::$tree[112]);
+        
         foreach( pack::$tree as $rows )
         {
             foreach( $rows as $r )  $log[] =  $r;
@@ -70,9 +75,9 @@ class tree
         #
         $source     =   req::$param['tree'];
         $source     =   str_replace("\r", '', $source);
-        $source     =   trim($source);
         $list       =   explode("\n", $source);
         $tree       =   array();
+        $exist      =   array();
 
         
 
@@ -92,7 +97,8 @@ class tree
             $v['file']      =   isset(pack::$list[ $v['id'] ])?  pack::$list[ $v['id'] ]['file']:  0;
             #
             #
-            $tree[]  =  $v;
+            $tree[]  =  $v;         # новое дерево проекта
+            $exist[] =  $v['id'];   # только актуальные пачки
         }
 
 
@@ -104,7 +110,17 @@ class tree
         $newlog     =   self::toLog();
         
 
+        # если удалена текущая пачка
+        #
+        if ( ! in_array(pack::$start, $exist) )
+        {
+            pack::$start    =   pack::$project;
+            pack::$project  =   pack::$start;
+            array_shift(pack::$bc);
+        }
         
+
+
         // ui::vd( res::$ret['treeText'] );
         // ui::vd( $oldlog );
         // ui::vd( $newlog );

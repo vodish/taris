@@ -123,7 +123,7 @@ class res
 
         $title  =   pack::$list[ pack::$start ]['name'];
         
-        if ( isset(pack::$list[ pack::$project ]) )
+        if ( !isset(pack::$tree[ pack::$start ]) )
         {
             $title = pack::$list[ pack::$project ]['name']. ' / '. $title;
         }
@@ -179,10 +179,10 @@ class res
         {
             $space  =   str_repeat(" ", $pack['space']);
             $id     =   empty($pack['name']) ?  '' :  '    '.  $pack['id'];
-            $text  .=   $space.  $pack['name'].  $id.  "\n";
+            $text  .=   "\n".  $space.  $pack['name'].  $id;
         }
         
-        self::$ret[__FUNCTION__]  =   $text;
+        self::$ret[__FUNCTION__]  =   substr($text, 1);
     }
 
 
