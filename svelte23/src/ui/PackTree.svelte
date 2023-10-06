@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { packStart, treeText, api, href } from "../state/store";
+import { packStart, packTree, treeText, api, href } from "../state/store";
 import AceYaml from './ace/AceYaml.svelte';
 
 
@@ -8,10 +8,10 @@ import AceYaml from './ace/AceYaml.svelte';
 
 function save()
 {
-    api({pack: $packStart, tree: $treeText, wait: ["packStart", "treePack"]}, (res)=>{
+    api({pack: $packStart, tree: $treeText, wait: ["packStart", "packTree"]}, (res)=>{
         // pack.set(res.pack)
         packStart.set(res.packStart)
-        pactreePack.set(res.treePack)
+        packTree.set(res.packTree)
         href(`/${$packStart}`)
     })
 }
