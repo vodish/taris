@@ -107,7 +107,6 @@ class line
                 # параметры текущей записи
                 #
                 $file       =   pack::$file;
-                $order      =   $k + 1;
                 $id5        =   md5( trim($content) .$k );
                 $space      =   isset($space[0])  ?  strlen($space[0])  :   0;
                 $content    =   ltrim($content);
@@ -135,10 +134,7 @@ class line
                         , " .db::v($space).      "   as `space`
                         , " .db::v($content).    "   as `text`
                         , " .db::v($html).       "   as `html`
-                        , " .db::v($order).      "   as `order`
-                        , " .db::v($id5).        "   as `id5`
-                        , " .db::v($parent5).    "   as `parent5`
-                        , 0   as `user`
+                        , " .db::v($k + 1).      "   as `order`
                 ";
 
             }
@@ -153,7 +149,7 @@ class line
 
             # сохранить записи в бд
             #
-            self::dbSave($rows);
+            self::dbSave($newContent, $rows);
 
         }
 
@@ -219,8 +215,30 @@ class line
         
         # сохранить записи в базу
         #
-        private static function dbSave($rows)
+        private static function dbSave($newContent, $rows)
         {
+
+            # сохранить в лог
+            #
+            db::query("
+            INSERT INTO `log` (
+                `user`
+                ,`author`
+                ,`author_email`
+                ,`target`
+                ,`row`
+                ,`json`
+            )
+            VALUES (
+                " .db::v(user::$id). "
+                ," .db::v(0). "
+                ," .db::v(user::$email). "
+                ," .db::v('pack'). "
+                ," .db::v(null). "
+                ," .db::v($newContent). "
+            )
+        ");
+
 
             # удалить текущие записи
             # добавить новые записи
