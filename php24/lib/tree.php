@@ -74,6 +74,7 @@ class tree
         $list       =   explode("\n", $source);
         $tree       =   array();
 
+        
 
         # пройти по строкам
         #
@@ -84,10 +85,10 @@ class tree
             #
             $v              =   self::parseline($ls);
             #
-            $v['id']        =   $v['id']===null && !empty($v['name']) ?  ++user::$counter : $v['id'];
+            $v['id']        =   $v['id']===null && !empty($v['name']) ?  user::nextid() : $v['id'];
             $v['user']      =   user::$id;
             $v['project']   =   pack::$project;
-            $v['order']     =   $k;
+            $v['order']     =   $k + 1;
             $v['file']      =   isset(pack::$list[ $v['id'] ])?  pack::$list[ $v['id'] ]['file']:  0;
             #
             #
@@ -127,33 +128,34 @@ class tree
     {
         if ( $oldlog == $newlog )  return;
 
+        // ui::vd('# сохранить в лог');
 
         # сохранить в лог
         #
-        // db::query("
-        //     INSERT INTO `log` (
-        //          `user`
-        //         ,`author`
-        //         ,`author_email`
-        //         ,`target`
-        //         ,`row`
-        //         ,`json`
-        //     )
-        //     VALUES (
-        //         " .db::v(user::$id). "
-        //         " .db::v(0). "
-        //         " .db::v('0'). "
-        //         " .db::v('pack'). "
-        //         " .db::v(null). "
-        //         " .db::v($newlog). "
-        //     )
-        // ");
+        db::query("
+            INSERT INTO `log` (
+                 `user`
+                ,`author`
+                ,`author_email`
+                ,`target`
+                ,`row`
+                ,`json`
+            )
+            VALUES (
+                 " .db::v(user::$id). "
+                ," .db::v(0). "
+                ," .db::v(user::$email). "
+                ," .db::v('pack'). "
+                ," .db::v(null). "
+                ," .db::v($newlog). "
+            )
+        ");
         
 
 
         # создать записи пачек
         #
-        $rows = '';
+        $rows   =   '';
         foreach( pack::$tree as $list )
         {
             foreach( $list as $pack )
@@ -163,15 +165,15 @@ class tree
                 $rows .= ',('. substr($row, 1). ')'. "\n";
             }
         }
-        $rows = substr($rows, 1);
+        $rows   =   substr($rows, 1);
 
 
         
-        // # обновить дерево
-        // #
-        // db::query("DELETE FROM `pack` WHERE `user` = " .db::v(user::$id) );
+        # обновить дерево
+        #
+        db::query("DELETE FROM `pack` WHERE `user` = " .db::v(user::$id) );
         
-        db::query("-
+        db::query("
             INSERT INTO `pack` (
                  `user`
                 ,`id`
@@ -185,73 +187,7 @@ class tree
             " .$rows. "
         ");
 
-        ui::vd('Обновить дерево хозяина');
-
-
-        die;
-
-        // ui::vdd($rows);
-
-        # создать актуальное дерево проекта
-        #
-        db::query("CREATE TEMPORARY TABLE `rows`  " .implode("\nUNION\n", $rows) );
-        
-
-        # добавить новые записи
-        #
-        db::query("
-            INSERT INTO `pack` ( `name`, `id5` )
-            SELECT
-                `name`, `id5`
-            FROM
-                `rows`
-            WHERE
-                `id` = 0
-        ");
-        
-
-        # получить id добавленных записей
-        #
-        db::query("
-            UPDATE
-                `rows`
-                    JOIN `pack`     ON `rows`.`id5` = `pack`.`id5`
-            SET
-                `rows`.`id` =   `pack`.`id`
-        ");
-
-        
-        // $rows = db::select("SELECT *  FROM `rows` ");
-        // ui::vd($rows, 1);
-        
-
-        # обновить записи пачек
-        #
-        db::query("
-            UPDATE
-                `pack`
-                    JOIN `rows`     ON `pack`.`id` = `rows`.`id`
-            SET
-                    `pack`.`name`      =   `rows`.`name`
-                ,`pack`.`parent`    =   IF(`rows`.`parent5` IS NULL, " .db::v(self::$id). ",  (SELECT `id`  FROM `rows` as `r1`  WHERE `id5` = `rows`.`parent5`  LIMIT 1) )
-                ,`pack`.`order`     =   `rows`.`order`
-                ,`pack`.`user`      =   `rows`.`user`
-                ,`pack`.`id5`       =   NULL
-        ");
-        
-
-        # удалить не актуальные пачки, которых нет в текущих записях
-        #
-        $currentPack    =   self::getChildrenList( self::$id, [-1] );
-        #
-        db::query("
-            DELETE
-            FROM
-                `pack`
-            WHERE
-                `id` IN (" .implode(',', $currentPack). ")
-                AND `id` NOT IN (SELECT `id`  FROM `rows`)
-        ");
+        // ui::vd('Обновить дерево хозяина');
 
     }
 

@@ -35,16 +35,19 @@ class pack
         if ( empty($start) )    return;
 
 
+
         # достать user.id из pack.id
+        # кодировка в первом знаке - длина user.id (123456789ABC)
         #
-        $ulen   =   substr($start, 0, 1);           # длина user.id
-        $user   =   substr($start, 1, $ulen);       # id пользака
+        $ulen       =   substr( $start,  0,  1 );           # количесто знаков в user.id
+        $user       =   substr( $start,  1,  $ulen );       # user.id
+        $prefix     =   substr( $start,  0,  $ulen + 1 );   # префикс пользака
         
         
 
         # получить хозяина
         #
-        $user  =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)  );
+        $user       =   db::one("SELECT *  FROM `user`  WHERE `id` = "  .db::v((int)$user)  );
         #
         db::cast($user, ['int'=>['id', 'start']]);
         if ( empty($user) )   return;
@@ -67,7 +70,7 @@ class pack
         #
         while ( $v = db::fetch(['int'=>['id', 'project', 'order', 'user', 'file']]) )
         {
-            $counter[]  =   substr(strval($v['id']),  $ulen+1);
+            $counter[]  =   (int) substr( strval($v['id']),  $ulen + 1 );
 
             self::$list[ $v['id'] ] =   $v;
             self::$tree[ $v['project'] ][] =   $v;
@@ -78,8 +81,7 @@ class pack
         if ( empty(self::$list) )   return;
         
 
-        // ui::vdd($counter);
-
+        
 
         # определения
         #
@@ -88,6 +90,7 @@ class pack
         user::$id       =   $user['id'];
         user::$email    =   $user['email'];
         user::$start    =   $user['start'];
+        user::$prefix   =   $prefix;
         user::$counter  =   max($counter);
         self::$file     =   self::$list[ self::$start ]['file'];
         

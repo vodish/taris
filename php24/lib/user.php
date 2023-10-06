@@ -6,10 +6,15 @@ class user
     static $id;
     static $email;
     static $start;
+
+
+    # счетчик идишников пльзователя
+    #
+    static $prefix;
     static $counter;
+    static function nextid()    { return  self::$prefix .  ++self::$counter; }
 
 
-    static $list    =   array();
 
 
     # получить список профилей
@@ -44,10 +49,8 @@ class user
         return  $list;
     }
 
-    // static function nextid()
-    // {
 
-    // }
+
 
 
     # отправить код вохода
@@ -144,9 +147,7 @@ class user
         // ui::$json["redir"]  =   "/". $user['start'];
     }
 
-
-
-
+        
         # зарегистрировать нового пользователя
         #
         static function dbCreate($email)
