@@ -97,11 +97,11 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        $tree   =   pack::$tree[ pack::$project ];
+        $tree = array();
         
-        foreach( pack::$tree[ pack::$project ] as &$pack )
+        foreach( pack::$tree[ pack::$project ] as $pack )
         {
-            $v  =   array(
+            $tree[] =   array(
                 'id'    =>  $pack['id'] ?? '',
                 'space' =>  $pack['space'],
                 'name'  =>  $pack['name'],
@@ -109,6 +109,8 @@ class res
                 '_act'  =>  $pack['id'] == pack::$start ?  'active' :  '',
             );
         }
+
+        // ui::vd();
 
         self::$ret[__FUNCTION__]  =  $tree;
     }
