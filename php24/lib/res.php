@@ -77,7 +77,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        $bc =   array_reverse(pack::$bc);
+        $bc     =   array_reverse(pack::$bc);
 
         foreach($bc as $k => &$v)
         {
@@ -97,7 +97,8 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        $tree = array();
+
+        $tree   =   array();
         
         foreach( pack::$tree[ pack::$project ] as $pack )
         {
@@ -110,7 +111,6 @@ class res
             );
         }
 
-        // ui::vd();
 
         self::$ret[__FUNCTION__]  =  $tree;
     }
