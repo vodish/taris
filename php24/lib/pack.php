@@ -86,7 +86,7 @@ class pack
         # определения
         #
         self::$start    =   $start  =  (int) $start;
-        self::$project  =   self::$tree[ $start ] ?  $start :  self::$list[ self::$start ]['project'];
+        self::$project  =   isset(self::$tree[ $start ]) ?  $start :  self::$list[ self::$start ]['project'];
         user::$id       =   $user['id'];
         user::$email    =   $user['email'];
         user::$start    =   $user['start'];

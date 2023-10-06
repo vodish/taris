@@ -51,8 +51,8 @@ class tree
     {
         # отладка
         #
-        res::treeText();
-        req::$param['tree'] =   res::$ret['treeText'];
+        // res::treeText();
+        // req::$param['tree'] =   res::$ret['treeText'];
         
 
 
