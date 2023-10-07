@@ -19,26 +19,15 @@ function menu(e)
 
 <div class="nav1">
     <div class="bc">
-        <a href="/" class="logo" on:click={href}>Taris</a>
-
-        
+        <a href="/" class="logo" on:click={href}>Taris</a>    
         {#each $packBc as pack }
             <i>/</i>
             <a  href={"/" + pack.id} on:click={hpack} class="{pack._act} {pack._cur}">{pack.name}</a>
         {/each}
-        
     </div>
 
-    
-
-    <div class="opt">
-        <!-- <i class="save" id="saved">Saved</i> -->
-        <!-- <i class="sep"></i> -->
-    </div>
-
-    
     <div class="burger" >
-        <div class="name">Название</div>
+        <div class="name">Меню</div>
         <div class="menu">
             <a href="/{$packStart}/line" on:click={hpack} class="b9 active">Записи</a>
             <a href="/{$packStart}/tree" on:click={hpack}>Дерево</a>
