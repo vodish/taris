@@ -33,7 +33,7 @@ db::init();
 
 # пачка операции
 #
-pack::init();
+pack::dbInit();
 line::save();
 tree::save();
 // project::add();
@@ -61,8 +61,7 @@ res::lineText();
 #
 res::accessHtml();
 res::accessText();
-#
-// ui::vd( res::$ret );
+
 
 
 # ответ

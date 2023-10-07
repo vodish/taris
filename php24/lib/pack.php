@@ -24,7 +24,7 @@ class pack
 
     # инициализация пачек
     #
-    static function init( $start = null )
+    static function dbInit( $start = null )
     {
         # конструктор
         #
