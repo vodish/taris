@@ -152,7 +152,8 @@ class res
         if ( empty(pack::$start) )                      return;
 
         line::dbInit();
-
+        line::html();
+        
         self::$ret[__FUNCTION__]  =   line::$html;
     }
     
@@ -162,8 +163,9 @@ class res
         if ( empty(pack::$start) )                      return;
 
         line::dbInit();
-
-        self::$ret[__FUNCTION__]  =   line::$text;
+        line::$text =   implode("\n", line::$list);
+        
+        self::$ret[__FUNCTION__]    =   line::$text;
     }
 
 
@@ -174,6 +176,7 @@ class res
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
+        
         $text   =   '';
         foreach( pack::$tree[ pack::$project ] as $pack )
         {
