@@ -16,13 +16,10 @@ spl_autoload_register( function($name) {
 
 # запрос
 #
-url::parse( $_SERVER['REQUEST_URI'], true );
-#
+url::parse();
 req::fromUrl();
 req::fromApi();
-#
 db::init();
-
 
 
 

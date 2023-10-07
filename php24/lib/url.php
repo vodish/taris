@@ -7,8 +7,10 @@ class url
     static $level;
     
     
-    static function parse( $url,  $static=false )
+    static function parse( $url=null )
     {
+        $url    =   $url ?? $_SERVER['REQUEST_URI'];
+
         $parse  =   parse_url($url);
         $parse['query'  ]   =   $query  =  $parse['query'] ?? null;
         $parse['dir'    ]   =   array();
@@ -23,22 +25,13 @@ class url
         
 
         # set static value
-        if ( $static )
-        {
-            self::$path     =   $parse['path'];
-            self::$query    =   $parse['query'];
-            self::$dir      =   $parse['dir'];
-            self::$level    =   $parse['level'];
-        }
+        self::$path     =   $parse['path'];
+        self::$query    =   $parse['query'];
+        self::$dir      =   $parse['dir'];
+        self::$level    =   $parse['level'];
+        
 
         return $parse;
-    }
-
-
-
-    static function replace()
-    {
-        
     }
 
     
