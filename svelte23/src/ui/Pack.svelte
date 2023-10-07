@@ -33,8 +33,8 @@ function menu(e)
             <a href="/{$packStart}/tree" on:click={hpack}>Дерево</a>
             <a href="/{$packStart}/access" on:click={hpack}>Доступ</a>
 
-            <span>-&nbsp;Проект</span>
-            <span>+&nbsp;Проект</span>
+            <span>Проект&nbsp;-</span>
+            <span>Проект&nbsp;+</span>
             
         </div>
     </div>

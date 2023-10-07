@@ -57,7 +57,7 @@ pre.apierr br:first-child { display: none; }
 /* pack */
 
 .nav1               { display: flex; justify-content: space-between; border-bottom: solid 1px #eee; padding: 5px 0 3px 0; margin-bottom: 2em; position: sticky; top: -1px; background-color: var(--white); z-index: 5; }
-.nav1 .logo         { text-transform: uppercase; font-size: 14px; }
+.nav1 .logo         { font-size: 14px; }
 .nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
 .nav1 .bc *:first-child { margin-left: -0.5ch; }
