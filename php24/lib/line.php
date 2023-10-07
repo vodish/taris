@@ -35,106 +35,31 @@ class line
 
     
 
-    # сохранить содержание файла
-    #
-    static function save()
+    static function text()
     {
-        if ( empty(pack::$start) )          return;
-        if ( !isset(req::$param['line']) )  return;
-
-        # подготовить текст
-        #        
-        $content    =   req::$param['line'];
-        $content    =   strtr($content, ["\r" => '', "\t" => '    ']);
-        
-        
-        # подключиться к файлу содержания
-        #
-        line::setFile();
-        #
-        #
-        # сохранить в лог
-        #
-        db::query("
-            INSERT INTO `log` (
-                 `user`
-                ,`author`
-                ,`author_email`
-                ,`target`
-                ,`row`
-                ,`json`
-            )
-            VALUES (
-                 " .db::v(user::$id). "
-                ," .db::v( 0) . "
-                ," .db::v( '@' ). "
-                ," .db::v( 'file' ). "
-                ," .db::v( pack::$file ). "
-                ," .db::v( $content ). "
-            )
-        ");
-        
-
-        
-
-        # обновить записи в базе
-        #
-        db::query("DELETE FROM `line`  WHERE `file` = " .db::v(pack::$file) );
-
-        $content    =   explode("\n", $content);
-        $insert     =   '';
-        
-        foreach( $content as $k => $v )
-        {
-            $insert .=  "\n". ",(" .db::v(pack::$file). ", " .db::v($v). ", $k)";
-        }
-        
-        db::query("
-            INSERT INTO `line` (
-                 `file`
-                ,`text`
-                ,`order`
-            )
-            VALUES
-            " .substr($insert, 2). "
-        ");
-        
+        return  line::$text =   implode("\n", line::$list);
     }
 
-        # добавить файл в базу, если его нету
-        # и связать его с текущей пачкой
-        #
-        private static function setFile()
-        {
-            if ( !empty(pack::$file) )      return;
-            
-            db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
-            
-            pack::$file =   db::lastId();
 
-            db::query("UPDATE `pack`  SET `file` = " .db::v(pack::$file). "  WHERE `id` = " .db::v(pack::$start) );
-        }
-
-    
-    
     # распарсить пришедшее дерево проекта
     # и передать на сохранение в базу
     #
     static function html()
     {
-        self::$html =   '';
-        $offset     =   0;
+        $html   =   '';
+        $offset =   0;
         
         foreach( self::$list as $str )
         {
             # определить отступ слева
             preg_match("#^\s*#", $str, $space);
-            $space      =   isset($space[0]) ?  strlen($space[0]) :  0;
+            $space  =   isset($space[0]) ?  strlen($space[0]) :  0;
             
-            $str        =   ltrim($str);
-            self::$html .=  self::toHtml($offset, $space, $str);
+            $str    =   ltrim($str);
+            $html   .=  self::toHtml($offset, $space, $str);
         }
 
+        return  self::$html = $html;
     }
 
         
@@ -177,7 +102,96 @@ class line
             
             return $content;
         }
-
     
+    
+    
+    # сохранить содержание файла
+    #
+    static function save()
+    {
+        if ( empty(pack::$start) )          return;
+        if ( !isset(req::$param['line']) )  return;
 
+        # подготовить текст
+        #        
+        $content    =   req::$param['line'];
+        $content    =   strtr($content, ["\r" => '', "\t" => '    ']);
+        
+
+        # cравнить новый текст с текущим
+        #
+        line::dbInit();
+        #
+        if ( line::text() == $content ) return;
+        
+
+        
+        # подключиться к файлу содержания
+        #
+        line::setFile();
+        #
+        #
+        # сохранить в лог
+        #
+        db::query("
+            INSERT INTO `log` (
+                 `user`
+                ,`author`
+                ,`author_email`
+                ,`target`
+                ,`row`
+                ,`json`
+            )
+            VALUES (
+                 " .db::v(user::$id). "
+                ," .db::v( 0) . "
+                ," .db::v( '@' ). "
+                ," .db::v( 'file' ). "
+                ," .db::v( pack::$file ). "
+                ," .db::v( $content ). "
+            )
+        ");
+        
+
+        
+
+        # обновить записи в базе
+        #
+        db::query("DELETE FROM `line`  WHERE `file` = " .db::v(pack::$file) );
+
+        self::$list =   explode("\n", $content);
+        $insert     =   '';
+        
+        foreach( self::$list as $k => $v )
+        {
+            $insert .=  "\n". ",(" .db::v(pack::$file). ", " .db::v($v). ", $k)";
+        }
+        
+        db::query("
+            INSERT INTO `line` (
+                 `file`
+                ,`text`
+                ,`order`
+            )
+            VALUES
+            " .substr($insert, 2). "
+        ");
+        
+    }
+
+        # добавить файл в базу, если его нету
+        # и связать его с текущей пачкой
+        #
+        private static function setFile()
+        {
+            if ( !empty(pack::$file) )      return;
+            
+            db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
+            
+            pack::$file =   db::lastId();
+
+            db::query("UPDATE `pack`  SET `file` = " .db::v(pack::$file). "  WHERE `id` = " .db::v(pack::$start) );
+        }
+    
+    
 }

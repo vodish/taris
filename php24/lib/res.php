@@ -163,9 +163,8 @@ class res
         if ( empty(pack::$start) )                      return;
 
         line::dbInit();
-        line::$text =   implode("\n", line::$list);
         
-        self::$ret[__FUNCTION__]    =   line::$text;
+        self::$ret[__FUNCTION__]    =   line::text();
     }
 
 
