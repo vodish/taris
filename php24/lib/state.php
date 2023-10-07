@@ -3,74 +3,176 @@ class state
 {   
 
     
-
-    # Проект
-    #
-    static function pack()
+    static function userList()
     {
-        if ( url::start('/api') )   return;
-        if ( !isset(url::$level[0]) || !is_numeric(url::$level[0]) )    return;
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+
+
+        res::$ret['userList']  =   user::list();
+    }
+
+    
+
+
+
+    # пачка
+    #
+    static function packStart()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
         
+        res::$ret[__FUNCTION__]    =   pack::$start;
+    }
 
-        # компоненты ui
-        #
-        ui::html('../ui/default.ui.php');
-        ui::html('../ui/pack/pack.ui.php');
-
-
-        # подключиться к базе
-        # пачки пользователя
-        # пользователи
-        # права
-        #
-        // db::init();
-        pack::init( (int)url::$level[0] );
+    static function packProject()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
         
-        user::list();
-        access::dbInit();
-        #
-        project::init();
-        project::setTitle();
-        project::actionCreate();
-        project::actionCansel();
+        res::$ret[__FUNCTION__]    =   pack::$project;
+    }
+    
+    static function packBc()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
 
+        $bc     =   array_reverse(pack::$bc);
 
-
-        # варианты
-        #
-        if ( !isset(url::$level[1]) )
+        foreach($bc as $k => &$v)
         {
-            ui::html('../ui/pack/view.ui.php');
-
-            line::dbInit();
-
-        }              
-        elseif ( url::$level[1]=='line' )
-        {
-            ui::html('../ui/pack/line.ui.php');
-
-            line::dbInit();
-            line::actionSave();
-            
+            $v   =   array(
+                'id'    =>  pack::$list[ $v ]['id'],
+                'name'  =>  pack::$list[ $v ]['name'],
+                '_act'  =>  '', //!isset($bc[$k+1]) ?  'active' : '',
+                '_cur'  =>  pack::$start == $v ?  'current' : '',
+            );
         }
-        elseif  ( url::$level[1]=='tree' )
+
+        res::$ret[__FUNCTION__]  =  $bc;
+    }
+    
+
+
+    static function packTree()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+
+        $tree   =   array();
+        
+        foreach( pack::$tree[ pack::$project ] as $pack )
         {
-            ui::html('../ui/pack/tree.ui.php');
-
-            project::actionSave();
-
+            $tree[] =   array(
+                'id'    =>  $pack['id'] ?? '',
+                'space' =>  $pack['space'],
+                'name'  =>  $pack['name'],
+                '_prj'  =>  isset(pack::$tree[ $pack['id'] ]) ?  'self' :  '',
+                '_act'  =>  $pack['id'] == pack::$start ?  'active' :  '',
+            );
         }
-        elseif ( url::$level[1]=='access' )
+
+
+        res::$ret[__FUNCTION__]  =  $tree;
+    }
+    
+
+
+    static function packTitle()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+
+        $title  =   pack::$list[ pack::$start ]['name'];
+        
+        if ( !isset(pack::$tree[ pack::$start ]) )
         {
-            ui::html('../ui/pack/access.ui.php');
-
-            access::actionSave();
-            access::actionCreateLink();
-            
+            $title = pack::$list[ pack::$project ]['name']. ' / '. $title;
         }
+        
+        res::$ret[__FUNCTION__]    =   $title;
+    }
+    
+    
+    
+    
+    static function packMenu()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+        res::$ret[__FUNCTION__]  =   [];
+    }
+    
+
+
+
+
+    static function lineHtml()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+        line::dbInit();
+        line::html();
+        
+        res::$ret[__FUNCTION__]  =   line::$html;
+    }
+    
+
+
+    static function lineText()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+        line::dbInit();
+        
+        res::$ret[__FUNCTION__]    =   line::text();
+    }
+
+
+
+
+    static function treeText()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
+        
+        $text   =   '';
+        foreach( pack::$tree[ pack::$project ] as $pack )
+        {
+            $space  =   str_repeat(" ", $pack['space']);
+            $id     =   empty($pack['name']) ?  '' :  '    '.  $pack['id'];
+            $text  .=   "\n".  $space.  $pack['name'].  $id;
+        }
+        
+        res::$ret[__FUNCTION__]  =   substr($text, 1);
+    }
+
+
+
+
+    static function accessHtml()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+
 
     }
     
+    
+    static function accessText()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+        
+    }
+
 
 
 }

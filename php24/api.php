@@ -42,25 +42,23 @@ tree::save();
 
 
 
-# подготовка данных ответа
+# cостояние
 #
-res::userList();
+state::userList();
 #
+state::packStart();
+state::packProject();
+state::packBc();
+state::packTree();
+state::packMenu();
+state::packTitle();
 #
-res::packStart();
-res::packProject();
-res::packBc();
-res::packTree();
-res::packMenu();
-res::packTitle();
+state::treeText();
+state::lineHtml();
+state::lineText();
 #
-res::treeText();
-#
-res::lineHtml();
-res::lineText();
-#
-res::accessHtml();
-res::accessText();
+state::accessHtml();
+state::accessText();
 
 
 
