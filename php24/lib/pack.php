@@ -11,7 +11,7 @@ class pack
 
     # значения по-умолчанию
     #
-    static function reset()
+    private static function reset()
     {
         self::$start    =   null;
         self::$project  =   null;
