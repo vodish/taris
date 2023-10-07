@@ -11,7 +11,7 @@ class pack
 
     # значения по-умолчанию
     #
-    static function clear()
+    static function reset()
     {
         self::$start    =   null;
         self::$project  =   null;
@@ -26,9 +26,8 @@ class pack
     #
     static function dbInit( $start = null )
     {
-        # конструктор
-        #
-        self::clear();
+        # cбросить состояние
+        self::reset();
         #
         $start  =   $start  ??  req::$param['pack']  ??  null;
         #        
@@ -36,7 +35,7 @@ class pack
 
 
 
-        # достать user.id из pack.id
+        # распарсить ид пачки
         # кодировка в первом знаке - длина user.id (123456789ABC)
         #
         $ulen       =   substr( $start,  0,  1 );           # количесто знаков в user.id
@@ -83,7 +82,7 @@ class pack
 
         
 
-        # определения
+        # базовые определения
         #
         self::$start    =   $start  =  (int) $start;
         self::$project  =   isset(self::$tree[ $start ]) ?  $start :  self::$list[ self::$start ]['project'];

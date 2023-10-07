@@ -2,54 +2,6 @@
 class tree
 {
     
-    # распарсить строчку пачки
-    #
-    private static function parseline($str)
-    {
-        preg_match("#^\s*#", $str, $_before);
-        preg_match("#\s+\d+$#", $str, $_after);
-        
-        
-        $space  =   strlen($_before[0]);
-        $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
-        $name   =   mb_substr(
-            $str,
-            mb_strlen($_before[0]),
-            isset($_after[0]) ? -mb_strlen($_after[0]): null
-        );
-
-
-        return [
-            'user'      =>  null,
-            'id'        =>  $id,
-            'project'   =>  null,
-            'space'     =>  $space,
-            'name'      =>  $name,
-            'order'     =>  null,
-            'file'      =>  null,
-        ];
-    }
-
-
-    # дерево в json для лога
-    #
-    private static function toLog()
-    {
-        $log    =   array();
-        
-        foreach( pack::$tree as $rows )
-        {
-            foreach( $rows as $r )  $log[] =  $r;
-        }
-        
-        $log    =   json_encode($log, JSON_UNESCAPED_UNICODE);
-
-        return $log;
-    }
-
-
-
-
     # сохранить дерево с обновленной веткой пачек
     #
     static function save()
@@ -135,13 +87,61 @@ class tree
     }
 
 
-    
+    # json дерево для лога
+    #
+    private static function toLog()
+    {
+        $log    =   array();
+        
+        foreach( pack::$tree as $rows )
+        {
+            foreach( $rows as $r )  $log[] =  $r;
+        }
+        
+        $log    =   json_encode($log, JSON_UNESCAPED_UNICODE);
+
+        return $log;
+    }
+
+
+    # распарсить строчку пачки
+    #
+    private static function parseline($str)
+    {
+        preg_match("#^\s*#", $str, $_before);
+        preg_match("#\s+\d+$#", $str, $_after);
+        
+        
+        $space  =   strlen($_before[0]);
+        $id     =   empty($_after[0]) ?  null : (int) trim($_after[0]);
+        $name   =   mb_substr(
+            $str,
+            mb_strlen($_before[0]),
+            isset($_after[0]) ? -mb_strlen($_after[0]): null
+        );
+
+
+        return [
+            'user'      =>  null,
+            'id'        =>  $id,
+            'project'   =>  null,
+            'space'     =>  $space,
+            'name'      =>  $name,
+            'order'     =>  null,
+            'file'      =>  null,
+        ];
+    }
+
+
+
 
 
     # сохранить записи в базу
     #
     private static function dbSave($oldlog, $newlog)
     {
+        # сравнить изменилось ли дерево
+        #
         if ( $oldlog == $newlog )  return;
 
         // ui::vd('# сохранить в лог');
@@ -169,7 +169,7 @@ class tree
         
 
 
-        # создать записи пачек
+        # пересоздать дерево пачек
         #
         $rows   =   '';
         foreach( pack::$tree as $list )
