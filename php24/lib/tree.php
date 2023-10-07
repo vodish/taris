@@ -208,4 +208,26 @@ class tree
     }
 
 
+
+    
+    # добавить проект
+    # 
+    static function add()
+    {
+
+    }
+
+
+
+
+    # удалить проект
+    # 
+    static function del()
+    {
+
+    }
+
+
+    
+
 }

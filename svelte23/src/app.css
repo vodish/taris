@@ -62,7 +62,7 @@ pre.apierr br:first-child { display: none; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
 .nav1 .bc *:first-child { margin-left: -0.5ch; }
 .nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
-.nav1 .bc > a       { padding: 4px 1ch; }
+.nav1 .bc > a       { padding: 4px 0.6ch; }
 .nav1 .opt          { display: flex; }
 .nav1 .opt > *      { padding: 4px 1ch; border-radius: 2px; }
 .nav1 .opt > .sep   { display: inline-block; width: 1ch; }
@@ -85,11 +85,10 @@ pre.apierr br:first-child { display: none; }
 /* project */
 
 .pro                { display: flex; gap: 2vw; }
-.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 4px; border-right: solid 1px #eee; }
+.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 0; border-right: solid 1px #eee; }
 .pro > .tree a      { padding: 3px; display: inline-block; }
 .pro > .tree .empty         { height: 0.7em; }
-.pro > .tree .active        { background-color: #eee; border-radius: 3px; cursor: default; }
-.pro > .tree .active > a    { color: inherit; }
+.pro > .tree .active > a    { color: inherit; cursor: default; }
 .pro > .tree .project       { margin-top: 0.2em; }
 .pro > .tree .project > a   { color: inherit; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
@@ -198,7 +197,6 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 	.nav1 .bc .active   { background-color: var(--darkPreFon); }
 
     .pro > .tree    { border-right-color: var(--darkLine); }
-    .pro > .tree .active { background-color: var(--darkPreFon); }
 
     .pro > .file > pre      { color: var(--darkColor); }
     .pro > .file > pre.bold     { background-color: var(--darkPreFon); }
