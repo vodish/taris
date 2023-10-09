@@ -104,7 +104,23 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        res::$ret[__FUNCTION__]  =   [];
+
+        # добавить меню пачки
+        # (сдесь же проверить права)
+        #
+        $menu['line']   =   'Записи';
+        $menu['tree']   =   'Дерево';
+        $menu['access'] =   'Доступ';
+
+        if ( pack::$start != pack::$project ) 
+        {
+            $menu['treeAdd'] =   'Проект +';
+        }
+        else {
+            $menu['treeDel'] =   'Проект -';
+        }
+
+        res::$ret[__FUNCTION__]  =   $menu;
     }
     
 

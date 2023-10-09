@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { hpack, packStart, packTree, lineHtml } from "../state/store";
+import { pref, packStart, packTree, lineHtml } from "../state/store";
 
 
 document.onkeydown = (e) => {
@@ -8,7 +8,7 @@ document.onkeydown = (e) => {
     if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
         e.preventDefault()
-        hpack(`/${$packStart}/line`)
+        pref(`/${$packStart}/line`)
     }
 }
 
@@ -21,7 +21,7 @@ document.onkeydown = (e) => {
         {#each $packTree as pack }
             <div class="{pack._act}{!pack.id? 'empty': ''}" style="margin-left: {pack.space/2}ch;">
                 {#if pack.id }
-                    <a href={"/" + pack.id} on:click={hpack} class="{pack._prj}">{pack.name}</a>
+                    <a href={"/" + pack.id} on:click={pref} class="{pack._prj}">{pack.name}</a>
                 {/if}
             </div>
         {/each}

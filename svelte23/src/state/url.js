@@ -17,7 +17,7 @@ export function popstate()
     // слежение за пачками: инициализация, вперед, назад
     if ( url.level[0] && url.level[0] != Store.get( Store.packStart ) )
     {
-        hpack( window.location.pathname )
+        pref( window.location.pathname )
     }
 }
 
@@ -49,7 +49,7 @@ export function href(href)
 /**
  * @param {string | Object} href
  */
-export function hpack(href)
+export function pref(href)
 {
     if ( typeof href === 'object'  && href.srcElement.tagName == "A") {
         href.preventDefault()

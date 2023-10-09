@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { onMount } from "svelte";
-import { api, userList, hpack } from "../state/store";
+import { api, userList, pref } from "../state/store";
 
 
 
@@ -126,7 +126,7 @@ function apiCheckCode()
         {#if $userList && $userList.length }
             <div class="userlist">
                 {#each $userList as v }
-                    <a href={"/" + v.start} on:click={hpack}>{v.email}</a>
+                    <a href={"/" + v.start} on:click={pref}>{v.email}</a>
                 {/each}
             </div>
         {/if}

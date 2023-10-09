@@ -4,12 +4,19 @@ import PackLine         from "./PackLine.svelte";
 import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
-import { url, href, hpack, packStart, packProject, packBc, packTitle }    from "../state/store";
+import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu }    from "../state/store";
 
 
 function menu(e)
 {
     console.log(e.target)
+}
+
+function htree(e)
+{
+    e.preventDefault();
+
+    alert('htree ')
 }
 
 </script>
@@ -22,24 +29,22 @@ function menu(e)
         <a href="/" class="logo" on:click={href}>Taris</a>    
         {#each $packBc as pack }
             <i>/</i>
-            <a  href={"/" + pack.id} on:click={hpack} class="{pack._act} {pack._cur}">{pack.name}</a>
+            <a  href={"/" + pack.id} on:click={pref} class="{pack._act} {pack._cur}">{pack.name}</a>
         {/each}
     </div>
 
     <div class="burger" >
         <div class="name">Меню</div>
         <div class="menu">
-            <a href="/{$packStart}/line" on:click={hpack} class="b9 active">Записи</a>
-            <a href="/{$packStart}/tree" on:click={hpack}>Дерево</a>
-            <a href="/{$packStart}/access" on:click={hpack}>Доступ</a>
-
-            <span>Проект&nbsp;-</span>
-            <span>Проект&nbsp;+</span>
+            {#if "line"     in $packMenu } <a href="/{$packStart}/line" on:click={pref}>{$packMenu.line}</a> {/if}
+            {#if "tree"     in $packMenu } <a href="/{$packStart}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
+            {#if "access"   in $packMenu } <a href="/{$packStart}/access" on:click={pref}>{$packMenu.access}</a> {/if}
+            {#if "treeAdd"  in $packMenu } <a href="/{$packStart}/line" on:click={htree}>{$packMenu.treeAdd}</a> {/if}
+            {#if "treeDel"  in $packMenu } <a href="/{$packProject}/line" on:click={htree}>{$packMenu.treeDel}</a> {/if}
             
         </div>
     </div>
 </div>
-
 
 
 {#if        ! $url.level[1]             }   <PackView />
