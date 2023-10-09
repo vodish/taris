@@ -56,27 +56,54 @@ export function pref(href)
         href    =   href.srcElement.pathname
     }
     
-    let url   =   Store.parse(href)
-    let wait    =   [
-        'packStart',
-        'packProject',
-        'packBc',
-        'packTree',
-        'packMenu',
-        'packTitle',
-    ];
+    let url     =   Store.parse(href)
+    let data    =   {
+        pack: url.level[0],
+        wait: [
+            'packStart',
+            'packProject',
+            'packBc',
+            'packTree',
+            'packMenu',
+            'packTitle',
+        ]
+    }
     
-    if      ( url.level[1] == undefined )  wait.push("lineHtml")
-    else if ( url.level[1] == 'line' )     wait.push("lineText")
-    else if ( url.level[1] == 'tree' )     wait.push("treeText")
-    else if ( url.level[1] == 'access' )   wait.push("accessText")
 
+    // данные запроса
+    if ( url.level[1] == undefined ) {
+        data.wait.push("lineHtml")
+    }
+    else if ( url.level[1] == 'line' ) {
+        data.wait.push("lineText")
+    }
+    else if ( url.level[1] == 'tree' ) {
+        data.wait.push("treeText")
+    }
+    else if ( url.level[1] == 'access' ) {
+        data.wait.push("accessText")
+    }
+    else if ( url.level[1] == 'treeAdd' ) {
+        data.treeAdd  = 1
+        data.wait.push(url.level[1])
+        href    =   url.dir[0]
+    }   
+    else if ( url.level[1] == 'treeDell' ) {
+        data.treeDel  = 1
+        data.wait.push(url.level[1])
+        href    =   url.dir[0]
+    }
+    
+    
+    // console.log(href)
+    // console.log(data)
+    // return;
 
     // обновить состояние
     // затем перейти по ссылке
-    Store.api( {pack: url.level[0], wait} ,  (res) => {
+    Store.api(data,  (res) => {
         
-        wait.map((field)=>{
+        data.wait.map((field)=>{
             if ( res[ field ] === undefined )   return;
 
             Store[field].set( res[ field ] )

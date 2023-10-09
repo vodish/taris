@@ -60,10 +60,16 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-
+        $project    =  pack::$start;
+        $project    =  !isset( pack::$tree[ $project ] ) ?  pack::$project :  $project;
+        
+        // ui::vd( pack::$start );
+        // ui::vd( pack::$project );
+        // ui::vd( $project );
+        
         $tree   =   array();
         
-        foreach( pack::$tree[ pack::$project ] as $pack )
+        foreach( pack::$tree[ $project ] ?? []  as  $pack )
         {
             $tree[] =   array(
                 'id'    =>  $pack['id'] ?? '',
@@ -105,20 +111,27 @@ class state
         if ( empty(pack::$start) )                      return;
 
 
+        # проверить права
+        
+
+
         # добавить меню пачки
-        # (сдесь же проверить права)
         #
         $menu['line']   =   'Записи';
         $menu['tree']   =   'Дерево';
         $menu['access'] =   'Доступ';
-
-        if ( pack::$start != pack::$project ) 
+        
+        
+        if ( !isset(pack::$tree[ pack::$start ])  && pack::$project ) 
         {
-            $menu['treeAdd'] =   'Проект +';
+            $menu['treeAdd'] =   '+ Проект';
         }
-        else {
-            $menu['treeDel'] =   'Проект -';
+
+        if ( isset(pack::$tree[ pack::$start ])  && pack::$project )
+        {
+            $menu['treeDel'] =   '- Проект';
         }
+
 
         res::$ret[__FUNCTION__]  =   $menu;
     }

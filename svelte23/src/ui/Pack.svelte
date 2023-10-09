@@ -6,19 +6,6 @@ import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
 import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu }    from "../state/store";
 
-
-function menu(e)
-{
-    console.log(e.target)
-}
-
-function htree(e)
-{
-    e.preventDefault();
-
-    alert('htree ')
-}
-
 </script>
 
 
@@ -39,8 +26,8 @@ function htree(e)
             {#if "line"     in $packMenu } <a href="/{$packStart}/line" on:click={pref}>{$packMenu.line}</a> {/if}
             {#if "tree"     in $packMenu } <a href="/{$packStart}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
             {#if "access"   in $packMenu } <a href="/{$packStart}/access" on:click={pref}>{$packMenu.access}</a> {/if}
-            {#if "treeAdd"  in $packMenu } <a href="/{$packStart}/line" on:click={htree}>{$packMenu.treeAdd}</a> {/if}
-            {#if "treeDel"  in $packMenu } <a href="/{$packProject}/line" on:click={htree}>{$packMenu.treeDel}</a> {/if}
+            {#if "treeAdd"  in $packMenu } <a href="/{$packStart}/treeAdd" on:click={pref}>{$packMenu.treeAdd}</a> {/if}
+            {#if "treeDel"  in $packMenu } <a href="/{$packProject}/treeDell" on:click={pref}>{$packMenu.treeDel}</a> {/if}
             
         </div>
     </div>
