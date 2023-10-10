@@ -239,6 +239,7 @@ class tree
 
         
         ui::vd( $branch );
+        ui::vd( $branch );
 
         // ui::vd( req::$param );
         // if ( !isset(req::$param['treeAdd']) )   return;
