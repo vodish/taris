@@ -211,6 +211,35 @@ class tree
         if ( @url::$level[1] !== 'treeAdd' )   return;
 
 
+        # выделить новую верту
+        #
+        $branch =   array();
+        #
+        foreach( pack::$tree[ pack::$project ] as $pack)
+        {
+            # новый проект
+            if ( $pack['id'] == pack::$start )
+            {
+                $space  =  $pack['space']; 
+                continue;
+            }
+
+            # подпачки нового проекта
+            if ( isset($space) )
+            {
+                if ( $pack['space'] <= $space ) break;
+
+                if ( $space < $pack['space'] ) {
+                    $pack['space'] -=   $space;
+                    $pack['space']  =   $pack['space'] < 0 ?  0:  $pack['space'];
+                    $branch[ pack::$start ][ 1+count($branch) ]  =  $pack; 
+                }
+            }
+        }
+
+        
+        ui::vd( $branch );
+
         // ui::vd( req::$param );
         // if ( !isset(req::$param['treeAdd']) )   return;
         // if (  )
