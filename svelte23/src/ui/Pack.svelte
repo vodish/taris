@@ -6,6 +6,10 @@ import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
 import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu }    from "../state/store";
 
+
+// let ttt =  new URL("/aa/bb/?sdv=123", location)
+// console.log(ttt)
+
 </script>
 
 
@@ -27,7 +31,7 @@ import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu } 
             {#if "tree"     in $packMenu } <a href="/{$packStart}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
             {#if "access"   in $packMenu } <a href="/{$packStart}/access" on:click={pref}>{$packMenu.access}</a> {/if}
             {#if "treeAdd"  in $packMenu } <a href="/{$packStart}/treeAdd" on:click={pref}>{$packMenu.treeAdd}</a> {/if}
-            {#if "treeDel"  in $packMenu } <a href="/{$packProject}/treeDell" on:click={pref}>{$packMenu.treeDel}</a> {/if}
+            {#if "treeDel"  in $packMenu } <a href="/{$packStart}/treeDell" on:click={pref}>{$packMenu.treeDel}</a> {/if}
             
         </div>
     </div>

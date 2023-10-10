@@ -7,7 +7,7 @@ class url
     static $level;
     
     
-    static function parse( $url=null )
+    static function parse( $url=null, $setState=true )
     {
         $url    =   $url ?? $_SERVER['REQUEST_URI'];
 
@@ -25,11 +25,13 @@ class url
         
 
         # set static value
-        self::$path     =   $parse['path'];
-        self::$query    =   $parse['query'];
-        self::$dir      =   $parse['dir'];
-        self::$level    =   $parse['level'];
-        
+        if ( $setState )
+        {
+            self::$path     =   $parse['path'];
+            self::$query    =   $parse['query'];
+            self::$dir      =   $parse['dir'];
+            self::$level    =   $parse['level'];
+        }
 
         return $parse;
     }

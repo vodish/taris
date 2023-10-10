@@ -56,9 +56,8 @@ export function pref(href)
         href    =   href.srcElement.pathname
     }
     
-    let url     =   Store.parse(href)
     let data    =   {
-        pack: url.level[0],
+        href,
         wait: [
             'packStart',
             'packProject',
@@ -69,47 +68,16 @@ export function pref(href)
         ]
     }
     
-
-    // данные запроса
-    if ( url.level[1] == undefined ) {
-        data.wait.push("lineHtml")
-    }
-    else if ( url.level[1] == 'line' ) {
-        data.wait.push("lineText")
-    }
-    else if ( url.level[1] == 'tree' ) {
-        data.wait.push("treeText")
-    }
-    else if ( url.level[1] == 'access' ) {
-        data.wait.push("accessText")
-    }
-    else if ( url.level[1] == 'treeAdd' ) {
-        data.treeAdd  = 1
-        data.wait.push(url.level[1])
-        href    =   url.dir[0]
-    }   
-    else if ( url.level[1] == 'treeDell' ) {
-        data.treeDel  = 1
-        data.wait.push(url.level[1])
-        href    =   url.dir[0]
-    }
-    
-    
-    // console.log(href)
-    // console.log(data)
-    // return;
-
-    // обновить состояние
-    // затем перейти по ссылке
-    Store.api(data,  (res) => {
+    Store.api(data, (res) => {
         
-        data.wait.map((field)=>{
-            if ( res[ field ] === undefined )   return;
-
-            Store[field].set( res[ field ] )
-        })
+        for ( let k in res )
+        {
+            if ( ! Store[k] )   return
+            Store[ k ].set( res[k] )
+        }
         
-        Store.href(href)
+        //изменить url
+        Store.href(res.href || href)
     })
     
 }
