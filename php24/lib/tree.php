@@ -1,7 +1,9 @@
 <?php
 class tree
 {
-    
+    static $log = [];
+
+
     # сохранить дерево с обновленной веткой пачек
     #
     static function save()
@@ -17,9 +19,8 @@ class tree
         if ( !isset(req::$param['tree'])    )   return;
         
 
-        # текущее содержание
-        # 
-        $oldlog     =   self::toLog();
+        # логировать текущее дерево
+        self::log();
 
 
         # разбить текст по-строчно, каждая пачка на своей строке
@@ -58,8 +59,6 @@ class tree
         # создать новый лог
         #
         pack::$tree[ pack::$project ]   =   $tree;
-        #
-        $newlog     =   self::toLog();
         
 
         # если удалена текущая пачка
@@ -71,29 +70,19 @@ class tree
             array_shift(pack::$bc);
         }
         
-
         
         # сохранить новое дерево проекта
         #
-        self::dbSave($oldlog, $newlog);
+        self::dbSave();
         
     }
 
 
     # json дерево для лога
     #
-    private static function toLog()
+    private static function log()
     {
-        $log    =   array();
-        
-        foreach( pack::$tree as $rows )
-        {
-            foreach( $rows as $r )  $log[] =  $r;
-        }
-        
-        $log    =   json_encode($log, JSON_UNESCAPED_UNICODE);
-
-        return $log;
+        self::$log[]    =   json_encode(pack::$tree, JSON_UNESCAPED_UNICODE);
     }
 
 
@@ -131,13 +120,14 @@ class tree
 
     # сохранить записи в базу
     #
-    private static function dbSave($oldlog, $newlog)
+    private static function dbSave()
     {
-        # сравнить изменилось ли дерево
-        #
-        if ( $oldlog == $newlog )  return;
+        # текущее дерево
+        self::log();
+        
+        if ( !isset(self::$log[1]) )            return;
+        if ( self::$log[0] == self::$log[1] )   return;
 
-        // ui::vd('# сохранить в лог');
 
         # сохранить в лог
         #
@@ -156,7 +146,7 @@ class tree
                 ," .db::v(user::$email). "
                 ," .db::v('pack'). "
                 ," .db::v(null). "
-                ," .db::v($newlog). "
+                ," .db::v(self::$log[1]). "
             )
         ");
         
@@ -181,7 +171,7 @@ class tree
         # обновить дерево
         #
         db::query("DELETE FROM `pack` WHERE `user` = " .db::v(user::$id) );
-        
+        #
         db::query("
             INSERT INTO `pack` (
                  `user`
@@ -196,8 +186,6 @@ class tree
             " .$rows. "
         ");
 
-        // ui::vd('Обновить дерево хозяина');
-
     }
 
 
@@ -211,11 +199,14 @@ class tree
         if ( @url::$level[1] !== 'treeAdd' )   return;
 
 
+        # логировать текущее дерево
+        self::log();
+
+
         # выделить новую верту
         #
-        $branch =   array();
-        #
-        foreach( pack::$tree[ pack::$project ] as $pack)
+        $order  =  1;
+        foreach( pack::$tree[ pack::$project ] as $k => $pack)
         {
             # новый проект
             if ( $pack['id'] == pack::$start )
@@ -223,23 +214,35 @@ class tree
                 $space  =  $pack['space']; 
                 continue;
             }
-
-            # подпачки нового проекта
+            #
+            # перенести вложения в новый проект
+            #
             if ( isset($space) )
             {
                 if ( $pack['space'] <= $space ) break;
 
-                if ( $space < $pack['space'] ) {
-                    $pack['space'] -=   $space;
-                    $pack['space']  =   $pack['space'] < 0 ?  0:  $pack['space'];
-                    $branch[ pack::$start ][ 1+count($branch) ]  =  $pack; 
+                if ( $space < $pack['space'] )
+                {
+                    $pack['project']    =   pack::$start;
+                    $pack['space']      =   ($s = $pack['space']-$space) > 0 ?  $s:  0;
+                    $pack['order']      =   $order++;
+                    
+                    pack::$tree[ pack::$start ][]  =  $pack;
+
+                    unset(pack::$tree[ pack::$project ][ $k ]);
                 }
             }
         }
+        #
+        # пересортировать измененные проекты
+        # 
+        ksort( pack::$tree, SORT_NUMERIC );
+        $k = 1;
+        foreach(pack::$tree[ pack::$project ] as &$v)   $v['order'] = $k++;
+        
 
         
-        ui::vd( $branch );
-        ui::vd( $branch );
+        // ui::vd( pack::$tree[ pack::$project ] );
 
         // ui::vd( req::$param );
         // if ( !isset(req::$param['treeAdd']) )   return;
@@ -247,7 +250,16 @@ class tree
         // ui::vd( url::$level );
         // ui::vd( req::$param );
 
-        res::$ret['href'] = '/'. pack::$start;
+        # новый путь для фронта
+        #
+        res::$ret['href']   =   '/'. pack::$start;
+
+
+        # сохранить лог
+        #
+        self::dbSave();
+
+
     }
 
 
