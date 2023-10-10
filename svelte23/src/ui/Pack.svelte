@@ -31,7 +31,7 @@ import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu } 
             {#if "tree"     in $packMenu } <a href="/{$packStart}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
             {#if "access"   in $packMenu } <a href="/{$packStart}/access" on:click={pref}>{$packMenu.access}</a> {/if}
             {#if "treeAdd"  in $packMenu } <a href="/{$packStart}/treeAdd" on:click={pref}>{$packMenu.treeAdd}</a> {/if}
-            {#if "treeDel"  in $packMenu } <a href="/{$packStart}/treeDell" on:click={pref}>{$packMenu.treeDel}</a> {/if}
+            {#if "treeDel"  in $packMenu } <a href="/{$packStart}/treeDel" on:click={pref}>{$packMenu.treeDel}</a> {/if}
             
         </div>
     </div>

@@ -1,7 +1,91 @@
 <?php
 class tree
 {
-    static $log = [];
+    private static $log = [];
+
+
+    # json дерево для лога
+    #
+    private static function log()
+    {
+        self::$log[]    =   json_encode(pack::$tree, JSON_UNESCAPED_UNICODE);
+    }
+
+
+    # сохранить записи в базу
+    #
+    private static function dbSave()
+    {
+        # текущее дерево
+        self::log();
+        
+        if ( !isset(self::$log[1]) )            return;
+        if ( self::$log[0] == self::$log[1] )   return;
+
+
+        # сохранить в лог
+        #
+        db::query("
+            INSERT INTO `log` (
+                 `user`
+                ,`author`
+                ,`author_email`
+                ,`target`
+                ,`row`
+                ,`json`
+            )
+            VALUES (
+                 " .db::v(user::$id). "
+                ," .db::v(0). "
+                ," .db::v('@'). "
+                ," .db::v('pack'). "
+                ," .db::v(null). "
+                ," .db::v(self::$log[1]). "
+            )
+        ");
+        
+
+
+        # пересоздать дерево пачек
+        #
+        $rows   =   '';
+        foreach( pack::$tree as $list )
+        {
+            foreach( $list as $pack )
+            {
+                $row = '';
+                foreach($pack as $v)    $row .= ','. db::v($v);
+                $rows .= ',('. substr($row, 1). ')'. "\n";
+            }
+        }
+        $rows   =   substr($rows, 1);
+
+
+        
+        # обновить дерево
+        #
+        db::query("DELETE FROM `pack` WHERE `user` = " .db::v(user::$id) );
+        #
+        db::query("
+            INSERT INTO `pack` (
+                 `user`
+                ,`id`
+                ,`project`
+                ,`space`
+                ,`name`
+                ,`order`
+                ,`file`
+            )
+            VALUES
+            " .$rows. "
+        ");
+
+    }
+
+
+
+
+
 
 
     # сохранить дерево с обновленной веткой пачек
@@ -78,12 +162,6 @@ class tree
     }
 
 
-    # json дерево для лога
-    #
-    private static function log()
-    {
-        self::$log[]    =   json_encode(pack::$tree, JSON_UNESCAPED_UNICODE);
-    }
 
 
     # распарсить строчку пачки
@@ -116,77 +194,6 @@ class tree
 
 
 
-
-
-    # сохранить записи в базу
-    #
-    private static function dbSave()
-    {
-        # текущее дерево
-        self::log();
-        
-        if ( !isset(self::$log[1]) )            return;
-        if ( self::$log[0] == self::$log[1] )   return;
-
-
-        # сохранить в лог
-        #
-        db::query("
-            INSERT INTO `log` (
-                 `user`
-                ,`author`
-                ,`author_email`
-                ,`target`
-                ,`row`
-                ,`json`
-            )
-            VALUES (
-                 " .db::v(user::$id). "
-                ," .db::v(0). "
-                ," .db::v('@'). "
-                ," .db::v('pack'). "
-                ," .db::v(null). "
-                ," .db::v(self::$log[1]). "
-            )
-        ");
-        
-
-
-        # пересоздать дерево пачек
-        #
-        $rows   =   '';
-        foreach( pack::$tree as $list )
-        {
-            foreach( $list as $pack )
-            {
-                $row = '';
-                foreach($pack as $v)    $row .= ','. db::v($v);
-                $rows .= ',('. substr($row, 1). ')'. "\n";
-            }
-        }
-        $rows   =   substr($rows, 1);
-
-
-        
-        # обновить дерево
-        #
-        db::query("DELETE FROM `pack` WHERE `user` = " .db::v(user::$id) );
-        #
-        db::query("
-            INSERT INTO `pack` (
-                 `user`
-                ,`id`
-                ,`project`
-                ,`space`
-                ,`name`
-                ,`order`
-                ,`file`
-            )
-            VALUES
-            " .$rows. "
-        ");
-
-    }
 
 
 
@@ -261,7 +268,16 @@ class tree
     # 
     static function del()
     {
+        if ( ! pack::$start )   return;
+        if ( @url::$level[1] !== 'treeDel' )   return;
 
+        # логировать текущее дерево
+        self::log();
+
+
+        # добавить текущий проект в дерево над проекта
+
+        ui::vd( pack::$tree );
     }
 
 

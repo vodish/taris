@@ -34,7 +34,7 @@ pack::dbInit();
 line::save();
 tree::save();
 tree::add();
-// tree::del();
+tree::del();
 // access::save();
 
 
