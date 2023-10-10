@@ -242,14 +242,6 @@ class tree
         
 
         
-        // ui::vd( pack::$tree[ pack::$project ] );
-
-        // ui::vd( req::$param );
-        // if ( !isset(req::$param['treeAdd']) )   return;
-        // if (  )
-        // ui::vd( url::$level );
-        // ui::vd( req::$param );
-
         # новый путь для фронта
         #
         res::$ret['href']   =   '/'. pack::$start;
