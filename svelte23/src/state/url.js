@@ -72,8 +72,7 @@ export function pref(href)
         
         for ( let k in res )
         {
-            if ( ! Store[k] )   return
-            Store[ k ].set( res[k] )
+            if ( Store[k] && Store[k]['set'] )   Store[k].set( res[k] )
         }
         
         //изменить url
@@ -81,9 +80,6 @@ export function pref(href)
     })
     
 }
-
-
-
 
 
 

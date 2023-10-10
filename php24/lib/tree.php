@@ -72,14 +72,7 @@ class tree
         }
         
 
-
-        // ui::vd( res::$ret['treeText'] );
-        // ui::vd( $oldlog );
-        // ui::vd( $newlog );
-        // ui::vd( $oldlog == $newlog, 1 );
-        // die;
         
-
         # сохранить новое дерево проекта
         #
         self::dbSave($oldlog, $newlog);
@@ -214,12 +207,17 @@ class tree
     # 
     static function add()
     {
+        if ( ! pack::$start )   return;
+        if ( @url::$level[1] !== 'treeAdd' )   return;
+
+
+        // ui::vd( req::$param );
         // if ( !isset(req::$param['treeAdd']) )   return;
         // if (  )
         // ui::vd( url::$level );
         // ui::vd( req::$param );
 
-        // res::$ret['href'] = '/'. pack::$start;
+        res::$ret['href'] = '/'. pack::$start;
     }
 
 
