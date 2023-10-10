@@ -143,7 +143,7 @@ class tree
             VALUES (
                  " .db::v(user::$id). "
                 ," .db::v(0). "
-                ," .db::v(user::$email). "
+                ," .db::v('@'). "
                 ," .db::v('pack'). "
                 ," .db::v(null). "
                 ," .db::v(self::$log[1]). "
@@ -241,7 +241,7 @@ class tree
         foreach(pack::$tree[ pack::$project ] as &$v)   $v['order'] = $k++;
         
 
-        
+
         # новый путь для фронта
         #
         res::$ret['href']   =   '/'. pack::$start;
