@@ -60,14 +60,10 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
+
         $project    =  pack::$start;
         $project    =  !isset( pack::$tree[ $project ] ) ?  pack::$project :  $project;
-        
-        // ui::vd( pack::$start );
-        // ui::vd( $project );
-        // ui::vd( pack::$tree[ $project ] );
-        
-        $tree   =   array();
+        $tree       =   array();
         
         foreach( pack::$tree[ $project ] ?? []  as  $pack )
         {
@@ -208,6 +204,20 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
         
+    }
+
+
+
+    static function logList()
+    {
+        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( empty(pack::$start) )                      return;
+        
+        log::dbList();
+
+        ui::vd(log::$list);
+
+        res::$ret[__FUNCTION__]  =   log::$list;
     }
 
 

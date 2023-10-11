@@ -38,7 +38,6 @@ tree::del();
 // access::save();
 
 
-
 # cостояние
 #
 state::userList();
@@ -56,6 +55,8 @@ state::lineText();
 #
 state::accessHtml();
 state::accessText();
+#
+state::logList();
 
 // ui::vd(res::$ret);
 

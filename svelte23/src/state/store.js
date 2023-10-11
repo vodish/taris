@@ -29,6 +29,7 @@ export let lineText     =   writable( "" )
 export let accessPack   =   writable( [] )
 export let accessText   =   writable( "" )
 
+export let logList      =   writable( [] )
 
 
 // инициализация

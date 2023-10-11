@@ -101,6 +101,7 @@ class req
         elseif ( url::$level[1] == 'line'   )   req::$wait[]  = 'lineText';
         elseif ( url::$level[1] == 'tree'   )   req::$wait[]  = 'treeText';
         elseif ( url::$level[1] == 'access' )   req::$wait    = array_merge(req::$wait, ['accessArray', 'accessText']);
+        elseif ( url::$level[1] == 'log'    )   req::$wait[]  = 'logList';
 
     }        
 
