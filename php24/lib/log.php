@@ -9,31 +9,16 @@ class log
         if ( ! in_array('logList', req::$wait) )    return;
 
 
-        db::query("
-            SELECT
-                 `created`
-                ,`author`
-                ,`author_email`
-                ,`target`
-                ,`row`
-            FROM
-                `log`
-            WHERE
-                `user` = " .db::v(user::$id). "
-            ORDER BY
-                `created` DESC
-            LIMIT
-                20
+        self::$list = db::select("
+            SELECT  *
+            FROM    `log`
+            WHERE   `user` = " .db::v(user::$id). "
+            ORDER BY `created` DESC
+            LIMIT   20
         ");
+        
 
-        for( $list=[];  $v = db::fetch();  $list[] = $v )
-        {
-            $v['target_name']       =   strtr($v['target'], ['tree'=>'Дерево', 'file'=>'Файл', 'access'=>'Права' ]);
-            $v['up_name']     =   "Восстановить";
-        }
-
-
-        return  self::$list =   $list;
+        return  self::$list;
     }
 
 
@@ -42,22 +27,20 @@ class log
         if ( ! user::$id )                  return;
         if ( url::$level[1] != 'logUp' )    return;
 
-        $json   =   db::one("
-            SELECT
-                *
-            FROM
-                `log`
-            WHERE
-                `user` = '" .user::$id. "'
-                AND `created` = '" .url::$level[2]. "'
+        $log    =   db::one("
+            SELECT  *
+            FROM    `log`
+            WHERE   `user` = '" .user::$id. "'  AND `created` = '" .url::$level[2]. "'
         ");
 
-        ui::vd($json);
         
+        $tree   =   json_decode($log['json'], true);
+
+        ui::vd($tree);
+
 
         res::$ret['href']   =   url::$dir[0];
         
-        ui::vd(res::$ret);
         
     }
 }

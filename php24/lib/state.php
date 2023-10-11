@@ -213,11 +213,29 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
         
-        log::dbList();
 
-        // ui::vd(log::$list);
+        # получить записи лога
+        #
+        $list   =   log::dbList();
+        #
+        # вернуть данные для фронта с урезанными полями
+        #
+        foreach( $list as  &$v)
+        {
+            $v['up_name']       =   "Восстановить";
+            $v['target_name']   =   strtr($v['target'], [
+                'tree'  =>  'Дерево',
+                'file'  =>  'Файл',
+                'log'   =>  'Из лога #' .$v['row'] ,
+                'access'=>  'Права'
+            ]);
+            
+            unset($v['user']);
+            unset($v['json']);
+        }
+        
 
-        res::$ret[__FUNCTION__]  =   log::$list;
+        res::$ret[__FUNCTION__]  =   $list;
     }
 
 
