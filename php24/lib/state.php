@@ -114,24 +114,37 @@ class state
         #
 
 
-
+        # пункты меню
+        #
+        $v   =   array(
+            'view'      =>  'Обзор',
+            'line'      =>  'Записи',
+            'tree'      =>  'Дерево',
+            'access'    =>  'Доступ',
+            'treeAdd'   =>  '+ Проект',
+            'treeDel'   =>  '- Проект',
+            'log'       =>  'История',
+        );
+        #
+        #
         # добавить меню пачки
         #
-        $menu['line']   =   'Записи';
-        $menu['tree']   =   'Дерево';
-        $menu['access'] =   'Доступ';
+        $menu['name']   =   strtr(url::$level[1] ?? 'view', $v);
+        $menu['view']   =   $v['view'];
+        $menu['line']   =   $v['line'];
+        $menu['tree']   =   $v['tree'];
+        $menu['access'] =   $v['access'];
         #
         if ( !isset(pack::$tree[ pack::$start ])  && pack::$project ) 
         {
-            $menu['treeAdd'] =   '+ Проект';
+            $menu['treeAdd'] =   $v['treeAdd'];
         }
-        #
         if ( isset(pack::$tree[ pack::$start ])  && pack::$project )
         {
-            $menu['treeDel'] =   '- Проект';
+            $menu['treeDel'] =   $v['treeDel'];
         }
         #
-        $menu['log'] =   'Логи';
+        $menu['log']    =   $v['log'];
 
 
 

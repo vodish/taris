@@ -26,8 +26,9 @@ import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu } 
     </div>
 
     <div class="burger" >
-        <div class="name">Меню</div>
+        <div class="name">{$packMenu.name}</div>
         <div class="menu">
+            {#if "view"     in $packMenu } <a href="/{$packStart}" on:click={pref}>{$packMenu.view}</a> {/if}
             {#if "line"     in $packMenu } <a href="/{$packStart}/line" on:click={pref}>{$packMenu.line}</a> {/if}
             {#if "tree"     in $packMenu } <a href="/{$packStart}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
             {#if "access"   in $packMenu } <a href="/{$packStart}/access" on:click={pref}>{$packMenu.access}</a> {/if}

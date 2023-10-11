@@ -25,7 +25,7 @@ class log
     static function up()
     {
         if ( ! user::$id )                  return;
-        if ( url::$level[1] != 'logUp' )    return;
+        if ( @url::$level[1] != 'logUp' )   return;
 
         $log    =   db::one("
             SELECT  *
