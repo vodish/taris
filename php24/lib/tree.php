@@ -40,7 +40,7 @@ class tree
                 ," .db::v('@'). "
                 ," .db::v('tree'). "
                 ," .db::v(null). "
-                ," .db::v(self::$log[1]). "
+                ," .db::v(self::$log[0]). "
             )
         ");
         
