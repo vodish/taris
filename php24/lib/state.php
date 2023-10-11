@@ -215,7 +215,7 @@ class state
         
         log::dbList();
 
-        ui::vd(log::$list);
+        // ui::vd(log::$list);
 
         res::$ret[__FUNCTION__]  =   log::$list;
     }

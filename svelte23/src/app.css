@@ -128,8 +128,11 @@ form.tree  .save    { display: block; }
 form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
 
 
+/* log */
 
-
+.loglist    { border-collapse: collapse; }
+.loglist tr:hover   { background-color: #333; }
+.loglist td         { padding: 0.5em 1ch; }
 
 
 

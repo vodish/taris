@@ -9,7 +9,7 @@ class log
         if ( ! in_array('logList', req::$wait) )    return;
 
 
-        self::$list =   db::select("
+        db::query("
             SELECT
                  `created`
                 ,`author`
@@ -26,8 +26,14 @@ class log
                 20
         ");
 
+        for( $list=[];  $v = db::fetch();  $list[] = $v )
+        {
+            $v['target_name']       =   strtr($v['target'], ['tree'=>'Дерево', 'file'=>'Файл', 'access'=>'Права' ]);
+            $v['up_name']     =   "Восстановить";
+        }
 
-        return  self::$list;
+
+        return  self::$list =   $list;
     }
 
 
