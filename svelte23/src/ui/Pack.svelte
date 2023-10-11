@@ -5,7 +5,7 @@ import PackView         from "./PackView.svelte";
 import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
 import PackLog          from "./PackLog.svelte";
-import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu }    from "../state/store";
+import { url, href, pref, packBc, packTitle, packMenu }    from "../state/store";
 
 
 // let ttt =  new URL("/aa/bb/?sdv=123", location)
@@ -28,13 +28,13 @@ import { url, href, pref, packStart, packProject, packBc, packTitle, packMenu } 
     <div class="burger" >
         <div class="name">{$packMenu.name}</div>
         <div class="menu">
-            {#if "view"     in $packMenu } <a href="/{$packStart}" on:click={pref}>{$packMenu.view}</a> {/if}
-            {#if "line"     in $packMenu } <a href="/{$packStart}/line" on:click={pref}>{$packMenu.line}</a> {/if}
-            {#if "tree"     in $packMenu } <a href="/{$packStart}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
-            {#if "access"   in $packMenu } <a href="/{$packStart}/access" on:click={pref}>{$packMenu.access}</a> {/if}
-            {#if "treeAdd"  in $packMenu } <a href="/{$packStart}/treeAdd" on:click={pref}>{$packMenu.treeAdd}</a> {/if}
-            {#if "treeDel"  in $packMenu } <a href="/{$packStart}/treeDel" on:click={pref}>{$packMenu.treeDel}</a> {/if}
-            {#if "log"      in $packMenu } <a href="/{$packStart}/log" on:click={pref}>{$packMenu.log}</a> {/if}
+            {#if "view"     in $packMenu } <a href="/{$url.level[0]}" on:click={pref}>{$packMenu.view}</a> {/if}
+            {#if "line"     in $packMenu } <a href="/{$url.level[0]}/line" on:click={pref}>{$packMenu.line}</a> {/if}
+            {#if "tree"     in $packMenu } <a href="/{$url.level[0]}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
+            {#if "access"   in $packMenu } <a href="/{$url.level[0]}/access" on:click={pref}>{$packMenu.access}</a> {/if}
+            {#if "treeAdd"  in $packMenu } <a href="/{$url.level[0]}/treeAdd" on:click={pref}>{$packMenu.treeAdd}</a> {/if}
+            {#if "treeDel"  in $packMenu } <a href="/{$url.level[0]}/treeDel" on:click={pref}>{$packMenu.treeDel}</a> {/if}
+            {#if "log"      in $packMenu } <a href="/{$url.level[0]}/log" on:click={pref}>{$packMenu.log}</a> {/if}
             
         </div>
     </div>

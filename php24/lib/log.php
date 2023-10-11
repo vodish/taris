@@ -21,7 +21,9 @@ class log
         return  self::$list;
     }
 
-
+    
+    # восстановить из лога
+    #
     static function up()
     {
         if ( ! user::$id )                  return;
@@ -34,13 +36,14 @@ class log
         ");
 
         
-        $tree   =   json_decode($log['json'], true);
-
-        ui::vd($tree);
-
+        if ( $log['target'] == 'tree' )
+        {
+            tree::log();
+            pack::$tree =   json_decode($log['json'], true);
+            tree::dbSave();
+        }
+        
 
         res::$ret['href']   =   url::$dir[0];
-        
-        
     }
 }

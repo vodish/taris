@@ -6,7 +6,7 @@ class tree
 
     # json дерево для лога
     #
-    private static function log()
+    static function log()
     {
         self::$log[]    =   json_encode(pack::$tree, JSON_UNESCAPED_UNICODE);
     }
@@ -14,7 +14,7 @@ class tree
 
     # сохранить записи в базу
     #
-    private static function dbSave()
+    static function dbSave()
     {
         # текущее дерево
         self::log();
@@ -64,7 +64,11 @@ class tree
         
         # обновить дерево
         #
-        db::query("DELETE FROM `pack` WHERE `user` = " .db::v(user::$id) );
+        db::query("
+            DELETE
+            FROM    `pack`
+            WHERE   `user` = " .db::v(user::$id). "
+        ");
         #
         db::query("
             INSERT INTO `pack` (
