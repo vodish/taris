@@ -94,7 +94,10 @@ class state
 
         $title  =   pack::$list[ pack::$start ]['name'];
         
-        if ( !isset(pack::$tree[ pack::$start ]) )
+        // ui::vd(pack::$tree);
+        // ui::vd(pack::$project);
+
+        if ( !isset(pack::$tree[ pack::$project ]) && pack::$project > 0 )
         {
             $title = pack::$list[ pack::$project ]['name']. ' / '. $title;
         }
@@ -108,11 +111,12 @@ class state
     static function packMenu()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
+        // if ( empty(pack::$start) )                      return;
 
 
         # проверить права
-        
+        #
+
 
 
         # добавить меню пачки
@@ -120,17 +124,19 @@ class state
         $menu['line']   =   'Записи';
         $menu['tree']   =   'Дерево';
         $menu['access'] =   'Доступ';
-        
-        
+        #
         if ( !isset(pack::$tree[ pack::$start ])  && pack::$project ) 
         {
             $menu['treeAdd'] =   '+ Проект';
         }
-
+        #
         if ( isset(pack::$tree[ pack::$start ])  && pack::$project )
         {
             $menu['treeDel'] =   '- Проект';
         }
+        #
+        $menu['log'] =   'Логи';
+
 
 
         res::$ret[__FUNCTION__]  =   $menu;

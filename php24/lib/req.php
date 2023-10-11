@@ -72,7 +72,7 @@ class req
         #
         # распарсить параметры
         #
-        if ( $_POST['href'] )
+        if ( isset($_POST['href']) )
         {
             url::parse( $_POST['href'] );
         }
