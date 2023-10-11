@@ -38,7 +38,7 @@ class tree
                  " .db::v(user::$id). "
                 ," .db::v(0). "
                 ," .db::v('@'). "
-                ," .db::v('pack'). "
+                ," .db::v('tree'). "
                 ," .db::v(null). "
                 ," .db::v(self::$log[1]). "
             )
@@ -210,6 +210,7 @@ class tree
         self::log();
 
 
+
         # выделить новую верту
         #
         $order  =  1;
@@ -231,7 +232,7 @@ class tree
                 if ( $space < $pack['space'] )
                 {
                     $pack['project']    =   pack::$start;
-                    $pack['space']      =   ($s = $pack['space']-$space) > 0 ?  $s:  0;
+                    $pack['space']      =   ($s = $pack['space'] - $space - 4) > 0  ?  $s:  0;
                     $pack['order']      =   $order++;
                     
                     pack::$tree[ pack::$start ][]  =  $pack;
@@ -258,7 +259,6 @@ class tree
         #
         self::dbSave();
 
-
     }
 
 
@@ -270,14 +270,55 @@ class tree
     {
         if ( ! pack::$start )   return;
         if ( @url::$level[1] !== 'treeDel' )   return;
+        if ( !isset(pack::$tree[ pack::$project ]) )     return;
+
 
         # логировать текущее дерево
         self::log();
 
 
         # добавить текущий проект в дерево над проекта
+        $branch  =  array();
+        #
+        foreach( pack::$tree[ pack::$project ] as  $v )
+        {
+            $v['order'] =   count($branch) + 1;
+            $branch[]   =   $v;
 
-        ui::vd( pack::$tree );
+            if ( $v['id'] == pack::$start  && pack::$tree[ pack::$start ] )
+            {
+                foreach( pack::$tree[ pack::$start ] as $v2 )
+                {
+                    $v2['project']  =   pack::$project;
+                    $v2['space']    +=  4 + $v['space'];
+                    $v2['order']    =   count($branch) + 1;
+                    $branch[]       =   $v2;
+                }
+            }
+        }
+
+        # удалить из дерева лишнюю ветку
+        # добавить обновленную ветку
+        #
+        unset( pack::$tree[ pack::$start ] );
+        pack::$tree[ pack::$project ] = $branch;
+
+
+        // ui::vd( pack::$tree[ pack::$project ] );
+        // ui::vd( pack::$tree[ pack::$start ] );
+        // ui::vd( $branch );
+
+
+
+        # новый путь для фронта
+        #
+        res::$ret['href']   =   '/'. pack::$start;
+
+
+        # сохранить лог
+        #
+        self::dbSave();
+
     }
 
 
