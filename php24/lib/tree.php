@@ -48,27 +48,32 @@ class tree
 
         # пересоздать дерево пачек
         #
-        $rows   =   '';
         foreach( pack::$tree as $list )
         {
             foreach( $list as $pack )
             {
-                $row = '';
-                foreach($pack as $v)    $row .= ','. db::v($v);
-                $rows .= ',('. substr($row, 1). ')'. "\n";
+                if ( $pack['project'] == 0 )    continue;
+
+                foreach($pack as &$v)    $v = db::v($v);
+                
+                $rows[ $pack['id'] ]   =   "(".  implode(',', $pack).  ")";
             }
         }
-        $rows   =   substr($rows, 1);
-
-
+        
+        // die;
+        // ui::vd($rows);
         
         # обновить дерево
         #
         db::query("
             DELETE
             FROM    `pack`
-            WHERE   `user` = " .db::v(user::$id). "
+            WHERE   `user` = " .db::v(user::$id). " AND `project` != 0
         ");
+        #
+        #
+        if ( empty($rows) )     return;
+        #
         #
         db::query("
             INSERT INTO `pack` (
@@ -81,7 +86,7 @@ class tree
                 ,`file`
             )
             VALUES
-            " .$rows. "
+            ".  implode("\n,", $rows).  "
         ");
 
     }

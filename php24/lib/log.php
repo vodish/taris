@@ -21,7 +21,7 @@ class log
         return  self::$list;
     }
 
-    
+
     # восстановить из лога
     #
     static function up()
@@ -32,8 +32,10 @@ class log
         $log    =   db::one("
             SELECT  *
             FROM    `log`
-            WHERE   `user` = '" .user::$id. "'  AND `created` = '" .url::$level[2]. "'
+            WHERE   `user` = '" .user::$id. "'  AND `id` = '" .url::$level[2]. "'
         ");
+        #
+        if ( empty($log) )      return;
 
         
         if ( $log['target'] == 'tree' )
