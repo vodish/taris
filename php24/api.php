@@ -36,6 +36,7 @@ tree::save();
 tree::add();
 tree::del();
 // access::save();
+log::up();
 
 
 # cостояние

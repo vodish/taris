@@ -37,5 +37,27 @@ class log
     }
 
 
+    static function up()
+    {
+        if ( ! user::$id )                  return;
+        if ( url::$level[1] != 'logUp' )    return;
 
+        $json   =   db::one("
+            SELECT
+                *
+            FROM
+                `log`
+            WHERE
+                `user` = '" .user::$id. "'
+                AND `created` = '" .url::$level[2]. "'
+        ");
+
+        ui::vd($json);
+        
+
+        res::$ret['href']   =   url::$dir[0];
+        
+        ui::vd(res::$ret);
+        
+    }
 }

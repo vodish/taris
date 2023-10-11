@@ -1,5 +1,5 @@
 <script>
-import { packStart, logList } from "../state/store";
+import { pref, packStart, logList } from "../state/store";
 </script>
 
 <table class="loglist">
@@ -8,7 +8,7 @@ import { packStart, logList } from "../state/store";
             <td>{v.created}</td>
             <td>{v.author_email}</td>
             <td>{v.target_name}</td>
-            <td><a href="/{$packStart}/log/up/{v.created.replace(/ /, 'T')}">{v.up_name}</a></td>
+            <td><a href="/{$packStart}/logUp/{v.created.replace(/ /, 'T')}" on:click={pref}>{v.up_name}</a></td>
         </tr>
     {/each}
 </table>
