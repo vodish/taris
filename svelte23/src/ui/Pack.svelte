@@ -1,16 +1,15 @@
 <script>
-// @ts-nocheck
-import PackLine         from "./PackLine.svelte";
-import PackView         from "./PackView.svelte";
-import PackTree         from "./PackTree.svelte";
-import PackAccess       from "./PackAccess.svelte";
-import PackLog          from "./PackLog.svelte";
-import { url, href, pref, packBc, packTitle, packMenu }    from "../state/store";
+    // @ts-nocheck
+    import PackLine         from "./PackLine.svelte";
+    import PackView         from "./PackView.svelte";
+    import PackTree         from "./PackTree.svelte";
+    import PackAccess       from "./PackAccess.svelte";
+    import PackLog          from "./PackLog.svelte";
+    import MenuItem         from "./comp/MenuItem.svelte";
+    import { url, href, pref, packBc, packTitle, packMenu }    from "../state/store";
 
 
-// let ttt =  new URL("/aa/bb/?sdv=123", location)
-// console.log(ttt)
-
+    $: level1  =   $url.level[1] || "view";
 </script>
 
 
@@ -28,22 +27,21 @@ import { url, href, pref, packBc, packTitle, packMenu }    from "../state/store"
     <div class="burger" >
         <div class="name">{$packMenu.name}</div>
         <div class="menu">
-            {#if "view"     in $packMenu } <a href="/{$url.level[0]}" on:click={pref}>{$packMenu.view}</a> {/if}
-            {#if "line"     in $packMenu } <a href="/{$url.level[0]}/line" on:click={pref}>{$packMenu.line}</a> {/if}
-            {#if "tree"     in $packMenu } <a href="/{$url.level[0]}/tree" on:click={pref}>{$packMenu.tree}</a> {/if}
-            {#if "access"   in $packMenu } <a href="/{$url.level[0]}/access" on:click={pref}>{$packMenu.access}</a> {/if}
-            {#if "treeAdd"  in $packMenu } <a href="/{$url.level[0]}/treeAdd" on:click={pref}>{$packMenu.treeAdd}</a> {/if}
-            {#if "treeDel"  in $packMenu } <a href="/{$url.level[0]}/treeDel" on:click={pref}>{$packMenu.treeDel}</a> {/if}
-            {#if "log"      in $packMenu } <a href="/{$url.level[0]}/log" on:click={pref}>{$packMenu.log}</a> {/if}
-            
+            <MenuItem key="view" href="/{$url.level[0]}" />
+            <MenuItem key="line" href="/{$url.level[0]}/line" />
+            <MenuItem key="tree" href="/{$url.level[0]}/tree" />
+            <MenuItem key="access" href="/{$url.level[0]}/access" />
+            <MenuItem key="treeAdd" href="/{$url.level[0]}/treeAdd" />
+            <MenuItem key="treeDel" href="/{$url.level[0]}/treeDel" />
+            <MenuItem key="log" href="/{$url.level[0]}/log" />
         </div>
     </div>
 </div>
 
 
-{#if        ! $url.level[1]             }   <PackView />
-{:else if   $url.level[1] == "line"     }   <PackLine />
-{:else if   $url.level[1] == "tree"     }   <PackTree />
-{:else if   $url.level[1] == "access"   }   <PackAccess />
-{:else if   $url.level[1] == "log"      }   <PackLog />
+{#if        level1 == "view"    }   <PackView />
+{:else if   level1 == "line"    }   <PackLine />
+{:else if   level1 == "tree"    }   <PackTree />
+{:else if   level1 == "access"  }   <PackAccess />
+{:else if   level1 == "log"     }   <PackLog />
 {/if}

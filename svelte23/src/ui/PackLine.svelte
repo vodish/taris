@@ -1,7 +1,7 @@
 <script>
 // @ts-nocheck
 import { packStart, lineText, lineHtml, api, href } from "../state/store";
-import AceHtml from "./ace/AceHtml.svelte";
+import AceHtml from "./comp/AceHtml.svelte";
 
 
 function save()

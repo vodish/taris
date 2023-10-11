@@ -1,7 +1,7 @@
 <script>
 // @ts-nocheck
 import { packStart, packTitle, packBc, packTree, treeText, api, href } from "../state/store";
-import AceYaml from './ace/AceYaml.svelte';
+import AceYaml from './comp/AceYaml.svelte';
 
 
 

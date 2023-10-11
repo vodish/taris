@@ -5,7 +5,6 @@ import { pref, packStart, logList } from "../state/store";
 <table class="loglist">
     {#each $logList as v}
         <tr>
-            <td class="id">#{v.id}</td>
             <td>{v.created}</td>
             <td>{v.author_email}</td>
             <td>{v.target_name}</td>

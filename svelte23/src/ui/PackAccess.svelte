@@ -1,6 +1,6 @@
 <script>
 import { packBc, accessPack, accessText } from "../state/store";
-import AceYaml from "./ace/AceYaml.svelte";
+import AceYaml from "./comp/AceYaml.svelte";
 
 // onDestroy(()=>{
 //     console.log(`обновить права на сервере`)
