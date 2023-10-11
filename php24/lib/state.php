@@ -64,8 +64,8 @@ class state
         $project    =  !isset( pack::$tree[ $project ] ) ?  pack::$project :  $project;
         
         // ui::vd( pack::$start );
-        // ui::vd( pack::$project );
         // ui::vd( $project );
+        // ui::vd( pack::$tree[ $project ] );
         
         $tree   =   array();
         
@@ -171,9 +171,11 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        
+        $project    =  pack::$start;
+        $project    =  !isset( pack::$tree[ $project ] ) ?  pack::$project :  $project;
         $text   =   '';
-        foreach( pack::$tree[ pack::$project ] as $pack )
+
+        foreach( pack::$tree[ $project ] as $pack )
         {
             $space  =   str_repeat(" ", $pack['space']);
             $id     =   empty($pack['name']) ?  '' :  '    '.  $pack['id'];
