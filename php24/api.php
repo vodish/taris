@@ -28,7 +28,7 @@ db::init();
 // user::getCode();
 // user::checkCode();
 
-# пачка операции
+# операции пачек
 #
 pack::dbInit();
 line::save();
