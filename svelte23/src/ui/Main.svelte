@@ -82,9 +82,9 @@ function apiCheckCode()
     }
 }
 
-
-
 </script>
+
+
 
 <svelte:head>
     <title>Taris.pro</title>

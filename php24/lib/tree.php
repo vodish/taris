@@ -297,21 +297,19 @@ class tree
 
 
         # добавить текущий проект в дерево над проекта
-        $branch  =  array();
+        $tree  =  array();
         #
         foreach( pack::$tree[ pack::$project ] as  $v )
         {
-            $v['order'] =   count($branch) + 1;
-            $branch[]   =   $v;
+            $tree[]  =  $v;
 
-            if ( $v['id'] == pack::$start  && pack::$tree[ pack::$start ] )
+            if ( $v['id'] == pack::$start  &&  isset(pack::$tree[ pack::$start ]) )
             {
-                foreach( pack::$tree[ pack::$start ] as $v2 )
+                foreach( pack::$tree[ pack::$start ] as  $v2 )
                 {
                     $v2['project']  =   pack::$project;
                     $v2['space']    +=  4 + $v['space'];
-                    $v2['order']    =   count($branch) + 1;
-                    $branch[]       =   $v2;
+                    $tree[]         =   $v2;
                 }
             }
         }
@@ -320,7 +318,7 @@ class tree
         # добавить обновленную ветку
         #
         unset( pack::$tree[ pack::$start ] );
-        pack::$tree[ pack::$project ] = $branch;
+        pack::$tree[ pack::$project ]  =  $tree;
 
 
         // ui::vd( pack::$tree[ pack::$project ] );
