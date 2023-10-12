@@ -61,7 +61,9 @@ pre.apierr br:first-child { display: none; }
 .nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
 .nav1 .bc *:first-child { margin-left: -0.5ch; }
-.nav1 .bc i         { font-style: normal; color: #ddd; font-size: 10px; }
+.nav1 .bc i         { font-style: normal; color: #ddd; }
+.nav1 .bc i:before  { content: '/'; font-size: 10px; }
+.nav1 .bc i.pub:before  { content: '\2022'; font-size: 22px; }
 .nav1 .bc > a       { padding: 4px 0.6ch; }
 .nav1 .opt          { display: flex; }
 .nav1 .opt > *      { padding: 4px 1ch; border-radius: 2px; }
@@ -72,7 +74,9 @@ pre.apierr br:first-child { display: none; }
 .nav1 .bc .current      { color: inherit; }
 
 .nav1 .burger {  position: relative; box-sizing: border-box; }
-.nav1 .burger .name { padding: 4px; cursor: default; }
+.nav1 .burger .name { padding: 4px; cursor: default; display: flex; gap: 0.7ch; }
+.nav1 .burger .name:before  { content: '\2261'; font-size: 1.1em; font-weight: bold; opacity: 0.3; }
+
 .nav1 .burger .menu::before { content: ''; position: absolute; width: 100%; margin-top: -13px; height: 10px; }
 .nav1 .burger .menu { display: none; position: absolute; right: 0; margin-top: 4px; width: 150px; padding: 5px 0; border-radius: 2px; border: solid 1px #222; background-color: var(--darkPreFon); box-sizing: border-box; }
 .nav1 .burger .menu > * { display: block; padding: 7px 0; margin: 0 14px; }
@@ -85,7 +89,7 @@ pre.apierr br:first-child { display: none; }
 /* project */
 
 .pro                { display: flex; gap: 2vw; }
-.pro > .tree        { flex-basis: 180px; padding: 0 2vw 0 0; border-right: solid 1px #eee; }
+.pro > .tree        { flex-basis: 180px; align-self: flex-start; position: sticky; top: 4em; }
 .pro > .tree a      { padding: 3px; display: inline-block; }
 .pro > .tree .empty         { height: 0.7em; }
 .pro > .tree .active > a    { color: inherit; cursor: default; }
@@ -94,7 +98,7 @@ pre.apierr br:first-child { display: none; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
 
-.pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; }
+.pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; border-left: solid 1px #eee; padding-left: 2vw; }
 .pro > .file *:not(img):empty   { height: 1em; }
 .pro > .file  img           { max-width: 100%; }
 .pro > .file > pre          { font-family: monospace; font-size: 14px; max-width: max-content; border-radius: 1px; white-space: pre-wrap; }
@@ -199,8 +203,8 @@ form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
     .nav1       { background-color: var(--darkFon); border-bottom-color: var(--darkLine); }
 	.nav1 .bc .active   { background-color: var(--darkPreFon); }
 
-    .pro > .tree    { border-right-color: var(--darkLine); }
-
+    
+    .pro > .file    { border-left-color: var(--darkLine); }
     .pro > .file > pre      { color: var(--darkColor); }
     .pro > .file > pre.bold     { background-color: var(--darkPreFon); }
 	.pro > .file > pre ._tag    { color: #6b82ff; }

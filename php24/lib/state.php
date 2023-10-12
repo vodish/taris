@@ -235,7 +235,7 @@ class state
         #
         foreach( $list as  &$v)
         {
-            $v['up_name']       =   "Восстановить";
+            $v['up_name']       =   "Поднять";
             $v['target_name']   =   strtr($v['target'], [
                 'tree'  =>  'Дерево',
                 'file'  =>  'Файл',

@@ -17,9 +17,9 @@
 
 <div class="nav1">
     <div class="bc">
-        <a href="/" class="logo" on:click={href}>Taris</a>    
+        <a href="/" class="logo" on:click={href}>Taris</a>
         {#each $packBc as pack }
-            <i>/</i>
+            <i></i>
             <a  href={"/" + pack.id} on:click={pref} class="{pack._act} {pack._cur}">{pack.name}</a>
         {/each}
     </div>
