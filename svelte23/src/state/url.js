@@ -48,26 +48,31 @@ export function href(href)
 
 /**
  * @param {string | Object} href
+ * @param {Object} data
  */
-export function pref(href)
+export function pref(href, data1)
 {
     if ( typeof href === 'object'  && href.srcElement.tagName == "A") {
         href.preventDefault()
         href    =   href.srcElement.pathname
     }
     
-    let data    =   {
+    // запрос
+    let data = {
         href,
         wait: [
-            'packStart',
-            'packProject',
-            'packBc',
-            'packTree',
-            'packMenu',
-            'packTitle',
+        'packStart',
+        'packProject',
+        'packBc',
+        'packTree',
+        'packMenu',
+        'packTitle',
         ]
     }
+    // подмещать данные
+    for( let k in data1 || {} )     data[ k ] = data1[ k ]
     
+
     Store.api(data, (res) => {
         
         for ( let k in res )
@@ -75,7 +80,6 @@ export function pref(href)
             if ( Store[k] && Store[k]['set'] )   Store[k].set( res[k] )
         }
         
-        //изменить url
         Store.href(res.href || href)
     })
     

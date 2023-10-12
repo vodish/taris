@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-import { packStart, packTitle, packBc, packTree, treeText, api, href } from "../state/store";
+import { pref, packStart, treeText } from "../state/store";
 import AceYaml from './comp/AceYaml.svelte';
 
 
@@ -8,15 +8,17 @@ import AceYaml from './comp/AceYaml.svelte';
 
 function save()
 {
-    api({pack: $packStart, tree: $treeText, wait: ["packStart", "packTitle", "packBc", "packTree"]},
-        (res)=>{
-            packStart.set(res.packStart)
-            packTitle.set(res.packTitle)
-            packBc.set(res.packBc)
-            packTree.set(res.packTree)
-            href(`/${$packStart}`)
-        }
-    )
+    pref(`/${$packStart}`, {tree: $treeText});
+    // api({pack: $packStart, tree: $treeText, wait: ["packStart", "packTitle", "packBc", "packTree"]},
+    //     (res)=>{
+    //         packStart.set(res.packStart)
+    //         packTitle.set(res.packTitle)
+    //         packBc.set(res.packBc)
+    //         packTree.set(res.packTree)
+
+    //         href(`/${$packStart}`)
+    //     }
+    // )
 }
 
 document.onkeydown = (e) => {

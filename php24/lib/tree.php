@@ -50,9 +50,11 @@ class tree
         #
         foreach( pack::$tree as $list )
         {
-            foreach( $list as $pack )
+            foreach( $list as $k => $pack )
             {
                 if ( $pack['project'] == 0 )    continue;
+
+                $pack['order']  =   $k + 1;
 
                 foreach($pack as &$v)    $v = db::v($v);
                 
@@ -99,15 +101,8 @@ class tree
 
     # сохранить дерево с обновленной веткой пачек
     #
-    static function save()
+    static function upd()
     {
-        # отладка
-        #
-        // res::treeText();
-        // req::$param['tree'] =   res::$ret['treeText'];
-        
-
-
         if ( empty(pack::$start)            )   return;
         if ( !isset(req::$param['tree'])    )   return;
         
@@ -163,7 +158,8 @@ class tree
             array_shift(pack::$bc);
         }
         
-        
+        ui::vd( pack::$tree );
+        die;
         # сохранить новое дерево проекта
         #
         self::dbSave();
