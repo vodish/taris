@@ -78,9 +78,8 @@ pre.apierr br:first-child { display: none; }
 .nav1 .burger .name:before  { content: '\2261'; font-size: 1.1em; font-weight: bold; opacity: 0.3; }
 
 .nav1 .burger .menu::before { content: ''; position: absolute; width: 100%; margin-top: -13px; height: 10px; }
-.nav1 .burger .menu { 2display: none; position: absolute; right: 0; margin-top: 4px; width: 150px; padding: 5px 0; border-radius: 2px; border: solid 1px #222; background-color: var(--darkPreFon); box-sizing: border-box; }
-.nav1 .burger .menu a { display: block; padding: 7px 0; margin: 0 14px; }
-.nav1 .burger .menu .a { display: block; padding: 7px 0; margin: 0 14px; }
+.nav1 .burger .menu     { display: none; position: absolute; right: 0; margin-top: 4px; width: 150px; padding: 5px 0; border-radius: 2px; border: solid 1px #222; background-color: var(--darkPreFon); box-sizing: border-box; }
+.nav1 .burger .menu .a  { display: block; padding: 7px 0; margin: 0 14px; }
 
 .nav1 .burger .menu > .group1 { display: flex; justify-content: space-between; padding: 0; margin: 0 14px; }
 .nav1 .burger .menu > .group1 .tree { margin: 0; flex-grow: 1; }
