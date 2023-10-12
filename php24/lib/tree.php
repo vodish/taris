@@ -262,10 +262,17 @@ class tree
             }
         }
         #
+        # если пока нет вложенных пачек
+        #
+        if ( !isset(pack::$tree[ pack::$start ]) )
+        {
+            pack::$tree[ pack::$start ][]   =   array_merge(self::parseline(''), ['user'=>user::$id, 'project'=>pack::$start]);
+        }
+        
+        
         # пересортировать измененные проекты
         # 
         ksort( pack::$tree, SORT_NUMERIC );
-        
         
 
 
