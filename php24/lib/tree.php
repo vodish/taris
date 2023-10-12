@@ -50,21 +50,24 @@ class tree
         #
         foreach( pack::$tree as $list )
         {
-            foreach( $list as $k => $pack )
+            $k = 1;
+            foreach( $list as $pack )
             {
                 if ( $pack['project'] == 0 )    continue;
 
-                $pack['order']  =   $k + 1;
-
+                $pack['order']  =   $k++;
                 foreach($pack as &$v)    $v = db::v($v);
                 
-                $rows[ $pack['id'] ]   =   "(".  implode(',', $pack).  ")";
+                
+                $rows[]   =   "(".  implode(',', $pack).  ")";
             }
         }
         
-        // die;
+        // ui::vd(pack::$tree);
         // ui::vd($rows);
+        // die;
         
+
         # обновить дерево
         #
         db::query("
@@ -156,24 +159,21 @@ class tree
         #
         pack::$tree[ $project ]   =   $tree;
         
-        // ui::vd( pack::$start );
-        // ui::vd( $project );
-        // ui::vd( pack::$tree );
-        // die;
-
-
-        # если удалена текущая пачка
-        #
-        if ( ! in_array(pack::$start, $exist) )
-        {
-            pack::$start    =   pack::$project;
-            pack::$project  =   pack::$start;
-            array_shift(pack::$bc);
-
-            res::$ret['href']   =   '/'. pack::$start;
-        }
         
 
+
+        # если удалена текущая пачка в проекте
+        #
+        if (  $project != pack::$start  &&  ! in_array(pack::$start, $exist) )
+        {
+            pack::$start    =   $project;
+            pack::$project  =   pack::$list[ $project ]['project'];
+            array_shift(pack::$bc);
+
+            res::$ret['href']   =   '/'. $project;
+        }
+        
+        
 
         # сохранить новое дерево проекта
         #
