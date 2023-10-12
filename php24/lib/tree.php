@@ -94,7 +94,14 @@ class tree
     }
 
 
+    # актуальный проект
+    #
+    static function project()
+    {
+        $branch    =   isset(pack::$tree[ pack::$start ]) ?  pack::$start : pack::$project;
 
+        return  $branch;
+    }
 
 
 
@@ -114,6 +121,7 @@ class tree
         # разбить текст по-строчно, каждая пачка на своей строке
         # вспомогательные переменные
         #
+        $project    =   self::project();
         $source     =   req::$param['tree'];
         $source     =   str_replace("\r", '', $source);
         $list       =   explode("\n", $source);
@@ -124,7 +132,7 @@ class tree
 
         # пройти по строкам
         #
-        foreach( $list as $k => $ls )
+        foreach( $list as $ls )
         {
             # распарсить строки пачек
             # выдать новый id для новой записи
@@ -133,8 +141,8 @@ class tree
             #
             $v['id']        =   $v['id']===null && !empty($v['name']) ?  user::nextid() : $v['id'];
             $v['user']      =   user::$id;
-            $v['project']   =   pack::$project;
-            $v['order']     =   $k + 1;
+            $v['project']   =   $project;
+            $v['order']     =   0;
             $v['file']      =   isset(pack::$list[ $v['id'] ])?  pack::$list[ $v['id'] ]['file']:  0;
             #
             #
@@ -146,8 +154,13 @@ class tree
         # заменить ветку в деревe
         # создать новый лог
         #
-        pack::$tree[ pack::$project ]   =   $tree;
+        pack::$tree[ $project ]   =   $tree;
         
+        // ui::vd( pack::$start );
+        // ui::vd( $project );
+        // ui::vd( pack::$tree );
+        // die;
+
 
         # если удалена текущая пачка
         #
@@ -156,10 +169,12 @@ class tree
             pack::$start    =   pack::$project;
             pack::$project  =   pack::$start;
             array_shift(pack::$bc);
+
+            res::$ret['href']   =   '/'. pack::$start;
         }
         
-        ui::vd( pack::$tree );
-        die;
+
+
         # сохранить новое дерево проекта
         #
         self::dbSave();
@@ -250,8 +265,7 @@ class tree
         # пересортировать измененные проекты
         # 
         ksort( pack::$tree, SORT_NUMERIC );
-        $k = 1;
-        foreach(pack::$tree[ pack::$project ] as &$v)   $v['order'] = $k++;
+        
         
 
 
