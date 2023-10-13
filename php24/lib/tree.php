@@ -8,29 +8,43 @@ class tree
     #
     static function log()
     {
-        # пересортировать дерево
+        
+        # пересортировать дерево как есть
+        # проверить дубли ид и принадлежность к пользователю
+        #
+        $ulen   =  strlen( user::$prefix );
+        $double =   array();
+        #
         #
         foreach( pack::$tree as &$list )
         {
             $k = 1;
             foreach( $list as &$pack )
             {
-                $pack['order']  =  $k++;
+                $pack['order']  =   $k++;
+
+                # пропустить пустую строку
+                #
+                if ( $pack['id'] == null )  continue;
+
+                # пересоздать ид пачки
+                #
+                if (    in_array($pack['id'], $double)
+                    ||  substr($pack['id'], 0, $ulen) != strval(user::$prefix)
+                    ||  $pack['id'] == user::$prefix
+                )
+                {
+                    do      { $nextid = user::nextid(); }
+                    while   ( in_array($nextid, $double) );
+
+                    $pack['id'] =   $nextid;
+                }
+
+                $double[]   =   $pack['id'];
             }
         }
         
         
-        # убрать дубли
-        # проверить ид пачки
-        $ids  =  array();
-        $pl   =  strlen( user::$prefix );
-        ui::vd( $pl );
-        #
-        // if ( in_array($pack['id'], $ids) )  continue;       # пропустить дубль id
-        // if ( $pack['id'] )  $ids[]  =  $pack['id'];         # проверить префикс пользователя
-        
-
-
 
         self::$log[]    =   json_encode(pack::$tree, JSON_UNESCAPED_UNICODE);
     }
@@ -42,6 +56,7 @@ class tree
     static function dbSave()
     {
         # текущее дерево
+        #
         self::log();
         #
         #
@@ -65,12 +80,10 @@ class tree
         }
         #
         #
-        ui::vd( user::$prefix );
-        ui::vd( $rows );
-        die;
-
-
-
+        // ui::vd( user::$prefix );
+        // ui::vd( $rows );
+        // die;
+        
 
 
         # сохранить в лог
@@ -145,6 +158,7 @@ class tree
         
 
         # логировать текущее дерево
+        #
         self::log();
 
 
@@ -254,6 +268,7 @@ class tree
 
 
         # логировать текущее дерево
+        #
         self::log();
 
 
@@ -327,6 +342,7 @@ class tree
 
 
         # логировать текущее дерево
+        #
         self::log();
 
 

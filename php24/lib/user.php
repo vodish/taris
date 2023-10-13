@@ -12,7 +12,7 @@ class user
     #
     static $prefix;
     static $counter;
-    static function nextid()    { return  self::$prefix .  ++self::$counter; }
+    static function nextid()    { return  intval(self::$prefix .  ++self::$counter); }
 
 
 
