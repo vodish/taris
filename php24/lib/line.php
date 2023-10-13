@@ -1,7 +1,7 @@
 <?php
 class line
 {
-    private static $log =   [];
+    private static $log = [];
     
     static $init    =   false;
     static $list    =   [];
