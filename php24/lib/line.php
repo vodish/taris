@@ -1,6 +1,8 @@
 <?php
 class line
 {
+    private static $log =   [];
+    
     static $init    =   false;
     static $list    =   [];
     static $text    =   '';
@@ -25,7 +27,8 @@ class line
             WHERE  `file` = " .db::v(pack::$file). "
             ORDER BY  `order`
         ");
-
+        #
+        #
         while( $v = db::fetch() )
         {
             self::$list[]   =   $v['text'];
@@ -39,6 +42,8 @@ class line
     {
         return  line::$text =   implode("\n", line::$list);
     }
+
+
 
 
     # распарсить пришедшее дерево проекта
@@ -62,48 +67,52 @@ class line
         return  self::$html = $html;
     }
 
-        
-        # преобразовать строку в безопасный хтмл
+
+
+
+    # преобразовать строку в безопасный хтмл
+    #
+    private static function toHtml(int &$offset, int $space, string $content)
+    {
+        # разрешенные теги и аттрибуты
         #
-        private static function toHtml(int &$offset, int $space, string $content)
+        $tags       =   "(?:pre)|(?:pre .*?)  | (?:a)|(?:a \s .+?)  | (?:img)|(?:img .+?)  | (?:h1)|(?:h2)|(?:h3)|(?:h4)|(?:hr) | (?:b)|(?:i)|(?:s)";
+        $attrs      =   "(?:href=) | (?:target=)  | (?:src=)  | (?:class=)";
+
+
+        # преобразовать все html символы в безопасные
+        # todo: не парные теги снова в htmlspecialchars()
+        # todo: class="" оставить только для <pre>
+        #
+        $content    =   htmlspecialchars($content);
+        $content    =   preg_replace("/&lt; (\/?) (" .$tags. ") &gt;/x", "<$1$2>", $content);
+        $content    =   preg_replace("/(" .$attrs. ") &quot; (.+?) &quot;/x", '$1"$2"', $content);
+        
+
+        # отступы с оберткой в тег строки
+        #
+        if ( substr($content, 0, 4) == '<pre' )
         {
-            # разрешенные теги и аттрибуты
-            #
-            $tags       =   "(?:pre)|(?:pre .*?)  | (?:a)|(?:a \s .+?)  | (?:img)|(?:img .+?)  | (?:h1)|(?:h2)|(?:h3)|(?:h4)|(?:hr) | (?:b)|(?:i)|(?:s)";
-            $attrs      =   "(?:href=) | (?:target=)  | (?:src=)  | (?:class=)";
-
-
-            # преобразовать все html символы в безопасные
-            # todo: не парные теги снова в htmlspecialchars()
-            # todo: class="" оставить только для <pre>
-            #
-            $content    =   htmlspecialchars($content);
-            $content    =   preg_replace("/&lt; (\/?) (" .$tags. ") &gt;/x", "<$1$2>", $content);
-            $content    =   preg_replace("/(" .$attrs. ") &quot; (.+?) &quot;/x", '$1"$2"', $content);
-            
-
-            # отступы с оберткой в тег строки
-            #
-            if ( substr($content, 0, 4) == '<pre' )
-            {
-                $offset     =   $space;
-                $content    =   $space ?  strtr($content, ['<pre'=>'<pre style="margin-left:' .$space. 'ch;"']) :  $content;
-            }
-            elseif ( $content == '</pre>' )
-            {
-                $offset     =   0;
-            }
-            else
-            {
-                $need       =   $space - $offset;
-                $content    =   $need ?  '<div style="margin-left:' .$need. 'ch;">' .$content. '</div>' :  "<div>$content</div>";
-            }
-            
-            
-            return $content;
+            $offset     =   $space;
+            $content    =   $space ?  strtr($content, ['<pre'=>'<pre style="margin-left:' .$space. 'ch;"']) :  $content;
         }
-    
-    
+        elseif ( $content == '</pre>' )
+        {
+            $offset     =   0;
+        }
+        else
+        {
+            $need       =   $space - $offset;
+            $content    =   $need ?  '<div style="margin-left:' .$need. 'ch;">' .$content. '</div>' :  "<div>$content</div>";
+        }
+        
+        
+        return $content;
+    }
+
+
+
+
     
     # сохранить содержание файла
     #
@@ -179,19 +188,22 @@ class line
         
     }
 
-        # добавить файл в базу, если его нету
-        # и связать его с текущей пачкой
-        #
-        private static function setFile()
-        {
-            if ( !empty(pack::$file) )      return;
-            
-            db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
-            
-            pack::$file =   db::lastId();
 
-            db::query("UPDATE `pack`  SET `file` = " .db::v(pack::$file). "  WHERE `id` = " .db::v(pack::$start) );
-        }
+
+
+    # добавить файл в базу, если его нету
+    # и связать его с текущей пачкой
+    #
+    private static function setFile()
+    {
+        if ( !empty(pack::$file) )      return;
+        
+        db::query("INSERT INTO  `file` (`path`)  VALUES('') ");
+        
+        pack::$file =   db::lastId();
+
+        db::query("UPDATE `pack`  SET `file` = " .db::v(pack::$file). "  WHERE `id` = " .db::v(pack::$start) );
+    }
     
     
 }
