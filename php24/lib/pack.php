@@ -67,7 +67,7 @@ class pack
                 ,`order`
         ");
         #
-        while ( $v = db::fetch(['int'=>['id', 'project', 'order', 'user', 'file']]) )
+        while ( $v = db::fetch(['int'=>['id', 'project', 'space', 'order', 'user', 'file']]) )
         {
             $counter[]  =   (int) substr( strval($v['id']),  $ulen + 1 );
 

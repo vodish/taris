@@ -8,8 +8,33 @@ class tree
     #
     static function log()
     {
+        # пересортировать дерево
+        #
+        foreach( pack::$tree as &$list )
+        {
+            $k = 1;
+            foreach( $list as &$pack )
+            {
+                $pack['order']  =  $k++;
+            }
+        }
+        
+        
+        # убрать дубли
+        # проверить ид пачки
+        $ids  =  array();
+        $pl   =  strlen( user::$prefix );
+        ui::vd( $pl );
+        #
+        // if ( in_array($pack['id'], $ids) )  continue;       # пропустить дубль id
+        // if ( $pack['id'] )  $ids[]  =  $pack['id'];         # проверить префикс пользователя
+        
+
+
+
         self::$log[]    =   json_encode(pack::$tree, JSON_UNESCAPED_UNICODE);
     }
+
 
 
     # сохранить записи в базу
@@ -18,9 +43,34 @@ class tree
     {
         # текущее дерево
         self::log();
-        
+        #
+        #
         if ( !isset(self::$log[1]) )            return;
         if ( self::$log[0] == self::$log[1] )   return;
+
+        
+
+        # подготовить sql записи дерева
+        #
+        foreach( pack::$tree as $list )
+        {
+            foreach( $list as $pack )
+            {
+                if ( $pack['project'] == 0 )    continue;
+                
+                foreach($pack as &$v)  $v = db::v($v);
+                
+                $rows[] =   "(".  implode(',', $pack).  ")";
+            }
+        }
+        #
+        #
+        ui::vd( user::$prefix );
+        ui::vd( $rows );
+        die;
+
+
+
 
 
         # сохранить в лог
@@ -43,31 +93,8 @@ class tree
                 ," .db::v(self::$log[0]). "
             )
         ");
-        
-
-
-        # пересоздать дерево пачек
         #
-        foreach( pack::$tree as $list )
-        {
-            $k = 1;
-            foreach( $list as $pack )
-            {
-                if ( $pack['project'] == 0 )    continue;
-
-                $pack['order']  =   $k++;
-                foreach($pack as &$v)    $v = db::v($v);
-                
-                
-                $rows[]   =   "(".  implode(',', $pack).  ")";
-            }
-        }
-        
-        // ui::vd(pack::$tree);
-        // ui::vd($rows);
-        // die;
-        
-
+        #
         # обновить дерево
         #
         db::query("
