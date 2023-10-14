@@ -35,7 +35,7 @@ class rtoken
 
     # проверить токен api
     #
-    static function check(array $json = [])
+    static function check()
     {
         if ( req::$param['rtoken'] )  return false;
         
