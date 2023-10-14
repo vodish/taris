@@ -121,26 +121,28 @@ class line
         if ( empty(pack::$start) )          return;
         if ( !isset(req::$param['line']) )  return;
 
+
+        line::dbInit();
+        $log0   =     line::text();
+
+
         # подготовить текст
         #        
-        $content    =   req::$param['line'];
-        $content    =   strtr($content, ["\r" => '', "\t" => '    ']);
+        $log1   =   req::$param['line'];
+        $log1   =   strtr($log1, ["\r" => '', "\t" => '    ']);
         
 
         # cравнить новый текст с текущим
         #
-        line::dbInit();
         #
-        if ( line::text() == $content ) return;
+        if ( $log0 == $log1 ) return;
         
 
         
         # подключиться к файлу содержания
+        # сохранить в лог
         #
         line::setFile();
-        #
-        #
-        # сохранить в лог
         #
         db::query("
             INSERT INTO `log` (
@@ -157,7 +159,7 @@ class line
                 ," .db::v( '@' ). "
                 ," .db::v( 'file' ). "
                 ," .db::v( pack::$file ). "
-                ," .db::v( $content ). "
+                ," .db::v( $log0 ). "
             )
         ");
         
@@ -166,16 +168,14 @@ class line
 
         # обновить записи в базе
         #
+        self::$list =   explode("\n", $log1);
+        #
+        $rows  =  array();
+        foreach( self::$list as $k => $v )   $rows[] =  "(" .db::v(pack::$file). ", " .db::v($v). ", $k)";
+        #
+        #
         db::query("DELETE FROM `line`  WHERE `file` = " .db::v(pack::$file) );
-
-        self::$list =   explode("\n", $content);
-        $insert     =   '';
-        
-        foreach( self::$list as $k => $v )
-        {
-            $insert .=  "\n". ",(" .db::v(pack::$file). ", " .db::v($v). ", $k)";
-        }
-        
+        #
         db::query("
             INSERT INTO `line` (
                  `file`
@@ -183,7 +183,7 @@ class line
                 ,`order`
             )
             VALUES
-            " .substr($insert, 2). "
+            " .implode("\n,", $rows). "
         ");
         
     }
