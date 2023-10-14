@@ -33,17 +33,15 @@ class rtoken
     }
 
 
-    # проверить токен
+    # проверить токен api
     #
     static function check(array $json = [])
     {
-        if ( empty($_POST['rtoken']) )  return false;
-
-        ui::$json   =   array_merge(ui::$json, $json);
+        if ( req::$param['rtoken'] )  return false;
         
         return true;
         
-        return in_array( $_POST['rtoken'],  ($_SESSION['rtoken'] ?? []) );
+        return in_array( req::$param['rtoken'],  ($_SESSION['rtoken'] ?? []) );
     }
 
 

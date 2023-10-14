@@ -21,7 +21,7 @@ class user
     #
     static function list()
     {
-        if ( !is_array(@$_COOKIE['token']) )        return array();
+        if ( empty($_COOKIE['token']) )        return [];
         
 
         # список пользователей из базы
@@ -62,7 +62,7 @@ class user
         if ( empty($_POST['userGetCode']) )     return;
         if ( empty($_POST['email']) )           return;
         
-        
+
         ui::vd();
         die;
 
