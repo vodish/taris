@@ -34,11 +34,13 @@ class smtp {
 
     public function __construct($smtp_username = null, $smtp_password = null, $smtp_host = null, $smtp_port = null, $smtp_charset = null)
     {
-        $this->smtp_username    =   $smtp_username  ??  'tariz@karasev.ru';
+        $this->smtp_username    =   $smtp_username  ??  'site@taris.pro';
         $this->smtp_password    =   $smtp_password  ??  'tjkfyskivoajsbrk';
-        $this->smtp_host        =   $smtp_host      ??  'ssl://smtp.yandex.ru';
+        $this->smtp_host        =   $smtp_host      ??  'ssl://taris.pro';
         $this->smtp_port        =   $smtp_port      ??  465;
         $this->smtp_charset     =   $smtp_charset   ??  'utf-8';
+        
+       
 
 		// разделитель файлов
         $this->addFile          =   false;
@@ -59,7 +61,7 @@ class smtp {
     */
     function send($mailTo, $subject, $message, $smtp_from = null)
     {
-        $smtp_from          =   $smtp_from ?? '' .url::host(). '<tariz@karasev.ru>';
+        $smtp_from          =   $smtp_from ?? '' .url::host(). '<site@taris.pro>';
         $message            =   $this->messageTrim($message);
         
 		// подготовка содержимого письма к отправке
@@ -67,15 +69,16 @@ class smtp {
         $errorNumber        =   '';
         $errorDescription   =   '';
 		
-
+        
         try
         {
-            if(!$socket = @fsockopen($this->smtp_host, $this->smtp_port, $errorNumber, $errorDescription, 30)){
+            if(!$socket = fsockopen($this->smtp_host, $this->smtp_port, $errorNumber, $errorDescription, 30)){
                 throw new Exception($errorNumber.".".$errorDescription);
             }
             if (!$this->_parseServer($socket, "220")){
                 throw new Exception('Connection error');
             }
+            
 
 			$server_name = $_SERVER["SERVER_NAME"];
             fputs($socket, "EHLO $server_name\r\n");
