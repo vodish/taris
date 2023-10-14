@@ -25,7 +25,7 @@ db::init();
 
 # операции по параметрам
 #
-// user::getCode();
+user::getCode();
 // user::checkCode();
 
 # операции пачек

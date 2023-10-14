@@ -63,6 +63,8 @@ class user
         if ( empty($_POST['email']) )           return;
         
         
+        ui::vd();
+        die;
 
         # код входа
         #
