@@ -22,6 +22,7 @@ h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
 
 input           { font-size: inherit; background-color: white; padding: 8px 10px; border-radius: 4px; border: solid 1px #aaa; box-sizing: border-box; }
 input:focus     { outline: solid 3px #eee; }
+input:-webkit-autofill  { -webkit-background-clip: text; -webkit-text-fill-color: var(--eee) !important; }
 button          { font-size: inherit; background-color: #eee; padding: 8px 16px; border-radius: 4px; border: solid 1px #ccc; box-sizing: border-box; cursor: pointer; }
 button:hover    { background-color: #ccc; }
 
@@ -38,9 +39,8 @@ pre.apierr br:first-child { display: none; }
 
 /* main */
 
-.main1          {  margin: 5em auto; display: flex; gap: 6vw; align-items: flex-start; }
+.main1          {  margin: 5em auto; display: flex; justify-content: center; align-items: flex-start; gap: 6vw; }
 .main1 .pic1        { width: 100%; max-width: 300px; margin-top: -6em; transform: rotate(-2deg); }
-/* .main1 .pic1.active     { margin-top: -6em; transform: rotate(-2deg); } */
 .main1 .pic1.empty      { margin-top: -7em; transform: rotate(-10deg); }
 .main1 .login       { width: 300px; min-height: 40px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
 .main1 .login .email        { width: 200px; flex-grow: 1; }

@@ -16,7 +16,7 @@ let code        =   ""
 let step        =   "email"
 let delay
 let error       =   ""
-let wait        =   false
+let load        =   false
 
 
 // инициализация
@@ -46,14 +46,15 @@ function apiGetCode()
     delay   =   2
     let timer =  setInterval(() => {
         delay--;
-        if ( delay > 0 )    return
+        if ( delay > 0 )    return;
         clearInterval(timer)
     }, 1000 )
 
 
     api({ userGetCode: email },  res => {
-        if ( res.ok == "ok" )   return
-        error = 'Error...'
+        if      ( res.href )            return pref(res.href);
+        else if ( res.ok == "ok" )      return;
+        else    error = "";
     })
 }
 
@@ -64,16 +65,18 @@ function apiCheckCode()
 {
     code    =   code.replace(/\D+/g, '')
     
-    if ( code.length == 4 && wait === false )
+    if ( code.length == 4 && load === false )
     {
-        wait = true;
-        api({ userCheckCode: email, code }, res=>{
-            if ( res.ok == "ok" )   return
-            error = 'Error...'
+        load = true;
+        api({ userCheckCode: email, code }, res => {
+            if      ( res.href )            return pref(res.href);
+            else if ( res.ok == "ok" )      return;
+            else if ( res.check )           error = res.check;
+            else    error = "";
         })
 
     } else if ( code.length < 4 ) {
-        wait    =   false;
+        load    =   false;
         error   =   ""
     }
 }
@@ -88,7 +91,6 @@ function apiCheckCode()
 
 
 <div class="main1">
-    <img class="pic1 {$userList.length==0? 'empty': ''}" src="/i/pic1d.png" alt="Taris" />
     <div>
         <div class="auth">
 

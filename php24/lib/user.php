@@ -40,7 +40,7 @@ class user
                 `user`
                     JOIN `token`    ON `user`.`email` = `token`.`email`
             WHERE
-                 " .implode("\n\tOR\t ", $where). "
+                " .implode("\n\tOR\t ", $where). "
             ORDER BY
                 `user`.`id`
         ");
@@ -66,23 +66,21 @@ class user
         #
         $email      =   $_POST['userGetCode'];
         $code       =   rand(1000, 9999);
-        $subject    =   'Код входа';
-        #
+        
+
+        # отправить письмо
         # сохранить в куке
+        #
+        $smtp       =   new smtp();
+        $result     =   $smtp->send($email, "Код входа", "Цифровой код: $code");
         #
         cookie::set('code', md5($email.$code.$code));
 
-
-        # отправить письмо
-        #
-        $smtp       =   new smtp();
-        $result     =   $smtp->send($email, $subject, "Цифровой код: $code");
         
-        
-
         # ответ
         #
         res::$ret['ok'] =   'ok';
+        // res::$ret['code'] =   $code;
     }
 
 
@@ -92,71 +90,57 @@ class user
     #
     static function checkCode()
     {
-        if ( ! rtoken::check() )                return;
-        if ( ! url::start('/api') )             return;
-        if ( empty($_POST['userCheckCode']) )   return;
-        if ( empty($_COOKIE['code']) )          return;
-        if ( empty($_POST['code']) )            return;
+        if ( ! rtoken::check() )                    return;
+        if ( ! url::start('/api') )                 return;
+        if ( empty($_POST['userCheckCode']) )       return;
+        if ( empty($_COOKIE['code']) )              return;
+        if ( empty($_POST['code']) )                return;
         
         
         # проверить код
         #
         $email  =   $_POST['userCheckCode'];
         $code   =   $_POST['code'];
+        $token  =   md5( session_id(). time() );
         #
         #
         if ( $_COOKIE['code'] != md5($email. $code. $code) )
         {
-            res::$ret["check"]  =   "Неверный код...";
+            res::$ret["check"] =  "Неверный код...";
             return;
         }
 
 
-
-        # поставить токен пользователя в куку
+        # добавить пользователя
         #
-        $token      =   md5( session_id(). time() );
-        #
-        db::query("
-            INSERT INTO `token` (
-                  `email`
-                , `token`
-                , `user_agent`
-            )
-            VALUES (
-                  " .db::v($email). "
-                , " .db::v($token). "
-                , " .db::v($_SERVER['HTTP_USER_AGENT'] ?? ''). "
-            )
-        ");
-        #
+        $user   =   self::dbCreate($email, $token);
         #
         cookie::del('code');
-        cookie::set('token[' .$email. ']', $token, (time()*3600*24*30));
-
+        cookie::set('token[' .$email. ']',  $token,  time()*3600*24*30);
         
-
-        # добавить пользователя / получить стартовый проект
+        
+        # ответ
         #
-        $user   =   self::dbCreate($email);
-        
-        
-
-        # json переменные
-        #
-        res::$ret["href"]  =   "ok";
-        // ui::$json["redir"]  =   "/". $user['start'];
+        res::$ret["href"]  =   '/'. $user['start'];
     }
 
-        
-        # зарегистрировать нового пользователя
-        #
-        static function dbCreate($email)
-        {
-            
 
-            # добавить пользователя, если его не существует
-            #
+
+
+    # зарегистрировать нового пользователя
+    #
+    static function dbCreate($email, $token)
+    {
+
+        # проверить авторизацию в куке
+        #
+        $user   =   db::one("SELECT *  FROM `user`  WHERE `email` = " .db::v($email)  );
+        
+
+        # добавить пользователя
+        #
+        if ( empty($user) )
+        {
             db::query("
                 INSERT INTO `user` (
                     `email`
@@ -171,57 +155,62 @@ class user
                 WHERE
                     `user`.`email` IS  NULL
             ");
-
-
-
-            # добавить корневую пачку, если её не нет
+            #
+            $user['id']     =   db::lastId();
+            $user['email']  =   $email;
+            $user['start']  =   intval( strval($user['id']).'0' );
+            #
+            #
+            # добавить корневую пачку
             #
             db::query("
                 INSERT INTO `pack` (
-                    `parent`
-                    , `name`
-                    , `is_project`
-                    , `user`
+                    `user`
+                    ,`id`
+                    ,`project`
+                    ,`space`
+                    ,`name`
+                    ,`order`
+                    ,`file`
                 )
 
-                SELECT
-                    0
-                    , `user`.`email`
-                    , 1
-                    , `user`.`id`
-                FROM
-                    `user`
-                        LEFT JOIN `pack`
-                        ON  `user`.`id`     =   `pack`.`user`
-                        AND `pack`.`parent` =   0
-                WHERE
-                        `user`.`email` =  " .db::v($email). "
-                    AND `pack`.`id` IS NULL
-                LIMIT
-                    1
+                VALUES (
+                    " .db::v($user['id']). "
+                    ," .db::v($user['start']). "
+                    ,0
+                    ,0
+                    ," .db::v($email). "
+                    ,0
+                    ,0
+                )
             ");
-
-            
-            # обновить корневую пачку
-            #
-            db::query("
-                UPDATE
-                    `user`
-                SET
-                    `start` =  (SELECT `id`  FROM `pack`  WHERE `user` = `user`.`id` AND `parent` = 0  LIMIT 1)
-                WHERE
-                    `email` =  " .db::v($email). "
-            ");
-            
-            
-
-            # получить и вернуть пользователя
-            #
-            $user   =   db::one("SELECT *  FROM `user`  WHERE `email` =  " .db::v($email) );
-            
-
-            return  $user;
         }
+        
+
+
+        # добавить токен пользователя
+        #
+        db::query("
+            INSERT INTO `token` (
+                  `user`
+                , `email`
+                , `token`
+                , `user_agent`
+            )
+            VALUES (
+                  " .db::v( $user['id'] ). "
+                , " .db::v( $email ). "
+                , " .db::v( $token ). "
+                , " .db::v( $_SERVER['HTTP_USER_AGENT'] ?? '' ). "
+            )
+        ");
+        
+        
+        
+        # вернуть пользователя
+        #
+        return  $user;
+    }
 
 
 }
