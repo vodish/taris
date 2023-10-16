@@ -83,9 +83,7 @@ class req
         unset(req::$param['wait']);
         
 
-
         
-
 
         # запрос пачки
         #

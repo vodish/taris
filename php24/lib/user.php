@@ -57,20 +57,16 @@ class user
     #
     static function getCode()
     {
-        if ( ! rtoken::check() )                return;
-        if ( ! url::start('/api') )             return;
-        if ( empty($_POST['userGetCode']) )     return;
-        if ( empty($_POST['email']) )           return;
+        if ( ! rtoken::check() )                    return;
+        if ( ! url::start('/api') )                 return;
+        if ( empty(req::$param['userGetCode']) )    return;
         
-
-        ui::vd();
-        die;
 
         # код входа
         #
-        $email      =   $_POST['email'];
+        $email      =   $_POST['userGetCode'];
         $code       =   rand(1000, 9999);
-        $subject    =   rawurlencode('Код входа: ' .$code );
+        $subject    =   'Код входа';
         #
         # сохранить в куке
         #
@@ -79,14 +75,14 @@ class user
 
         # отправить письмо
         #
-        // $smtp       =   new smtp();
-        // $result     =   $smtp->send($email, $subject, 'Смотрите в тему письма.');
+        $smtp       =   new smtp();
+        $result     =   $smtp->send($email, $subject, "Цифровой код: $code");
+        
         
 
-        # json переменные
+        # ответ
         #
-        // ui::$json["send"]   =   "ok";
-        // ui::$json["code"]   =   $code;
+        res::$ret['ok'] =   'ok';
     }
 
 
@@ -100,16 +96,19 @@ class user
         if ( ! url::start('/api') )             return;
         if ( empty($_POST['userCheckCode']) )   return;
         if ( empty($_COOKIE['code']) )          return;
-        if ( empty($_POST['email']) )           return;
         if ( empty($_POST['code']) )            return;
-        
         
         
         # проверить код
         #
-        if ( $_COOKIE['code'] != md5($_POST['email']. $_POST['code']. $_POST['code']) )
+        $email  =   $_POST['userCheckCode'];
+        $code   =   $_POST['code'];
+        #
+        #
+        if ( $_COOKIE['code'] != md5($email. $code. $code) )
         {
-            return rtoken::check(['check'=>"Неверный код..."]);
+            res::$ret["check"]  =   "Неверный код...";
+            return;
         }
 
 
@@ -125,7 +124,7 @@ class user
                 , `user_agent`
             )
             VALUES (
-                  " .db::v($_POST['email']). "
+                  " .db::v($email). "
                 , " .db::v($token). "
                 , " .db::v($_SERVER['HTTP_USER_AGENT'] ?? ''). "
             )
@@ -133,19 +132,19 @@ class user
         #
         #
         cookie::del('code');
-        cookie::set('token[' .$_POST['email']. ']', $token, (time()*3600*24*30));
+        cookie::set('token[' .$email. ']', $token, (time()*3600*24*30));
 
         
 
         # добавить пользователя / получить стартовый проект
         #
-        $user   =   self::dbCreate($_POST['email']);
+        $user   =   self::dbCreate($email);
         
         
 
         # json переменные
         #
-        // ui::$json["check"]  =   "ok";
+        res::$ret["href"]  =   "ok";
         // ui::$json["redir"]  =   "/". $user['start'];
     }
 

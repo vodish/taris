@@ -37,7 +37,7 @@ class rtoken
     #
     static function check()
     {
-        if ( req::$param['rtoken'] )  return false;
+        if ( empty(req::$param['rtoken']) )  return false;
         
         return true;
         

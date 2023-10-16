@@ -37,7 +37,6 @@ onMount(() =>{
 
 // обработчики
 
-
 function apiGetCode()
 {
     step    =   "code"
@@ -52,13 +51,13 @@ function apiGetCode()
     }, 1000 )
 
 
-    api({ userGetCode:1, email }, ({send, code})=>{
-        if ( send != "ok" ) {
-            error = 'Error...'
-        }
-        console.log(code);
+    api({ userGetCode: email },  res => {
+        if ( res.ok == "ok" )   return
+        error = 'Error...'
     })
 }
+
+
 
 
 function apiCheckCode()
@@ -68,12 +67,9 @@ function apiCheckCode()
     if ( code.length == 4 && wait === false )
     {
         wait = true;
-        api({ userCheckCode:1, email, code }, ({check})=>{
-            
-            if ( check != "ok" ) {
-                error = 'Error...'
-            }
-            error   =   check
+        api({ userCheckCode: email, code }, res=>{
+            if ( res.ok == "ok" )   return
+            error = 'Error...'
         })
 
     } else if ( code.length < 4 ) {

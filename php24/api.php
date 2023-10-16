@@ -39,7 +39,7 @@ db::init();
 # операции по параметрам
 #
 user::getCode();
-// user::checkCode();
+user::checkCode();
 #
 # операции пачек
 #

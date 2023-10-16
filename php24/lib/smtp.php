@@ -34,10 +34,10 @@ class smtp {
 
     public function __construct($smtp_username = null, $smtp_password = null, $smtp_host = null, $smtp_port = null, $smtp_charset = null)
     {
-        $this->smtp_username    =   $smtp_username  ??  'site@taris.pro';
-        $this->smtp_password    =   $smtp_password  ??  'tjkfyskivoajsbrk';
-        $this->smtp_host        =   $smtp_host      ??  'ssl://taris.pro';
-        $this->smtp_port        =   $smtp_port      ??  465;
+        $this->smtp_username    =   $smtp_username  ??  SMTP_USER;
+        $this->smtp_password    =   $smtp_password  ??  SMTP_PASS;
+        $this->smtp_host        =   $smtp_host      ??  SMTP_HOST;
+        $this->smtp_port        =   $smtp_port      ??  SMTP_PORT;
         $this->smtp_charset     =   $smtp_charset   ??  'utf-8';
         
        
@@ -54,14 +54,14 @@ class smtp {
     * @param string $mailTo - получатель письма
     * @param string $subject - тема письма
     * @param string $message - тело письма
-    * @param string $smtp_from - отправитель. Массив с именем и e-mail
+    * @param string $smtp_from - отправитель
     *
     * @return bool|string В случаи отправки вернет true, иначе текст ошибки
 	*
     */
     function send($mailTo, $subject, $message, $smtp_from = null)
     {
-        $smtp_from          =   $smtp_from ?? '' .url::host(). '<site@taris.pro>';
+        $smtp_from          =   $smtp_from  ??  SMTP_FROM;
         $message            =   $this->messageTrim($message);
         
 		// подготовка содержимого письма к отправке
