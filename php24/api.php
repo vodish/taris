@@ -1,16 +1,28 @@
 <?php
-# настройки
+
+# константы
+#
+require_once __DIR__. "/lib/_config.php";
+#
+#
+# ошибки
 #
 error_reporting(E_ALL | E_NOTICE);
-ini_set('display_errors','On');
+ini_set('display_errors', 'On');
+#
+#
+# сессия
+#
 session_start();
-
-
+#
+#
 # авто подключение классов
 #
 spl_autoload_register( function($name) {
-    if ( is_file($file = "../lib/$name.php") )      require_once $file;
+    if ( is_file($file = __DIR__. "/lib/$name.php") )      require_once $file;
 });
+
+
 
 
 
@@ -23,11 +35,12 @@ db::init();
 
 
 
+
 # операции по параметрам
 #
 user::getCode();
 // user::checkCode();
-
+#
 # операции пачек
 #
 pack::dbInit();
@@ -37,6 +50,8 @@ tree::add();
 tree::del();
 // access::save();
 log::up();
+
+
 
 
 # cостояние
@@ -59,7 +74,8 @@ state::accessText();
 #
 state::logList();
 
-// ui::vd(res::$ret);
+
+
 
 # ответ
 #
