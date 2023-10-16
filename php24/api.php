@@ -1,5 +1,4 @@
 <?php
-
 # константы
 #
 require_once __DIR__. "/lib/_config.php";

@@ -30,8 +30,9 @@ class user
         {
             $where[] = "(`token`.`email` = " .db::v($email). " AND `token`.`token` = " .db::v($token). " AND `token`.`is_active` = 1)";
         }
-
-        db::query("
+        #
+        #
+        $userList  =  db::select("
             SELECT
                  `user`.`id`
                 ,`user`.`email`
@@ -44,13 +45,9 @@ class user
             ORDER BY
                 `user`.`id`
         ");
-        for( $list=[];  $v = db::fetch(['int'=>['id','start']]); $list[] = $v );
+        
 
-
-        // ui::vd($list);
-
-
-        return  $list;
+        return  $userList;
     }
 
 
