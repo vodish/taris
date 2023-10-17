@@ -60,9 +60,8 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        
-        $project    =  pack::$project == 0 ?  pack::$start :  pack::$project;
-        $project    =  pack::$project > 0 && isset( pack::$tree[ pack::$start ] ) ?  pack::$start :  $project;
+
+        $project    =  tree::project();
         $tree       =   array();
         
         foreach( pack::$tree[ $project ] ?? []  as  $pack )
@@ -181,11 +180,10 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-        $project    =  pack::$start;
-        $project    =  !isset( pack::$tree[ $project ] ) ?  pack::$project :  $project;
+        $project    =  tree::project();
         $text   =   '';
 
-        foreach( pack::$tree[ $project ] as $pack )
+        foreach( pack::$tree[ $project ] ?? [] as $pack )
         {
             $space  =   str_repeat(" ", $pack['space']);
             $id     =   empty($pack['name']) ?  '' :  '    '.  $pack['id'];

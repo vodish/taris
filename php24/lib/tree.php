@@ -4,6 +4,17 @@ class tree
     private static $log = [];
 
 
+    # актуальный проект
+    #
+    static function project()
+    {
+        $project    =  pack::$project == 0 ?  pack::$start :  pack::$project;
+        $project    =  pack::$project > 0 && isset( pack::$tree[ pack::$start ] ) ?  pack::$start :  $project;
+
+        return  $project;
+    }
+    
+
     # json дерево для лога
     #
     static function log()
@@ -136,15 +147,6 @@ class tree
 
     }
 
-
-    # актуальный проект
-    #
-    static function project()
-    {
-        $branch    =   isset(pack::$tree[ pack::$start ]) ?  pack::$start : pack::$project;
-
-        return  $branch;
-    }
 
 
 
