@@ -107,7 +107,7 @@ class state
     static function packMenu()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        // if ( empty(pack::$start) )                      return;
+        if ( empty(pack::$start) )                      return;
 
 
         # проверить права
@@ -134,19 +134,14 @@ class state
         $menu['line']   =   'Редактор';
         $menu['tree']   =   'Проект';
         $menu['access'] =   'Доступ';
-        #
-        if ( $menu['name']=='Обзор'  && !isset(pack::$tree[ pack::$start ])  && pack::$project ) 
-        {
-            $menu['treeAdd'] =   '&plus;';
-        }
-        if ( $menu['name']=='Обзор'  && isset(pack::$tree[ pack::$start ])  && pack::$project )
-        {
-            $menu['treeDel'] =   '-';
-        }
-        #
         $menu['log']    =   'История';
+        # проект
+        if ( $menu['name']=='Обзор'  && !isset(pack::$tree[ pack::$start ])  && pack::$project )    $menu['treeAdd'] =   '+';
+        if ( $menu['name']=='Обзор'  && isset(pack::$tree[ pack::$start ])  && pack::$project )     $menu['treeDel'] =   '-';
+        # выход
+        if ( pack::$project == 0 )  $menu['bye'] =   'Выйти';
 
-
+        // ui::vd();
 
         res::$ret[__FUNCTION__]  =   $menu;
     }

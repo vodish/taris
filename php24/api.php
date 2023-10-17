@@ -39,6 +39,7 @@ db::init();
 #
 user::getCode();
 user::checkCode();
+user::bye();
 #
 # операции пачек
 #

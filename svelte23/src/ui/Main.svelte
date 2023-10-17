@@ -8,23 +8,21 @@ import { api, userList, pref } from "../state/store";
 
 
 // переменные входа
-
-let emailRef;
 let email       =   ""
 let code        =   ""
 
 let step        =   "email"
-let delay
+let delay;
 let error       =   ""
 let load        =   false
 
 
-// инициализация
 
+// инициализация
 onMount(() =>{
 
-    emailRef.focus();
-
+    document.getElementById('email').focus()
+    
     if ( $userList == false )
     {   
         api( {userList:1, wait:["userList"]},  (res) => userList.set(res.userList) )
@@ -42,15 +40,19 @@ function apiGetCode()
     step    =   "code"
     code    =   ""
     error   =   ""
-
-    delay   =   2
+    delay   =   60
+    
+    // фокус на поле кода
+    setTimeout(()=>{document.getElementById('code').focus()} , 0)
+    
+    // таймер на поле кода
     let timer =  setInterval(() => {
         delay--;
         if ( delay > 0 )    return;
         clearInterval(timer)
     }, 1000 )
 
-
+    // запрос кода
     api({ userGetCode: email },  res => {
         if      ( res.href )            return pref(res.href);
         else if ( res.ok == "ok" )      return;
@@ -69,9 +71,13 @@ function apiCheckCode()
     {
         load = true;
         api({ userCheckCode: email, code }, res => {
+
+            if ( res.err )  return error = res.err;
+
+            
             if      ( res.href )            return pref(res.href);
             else if ( res.ok == "ok" )      return;
-            else if ( res.check )           error = res.check;
+            else if ( res.err )           error = res.err;
             else    error = "";
         })
 
@@ -97,7 +103,7 @@ function apiCheckCode()
             {#if step == "email" }
 
                 <form class="login" on:submit|preventDefault={apiGetCode}>
-                    <input class="email" type="email" name="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа" bind:this={emailRef} />
+                    <input class="email" type="email" name="email" bind:value={email} required={true} placeholder="Емеил для входа" title="Емеил для входа" id="email" />
                     <button class="send">Taris</button>
                 </form>
                 
@@ -108,7 +114,7 @@ function apiCheckCode()
                         <div>Код из письма</div>
                         {#if error != ""} <div class="err">{error}</div> {/if}
                     </div>
-                    <input class="code {error==""?"": "err"}" bind:value={code} on:keyup={apiCheckCode} maxlength="4" autocomplete="off">
+                    <input class="code {error==""?"": "err"}" bind:value={code} on:keyup={apiCheckCode} maxlength="4" autocomplete="off" id="code" />
                 </div>
 
                 {#if delay > 0}

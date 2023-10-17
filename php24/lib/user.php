@@ -107,7 +107,7 @@ class user
         #
         if ( $_COOKIE['code'] != md5($email. $code. $code) )
         {
-            res::$ret["check"] =  "Неверный код...";
+            res::$ret["err"] =  "Неверный код...";
             return;
         }
 
@@ -118,7 +118,12 @@ class user
         #
         cookie::del('code');
         cookie::set('token[' .$email. ']',  $token,  time()*3600*24*30);
+        $_COOKIE['token'][ $email ]   =   $token;
         
+
+        # обновить userList
+
+
         
         # ответ
         #
@@ -211,6 +216,33 @@ class user
         # вернуть пользователя
         #
         return  $user;
+    }
+
+
+
+    # выход из профиля
+    #
+    static function bye()
+    {
+        if ( url::$level[0] != 'bye' )      return;
+        if ( empty(url::$level[1]) )        return;
+        if ( empty($_COOKIE['token']) )     return;
+        if ( !isset($_COOKIE['token'][ url::$level[1] ]) )    return;
+
+        
+        # удалить куку
+        # пречитать профили
+        # переадресация на страницу
+        #
+        cookie::del("token[" .url::$level[1]. "]");
+        unset($_COOKIE['token'][url::$level[1]]);
+        #
+        #
+        req::$wait[]        =  "userList";
+        #
+        #
+        res::$ret['href']   =   "/";
+
     }
 
 

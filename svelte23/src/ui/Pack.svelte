@@ -9,10 +9,10 @@ import MenuItem         from "./comp/MenuItem.svelte";
 import { url, href, pref, packBc, packTitle, packMenu }    from "../state/store";
 
 
-$: level1  =   $url.level[1] || "view";
+$: level1   =   $url.level[1] || "view";
+$: profile  =   $packBc[0] ?  $packBc[0].name : '';
+
 </script>
-
-
 
 
 <svelte:head><title>{$packTitle}</title></svelte:head>
@@ -22,7 +22,7 @@ $: level1  =   $url.level[1] || "view";
         <a href="/" class="logo" on:click={href}>Taris</a>
         {#each $packBc as pack }
             <i></i>
-            <a  href={"/" + pack.id} on:click={pref} class="{pack._act} {pack._cur}">{pack.name}</a>
+            <a  href="/{pack.id}" on:click={pref} class="{pack._act} {pack._cur}">{pack.name}</a>
         {/each}
     </div>
 
@@ -38,6 +38,7 @@ $: level1  =   $url.level[1] || "view";
             </div>
             <MenuItem key="access" href="/{$url.level[0]}/access" />
             <MenuItem key="log" href="/{$url.level[0]}/log" />
+            <MenuItem key="bye" href="/bye/{profile}" />
         </div>
     </div>
 </div>

@@ -24,9 +24,8 @@ class res
     {
         if ( self::$render != 'json' )  return;
 
-        // ui::vd(req::$wait);
-        // ui::vd(req::$param);
-        // ui::vd(self::$ret);
+        # добавить новый токен
+        self::$ret['rtoken']    =   rtoken::init();
 
         header('Content-Type: application/json; charset=utf-8');
 

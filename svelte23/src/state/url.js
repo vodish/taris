@@ -57,19 +57,8 @@ export function pref(href, data1)
         href    =   href.srcElement.pathname
     }
     
-    // запрос
-    let data = {
-        href,
-        wait: [
-        'packStart',
-        'packProject',
-        'packBc',
-        'packTree',
-        'packMenu',
-        'packTitle',
-        ]
-    }
-    // подмещать данные
+    // данные запроса
+    let data = {href}
     for( let k in data1 || {} )     data[ k ] = data1[ k ]
     
 
@@ -127,7 +116,10 @@ export function api(data, cb)
             try     { res = JSON.parse(xhr.response) }
             catch   { Store.apierr.set(xhr.response) }
             
-            if ( res.rtoken )      rtoken = res.rtoken
+            if ( res.rtoken ) {
+                rtoken = res.rtoken
+                Store.apierr.set("")
+            }      
             
             cb(res)
         }

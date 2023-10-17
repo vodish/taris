@@ -4,9 +4,10 @@ import { url, apierr } from "./state/store";
 
 import Main from "./ui/Main.svelte";
 import Pack from "./ui/Pack.svelte";
+
 </script>
 
-{@html $apierr ?  `<pre class="apierr">${$apierr}</pre>` : ''}
+{@html $apierr != "" ?  `<pre class="apierr">${$apierr}</pre>` : ''}
 
 
 {#if $url.path == "/"     }             <Main />
