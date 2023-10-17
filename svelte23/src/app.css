@@ -18,16 +18,18 @@ a.self          { color: var(--black); }
 a.self:hover	{ color: var(--link); }
 
 h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
-input           { font-size: inherit; background-color: white; padding: 8px 10px; border-radius: 4px; border: solid 1px #aaa; box-sizing: border-box; }
+input           { font-size: inherit; background-color: white; padding: 8px 10px; border-radius: 4px; border: solid 1px #aaa; }
 input:focus     { outline: solid 3px #eee; }
 input:-webkit-autofill  { -webkit-background-clip: text; -webkit-text-fill-color: var(--eee) !important; }
-button          { font-size: inherit; background-color: #eee; padding: 8px 16px; border-radius: 4px; border: solid 1px #ccc; box-sizing: border-box; cursor: pointer; }
+button          { font-size: inherit; background-color: #eee; padding: 8px 16px; border-radius: 4px; border: solid 1px #ccc; cursor: pointer; }
 button:hover    { background-color: #ccc; }
 
 *::-webkit-scrollbar        { width: 8px; height: 8px; background-color: inherit; }
 *::-webkit-scrollbar-thumb  { border-radius: 1px; background: #ccc; }
 
 
+
+/* app */
 
 html            { min-height: 100vh; display: flex; }
 body            { flex-grow: 1; display: flex; max-width: 1280px; margin: 0.5em auto 2em auto; padding: 0 15px; }
@@ -39,7 +41,7 @@ pre.apierr      { background-color: #fddbdb; padding: 1em 2em; margin-bottom: 2e
 pre.apierr h1   { font-size: 1.1em; }
 pre.apierr h2   { font-size: 1em; }
 pre.apierr h3   { font-size: 1em; }
-pre.apierr br:first-child { display: none; }
+pre.apierr br:first-child   { display: none; }
 
 
 
@@ -80,12 +82,12 @@ pre.apierr br:first-child { display: none; }
 .nav1 .bc .active       { color: inherit; background-color: #eee; border-radius: 3px; margin-left: 0.5ch; }
 .nav1 .bc .current      { color: inherit; }
 
-.nav1 .burger {  position: relative; box-sizing: border-box; }
+.nav1 .burger {  position: relative; }
 .nav1 .burger .name { padding: 4px; cursor: default; display: flex; gap: 0.7ch; }
 .nav1 .burger .name:before  { content: '\2261'; font-size: 1.1em; font-weight: bold; opacity: 0.3; }
 
 .nav1 .burger .menu::before { content: ''; position: absolute; width: 100%; margin-top: -13px; height: 10px; }
-.nav1 .burger .menu     { display: none; position: absolute; right: 0; margin-top: 4px; width: 150px; padding: 5px 0; border-radius: 2px; border: solid 1px #222; background-color: var(--darkPreFon); box-sizing: border-box; }
+.nav1 .burger .menu     { display: none; position: absolute; right: 0; margin-top: 4px; width: 150px; padding: 5px 0; border-radius: 2px; border: solid 1px #222; background-color: var(--darkPreFon); }
 .nav1 .burger .menu .a  { display: block; padding: 7px 0; margin: 0 14px; }
 
 .nav1 .burger .menu > .group1 { display: flex; justify-content: space-between; padding: 0; margin: 0 14px; }
@@ -142,7 +144,7 @@ form.tree  .save    { display: block; }
 .access2    .pack .opts > *   { margin: 0 0.7ch; }
 .access2    pre     { margin-left: 4ch; white-space: pre-wrap; font-family: var(--font1); font-size: 13px; line-height: 1.4em;; }
 
-form.access     { margin: 0 0 0 3ch; width: inherit; box-sizing: border-box; }
+form.access     { margin: 0 0 0 3ch; width: inherit; }
 
 
 /* log */
