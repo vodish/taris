@@ -60,9 +60,9 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
-
-        $project    =  pack::$start;
-        $project    =  !isset( pack::$tree[ $project ] ) ?  pack::$project :  $project;
+        
+        $project    =  pack::$project == 0 ?  pack::$start :  pack::$project;
+        $project    =  pack::$project > 0 && isset( pack::$tree[ pack::$start ] ) ?  pack::$start :  $project;
         $tree       =   array();
         
         foreach( pack::$tree[ $project ] ?? []  as  $pack )
