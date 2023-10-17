@@ -10,16 +10,14 @@
     --font1:    'Source Code Pro', monospace;
 }
 
-*               { padding: 0; margin: 0; }
+*               { padding: 0; margin: 0; box-sizing: border-box; }
 html,body       { font-family: var(--font); color: var(--black); font-size: 14px; -webkit-font-smoothing: antialiased; }
 a               { color: var(--link); text-decoration: none; }
 a:hover			{ color: var(--black); }
 a.self          { color: var(--black); }
 a.self:hover	{ color: var(--link); }
 
-body            { max-width: 1280px; margin: 0.5em auto 2em auto; padding: 0 15px; box-sizing: border-box; }
 h1,h2,h3,h4     { margin: 1.2em 0 0.4em 0; font-weight: bold; }
-
 input           { font-size: inherit; background-color: white; padding: 8px 10px; border-radius: 4px; border: solid 1px #aaa; box-sizing: border-box; }
 input:focus     { outline: solid 3px #eee; }
 input:-webkit-autofill  { -webkit-background-clip: text; -webkit-text-fill-color: var(--eee) !important; }
@@ -28,6 +26,14 @@ button:hover    { background-color: #ccc; }
 
 *::-webkit-scrollbar        { width: 8px; height: 8px; background-color: inherit; }
 *::-webkit-scrollbar-thumb  { border-radius: 1px; background: #ccc; }
+
+
+
+html            { min-height: 100vh; display: flex; }
+body            { flex-grow: 1; display: flex; max-width: 1280px; margin: 0.5em auto 2em auto; padding: 0 15px; }
+#app            { flex-grow: 1; display: flex; flex-direction: column; }
+#app > .pro     { flex-grow: 1; }
+
 
 pre.apierr      { background-color: #fddbdb; padding: 1em 2em; margin-bottom: 2em; }
 pre.apierr h1   { font-size: 1.1em; }
@@ -95,7 +101,7 @@ pre.apierr br:first-child { display: none; }
 
 /* project */
 
-.pro                { display: flex; gap: 2vw; }
+.pro                { flex-grow: 1; display: flex; gap: 2vw; }
 .pro > .tree        { flex-basis: 180px; align-self: flex-start; position: sticky; top: 4em; }
 .pro > .tree a      { padding: 3px; display: inline-block; }
 .pro > .tree .empty         { height: 0.7em; }
