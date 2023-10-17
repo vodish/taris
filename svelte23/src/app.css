@@ -33,7 +33,7 @@ button:hover    { background-color: #ccc; }
 
 html            { min-height: 100vh; display: flex; }
 body            { flex-grow: 1; display: flex; max-width: 1280px; margin: 0.5em auto 2em auto; padding: 0 15px; }
-#app            { flex-grow: 1; display: flex; flex-direction: column; }
+#app            { flex-grow: 1; }
 #app > .pro     { flex-grow: 1; }
 
 

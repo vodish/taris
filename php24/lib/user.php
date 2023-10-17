@@ -148,7 +148,7 @@ class user
 
         # проверить авторизацию в куке
         #
-        $user   =   db::one("SELECT *  FROM `user`  WHERE `email` = " .db::v($email)  );
+        $user       =   db::one("SELECT *  FROM `user`  WHERE `email` = " .db::v($email)  );
         
 
         # добавить пользователя
@@ -172,30 +172,30 @@ class user
             #
             $user['id']     =   db::lastId();
             $user['email']  =   $email;
-            $user['start']  =   intval( strval($user['id']).'0' );
+            #
+            $ulen           =   strlen( (string) $user['id'] );
+            $ulen           =   strtr( (string) $ulen, ['10'=>'A', '11'=>'B', '12'=>'C', '13'=>'D']);
+            $user['start']  =   intval( $ulen. $user['id']. '0' );
             #
             #
             # добавить корневую пачку
             #
             db::query("
+                UPDATE  `user`
+                SET     `start` =   " .db::v($user['start']). "
+                WHERE   `id`    =   " .db::v($user['id'])
+            );
+            #
+            db::query("
                 INSERT INTO `pack` (
-                    `user`
-                    ,`id`
-                    ,`project`
-                    ,`space`
-                    ,`name`
-                    ,`order`
-                    ,`file`
+                      `user`
+                    , `id`
+                    , `name`
                 )
-
                 VALUES (
-                    " .db::v($user['id']). "
-                    ," .db::v($user['start']). "
-                    ,0
-                    ,0
-                    ," .db::v($email). "
-                    ,0
-                    ,0
+                      " .db::v($user['id']). "
+                    , " .db::v($user['start']). "
+                    , " .db::v($email). "
                 )
             ");
         }
