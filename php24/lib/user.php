@@ -112,23 +112,31 @@ class user
         }
 
 
-        # добавить пользователя
+        # добавить/получить пользователя
         #
         $user   =   self::dbCreate($email, $token);
         #
         cookie::del('code');
         cookie::set('token[' .$email. ']',  $token,  time()*3600*24*30);
-        $_COOKIE['token'][ $email ]   =   $token;
+        $_COOKIE['token'][ $email ] =   $token;
         
 
-        # обновить userList
 
-
+        # вернуть данные
+        #
+        res::$ret['userList']   =   user::list();
+        #
+        req::$param['pack']     =   $user['start'];
+        req::$wait              =   array_merge(req::$wait, ['packStart', 'packProject', 'packBc', 'packTree', 'packMenu', 'packTitle', 'lineHtml']);
+        
+        
         
         # ответ
         #
         res::$ret["href"]  =   '/'. $user['start'];
     }
+
+
 
 
 

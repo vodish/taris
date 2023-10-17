@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { onMount } from "svelte";
-import { api, userList, pref } from "../state/store";
+import { api, pref, href, userList, packStart, packProject, packBc, packTree, packMenu, packTitle, lineHtml } from "../state/store";
 
 
 
@@ -73,11 +73,17 @@ function apiCheckCode()
 
             if ( res.err )  return error = res.err;
 
-            
-            if      ( res.href )            return pref(res.href);
-            else if ( res.ok == "ok" )      return;
-            else if ( res.err )           error = res.err;
-            else    error = "";
+            if ( res.packStart ) {
+                userList.set(res.userList)
+                packStart.set(res.packStart)
+                packProject.set(res.packProject)
+                packBc.set(res.packBc)
+                packTree.set(res.packTree)
+                packMenu.set(res.packMenu)
+                packTitle.set(res.packTitle)
+                lineHtml.set(res.lineHtml)
+                href(res.href);
+            }
         })
 
     } else if ( code.length < 4 ) {

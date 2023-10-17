@@ -23,8 +23,6 @@ spl_autoload_register( function($name) {
 
 
 
-
-
 # запрос
 #
 url::parse();
