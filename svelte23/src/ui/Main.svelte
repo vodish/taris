@@ -54,8 +54,7 @@ function apiGetCode()
 
     // запрос кода
     api({ userGetCode: email },  res => {
-        if      ( res.href )            return pref(res.href);
-        else if ( res.ok == "ok" )      return;
+        if ( res.ok == "ok" )   return;
         else    error = "";
     })
 }
