@@ -155,9 +155,8 @@ class state
         if ( empty(pack::$start) )                      return;
 
         line::dbInit();
-        line::html();
         
-        res::$ret[__FUNCTION__]  =   line::$html;
+        res::$ret[__FUNCTION__]  =   line::html();
     }
     
 

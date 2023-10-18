@@ -15,10 +15,9 @@ class line
         if ( self::$init        )   return;
         
         # инициализация прошла
-        #
         self::$init =   true;
 
-
+        
         # получить все записи из базы
         #
         db::query("
@@ -64,7 +63,7 @@ class line
             $html   .=  self::toHtml($offset, $space, $str);
         }
 
-        return  self::$html = $html;
+        return  self::$html =  $html;
     }
 
 
@@ -168,6 +167,7 @@ class line
 
         # обновить записи в базе
         #
+        self::$init =   true;
         self::$list =   explode("\n", $log1);
         #
         $rows  =  array();
