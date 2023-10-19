@@ -6,7 +6,9 @@ class access
 
     static function dbInit()
     {
-        $packIn =   pack::$bc?  pack::$bc :  [-1];
+        if ( empty(user::$id) )     return;
+        
+
 
         # получить все запии из таблицы прав
         #
@@ -16,18 +18,17 @@ class access
             FROM
                 `access`
             WHERE
-                `pack` IN (" .implode(",", $packIn). ")
+                `user` = " .db::v(user::$id). "
             ORDER BY
                 `id`
         ");
 
         while( $v = db::fetch() )
         {
-            $list[ $v['pack'] ][ $v['email'] ] =  $v; 
+            self::$list[] =  $v; 
         }
 
-
-        return self::$list =  $list;
+        
     }
     
 

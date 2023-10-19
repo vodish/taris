@@ -195,12 +195,14 @@ class state
 
 
 
-    static function accessHtml()
+    static function accessArray()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
 
+        access::dbInit();
 
+        res::$ret[__FUNCTION__]  =   ["Какой то ответ в json"];
     }
     
     
@@ -209,6 +211,9 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
         
+        access::dbInit();
+
+        res::$ret[__FUNCTION__]  =   ["Текст настроек доступа"];
     }
 
 
