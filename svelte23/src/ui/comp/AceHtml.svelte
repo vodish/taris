@@ -1,5 +1,5 @@
 <script>
-import { onDestroy, onMount } from "svelte";
+import { onMount, onDestroy } from "svelte";
 
 // аттрибуты
 export let value = ""

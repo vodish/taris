@@ -20,7 +20,7 @@ class access
             WHERE
                 `user` = " .db::v(user::$id). "
             ORDER BY
-                `id`
+                `order`
         ");
 
         while( $v = db::fetch() )
@@ -28,7 +28,7 @@ class access
             self::$list[] =  $v; 
         }
 
-        
+
     }
     
 

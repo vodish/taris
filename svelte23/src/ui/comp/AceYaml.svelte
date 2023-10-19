@@ -11,8 +11,8 @@ onMount(()=> {
     ace9.session.setMode('ace/mode/yaml')
     ace9.setOptions({
         minLines: 10,
-        fontSize: "13px",
-        fontFamily: "var(--font1)",
+        fontSize: "14px",
+        fontFamily: "monospace",
         showPrintMargin: false,     // граница печати
         showGutter: true,           // нумерация строк
         useWorker: false,           // отключить проверку синтаксиса - worker файл

@@ -213,7 +213,25 @@ class state
         
         access::dbInit();
 
-        res::$ret[__FUNCTION__]  =   ["Текст настроек доступа"];
+
+/*
+
+pack.name  123
+    Owner   vodish@yandex.ru    # комментарий какой-то
+    View    @psw.ru             # комментарий какой-то
+    Editor  @psw.ru
+    View    public
+    View    https://taris.pro/link/53a71acac187833047fef7f6ff16250e
+    
+    
+pack.name  123
+    Owner   vodish@yandex.ru    # комментарий какой-то
+    View    @psw.ru             # комментарий какой-то
+    View    public
+
+*/
+
+        res::$ret[__FUNCTION__]  =   "Текст настроек доступа";
     }
 
 

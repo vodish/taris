@@ -1,32 +1,26 @@
 <script>
-import { packBc, accessPack, accessText } from "../state/store";
-import AceYaml from "./comp/AceYaml.svelte";
+    // @ts-nocheck
+    import { pref, packStart, accessText } from "../state/store";
+    import AceYaml from './comp/AceYaml.svelte';
 
-// onDestroy(()=>{
-//     console.log(`обновить права на сервере`)
-// })
+    
+    function save()
+    {
+        pref(`/${$packStart}`, {tree: $accessText});
+    }
+
+
+    document.onkeydown = (e) => {
+        if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
+        {
+            e.preventDefault()
+            save()
+        }
+    }
 </script>
 
-<style>
-    .pack   { margin-bottom: 2em; }
-    .pack .name  { margin: 0.4em 0; border-bottom: solid 1px #555; }
-    .pack .cont  { margin: 0.5em 0 0 7ch; }
-</style>
 
-
-<!--
-{#each $packBc as v}
-    <div class="pack">
-        <div class="name">{$packHeap[ v ].name}</div>
-        <div class="cont">
-            Настройка
-        </div>
-    </div>
-{/each}
--->
+{#if $packStart} <AceYaml bind:value={$accessText} /> {/if}
 
 <br />
-<AceYaml bind:value={$accessText} />
-
-<br />
-<button>Сохранить</button>
+<button id="ctrl-s" on:click={save}>Сохранить</button>
