@@ -15,11 +15,14 @@ class access
 
         # пересортировать дерево как есть
         $order = 0;
-        foreach( self::$list as $list )
+        foreach( self::$list as $pack => $list )
         {
-            foreach( $list as $v )
+            foreach( $list as $k => $v )
             {
                 $v['order'] =   $order++;
+
+                # удалить роль хозяина из настроек
+                if ( $v['role'] == 'owner' )    unset(self::$list[ $pack ][ $k ]);
             }
         }
         
@@ -39,7 +42,16 @@ class access
         # инициализация
         self::$init  =  true;
 
-
+        # хозяин профиля
+        #
+        self::$list[ user::$start ][]  =  array(
+            'user'      =>  user::$id,
+            'pack'      =>  user::$start,
+            'email'     =>  user::$email,
+            'role'      =>  'owner',
+            'comment'   =>  '',
+        );
+        #
         # права из базы
         #
         db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id). "  ORDER BY `order`" );
@@ -130,7 +142,8 @@ class access
 
         }
 
-        ui::vd( req::$param );
+        // ui::vd( req::$param );
+        ui::vd( $pack, 1 );
         die;
 
 
@@ -144,17 +157,36 @@ class access
 
     private static function parse($str, &$pack)
     {
+        ui::vd($str);
+
         # пачка
-        if ( preg_match("##", $str, $m) )
+        if ( preg_match("#^\S+ +\d+$#", $str, $m) )
         {
-
+            ui::vd($m);
+            die;
+            return  $pack =  $m;
         }
-
+        #
         # настройка
-        if ( preg_match("##", $str, $m) )
+        elseif ( preg_match_all("#(?<=\s)\S+#", $str, $m) )
         {
-
+            ui::vd($m);
         }
+
+        /*
+        pack.name  123
+            Owner   vodish@yandex.ru
+            View    @psw.ru
+            Editor  @psw.ru
+            View    public
+            View    https://taris.pro/link/53a71acac187833047fef7f6ff16250e
+            
+            
+        pack.name  123
+            Owner   vodish@yandex.ru    # комментарий какой-то
+            View    @psw.ru             # комментарий какой-то
+            View    public
+        */
     }
 
 
@@ -172,7 +204,9 @@ class access
         if ( !isset(self::$log[1]) )            return;
         if ( self::$log[0] == self::$log[1] )   return;
 
-        
+
+        ui::vdd('сохранить в базе');
+
 
         # подготовить sql записи дерева
         #
