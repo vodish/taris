@@ -6,7 +6,7 @@
     
     function save()
     {
-        pref(`/${$packStart}`, {tree: $accessText});
+        pref(`/${$packStart}/access`, {access: $accessText, wait:['accessText']});
     }
 
 

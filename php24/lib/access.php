@@ -1,9 +1,27 @@
 <?php
 class access
 {
+    private static $log = [];
+
     static $init  =  false;
     static $list  =  [];
     
+
+
+    # json дерево для лога
+    #
+    static function log()
+    {
+        
+        # пересортировать дерево как есть
+        # проверить дубли ид и принадлежность к пользователю
+        #
+        
+        self::$log[]    =   json_encode(self::$list, JSON_UNESCAPED_UNICODE);
+    }
+
+
+
 
 
     static function dbInit()
@@ -29,7 +47,7 @@ class access
         #
         db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id) );
         #
-        for(; $v = db::fetch();  self::$list[] = $v );
+        for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v );
         
     }
     
@@ -116,130 +134,134 @@ class access
 
     # добавить ссылку
     #
-    static function actionCreateLink()
+    static function link()
     {
-        if ( !isset($_GET['createAccessLink']) )     return;
+        if ( empty(pack::$start)                )   return;
+        if ( @url::$level[1] != 'access-link'   )   return;
 
-        ui::vdd($_GET);
+
+        ui::vdd( req::$param );
+        ui::vdd( url::$level );
+
+        die;
     }
+
+
+
+
 
 
     # сохранить права
     #
-    static function actionSave()
+    static function upd()
     {
-        if ( !isset($_POST['access']) )      return;
-        
-        self::dbSave($_POST['access']);
-        
+        if ( empty(pack::$start)            )   return;
+        if ( !isset(req::$param['access'])  )   return;
 
-        url::redir( url::$dir[1],  null, ['save'=>time()] );
-    }
+        # логировать
+        #
+        self::log();
+
+
+        ui::vd( req::$param );
+        die;
+
 
 
         # сохранить в базе
         #
-        private static function dbSave($text)
+        self::dbSave();
+    }
+
+
+
+
+    # сохранить записи в базу
+    #
+    private static function dbSave()
+    {
+        # текущее дерево
+        #
+        self::log();
+        #
+        #
+        if ( !isset(self::$log[1]) )            return;
+        if ( self::$log[0] == self::$log[1] )   return;
+
+        
+
+        # подготовить sql записи дерева
+        #
+        foreach( pack::$tree as $list )
         {
-            $proId  =   pack::$project;
-            $parse  =   yaml_parse($text);
-            $parse  =   is_array($parse) ?  $parse :  array();
-            $rows   =   array();
-
-            // ui::vdd($parse);
-
-
-            # создать временные записи в базе для операций
-            #
-            foreach( $parse as $email => $v )
+            foreach( $list as $pack )
             {
-                if ( is_numeric($email) )   continue;
-                if ( !is_array($v) )        continue;
-                if ( !in_array(@$v['role'], ['Admin', 'Edit', 'View']) )    continue;
-
-
-                $pack       =   db::v($proId). " as `pack`";
-                $email      =   db::v($email). " as `email`";
-                $role       =   db::v($v['role']). " as `role`";
-                $comment    =   db::v($v['comment'] ?? ''). " as `comment`";
-                #
-                $rows[]     =   " SELECT $pack, $email, $role, $comment". "\n";
+                if ( $pack['project'] == 0 )    continue;
+                
+                foreach($pack as &$v)  $v = db::v($v);
+                
+                $rows[] =   "(".  implode(',', $pack).  ")";
             }
-
-
-            # просто удалить все записи, если несчем сравнивать
-            #
-            if ( empty($rows) )
-            {
-                db::query("DELETE FROM `access`  WHERE `pack` = " .db::v($proId) );
-
-                return;
-            }
-
-
-
-            # создать временную таблицу
-            #
-            db::query("
-                CREATE TEMPORARY TABLE `new`
-                " .implode("\n UNION ", $rows). "
-            ");
-
-            # добавить новые записи
-            #
-            db::query("
-                INSERT INTO `access` (
-                     `pack`
-                    ,`email`
-                    ,`role`
-                    ,`comment`
-                )
-                SELECT
-                     `new`.`pack`
-                    ,`new`.`email`
-                    ,`new`.`role`
-                    ,`new`.`comment`
-                FROM
-                    `new`
-                        LEFT JOIN `access` as `old`
-                        ON  `new`.`pack`    =   `old`.`pack`
-                        AND `new`.`email`   =   `old`.`email`
-                WHERE
-                    `old`.`email` IS NULL
-            ");
-            #
-            # изменить записи
-            #
-            db::query("
-                UPDATE
-                    `access`
-                        JOIN `new`
-                        ON  `access`.`pack` = `new`.`pack`
-                        AND `access`.`email` = `new`.`email`
-                SET
-                     `access`.`role`     =   `new`.`role`
-                    ,`access`.`comment`  =   `new`.`comment`
-
-                -- todo: кроме владельца
-            ");
-            #
-            # удалить лишние записи
-            #
-            db::query("
-                DELETE
-                    `access`.*
-                FROM
-                    `access`
-                        LEFT JOIN `new`
-                        ON  `access`.`pack` = `new`.`pack`
-                        AND `access`.`email` = `new`.`email`
-                WHERE
-                    `access`.`pack` = " .db::v($proId). "
-                    AND `new`.`email` IS NULL
-                    -- todo: кроме владельца
-            ");
-            
         }
+        #
+        #
+        // ui::vd( user::$prefix );
+        // ui::vd( $rows );
+        // die;
+        
+
+
+        # сохранить в лог
+        #
+        db::query("
+            INSERT INTO `log` (
+                 `user`
+                ,`author`
+                ,`author_email`
+                ,`target`
+                ,`row`
+                ,`json`
+            )
+            VALUES (
+                 " .db::v(user::$id). "
+                ," .db::v(0). "
+                ," .db::v('@'). "
+                ," .db::v('tree'). "
+                ," .db::v(null). "
+                ," .db::v(self::$log[0]). "
+            )
+        ");
+        #
+        #
+        # обновить дерево
+        #
+        db::query("
+            DELETE
+            FROM    `pack`
+            WHERE   `user` = " .db::v(user::$id). " AND `project` != 0
+        ");
+        #
+        #
+        if ( empty($rows) )     return;
+        #
+        #
+        db::query("
+            INSERT INTO `pack` (
+                 `user`
+                ,`id`
+                ,`project`
+                ,`space`
+                ,`name`
+                ,`order`
+                ,`file`
+            )
+            VALUES
+            ".  implode("\n,", $rows).  "
+        ");
+
+    }
+
+
 
 
 }

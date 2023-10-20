@@ -115,7 +115,7 @@ class line
     
     # сохранить содержание файла
     #
-    static function save()
+    static function upd()
     {
         if ( empty(pack::$start) )          return;
         if ( !isset(req::$param['line']) )  return;

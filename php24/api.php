@@ -41,12 +41,13 @@ user::bye();
 # операции пачек
 #
 pack::dbInit();
-line::save();
+line::upd();
 tree::upd();
 tree::add();
 tree::del();
+access::upd();
+access::link();
 log::up();
-// access::save();
 
 
 

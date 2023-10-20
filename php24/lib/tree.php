@@ -13,7 +13,7 @@ class tree
 
         return  $project;
     }
-    
+
 
     # json дерево для лога
     #
@@ -23,16 +23,17 @@ class tree
         # пересортировать дерево как есть
         # проверить дубли ид и принадлежность к пользователю
         #
-        $ulen   =  strlen( user::$prefix );
+        $ulen   =   strlen( user::$prefix );
         $double =   array();
+        $order  =   1;
         #
         #
         foreach( pack::$tree as &$list )
         {
-            $k = 1;
+            
             foreach( $list as &$pack )
             {
-                $pack['order']  =   $k++;
+                $pack['order']  =   $order++;
 
                 # пропустить пустую строку
                 #
