@@ -1,36 +1,39 @@
 <?php
 class access
 {
-    static $list;
+    static $init  =  false;
+    static $list  =  [];
     
+
 
     static function dbInit()
     {
-        if ( empty(user::$id) )     return;
+        if ( empty(user::$id)   )     return;
+        if ( self::$init        )     return;
         
+        # инициализация
+        self::$init  =  true;
 
 
-        # получить все запии из таблицы прав
+        # хозяин профиля
         #
-        db::query("
-            SELECT
-                *
-            FROM
-                `access`
-            WHERE
-                `user` = " .db::v(user::$id). "
-            ORDER BY
-                `order`
-        ");
-
-        while( $v = db::fetch() )
-        {
-            self::$list[] =  $v; 
-        }
-
-
+        self::$list[ user::$start ][]  =  array(
+            'user'      =>  user::$id,
+            'pack'      =>  user::$start,
+            'email'     =>  user::$email,
+            'role'      =>  'owner',
+            'comment'   =>  '',
+        );
+        #
+        # остальные настроенные права из базы
+        #
+        db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id) );
+        #
+        for(; $v = db::fetch();  self::$list[] = $v );
+        
     }
     
+
 
 
     # список прав для пачке как html
@@ -54,29 +57,57 @@ class access
         return $html;
     }
 
+
+
+
     # список прав для пачки как текст
     #
-    static function asText($packId)
+    static function asText()
     {
-        $access =   self::$list[ $packId ] ?? array();
-        $text   =   '';
+        $text  =  '';
         
-        if ( !$access )     return '';
-        
-        foreach( $access as $email => $v )
+        foreach( pack::$tree as $tree )
         {
-            if ( $v['role'] == 'Owner' )    continue;
+            foreach( $tree as $pack )
+            {
+                if ( !isset(self::$list[ $pack['id'] ]) )   continue;
 
-            $is_email   =   filter_var($email, FILTER_VALIDATE_EMAIL);
-            
-            $text   .=  $email. ":\n";
-            $text   .=  '    role: '. $v['role']. "\n";
-            $text   .=  empty($v['comment']) ?  '' : '    comment: '. $v['comment']. "\n";
-            $text   .=  $is_email ?             '' : '    link: '. url::site(). '/'. $packId. '?hash='. $email. "\n";
-            $text   .=  $v['updated'] ?         '' : '    updated: '. $v['updated']. "\n";
-            $text   .=  "\n";
+                $text   .=  $pack['name'].  '   '.  $pack['id'].  "\n";
+
+                foreach( self::$list[ $pack['id'] ] as $v )
+                {
+                    $text   .=  '    '. str_pad($v['role'].':', 8).  $v['email']; 
+                }
+                
+            }
+
         }
+        
+        // ui::vd( $text );
 
+
+        /*
+        pack.name  123
+            Owner   vodish@yandex.ru
+            View    @psw.ru
+            Editor  @psw.ru
+            View    public
+            View    https://taris.pro/link/53a71acac187833047fef7f6ff16250e
+            
+            
+        pack.name  123
+            Owner   vodish@yandex.ru    # комментарий какой-то
+            View    @psw.ru             # комментарий какой-то
+            View    public
+        */
+        // if ( $v['role'] == 'Owner' )    continue;
+        // $is_email   =   filter_var($email, FILTER_VALIDATE_EMAIL);
+        // $text   .=  $email. ":\n";
+        // $text   .=  '    role: '. $v['role']. "\n";
+        // $text   .=  empty($v['comment']) ?  '' : '    comment: '. $v['comment']. "\n";
+        // $text   .=  $is_email ?             '' : '    link: '. url::site(). '/'. $packId. '?hash='. $email. "\n";
+        // $text   .=  $v['updated'] ?         '' : '    updated: '. $v['updated']. "\n";
+        // $text   .=  "\n";
 
         return $text;
     }

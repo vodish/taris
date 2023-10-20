@@ -91,9 +91,8 @@ pre.apierr br:first-child   { display: none; }
 .nav1 .burger .menu .a  { display: block; padding: 7px 0; margin: 0 14px; }
 
 .nav1 .burger .menu > .group1 { display: flex; justify-content: space-between; padding: 0; margin: 0 14px; }
-.nav1 .burger .menu > .group1 .tree { margin: 0; flex-grow: 1; }
-.nav1 .burger .menu > .group1 .treeAdd { width: 3ch; display: flex; justify-content: center; align-items: center; line-height: 0; margin: 0; font-size: 21px; border-left: solid 1px #333; }
-.nav1 .burger .menu > .group1 .treeDel { width: 3ch; display: flex; justify-content: center; align-items: center; line-height: 0; margin: 0; font-size: 21px; border-left: solid 1px #333; }
+.nav1 .burger .menu > .group1 > *:first-child { margin: 0; flex-grow: 1; }
+.nav1 .burger .menu > .group1 .icon { width: 3ch; display: flex; justify-content: center; align-items: center; line-height: 0; margin: 0; font-size: 21px; border-left: solid 1px #333; }
 
 .nav1 .burger .menu > *:not(:first-child) { border-top: solid 1px #333; }
 .nav1 .burger:hover .menu { display: block; }
@@ -231,15 +230,16 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     .ace_editor { color: var(--darkColor); }
     .ace-tm .ace_gutter { background-color: #2e2e2e; color: #666; }
     .ace-tm .ace_gutter-active-line { background-color: var(--darkPreFon); }
-    .ace-tm .ace_meta.ace_tag   { color: var(--darkTag); }
-    .ace-tm .ace_indent-guide   { background: none; }
+    .ace-tm .ace_meta.ace_tag       { color: var(--darkTag); }
+    .ace-tm .ace_keyword   { color: var(--darkAttr); }
+    .ace-tm .ace_indent-guide       { background: none; }
     .ace-tm .ace_cursor { color: #AEAFAD; }
-    .ace-tm .ace_marker-layer .ace_selection { background: #373B41; }
-    .ace-tm .ace_attribute-name { color:var(--darkAttr) !important; }
+    .ace-tm .ace_attribute-name     { color:var(--darkAttr) !important; }
     .ace-tm .ace_string { color: var(--darkAttr); }
-    .ace-tm .ace_marker-layer .ace_active-line { background: var(--darkPreFon); }
-    .ace-tm .ace_marker-layer .ace_bracket { border: 1px solid #555; }
-    .ace-tm .ace_marker-layer .ace_selected-word { background: #555; border: 1px solid var(--darkPreFon); }
+    .ace-tm .ace_marker-layer .ace_selection        { background: #373B41; }
+    .ace-tm .ace_marker-layer .ace_active-line      { background: var(--darkPreFon); }
+    .ace-tm .ace_marker-layer .ace_bracket          { border: 1px solid #555; }
+    .ace-tm .ace_marker-layer .ace_selected-word    { background: #555; border: 1px solid var(--darkPreFon); }
     .ace-tm .ace_constant.ace_numeric { color: var(--darkNum); }
 }
 

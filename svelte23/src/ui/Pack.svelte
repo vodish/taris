@@ -33,10 +33,14 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
             <MenuItem key="line" href="/{$url.level[0]}/line" />
             <div class="group1">
                 <MenuItem key="tree" href="/{$url.level[0]}/tree" />
-                <MenuItem key="treeAdd" href="/{$url.level[0]}/treeAdd" />
-                <MenuItem key="treeDel" href="/{$url.level[0]}/treeDel" />
+                <MenuItem key="treeAdd" href="/{$url.level[0]}/treeAdd" cls="icon" title="Выделить проект" />
+                <MenuItem key="treeDel" href="/{$url.level[0]}/treeDel" cls="icon" title="Отменить проект" />
             </div>
-            <MenuItem key="access" href="/{$url.level[0]}/access" />
+            <div class="group1">
+                <MenuItem key="access" href="/{$url.level[0]}/access" />
+                <a href="/{$url.level[0]}/access-link" on:click={pref} class="a icon" title="Доступ по ссылке">{@html '&#9741;'}</a>
+            </div>
+            
             <MenuItem key="log" href="/{$url.level[0]}/log" />
             <MenuItem key="bye" href="/bye/{profile}" />
         </div>
