@@ -74,7 +74,6 @@ class tree
         #
         if ( !isset(self::$log[1]) )            return;
         if ( self::$log[0] == self::$log[1] )   return;
-
         
 
         # подготовить sql записи дерева

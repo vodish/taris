@@ -12,11 +12,18 @@ class access
     #
     static function log()
     {
-        
+
         # пересортировать дерево как есть
-        # проверить дубли ид и принадлежность к пользователю
-        #
+        $order = 0;
+        foreach( self::$list as $list )
+        {
+            foreach( $list as $v )
+            {
+                $v['order'] =   $order++;
+            }
+        }
         
+
         self::$log[]    =   json_encode(self::$list, JSON_UNESCAPED_UNICODE);
     }
 
@@ -33,47 +40,14 @@ class access
         self::$init  =  true;
 
 
-        # хозяин профиля
+        # права из базы
         #
-        self::$list[ user::$start ][]  =  array(
-            'user'      =>  user::$id,
-            'pack'      =>  user::$start,
-            'email'     =>  user::$email,
-            'role'      =>  'owner',
-            'comment'   =>  '',
-        );
-        #
-        # остальные настроенные права из базы
-        #
-        db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id) );
+        db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id). "  ORDER BY `order`" );
         #
         for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v );
         
     }
     
-
-
-
-    # список прав для пачке как html
-    #
-    static function asHtml($packId)
-    {
-        $access =   self::$list[ $packId ] ?? array();
-        $html   =   '';
-        
-        if ( !$access )     return '';
-
-        foreach( $access as $email => $v )
-        {
-            $html   =   '';
-            $html   .=  '<pre>' .$email. ':</pre>';
-            $html   .=  '<pre>    role: ' .$v['role']. '</pre>';
-            $html   .=  $v['comment'] ? '<pre>    comment: ' .$v['comment']. '</pre>': '';
-            $html   .=  '<br />';
-        }
-
-        return $html;
-    }
 
 
 
@@ -90,44 +64,20 @@ class access
             {
                 if ( !isset(self::$list[ $pack['id'] ]) )   continue;
 
-                $text   .=  $pack['name'].  '   '.  $pack['id'].  "\n";
+                $text .=  $pack['name'].  '   '.  $pack['id'].  "\n";
 
                 foreach( self::$list[ $pack['id'] ] as $v )
                 {
-                    $text   .=  '    '. str_pad($v['role'].':', 8).  $v['email']; 
+                    $text .=  '    '. str_pad($v['role'].':', 8).  $v['email'].  "\n"; 
                 }
                 
+                $text .=  "    \n";
             }
-
         }
+
+
         
-        // ui::vd( $text );
-
-
-        /*
-        pack.name  123
-            Owner   vodish@yandex.ru
-            View    @psw.ru
-            Editor  @psw.ru
-            View    public
-            View    https://taris.pro/link/53a71acac187833047fef7f6ff16250e
-            
-            
-        pack.name  123
-            Owner   vodish@yandex.ru    # комментарий какой-то
-            View    @psw.ru             # комментарий какой-то
-            View    public
-        */
-        // if ( $v['role'] == 'Owner' )    continue;
-        // $is_email   =   filter_var($email, FILTER_VALIDATE_EMAIL);
-        // $text   .=  $email. ":\n";
-        // $text   .=  '    role: '. $v['role']. "\n";
-        // $text   .=  empty($v['comment']) ?  '' : '    comment: '. $v['comment']. "\n";
-        // $text   .=  $is_email ?             '' : '    link: '. url::site(). '/'. $packId. '?hash='. $email. "\n";
-        // $text   .=  $v['updated'] ?         '' : '    updated: '. $v['updated']. "\n";
-        // $text   .=  "\n";
-
-        return $text;
+        return  substr($text, 0, -1);
     }
 
 
@@ -162,6 +112,23 @@ class access
         #
         self::log();
 
+        
+        # распарсить новые права
+        #
+        $explode    =   explode("\n", req::$param['access']);
+        $list       =   array();
+        $pack       =   null;
+
+        foreach( $explode as $str )
+        {
+            $row  =   self::parse($str, $pack);
+            
+            if ( $pack && $row )
+            {
+                $list[ $pack ][] = $row;
+            }
+
+        }
 
         ui::vd( req::$param );
         die;
@@ -171,6 +138,23 @@ class access
         # сохранить в базе
         #
         self::dbSave();
+    }
+
+
+
+    private static function parse($str, &$pack)
+    {
+        # пачка
+        if ( preg_match("##", $str, $m) )
+        {
+
+        }
+
+        # настройка
+        if ( preg_match("##", $str, $m) )
+        {
+
+        }
     }
 
 
