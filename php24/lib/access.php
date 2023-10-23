@@ -12,12 +12,11 @@ class access
     #
     static function log()
     {
-
         # пересортировать дерево как есть
-        $order = 0;
-        foreach( self::$list as $pack => $list )
+        $order  =  1;
+        foreach( self::$list as $pack => &$list )
         {
-            foreach( $list as $k => $v )
+            foreach( $list as $k => &$v )
             {
                 $v['order'] =   $order++;
 
@@ -47,8 +46,8 @@ class access
         self::$list[ user::$start ][]  =  array(
             'user'      =>  user::$id,
             'pack'      =>  user::$start,
-            'email'     =>  user::$email,
             'role'      =>  'owner',
+            'email'     =>  user::$email,
             'comment'   =>  '',
         );
         #
@@ -80,7 +79,7 @@ class access
 
                 foreach( self::$list[ $pack['id'] ] as $v )
                 {
-                    $text .=  '    '. str_pad($v['role'].':', 8).  $v['email'].  "\n"; 
+                    $text .=  '    '. str_pad($v['role'].':', 8).  $v['email']. ($v['comment'] ? $v['comment'] : '').  "\n"; 
                 }
                 
                 $text .=  "    \n";
@@ -120,32 +119,30 @@ class access
         if ( empty(pack::$start)            )   return;
         if ( !isset(req::$param['access'])  )   return;
 
+
         # логировать
         #
         self::log();
 
-        
+
+
         # распарсить новые права
         #
-        $explode    =   explode("\n", req::$param['access']);
-        $list       =   array();
+        $content    =   req::$param['access'];
+        $content    =   strtr($content, ["\r"=>'']);
+        $content    =   explode("\n", $content);
+        #
         $pack       =   null;
-
-        foreach( $explode as $str )
+        self::$list =   array();
+        #
+        #
+        foreach( $content as $str )
         {
-            $row  =   self::parse($str, $pack);
-            
-            if ( $pack && $row )
+            if ( $row = self::parse($str, $pack) )
             {
-                $list[ $pack ][] = $row;
+                self::$list[ $pack ][] = $row;
             }
-
         }
-
-        // ui::vd( req::$param );
-        ui::vd( $pack, 1 );
-        die;
-
 
 
         # сохранить в базе
@@ -155,38 +152,38 @@ class access
 
 
 
+    # распарсить строку
+    #
     private static function parse($str, &$pack)
     {
-        ui::vd($str);
-
-        # пачка
-        if ( preg_match("#^\S+ +\d+$#", $str, $m) )
+        # определение пачки
+        if ( preg_match("#^\S.+\s(\d+)$#", $str, $m)  && isset($m[1]) )
         {
-            ui::vd($m);
-            die;
-            return  $pack =  $m;
+            $pack =  intval($m[1]);
         }
         #
         # настройка
-        elseif ( preg_match_all("#(?<=\s)\S+#", $str, $m) )
+        elseif ( preg_match("#\s(\S+)\s+(\S+)(.*)#", $str, $m)  && isset($m[2]) )
         {
-            ui::vd($m);
+            $role       =   mb_strtolower( strtr($m[1], [":"=>""]) );
+            $email      =   $m[2];
+            $comment    =   $m[3] ??  '';
+            
+            if ( !in_array($role, ['edit', 'view', 'admin']) )      return false;
+
+            $row        =   array(
+                'user'      =>  user::$id,
+                'pack'      =>  $pack,
+                'role'      =>  $role,
+                'email'     =>  $email,
+                'comment'   =>  $comment,
+                'order'     =>  0,
+            );
+            return $row;
         }
 
-        /*
-        pack.name  123
-            Owner   vodish@yandex.ru
-            View    @psw.ru
-            Editor  @psw.ru
-            View    public
-            View    https://taris.pro/link/53a71acac187833047fef7f6ff16250e
-            
-            
-        pack.name  123
-            Owner   vodish@yandex.ru    # комментарий какой-то
-            View    @psw.ru             # комментарий какой-то
-            View    public
-        */
+
+        return false;
     }
 
 
@@ -199,33 +196,36 @@ class access
         # текущее дерево
         #
         self::log();
-        #
-        #
-        if ( !isset(self::$log[1]) )            return;
+
+        
         if ( self::$log[0] == self::$log[1] )   return;
-
-
-        ui::vdd('сохранить в базе');
+        if ( !isset(self::$log[1]) )            return;
+        
+        
+        
 
 
         # подготовить sql записи дерева
         #
-        foreach( pack::$tree as $list )
+        $rows   =   array();
+        #
+        foreach( self::$list as $list )
         {
-            foreach( $list as $pack )
+            foreach( $list as $access )
             {
-                if ( $pack['project'] == 0 )    continue;
-                
-                foreach($pack as &$v)  $v = db::v($v);
-                
-                $rows[] =   "(".  implode(',', $pack).  ")";
+                foreach($access as &$v)   $v = db::v($v);
+
+                $rows[] =   "(".  implode(',', $access).  ")";
             }
         }
         #
         #
         // ui::vd( user::$prefix );
+        // ui::vd( self::$list );
         // ui::vd( $rows );
         // die;
+        // ui::vd(self::$log);
+        // ui::vdd('сохранить в базе');
         
 
 
@@ -244,7 +244,7 @@ class access
                  " .db::v(user::$id). "
                 ," .db::v(0). "
                 ," .db::v('@'). "
-                ," .db::v('tree'). "
+                ," .db::v('access'). "
                 ," .db::v(null). "
                 ," .db::v(self::$log[0]). "
             )
@@ -255,8 +255,8 @@ class access
         #
         db::query("
             DELETE
-            FROM    `pack`
-            WHERE   `user` = " .db::v(user::$id). " AND `project` != 0
+            FROM    `access`
+            WHERE   `user` = " .db::v(user::$id). "
         ");
         #
         #
@@ -264,14 +264,13 @@ class access
         #
         #
         db::query("
-            INSERT INTO `pack` (
+            INSERT INTO `access` (
                  `user`
-                ,`id`
-                ,`project`
-                ,`space`
-                ,`name`
+                ,`pack`
+                ,`role`
+                ,`email`
+                ,`comment`
                 ,`order`
-                ,`file`
             )
             VALUES
             ".  implode("\n,", $rows).  "

@@ -52,6 +52,11 @@ class pack
         if ( empty($user) )   return;
 
 
+        # получить права
+        #
+        access::dbInit();
+        
+
 
         # получить все пачки хозяина
         #
