@@ -118,45 +118,70 @@ class pack
     
 
 
-    # проверить парава для крошек
+    # проверить парава пользователя на крошках
     #
     static function access()
     {
         author::dbInit();
         access::dbInit();
-        $bc     =   array_reverse( self::$bc );
-        $al     =   author::$list;
 
+        $bc =   array_reverse( self::$bc );
         
-        foreach( $bc as $packId )
+        # пройти по крошкам
+        #
+        foreach( $bc as $id )
         {
-            # права на пачку
+            # пройти по настрокам доступа для пачек в крошках
             #
-            $access =   access::$list[ $packId ]  ??  [];
-            
-            # найти # owner # admin # edit # view
+            foreach( access::$list[ $id ] ?? [] as $row )
+            {
+                # найти # owner # admin # edit # view
+                #
+                if ( !author::$id  &&  in_array($row['role'], ['owner','admin','edit'])  &&  ($user = self::checkEmail($row['email'])) )
+                {
+                    author::$id     =   $user['id'];
+                    author::$email  =   $user['email'];
+                    author::$role   =   $row['role'];
+                }
+                
+                # публичный обзор
+                #
+                if ( $row['role'] == 'view'  && $row['email'] == 'public' )
+                {
+                    $public = 1;
+                }
+            }
 
-            
-            ui::vd( $packId );
-            ui::vd( $access );
-            ui::vd( $al );
-            die;
-
-
-            # определить автора для доступа к функциям
+            # публичный доступ транслировать на все вложения
             #
-            
-            
-
-            # определить публичность обзора пачки
-            #
-            
+            if ( isset($public) )
+            {
+                pack::$list[ $id ]['public']  =  $public;
+            }
         }
 
-
+        
+        // foreach( pack::$bc as $id ) ui::vd( pack::$list[ $id ] );
+        // ui::vd( author::$id );
+        // ui::vd( author::$email );
+        // ui::vd( author::$role );
         // die;
     }
 
+    
+    private static function checkEmail($email)
+    {
+        if ( empty(author::$list) )     return false;
 
+        foreach(author::$list as $user)
+        {
+            if ( $user['email'] == $email || strstr($user['email'], $email) !== false )
+            {
+                return $user;
+            }
+        }
+
+        return false;
+    }
 
 }
