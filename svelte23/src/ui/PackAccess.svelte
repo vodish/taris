@@ -1,12 +1,15 @@
 <script>
     // @ts-nocheck
-    import { pref, packStart, accessText } from "../state/store";
+    import { pref, packBc, packStart, accessText } from "../state/store";
     import AceYaml from './comp/AceYaml.svelte';
 
     
     function save()
     {
+        console.log($packBc)
         pref(`/${$packStart}/access`, {access: $accessText, wait:['accessText']});
+        console.log($packBc)
+        
     }
 
 

@@ -168,7 +168,7 @@ class access
             $email      =   $m[2];
             $comment    =   $m[3] ??  '';
             
-            if ( !in_array($role, ['edit', 'view', 'admin']) )      return false;
+            if ( $role == 'owner' )      return false;
 
             $row        =   array(
                 'user'      =>  user::$id,
