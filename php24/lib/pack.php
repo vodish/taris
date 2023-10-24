@@ -110,10 +110,8 @@ class pack
         
 
 
-        # установить парава
+        # установить права
         #
-        author::dbInit();
-        access::dbInit();
         self::access();
         
     }
@@ -124,12 +122,34 @@ class pack
     #
     static function access()
     {
-        foreach( self::$bc as $id )
+        author::dbInit();
+        access::dbInit();
+        $bc =   array_reverse( self::$bc );
+
+        
+        foreach( $bc as $packId )
         {
-            $pack   =   self::$list[ $id ];
+            # права на пачку
+            #
+            $access =   access::$list[ $packId ]  ??  [];
             
-            ui::vd( $pack );
+            ui::vd( $packId );
+            ui::vd( $access );
+
+
+
+            # определить автора для доступа к функциям
+            #
+            
+            
+
+            # определить публичность обзора пачки
+            #
+            
         }
+
+
+        die;
     }
 
 

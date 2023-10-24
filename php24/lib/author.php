@@ -4,8 +4,8 @@ class author
     static $init    =   false;
     static $list    =   [];
 
-    static $type    =   'close';
     static $id;
+    static $role;
     static $email;
     
 
@@ -42,6 +42,7 @@ class author
             ORDER BY
                 FIELD(`token`.`token`, " .implode(',', $order). ")
         ");
+        
         
 
         return self::$list;
