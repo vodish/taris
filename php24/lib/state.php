@@ -8,7 +8,7 @@ class state
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
 
 
-        res::$ret['userList']  =   user::list();
+        res::$ret['userList']  =   author::dbInit();
     }
 
     
@@ -214,7 +214,7 @@ class state
         
         access::dbInit();
         
-        
+
         res::$ret[__FUNCTION__]  =   access::asText();
     }
 

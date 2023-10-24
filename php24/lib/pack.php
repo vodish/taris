@@ -52,10 +52,8 @@ class pack
         if ( empty($user) )   return;
 
 
-        # получить права
-        #
-        access::dbInit();
         
+
 
 
         # получить все пачки хозяина
@@ -108,13 +106,24 @@ class pack
             $start  =   self::$list[ $start ]['project'];
         }
         
+
+
+        # проверить права
+        #
+        self::access();
+        
     }
 
 
 
-    static function id()
+    static function access()
     {
+        author::dbInit();
+        access::dbInit();
         
+        ui::vd(author::$list);
+        ui::vd(access::$list);
+        die;
     }
     
 

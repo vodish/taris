@@ -17,41 +17,6 @@ class user
 
 
 
-    # получить список профилей
-    #
-    static function list()
-    {
-        if ( empty($_COOKIE['token']) )        return [];
-        
-
-        # список пользователей из базы
-        #
-        foreach($_COOKIE['token'] as $email => $token)
-        {
-            $where[] = "(`token`.`email` = " .db::v($email). " AND `token`.`token` = " .db::v($token). " AND `token`.`is_active` = 1)";
-        }
-        #
-        #
-        $userList  =  db::select("
-            SELECT
-                 `user`.`id`
-                ,`user`.`email`
-                ,`user`.`start`
-            FROM
-                `user`
-                    JOIN `token`    ON `user`.`email` = `token`.`email`
-            WHERE
-                " .implode("\n\tOR\t ", $where). "
-            ORDER BY
-                `user`.`id`
-        ");
-        
-
-        return  $userList;
-    }
-
-
-
 
 
     # отправить код вохода
@@ -124,12 +89,12 @@ class user
 
         # вернуть данные
         #
-        res::$ret['userList']   =   user::list();
+        res::$ret['userList']   =   author::dbInit();
         #
         req::$param['pack']     =   $user['start'];
         req::$wait              =   array_merge(req::$wait, ['packStart', 'packProject', 'packBc', 'packTree', 'packMenu', 'packTitle', 'lineHtml']);
         
-        
+
         
         # ответ
         #

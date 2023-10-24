@@ -56,10 +56,12 @@ class access
         db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id). "  ORDER BY `order`" );
         #
         for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v );
-        
+
     }
     
 
+    # установить права для текущей пачки
+    #
 
 
 
