@@ -72,7 +72,7 @@ pre.apierr br:first-child   { display: none; }
 .nav1 .bc *:first-child { margin-left: -0.5ch; }
 .nav1 .bc i         { font-style: normal; color: #ddd; }
 .nav1 .bc i:before  { content: '/'; font-size: 10px; }
-.nav1 .bc i.pub:before  { content: '\2022'; font-size: 22px; }
+.nav1 .bc i.public:before  { content: '\2022'; font-size: 22px; }
 .nav1 .bc > a       { padding: 4px 0.6ch; }
 .nav1 .opt          { display: flex; }
 .nav1 .opt > *      { padding: 4px 1ch; border-radius: 2px; }

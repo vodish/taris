@@ -21,7 +21,7 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
     <div class="bc">
         <a href="/" class="logo" on:click={href}>Taris</a>
         {#each $packBc as pack }
-            <i></i>
+            <i class="{pack._pub}"></i>
             <a  href="/{pack.id}" on:click={pref} class="{pack._act} {pack._cur}">{pack.name}</a>
         {/each}
     </div>

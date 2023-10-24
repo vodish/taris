@@ -47,6 +47,7 @@ class state
                 'name'  =>  pack::$list[ $v ]['name'],
                 '_act'  =>  '', //!isset($bc[$k+1]) ?  'active' : '',
                 '_cur'  =>  pack::$start == $v ?  'current' : '',
+                '_pub'  =>  pack::$list[ $v ]['public'] ?? 0 ?  'public' : '',
             );
         }
 
