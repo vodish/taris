@@ -122,7 +122,8 @@ pre.apierr br:first-child   { display: none; }
 .pro > .file > div > h3     { margin: 0 0 0.3em 0; }
 .pro > .file > div > h4     { margin: 0 0 0.2em 0; }
 .pro > .file > div > h5     { margin: 0 0 0.1em 0; }
-.pro > .file a[target="_blank"]  { text-decoration: underline; text-decoration-color: #ccc; }
+.pro > .file  a[target="_blank"]  { text-decoration: underline; text-decoration-color: #ccc; }
+.pro > .file > h6.access    { font-size: 1.1em; }
 
 
 

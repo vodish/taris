@@ -7,7 +7,9 @@ class pack
     static $tree;
     static $bc;
     static $file;
-    
+
+    static $access;
+
 
     # значения по-умолчанию
     #
@@ -108,24 +110,28 @@ class pack
         
 
 
-        # проверить права
+        # установить парава
         #
+        author::dbInit();
+        access::dbInit();
         self::access();
         
     }
+    
 
 
-
+    # проверить парава для крошек
+    #
     static function access()
     {
-        author::dbInit();
-        access::dbInit();
-        
-        ui::vd(author::$list);
-        ui::vd(access::$list);
-        die;
+        foreach( self::$bc as $id )
+        {
+            $pack   =   self::$list[ $id ];
+            
+            ui::vd( $pack );
+        }
     }
-    
+
 
 
 }

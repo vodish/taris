@@ -157,6 +157,7 @@ class state
         line::dbInit();
         
         res::$ret[__FUNCTION__]  =   line::html();
+        // res::$ret[__FUNCTION__]  =   '<h6 class="access">403: доступ ограничен...</h6>';
     }
     
 

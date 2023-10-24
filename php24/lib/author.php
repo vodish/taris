@@ -23,7 +23,8 @@ class author
         #
         foreach($_COOKIE['token'] as $email => $token)
         {
-            $where[] = "(`token`.`email` = " .db::v($email). " AND `token`.`token` = " .db::v($token). " AND `token`.`is_active` = 1)";
+            $where[]    =   "(`token`.`email` = " .db::v($email). " AND `token`.`token` = " .db::v($token). " AND `token`.`is_active` = 1)";
+            $order[]    =   db::v($token);
         }
         #
         #
@@ -39,7 +40,7 @@ class author
             WHERE
                 " .implode("\n\tOR\t ", $where). "
             ORDER BY
-                `user`.`id`
+                FIELD(`token`.`token`, " .implode(',', $order). ")
         ");
         
 
