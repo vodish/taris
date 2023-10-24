@@ -124,7 +124,8 @@ class pack
     {
         author::dbInit();
         access::dbInit();
-        $bc =   array_reverse( self::$bc );
+        $bc     =   array_reverse( self::$bc );
+        $al     =   author::$list;
 
         
         foreach( $bc as $packId )
@@ -133,9 +134,13 @@ class pack
             #
             $access =   access::$list[ $packId ]  ??  [];
             
+            # найти # owner # admin # edit # view
+
+            
             ui::vd( $packId );
             ui::vd( $access );
-
+            ui::vd( $al );
+            die;
 
 
             # определить автора для доступа к функциям
@@ -149,7 +154,7 @@ class pack
         }
 
 
-        die;
+        // die;
     }
 
 
