@@ -73,9 +73,12 @@ state::accessText();
 state::logList();
 
 
-
+# профилирование sql запросов
+// db::log('../log/_sql_' .time(). '.log');
 
 # ответ
 #
 res::json();
 res::html();
+
+

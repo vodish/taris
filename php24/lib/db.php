@@ -53,5 +53,13 @@ class db
     {
         return self::$db->cast($row, $types);
     }
+
+
+    static function log($file)
+    {
+        ob_start();
+        print_r(db::$db->log);
+        file_put_contents($file, ob_get_clean());
+    }
     
 }

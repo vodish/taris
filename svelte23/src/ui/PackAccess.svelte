@@ -6,10 +6,7 @@
     
     function save()
     {
-        console.log($packBc)
         pref(`/${$packStart}/access`, {access: $accessText, wait:['accessText']});
-        console.log($packBc)
-        
     }
 
 
