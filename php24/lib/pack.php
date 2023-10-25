@@ -112,7 +112,7 @@ class pack
 
         # установить права
         #
-        self::access();
+        self::setAccess();
         
     }
     
@@ -120,14 +120,15 @@ class pack
 
     # проверить парава пользователя на крошках
     #
-    static function access()
+    static function setAccess()
     {
         author::dbInit();
         access::dbInit();
 
-        $bc =   array_reverse( self::$bc );
-        
+
         # пройти по крошкам
+        #
+        $bc  =   array_reverse( self::$bc );
         #
         foreach( $bc as $id )
         {
@@ -136,7 +137,6 @@ class pack
             foreach( access::$list[ $id ] ?? [] as $row )
             {
                 # найти # owner # admin # edit # view
-                #
                 if ( !author::$id  &&  in_array($row['role'], ['owner','admin','edit'])  &&  ($user = self::checkEmail($row['email'])) )
                 {
                     author::$id     =   $user['id'];
@@ -145,14 +145,16 @@ class pack
                 }
                 
                 # публичный обзор
-                #
                 if ( $row['role'] == 'view'  && $row['email'] == 'public' )
                 {
                     $public = 1;
                 }
             }
 
+
             # публичный доступ транслировать на все вложения
+            #
+            unset(pack::$list[ $id ]['public']);
             #
             if ( isset($public) )
             {
