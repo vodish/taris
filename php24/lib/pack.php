@@ -60,17 +60,7 @@ class pack
 
         # получить все пачки хозяина
         #
-        db::query("
-            SELECT
-                *
-            FROM
-                `pack`
-            WHERE
-                `user` = " .$user['id']. "
-            ORDER BY
-                 `project`
-                ,`order`
-        ");
+        db::query("SELECT *  FROM `pack`  WHERE `user` = " .$user['id']. "  ORDER BY `project`, `order` ");
         #
         while ( $v = db::fetch(['int'=>['id', 'project', 'space', 'order', 'user', 'file']]) )
         {

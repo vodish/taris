@@ -20,12 +20,7 @@ class line
         
         # получить все записи из базы
         #
-        db::query("
-            SELECT  *
-            FROM  `line`
-            WHERE  `file` = " .db::v(pack::$file). "
-            ORDER BY  `order`
-        ");
+        db::query("SELECT  *  FROM  `line`  WHERE  `file` = " .db::v(pack::$file). "  ORDER BY  `order` ");
         #
         #
         while( $v = db::fetch() )

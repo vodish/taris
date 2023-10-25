@@ -74,7 +74,7 @@ state::logList();
 
 
 # логирование sql запросов
-// db::log('../log/_sql_' .time(). '.log');
+// db::log('../log/_sql_.log');
 
 # ответ
 #
