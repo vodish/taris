@@ -8,7 +8,7 @@ class pack
     static $bc;
     static $file;
 
-    static $access;
+    static $menu;
 
 
     # значения по-умолчанию
