@@ -58,9 +58,9 @@ state::userList();
 #
 state::packStart();
 state::packProject();
+state::packMenu();
 state::packBc();
 state::packTree();
-state::packMenu();
 state::packTitle();
 #
 state::treeText();

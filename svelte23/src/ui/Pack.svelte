@@ -27,26 +27,29 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
         {/each}
     </div>
 
-    <div class="burger" >
-        <div class="name">{$packMenu.name}</div>
-        <div class="menu">
-            <MenuItem key="view" href="/{$url.level[0]}" />
-            <MenuItem key="line" href="/{$url.level[0]}/line" />
-            <div class="group1">
-                <MenuItem key="tree" href="/{$url.level[0]}/tree" />
-                <MenuItem key="treeAdd" href="/{$url.level[0]}/treeAdd" cls="icon" title="Выделить проект" />
-                <MenuItem key="treeDel" href="/{$url.level[0]}/treeDel" cls="icon" title="Отменить проект" />
-            </div>
-            {#if 'access' in $packMenu }
+    {#if 'view' in $packMenu }
+        <div class="burger" >
+            <div class="name">{$packMenu.name}</div>
+            <div class="menu">
+                <MenuItem key="view" href="/{$url.level[0]}" />
+                <MenuItem key="line" href="/{$url.level[0]}/line" />
                 <div class="group1">
-                    <MenuItem key="access" href="/{$url.level[0]}/access" />
-                    <a href="/{$url.level[0]}/access-link" on:click={pref} class="a icon" title="Доступ по ссылке">{@html '&#9741;'}</a>
+                    <MenuItem key="tree" href="/{$url.level[0]}/tree" />
+                    <MenuItem key="treeAdd" href="/{$url.level[0]}/treeAdd" cls="icon" title="Выделить проект" />
+                    <MenuItem key="treeDel" href="/{$url.level[0]}/treeDel" cls="icon" title="Отменить проект" />
                 </div>
-            {/if}
-            <MenuItem key="log" href="/{$url.level[0]}/log" />
-            <MenuItem key="bye" href="/bye/{profile}" />
+                {#if 'access' in $packMenu }
+                    <div class="group1">
+                        <MenuItem key="access" href="/{$url.level[0]}/access" />
+                        <a href="/{$url.level[0]}/access-link" on:click={pref} class="a icon" title="Доступ по ссылке">{@html '&#9741;'}</a>
+                    </div>
+                {/if}
+                <MenuItem key="log" href="/{$url.level[0]}/log" />
+                <MenuItem key="bye" href="/bye/{profile}" />
+            </div>
         </div>
-    </div>
+    {/if}
+
 </div>
 
 

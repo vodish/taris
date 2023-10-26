@@ -138,6 +138,7 @@ class pack
                 if ( $row['role'] == 'view'  && $row['email'] == 'public' )
                 {
                     $public = 1;
+                    author::$role = 'view';
                 }
             }
 

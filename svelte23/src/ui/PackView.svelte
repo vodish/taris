@@ -1,10 +1,12 @@
 <script>
 // @ts-nocheck
-import { pref, packStart, packTree, lineHtml } from "../state/store";
+import { pref, packStart, packMenu, packTree, lineHtml } from "../state/store";
 
 
 document.onkeydown = (e) => {
     
+    if ( $packMenu.line == undefined )  return
+
     if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
         e.preventDefault()

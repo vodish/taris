@@ -110,10 +110,6 @@ class state
         if ( empty(pack::$start) )                      return;
 
 
-        # проверить права
-        #
-
-
         # пункты меню
         #
         $v      =   array(
@@ -141,7 +137,25 @@ class state
         # выход
         if ( pack::$project == 0 )  $menu['bye'] =   'Выйти';
 
-        // ui::vd();
+
+        
+
+        # проверить права
+        # удалить лишние пункты
+        #
+        if      ( author::$role == null )       $menu  =   array();
+        elseif  ( author::$role == 'view' )     $menu  =   array_filter($menu, function($v, $k) { return in_array($k, ['name', 'view']); }, ARRAY_FILTER_USE_BOTH);
+        elseif  ( author::$role == 'edit' )     $menu  =   array_filter($menu, function($v, $k) { return in_array($k, ['name', 'view', 'line']); }, ARRAY_FILTER_USE_BOTH);
+        #
+        #
+        # не актуальная выпадайка для одного пункта меню
+        #
+        if      ( count($menu) == 2 )           $menu   =   array('name' =>$menu['name']);
+
+
+        // ui::vd($menu);
+        // ui::vd(author::$role, 1);
+        // die;
 
         res::$ret[__FUNCTION__]  =   $menu;
     }
