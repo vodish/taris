@@ -157,7 +157,7 @@ class tree
     {
         if ( empty(pack::$start)            )   return;
         if ( !isset(req::$param['tree'])    )   return;
-        
+        if ( pack::denied('tree')           )   return;
 
         # логировать текущее дерево
         #
@@ -267,9 +267,9 @@ class tree
     # 
     static function add()
     {
-        if ( ! pack::$start )   return;
-        if ( @url::$level[1] !== 'treeAdd' )   return;
-
+        if ( ! pack::$start )                   return;
+        if ( @url::$level[1] !== 'treeAdd' )    return;
+        if ( pack::denied('tree') )             return;
 
         # логировать текущее дерево
         #
@@ -340,11 +340,12 @@ class tree
     # 
     static function del()
     {
-        if ( ! pack::$start )   return;
-        if ( @url::$level[1] !== 'treeDel' )   return;
-        if ( !isset(pack::$tree[ pack::$project ]) )     return;
+        if ( ! pack::$start )                           return;
+        if ( @url::$level[1] !== 'treeDel' )            return;
+        if ( !isset(pack::$tree[ pack::$project ]) )    return;
+        if ( pack::denied('tree') )                     return;
 
-
+        
         # логировать текущее дерево
         #
         self::log();

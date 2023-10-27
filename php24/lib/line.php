@@ -114,7 +114,7 @@ class line
     {
         if ( empty(pack::$start) )          return;
         if ( !isset(req::$param['line']) )  return;
-
+        if ( pack::denied('line') )         return;
 
         line::dbInit();
         $log0   =     line::text();

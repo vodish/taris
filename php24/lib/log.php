@@ -28,6 +28,8 @@ class log
     {
         if ( ! user::$id )                  return;
         if ( @url::$level[1] != 'logUp' )   return;
+        if ( pack::denied('log') )          return;
+
 
         $log    =   db::one("
             SELECT  *

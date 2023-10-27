@@ -1,11 +1,21 @@
 <?php
 class state
 {   
+    private static function f($name)
+    {
+        return  in_array($name, req::$wait);
+    }
+
 
     
+
+
+
+    # авторы
+    #
     static function userList()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
+        if ( ! self::f(__FUNCTION__) )      return;
 
 
         res::$ret['userList']  =   author::dbInit();
@@ -19,16 +29,17 @@ class state
     #
     static function packStart()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
         
         res::$ret[__FUNCTION__]    =   pack::$start;
     }
 
     static function isProject()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied('view') )         return;
         
 
         res::$ret[__FUNCTION__]    =   isset(pack::$tree[ pack::$start ]);
@@ -37,8 +48,8 @@ class state
     
     static function packBc()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
 
         $bc     =   array_reverse(pack::$bc);
 
@@ -59,9 +70,9 @@ class state
 
     static function packTree()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        if ( !isset(pack::$access['view']) )            return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied('view') )         return;
         
 
         $project    =  tree::project();
@@ -86,8 +97,8 @@ class state
 
     static function packTitle()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
 
 
         $title  =   pack::$list[ pack::$start ]['name'];
@@ -108,11 +119,11 @@ class state
     
     static function packMenu()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        if ( empty(pack::$access) )                     return; # нет прав
-        if ( count(pack::$access) == 1 )                return; # только обзор
-
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( empty(pack::$access) )         return; # нет прав
+        if ( count(pack::$access) == 1 )    return; # только обзор
+        
         
         # поименовать пункты меню
         #
@@ -145,9 +156,9 @@ class state
 
     static function lineHtml()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        if ( pack::denied('view') )                     return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied('view') )         return;
         
 
         line::dbInit();
@@ -160,9 +171,9 @@ class state
 
     static function lineText()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        if ( pack::denied('edit') )                     return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied('edit') )         return;
         
 
         line::dbInit();
@@ -175,9 +186,9 @@ class state
 
     static function treeText()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        if ( pack::denied('view') )                     return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied('view') )         return;
 
 
 
@@ -200,9 +211,9 @@ class state
     
     static function accessText()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        if ( pack::denied('access') )                   return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied('access') )       return;
 
         access::dbInit();
         
@@ -214,9 +225,9 @@ class state
 
     static function logList()
     {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-        if ( pack::denied('log') )                      return;
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied('log') )          return;
         
 
         # получить записи лога

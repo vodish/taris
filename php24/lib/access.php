@@ -96,9 +96,9 @@ class access
     #
     static function link()
     {
-        if ( empty(pack::$start)                )   return;
-        if ( @url::$level[1] != 'access-link'   )   return;
-
+        if ( empty(pack::$start) )                  return;
+        if ( @url::$level[1] != 'access-link' )     return;
+        if ( pack::denied('access') )               return;
 
         ui::vdd( req::$param );
         ui::vdd( url::$level );
@@ -115,9 +115,9 @@ class access
     #
     static function upd()
     {
-        if ( empty(pack::$start)            )   return;
-        if ( !isset(req::$param['access'])  )   return;
-
+        if ( empty(pack::$start) )              return;
+        if ( !isset(req::$param['access']) )    return;
+        if ( pack::denied('access') )           return;
 
         # логировать
         #
