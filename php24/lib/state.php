@@ -103,8 +103,6 @@ class state
 
         $title  =   pack::$list[ pack::$start ]['name'];
         
-        // ui::vd(pack::$tree);
-        // ui::vd(pack::$project);
 
         if ( !isset(pack::$tree[ pack::$project ]) && pack::$project > 0 )
         {
@@ -173,7 +171,7 @@ class state
     {
         if ( ! self::f(__FUNCTION__) )      return;
         if ( empty(pack::$start) )          return;
-        if ( pack::denied('edit') )         return;
+        if ( pack::denied('line') )         return;
         
 
         line::dbInit();
