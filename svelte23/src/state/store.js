@@ -15,12 +15,12 @@ export let userList         =   writable( false )
 
 
 export let packStart        =   writable( false )
+export let isProject        =   writable( false )
 export let packBc           =   writable( [] )
 export let packTree         =   writable( [] )
 export let packMenu         =   writable( {name:''} )
 export let packTitle        =   writable( "" )
 
-export let isProject        =   writable( false )
 export let treeText         =   writable( "" )
 
 export let lineHtml         =   writable( "" )
