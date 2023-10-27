@@ -159,6 +159,31 @@ class pack
         // ui::vd( author::$email );
         // ui::vd( author::$role );
         // die;
+
+
+
+        # определить доступные пункты меню
+        #
+        $access =   array(
+            'view'      =>  ['view', 'edit', 'admin', 'owner'],
+            'line'      =>  ['edit', 'admin', 'owner'],
+            'tree'      =>  ['edit', 'admin', 'owner'],
+            'treeAdd'   =>  ['admin', 'owner'],
+            'treeDel'   =>  ['admin', 'owner'],
+            'access'    =>  ['admin', 'owner'],
+            'log'       =>  ['admin', 'owner'],
+        );
+        #
+        #
+        foreach($access as $k => $v)
+        {
+            if ( !in_array(author::$role, $v) )     continue;
+
+            self::$menu[ $k ] = $k;
+        }
+
+
+
     }
 
     

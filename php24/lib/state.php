@@ -108,18 +108,40 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
+        if ( empty(pack::$menu) )                       return;
+        
 
+        
+        # поименовать пункты меню
+        #
+        foreach(pack::$menu as &$v)
+        {
+            $v = array(
+                $v          =>  $v,
+                'view'      =>  'Обзор',
+                'line'      =>  'Редактор',
+                'tree'      =>  'Проект',
+                'treeAdd'   =>  'Проект +',
+                'treeDel'   =>  'Проект -',
+                'access'    =>  'Доступ',
+                'log'       =>  'История',
+            )[ $v ];
+        }
+        
+        
+        # если один пункт меню
+        #
+        if ( count(pack::$menu) == 1 )
+        {
+
+        }
+
+        ui::vd( pack::$menu );
 
         # пункты меню
         #
         $v      =   array(
-            'view'      =>  'Обзор',
-            'line'      =>  'Редактор',
-            'tree'      =>  'Проект',
-            'access'    =>  'Доступ',
-            'treeAdd'   =>  'Обзор',
-            'treeDel'   =>  'Обзор',
-            'log'       =>  'История',
+            
         );
         #
         #
