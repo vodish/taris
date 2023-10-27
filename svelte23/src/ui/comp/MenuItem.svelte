@@ -13,7 +13,7 @@ $: level1  =   $url.level[1] || "view";
 
 
 {#if key in $packMenu }
-    {#if level1 == key }  <span class="a {key} {cls}" {title}>{$packMenu[key]}</span>
+    {#if level1 == key }  <span class="a {key} {cls}" {title}>{@html $packMenu[key]}</span>
     {:else}  <a {href} on:click={pref} class="a {cls}" {title}>{@html $packMenu[key]}</a>
     {/if}
 {/if}

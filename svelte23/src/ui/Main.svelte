@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { onMount } from "svelte";
-import { api, pref, href, userList, packStart, packProject, packBc, packTree, packMenu, packTitle, lineHtml } from "../state/store";
+import { api, pref, href, userList, packStart, isProject, packBc, packTree, packMenu, packTitle, lineHtml } from "../state/store";
 
 
 
@@ -76,7 +76,7 @@ function apiCheckCode()
             if ( res.packStart ) {
                 userList.set(res.userList)
                 packStart.set(res.packStart)
-                packProject.set(res.packProject)
+                isProject.set(res.isProject)
                 packBc.set(res.packBc)
                 packTree.set(res.packTree)
                 packMenu.set(res.packMenu)

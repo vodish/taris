@@ -8,28 +8,28 @@ export { href, pref, api, parse }
 
 
 // окружение
-export let url          =   writable()
-export let apierr       =   writable( "" )
+export let url              =   writable()
+export let apierr           =   writable( "" )
 
-export let userList     =   writable( false )
+export let userList         =   writable( false )
 
 
-export let packStart    =   writable( false )
-export let packProject  =   writable( false )
-export let packBc       =   writable( [] )
-export let packTree     =   writable( [] )
-export let packMenu     =   writable( {name:''} )
-export let packTitle    =   writable( "" )
+export let packStart        =   writable( false )
+export let packBc           =   writable( [] )
+export let packTree         =   writable( [] )
+export let packMenu         =   writable( {name:''} )
+export let packTitle        =   writable( "" )
 
-export let treeText     =   writable( "" )
+export let isProject        =   writable( false )
+export let treeText         =   writable( "" )
 
-export let lineHtml     =   writable( "" )
-export let lineText     =   writable( "" )
+export let lineHtml         =   writable( "" )
+export let lineText         =   writable( "" )
 
-export let accessPack   =   writable( [] )
-export let accessText   =   writable( "" )
+export let accessPack       =   writable( [] )
+export let accessText       =   writable( "" )
 
-export let logList      =   writable( [] )
+export let logList          =   writable( [] )
 
 
 // инициализация

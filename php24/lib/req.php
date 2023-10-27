@@ -90,7 +90,7 @@ class req
         if ( isset(url::$level[0])  && is_numeric(url::$level[0])  && url::$level[0] > 0 )
         {
             req::$param['pack'] =   url::$level[0];
-            req::$wait          =   array_merge(req::$wait, ['packStart', 'packProject', 'packBc', 'packTree', 'packMenu', 'packTitle']);
+            req::$wait          =   array_merge(req::$wait, ['packStart', 'isProject', 'packBc', 'packTree', 'packMenu', 'packTitle']);
         }
 
 

@@ -8,6 +8,7 @@ class pack
     static $bc;
     static $file;
 
+    static $isProject;
     static $menu;
 
 
@@ -168,8 +169,6 @@ class pack
             'view'      =>  ['view', 'edit', 'admin', 'owner'],
             'line'      =>  ['edit', 'admin', 'owner'],
             'tree'      =>  ['edit', 'admin', 'owner'],
-            'treeAdd'   =>  ['admin', 'owner'],
-            'treeDel'   =>  ['admin', 'owner'],
             'access'    =>  ['admin', 'owner'],
             'log'       =>  ['admin', 'owner'],
         );

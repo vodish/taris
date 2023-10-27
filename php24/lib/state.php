@@ -25,12 +25,14 @@ class state
         res::$ret[__FUNCTION__]    =   pack::$start;
     }
 
-    static function packProject()
+    static function isProject()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
         
-        res::$ret[__FUNCTION__]    =   pack::$project;
+
+        res::$ret[__FUNCTION__]    =   isset(pack::$tree[ pack::$start ]);
+        res::$ret[__FUNCTION__]    =   pack::$project ?  res::$ret[__FUNCTION__]:  null ;
     }
     
     static function packBc()
@@ -45,7 +47,6 @@ class state
             $v   =   array(
                 'id'    =>  pack::$list[ $v ]['id'],
                 'name'  =>  pack::$list[ $v ]['name'],
-                '_act'  =>  '', //!isset($bc[$k+1]) ?  'active' : '',
                 '_cur'  =>  pack::$start == $v ?  'current' : '',
                 '_pub'  =>  pack::$list[ $v ]['public'] ?? 0 ?  'public' : '',
             );
@@ -108,71 +109,40 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
-        if ( empty(pack::$menu) )                       return;
-        
+        if ( empty(pack::$menu) )                       return; # нет прав
+        if ( count(pack::$menu) == 1 )                  return; # только обзор
 
         
         # поименовать пункты меню
         #
-        foreach(pack::$menu as &$v)
+        $menu   =   pack::$menu;
+        #
+        foreach($menu as &$v)
         {
-            $v = array(
+            $v  =   array(
                 $v          =>  $v,
                 'view'      =>  'Обзор',
                 'line'      =>  'Редактор',
                 'tree'      =>  'Проект',
-                'treeAdd'   =>  'Проект +',
-                'treeDel'   =>  'Проект -',
                 'access'    =>  'Доступ',
                 'log'       =>  'История',
             )[ $v ];
         }
+        #
+        $menu['name']   =   $menu[ url::$level[1] ?? '' ]  ??  'Обзор';
+
         
-        
-        # если один пункт меню
-        #
-        if ( count(pack::$menu) == 1 )
-        {
-
-        }
-
-        ui::vd( pack::$menu );
-
-        # пункты меню
-        #
-        $v      =   array(
-            
-        );
-        #
-        #
-        # добавить меню пачки
-        #
-        $menu['name']   =   strtr(url::$level[1] ?? 'view', $v);
-        $menu['view']   =   'Обзор';
-        $menu['line']   =   'Редактор';
-        $menu['tree']   =   'Проект';
-        $menu['access'] =   'Доступ';
-        $menu['log']    =   'История';
         # проект
-        if ( $menu['name']=='Обзор'  && !isset(pack::$tree[ pack::$start ])  && pack::$project )    $menu['treeAdd'] =   '+';
-        if ( $menu['name']=='Обзор'  && isset(pack::$tree[ pack::$start ])  && pack::$project )     $menu['treeDel'] =   '-';
+        // $menu['treeAdd'] = '+';
+        // $menu['treeDel'] = '-';
+        // $menu['accessLink'] = '&#9741;';
+        // if ( $menu['name']=='Обзор'  && !isset(pack::$tree[ pack::$start ])  && pack::$project )    unset($menu['treeDel']);
+        // if ( $menu['name']=='Обзор'  && isset(pack::$tree[ pack::$start ])  && pack::$project )    unset($menu['treeAdd']);
         # выход
-        if ( pack::$project == 0 )  $menu['bye'] =   'Выйти';
-
-
+        if ( pack::$project == 0 )      $menu['bye'] =   'Выйти';
         
-
-        # проверить права
-        # удалить лишние пункты
-        #
-        if      ( author::$role == null )       $menu  =   array();
-        elseif  ( author::$role == 'view' )     $menu  =   array_filter($menu, function($v, $k) { return in_array($k, ['name', 'view']); }, ARRAY_FILTER_USE_BOTH);
-        elseif  ( author::$role == 'edit' )     $menu  =   array_filter($menu, function($v, $k) { return in_array($k, ['name', 'view', 'line']); }, ARRAY_FILTER_USE_BOTH);
-        #
-        #
-        # не актуальная выпадайка для одного пункта меню
-        #
-        if      ( count($menu) == 2 )           $menu   =   array('name' =>$menu['name']);
+        
+        // ui::vdd( $menu );
 
 
         // ui::vd($menu);
