@@ -67,9 +67,7 @@ state::treeText();
 state::lineHtml();
 state::lineText();
 #
-state::accessArray();
 state::accessText();
-#
 state::logList();
 
 

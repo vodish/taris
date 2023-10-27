@@ -143,7 +143,7 @@ class access
             }
         }
 
-        
+
         # обновить права
         #
         pack::setAccess();

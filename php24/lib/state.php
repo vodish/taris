@@ -61,7 +61,8 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
-
+        if ( !isset(pack::$access['view']) )            return;
+        
 
         $project    =  tree::project();
         $tree       =   array();
@@ -109,13 +110,13 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
-        if ( empty(pack::$menu) )                       return; # нет прав
-        if ( count(pack::$menu) == 1 )                  return; # только обзор
+        if ( empty(pack::$access) )                     return; # нет прав
+        if ( count(pack::$access) == 1 )                return; # только обзор
 
         
         # поименовать пункты меню
         #
-        $menu   =   pack::$menu;
+        $menu   =   pack::$access;
         #
         foreach($menu as &$v)
         {
@@ -130,25 +131,11 @@ class state
         }
         #
         $menu['name']   =   $menu[ url::$level[1] ?? '' ]  ??  'Обзор';
-
-        
-        # проект
-        // $menu['treeAdd'] = '+';
-        // $menu['treeDel'] = '-';
-        // $menu['accessLink'] = '&#9741;';
-        // if ( $menu['name']=='Обзор'  && !isset(pack::$tree[ pack::$start ])  && pack::$project )    unset($menu['treeDel']);
-        // if ( $menu['name']=='Обзор'  && isset(pack::$tree[ pack::$start ])  && pack::$project )    unset($menu['treeAdd']);
+        #
         # выход
         if ( pack::$project == 0 )      $menu['bye'] =   'Выйти';
         
         
-        // ui::vdd( $menu );
-
-
-        // ui::vd($menu);
-        // ui::vd(author::$role, 1);
-        // die;
-
         res::$ret[__FUNCTION__]  =   $menu;
     }
     
@@ -160,11 +147,13 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
+        if ( pack::denied('view') )                     return;
+        
 
         line::dbInit();
         
         res::$ret[__FUNCTION__]  =   line::html();
-        // res::$ret[__FUNCTION__]  =   '<h6 class="access">403: доступ ограничен...</h6>';
+        
     }
     
 
@@ -173,6 +162,8 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
+        if ( pack::denied('edit') )                     return;
+        
 
         line::dbInit();
         
@@ -186,6 +177,9 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
+        if ( pack::denied('view') )                     return;
+
+
 
         $project    =  tree::project();
         $text   =   '';
@@ -202,24 +196,14 @@ class state
 
 
 
-
-    static function accessArray()
-    {
-        if ( ! in_array(__FUNCTION__, req::$wait) )     return;
-        if ( empty(pack::$start) )                      return;
-
-        access::dbInit();
-        
-
-        res::$ret[__FUNCTION__]  =   ["Какой то ответ в json"];
-    }
     
     
     static function accessText()
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
-        
+        if ( pack::denied('access') )                   return;
+
         access::dbInit();
         
 
@@ -232,6 +216,7 @@ class state
     {
         if ( ! in_array(__FUNCTION__, req::$wait) )     return;
         if ( empty(pack::$start) )                      return;
+        if ( pack::denied('log') )                      return;
         
 
         # получить записи лога

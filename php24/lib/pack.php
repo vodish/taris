@@ -9,7 +9,7 @@ class pack
     static $file;
 
     static $isProject;
-    static $menu;
+    static $access;
 
 
     # значения по-умолчанию
@@ -178,10 +178,8 @@ class pack
         {
             if ( !in_array(author::$role, $v) )     continue;
 
-            self::$menu[ $k ] = $k;
+            self::$access[ $k ] = $k;
         }
-
-
 
     }
 
@@ -201,4 +199,16 @@ class pack
         return false;
     }
 
+
+    static function denied($page)
+    {
+        if ( !isset(pack::$access[ $page ]) )
+        {
+            res::$ret['lineHtml']   =   '<h6 class="access">403: нет доступа...</h6>';
+            res::$ret['href']       =   '/' .pack::$start;
+            return true;
+        }
+
+        return false;
+    }
 }
