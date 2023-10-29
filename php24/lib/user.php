@@ -197,10 +197,10 @@ class user
     #
     static function bye()
     {
-        if ( url::$level[0] != 'bye' )      return;
-        if ( empty(url::$level[1]) )        return;
         if ( empty($_COOKIE['token']) )     return;
         if ( !isset($_COOKIE['token'][ url::$level[1] ]) )    return;
+        if ( empty(url::$level[1]) )        return;
+        if ( url::$level[0] != 'bye' )      return;
 
         
         # удалить куку
