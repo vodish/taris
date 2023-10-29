@@ -10,14 +10,13 @@ class db_pdo
     
     
     
-    public function __construct( $dsn=DB_TEST )
+    public function __construct( $dsn=DB_PROD, $user=DB_USER, $pass=DB_PASS )
     {
-        $this->dsn      =   HTTP_HOST == 'taris.pro' ?  DB_PROD : $dsn;
-        // $this->dsn      =   DB_PROD;
-                
-
+        $dsn    =   PATH_SEPARATOR==';' ?  DB_TEST :  $dsn;
+        
         try {
-            @$this->connect  =   new PDO($this->dsn, DB_USER, DB_PASS, [ PDO::ATTR_EMULATE_PREPARES => true ]);
+            $this->dsn      =   $dsn;
+            @$this->connect =   new PDO($dsn, $user, $pass, [ PDO::ATTR_EMULATE_PREPARES => true ]);
         }
         catch (Exception $e) {
             echo '<b>Cant connect to db...</b><br />';
