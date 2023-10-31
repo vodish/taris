@@ -2,46 +2,46 @@
 class rtoken
 {
     static $value;
-    static $response;
 
 
-
-    # добавить новый токен запросов (для api) в ограниченный список
+    # добавить ртокен для api запросов
     #
     static function init()
     {
         $_SESSION['rtoken'][]   =   self::$value =   md5( session_id(). time() );
         #
-        for($c=count($_SESSION['rtoken']);  $c > 10;  $c--)     array_shift($_SESSION['rtoken']);
+        for($c=count($_SESSION['rtoken']);  $c > 15;  $c--)     array_shift($_SESSION['rtoken']);
 
-        return rtoken::$value;
+        
+        return  res::$ret['rtoken']  =  self::$value;
     }
 
 
-    # удалить токен
+    # перевыпустьить ртокен
     #
-    static function drop()
+    static function refresh()
     {
         if ( !isset($_POST['rtoken']) )     return;
         if ( empty($_SESSION['rtoken']) )   return;
 
+        # удалить старый
         $key    =   array_search($_POST['rtoken'], $_SESSION['rtoken']);
-
         unset($_SESSION['rtoken'][ $key ]);
-
-        return rtoken::init();
+        
+        
+        return  res::$ret['rtoken']  =  self::init();
     }
 
 
-    # проверить токен api
+
+    # проверить ртокен
     #
     static function check()
     {
-        if ( empty(req::$param['rtoken']) )  return false;
+        if ( empty(req::$param['rtoken']) )     return false;
+        if ( empty($_SESSION['rtoken']) )       return false;
         
-        return true;
-        
-        return in_array( req::$param['rtoken'],  ($_SESSION['rtoken'] ?? []) );
+        return in_array( req::$param['rtoken'], $_SESSION['rtoken'] );
     }
 
 

@@ -12,38 +12,23 @@ class req
         if ( $_POST )               return;
 
         # тип ответа
+        # создать ртокен для api запросов
         #
         res::$render    =   'html';
 
 
-
-        # запрос главной страницы
-        #
-        if ( url::$path == '/' )
-        {
-            req::$wait  =  array('userList');
-        }
-        
-
-
         # запрос страницы пачки
         #
-        elseif ( isset(url::$level[0])  && is_numeric(url::$level[0])  && url::$level[0] > 0 )
-        {
-            req::$param['pack'] =   url::$level[0];
-            req::$wait  =   [
-                'packBc',
-                'packTree',
-                'packTitle',
-            ];
-            
-            
-            if      ( !isset(url::$level[1]) )      req::$wait[]  =   'lineHtml';
-            elseif  ( url::$level[1] == 'line' )    req::$wait[]  =   'lineText';
-            elseif  ( url::$level[1] == 'tree' )    req::$wait[]  =   'treeText';
-            elseif  ( url::$level[1] == 'access' )  req::$wait    =   array_merge(req::$wait, ['accessArray', 'accessText']);
-            else    req::$wait[]  =   '404';      
-        }
+        // if ( preg_match("#^\/\d+$#", url::$path) )
+        // {
+        //     req::$param['pack'] =   url::$level[0];
+        //     req::$wait  =   [
+        //         'packBc',
+        //         'packTree',
+        //         'packTitle',
+        //         'lineHtml',
+        //     ];
+        // }
         
     }
 
@@ -57,7 +42,7 @@ class req
         if ( empty($_POST['rtoken'])    )   return;
         if ( !isset(url::$level[0])     )   return;
         if ( url::$level[0] != 'api'    )   return;
-
+        if ( !rtoken::check()            )
         
         # тип ответа
         #

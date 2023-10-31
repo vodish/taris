@@ -9,14 +9,11 @@ class state
 
     
 
-
-
     # авторы
     #
     static function userList()
     {
         if ( ! self::f(__FUNCTION__) )      return;
-
 
         res::$ret['userList']  =   author::dbInit();
     }

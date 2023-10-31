@@ -10,12 +10,18 @@ class res
     {
         if ( self::$render != 'html' )  return;
         
-        $vars   =   "";
-        foreach( self::$ret as $k => $v )    $vars  .=  '<div id="' .$k. '">' .json_encode($v). '</div>'. "\n";
+        # перевыпустить ртокен
+        self::$ret['rtoken']    =   rtoken::init();
+        #
+        # добавить сео контент
+        $seo   =   '';
+        foreach( self::$ret as $k => $v )    $seo  .=  '<div class="seo" id="' .$k. '">' .json_encode($v). '</div>'. "\n";
         
-        $html   =   file_get_contents('index.html');
-        $html   =   str_replace('</body>',  $vars. '</body>',  $html);
 
+        $html   =   file_get_contents('index.html');
+        $html   =   preg_replace("#<.+\"seo\".+>\r?\n?#", $seo, $html);
+
+        header('Content-Type: text/html; charset=UTF-8');
         die($html);
     }
 
@@ -24,8 +30,8 @@ class res
     {
         if ( self::$render != 'json' )  return;
 
-        # добавить новый токен
-        self::$ret['rtoken']    =   rtoken::init();
+        # перевыпустить ртокен
+        self::$ret['rtoken']    =   rtoken::refresh();
 
         header('Content-Type: application/json; charset=utf-8');
 

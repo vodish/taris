@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
+    <title>Taris.pro</title>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/i/favtz.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Taris.pro</title>
     <script type="module" src="/i/ace/ace.js"></script>
     <script type="module" src="/i/ace/mode-html.js"></script>
     <script type="module" src="/i/ace/mode-yaml.js"></script>
@@ -14,10 +14,12 @@
       @media (prefers-color-scheme: dark) {
         body  { background-color: #242528; }
       }
+      body > .seo { display: none; }
     </style>
   </head>
-  <body data-rtoken="rtoken_32">
-    <script type="module" src="/src/svelte.js"></script>
+  <body>
+    <div class="seo" id="rtoken">"rtoken_dev"</div>
     <div id="app"></div>
+    <script type="module" src="/src/svelte.js"></script>
   </body>
 </html>

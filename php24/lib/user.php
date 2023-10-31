@@ -37,16 +37,16 @@ class user
         # отправить письмо
         # сохранить в куке
         #
-        // $smtp       =   new smtp();
-        // $result     =   $smtp->send($email, "Код входа", "Цифровой код: $code");
+        $smtp       =   new smtp();
+        $result     =   $smtp->send($email, "Код входа", "Цифровой код: $code");
         #
         cookie::set('code', md5($email.$code.$code));
 
         
         # ответ
         #
-        res::$ret['ok'] =   'ok';
-        res::$ret['code'] =   $code;
+        res::$ret['ok']     =   'ok';
+        // res::$ret['code']   =   PATH_SEPARATOR == ';' ?  $code : '';
     }
 
 

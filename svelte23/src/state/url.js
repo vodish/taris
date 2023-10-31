@@ -1,8 +1,9 @@
 // @ts-nocheck
 import * as Store from './store'
 
-let rtoken  =   document.body.dataset.rtoken;
-
+let tag     =   document.getElementById('rtoken')
+let rtoken  =   JSON.parse( tag.innerText );
+tag.parentNode.removeChild(tag);
 
 
 

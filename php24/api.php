@@ -31,7 +31,6 @@ req::fromApi();
 db::init();
 
 
-
 # операции по параметрам
 #
 user::getCode();

@@ -4,6 +4,9 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [svelte()],
+  build: {
+    outDir: "../php24/www",
+  },
   server: {
     port: 5006,
     proxy: {
