@@ -50,7 +50,7 @@ pre.apierr br:first-child   { display: none; }
 .main1          {  margin: 5em auto; display: flex; justify-content: center; align-items: flex-start; gap: 6vw; }
 .main1 .pic1        { width: 100%; max-width: 300px; margin-top: -6em; transform: rotate(-2deg); }
 .main1 .pic1.empty      { margin-top: -7em; transform: rotate(-10deg); }
-.main1 .login       { width: 300px; min-height: 40px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
+.main1 .login           { min-height: 40px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
 .main1 .login .email        { width: 200px; flex-grow: 1; }
 .main1 .login .code         { width: 80px; text-align: center; }
 .main1 .login div.err       { font-size: 0.8em; color: var(--link); margin-top: 2px; }
