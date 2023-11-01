@@ -81,7 +81,7 @@ class state
                 'id'    =>  $pack['id'] ?? '',
                 'space' =>  $pack['space'],
                 'name'  =>  $pack['name'],
-                '_prj'  =>  isset(pack::$tree[ $pack['id'] ]) ?  'self' :  '',
+                '_prj'  =>  isset(pack::$tree[ $pack['id'] ]) ?  'prj' :  '',
                 '_act'  =>  $pack['id'] == pack::$start ?  'active' :  '',
             );
         }
