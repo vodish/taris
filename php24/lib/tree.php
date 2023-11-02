@@ -170,11 +170,10 @@ class tree
         $project    =   self::project();
         $source     =   req::$param['tree'];
         $source     =   str_replace("\r", '', $source);
-        $list       =   explode("\n", $source);
+        $list       =   $source == "" ? array() :  explode("\n", $source);
         $tree       =   array();
         $exist      =   array();
 
-        
 
         # пройти по строкам
         #

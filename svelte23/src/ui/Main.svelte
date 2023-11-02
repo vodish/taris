@@ -139,8 +139,9 @@ function apiCheckCode()
                 {/each}
             </div>
         {/if}
-        
-
+    
     </div>
+
+    <h3 class="about"><a href="/150" on:click={pref}>Что здесь происходит?</a></h3>
 </div>
 

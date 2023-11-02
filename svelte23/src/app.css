@@ -48,9 +48,7 @@ pre.apierr br:first-child   { display: none; }
 
 /* main */
 
-.main1          {  margin: 5em auto; display: flex; justify-content: center; align-items: flex-start; gap: 6vw; }
-.main1 .pic1        { width: 100%; max-width: 300px; margin-top: -6em; transform: rotate(-2deg); }
-.main1 .pic1.empty      { margin-top: -7em; transform: rotate(-10deg); }
+.main1          { width: fit-content; margin: 6vh auto; }
 .main1 .login           { min-height: 40px; display: flex; justify-content: space-between; align-items: center; gap: 1ch; padding: 15px 20px; background-color: #eee; border-bottom: solid 1px #ddd; border-radius: 6px; box-shadow: 0 20px 40px -28px var(--black); }
 .main1 .login .email        { width: 200px; flex-grow: 1; }
 .main1 .login .code         { width: 80px; text-align: center; }
@@ -62,6 +60,9 @@ pre.apierr br:first-child   { display: none; }
 
 .main1 .userlist    { margin-top: 2em; display: flex; gap: 2ch; flex-wrap: wrap; }
 .main1 .userlist > *    { background-color: #eee; padding: 6px 10px; border-radius: 3px; }
+
+.main1 .about  { margin-top: 6vh; }
+
 
 
 /* pack */
@@ -103,8 +104,9 @@ pre.apierr br:first-child   { display: none; }
 
 /* project */
 
-.pro                { flex-grow: 1; display: flex; gap: 2vw; }
-.pro > .tree        { flex-basis: 180px; align-self: flex-start; position: sticky; top: 4em; }
+.pro                { flex-grow: 1; display: flex; gap: 20px; }
+.pro > .tree            { width: 180px; align-self: flex-start; border-right: solid 1px #eee; padding-left: 2vw; position: sticky; top: 4em; }
+.pro > .tree:empty      { width: 30px; }
 .pro > .tree a              { padding: 3px; display: inline-block; }
 .pro > .tree a.prj          { color: var(--green); }
 .pro > .tree a.prj:hover	{ color: var(--link); }
@@ -115,7 +117,7 @@ pre.apierr br:first-child   { display: none; }
 .pro > .tree .sub           { margin-left: 0.3ch; padding-left: 2ch; }
 
 
-.pro > .file        { flex-basis: content; flex-grow: 1; line-height: 1.4em; border-left: solid 1px #eee; padding-left: 2vw; }
+.pro > .file        { flex-basis: 400px; flex-grow: 1; line-height: 1.4em;  }
 .pro > .file *:not(img):empty   { height: 1em; }
 .pro > .file  img           { max-width: 100%; }
 .pro > .file > pre          { font-family: monospace; font-size: 14px; max-width: max-content; border-radius: 1px; white-space: pre-wrap; }
@@ -224,9 +226,8 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     .nav1 .burger .menu > *:not(:first-child) { border-top: solid 1px #333; }
     .nav1 .burger .menu > .group1 .icon { border-left: solid 1px #222; }
 
-    
+    .pro > .tree        { border-right-color: var(--darkLine); }
     .pro > .tree a.prj          { color: var(--darkPreColor); }
-    .pro > .file        { border-left-color: var(--darkLine); }
     .pro > .file > pre          { color: var(--darkColor); }
     .pro > .file > pre.bold     { background-color: var(--darkPreFon); }
 	.pro > .file > pre ._tag    { color: #6b82ff; }

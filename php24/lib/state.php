@@ -75,6 +75,8 @@ class state
         $project    =  tree::project();
         $tree       =   array();
         
+        // ui::vd(pack::$tree[ $project ]);
+
         foreach( pack::$tree[ $project ] ?? []  as  $pack )
         {
             $tree[] =   array(
