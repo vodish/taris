@@ -97,7 +97,7 @@ function apiCheckCode()
 
 
 <svelte:head>
-    <title>Taris.pro</title>
+    <title>Taris - система работы с текстовыми файлами</title>
 </svelte:head>
 
 
@@ -142,6 +142,6 @@ function apiCheckCode()
     
     </div>
 
-    <h3 class="about"><a href="/150" on:click={pref}>Что здесь происходит?</a></h3>
+    <h3 class="about"><a href="/151" on:click={pref}>Что здесь происходит?</a></h3>
 </div>
 

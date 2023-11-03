@@ -32,6 +32,9 @@ class state
         res::$ret[__FUNCTION__]    =   pack::$start;
     }
 
+
+
+
     static function isProject()
     {
         if ( ! self::f(__FUNCTION__) )      return;
@@ -43,13 +46,16 @@ class state
         res::$ret[__FUNCTION__]    =   pack::$project ?  res::$ret[__FUNCTION__]:  null ;
     }
     
+
+
+
     static function packBc()
     {
         if ( ! self::f(__FUNCTION__) )      return;
         if ( empty(pack::$start) )          return;
 
-        $bc     =   array_reverse(pack::$bc);
-
+        $bc  =   array_reverse(pack::$bc);
+        
         foreach($bc as $k => &$v)
         {
             $v   =   array(
@@ -65,6 +71,9 @@ class state
     
 
 
+
+
+
     static function packTree()
     {
         if ( ! self::f(__FUNCTION__) )      return;
@@ -72,13 +81,16 @@ class state
         if ( pack::denied('view') )         return;
         
 
-        $project    =  tree::project();
+        $project    =   tree::project();
         $tree       =   array();
-        
-        // ui::vd(pack::$tree[ $project ]);
+        $exist      =   0;
+        // ui::vd($project);
+        // ui::vd(pack::$tree);
 
         foreach( pack::$tree[ $project ] ?? []  as  $pack )
         {
+            $exist  +=   $pack['id'] ?? 0;
+
             $tree[] =   array(
                 'id'    =>  $pack['id'] ?? '',
                 'space' =>  $pack['space'],
@@ -87,6 +99,11 @@ class state
                 '_act'  =>  $pack['id'] == pack::$start ?  'active' :  '',
             );
         }
+
+
+        # если только пустые записи
+        #
+        $tree   =   $exist ?  $tree : array();
 
 
         res::$ret[__FUNCTION__]  =  $tree;

@@ -314,7 +314,8 @@ class tree
             pack::$tree[ pack::$start ][]   =   array_merge(self::parseline(''), ['user'=>user::$id, 'project'=>pack::$start]);
         }
         
-        
+
+
         # пересортировать измененные проекты
         # 
         ksort( pack::$tree, SORT_NUMERIC );

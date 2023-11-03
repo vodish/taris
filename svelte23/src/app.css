@@ -72,7 +72,7 @@ pre.apierr br:first-child   { display: none; }
 .nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
 .nav1 .bc *:first-child { margin-left: -0.5ch; }
-.nav1 .bc i         { font-style: normal; color: #ddd; }
+.nav1 .bc i         { font-style: normal; color: #ddd; margin-bottom: -2px; }
 .nav1 .bc i:before  { content: '/'; font-size: 10px; }
 .nav1 .bc i.public:before  { content: '\2022'; font-size: 22px; }
 .nav1 .bc > a       { padding: 4px 0.6ch; }
@@ -105,8 +105,8 @@ pre.apierr br:first-child   { display: none; }
 /* project */
 
 .pro                { flex-grow: 1; display: flex; gap: 20px; }
-.pro > .tree            { width: 180px; align-self: flex-start; border-right: solid 1px #eee; padding-left: 2vw; position: sticky; top: 4em; }
-.pro > .tree:empty      { width: 30px; }
+.pro > .tree            { width: 180px; border-right: solid 1px #eee; position: sticky; top: 4em; }
+.pro > .tree:empty      { width: 40px; }
 .pro > .tree a              { padding: 3px; display: inline-block; }
 .pro > .tree a.prj          { color: var(--green); }
 .pro > .tree a.prj:hover	{ color: var(--link); }

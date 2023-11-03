@@ -137,10 +137,10 @@ class pack
                 
 
                 # публичный обзор
-                if ( $row['role'] == 'view'  && $row['email'] == 'public' && !author::$role )
+                if ( $row['role'] == 'view'  && $row['email'] == 'public' )
                 {
-                    $public = 1;
-                    author::$role = 'view';
+                    $public         =   1;
+                    author::$role   =   author::$role ?? 'view';
                 }
             }
 
@@ -156,8 +156,7 @@ class pack
         }
 
         
-        // foreach( pack::$bc as $id ) ui::vd( pack::$list[ $id ] );
-        // ui::vd( author::$id );
+        // ui::vd( $public, 1 );
         // ui::vd( author::$email );
         // ui::vd( access::$list );
         // ui::vd( author::$role );
