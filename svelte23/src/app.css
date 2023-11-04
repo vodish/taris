@@ -254,7 +254,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     .nav1 .bc > *:not(.current) { display: none; }
 
     .nav1 .bc > .menu { display: none; position: absolute; top: 30px; }
-    .nav1 .bc > .menu .wrap { margin-top: 5px; width: fit-content; height: fit-content; max-height: 90vh; overflow: auto; padding: 15px; background-color: var(--menuFon); border: solid 1px var(--menuBrd); z-index: 1; border-radius: 2px; }
+    .nav1 .bc > .menu .wrap { margin-top: 5px; width: fit-content; height: fit-content; max-height: 85vh; overflow: auto; padding: 15px; background-color: var(--menuFon); border: solid 1px var(--menuBrd); z-index: 1; border-radius: 2px; }
     .nav1 .bc > .menu .wrap  a   { display: flex; gap: 0.6ch; padding: 3px 0; }
     .nav1 .bc > .menu .wrap .empty { height: 0.6em; }
     .nav1 .bc > .menu .wrap > .bc2 a:before   { content: '/'; color: #ccc; font-size: 10px; margin-top: 0.9em; line-height: 0; }
