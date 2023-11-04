@@ -90,8 +90,8 @@ pre.apierr br:first-child   { display: none; }
 .nav1 .bc .current      { color: inherit; }
 
 .nav1 .burger {  position: relative; }
-.nav1 .burger .name { padding: 4px; cursor: default; display: flex; gap: 0.7ch; }
-.nav1 .burger .name:before  { content: '\2261'; font-size: 1.1em; font-weight: bold; opacity: 0.3; }
+.nav1 .burger .name { padding: 4px; cursor: default; display: flex; align-items: center; gap: 0.7ch; }
+.nav1 .burger .name:before  { content: '\2261'; font-size: 15px; opacity: 0.3; }
 .nav1 .burger .name:empty   { display: none; }
 
 .nav1 .burger .menu     { display: none; position: absolute; z-index: 1; right: 0; margin-top: 3px; width: 150px; padding: 5px 0; border-radius: 2px; border: solid 1px var(--menuBrd); background-color: var(--menuFon); }
@@ -197,8 +197,8 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     *::-webkit-scrollbar-thumb  { background: #333; }
     a           { color: var(--darkLink); }
 	a:hover     { color: var(--link); }
+    a.prj       { color: var(--darkPreColor); }
     
-
     .apierr     { color: var(--darkLine); }
     input       { background-color: var(--darkFon); color: var(--darkColor); border-color: transparent; }
     input:focus { outline: none; }
@@ -217,7 +217,6 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     .nav1 .burger .menu > .group1 .icon { border-left: solid 1px #222; }
 
     .pro > .tree        { border-right-color: var(--darkLine); }
-    .pro > .tree a.prj          { color: var(--darkPreColor); }
     .pro > .file > pre          { color: var(--darkColor); }
     .pro > .file > pre.bold     { background-color: var(--darkPreFon); }
 	.pro > .file > pre ._tag    { color: #6b82ff; }
