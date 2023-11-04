@@ -250,7 +250,7 @@ class access
                 ," .db::v('@'). "
                 ," .db::v('access'). "
                 ," .db::v(null). "
-                ," .db::v(self::$log[0]). "
+                ," .db::v(self::$log[1]). "
             )
         ");
         #

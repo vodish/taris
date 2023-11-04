@@ -114,7 +114,7 @@ class tree
                 ," .db::v('@'). "
                 ," .db::v('tree'). "
                 ," .db::v(null). "
-                ," .db::v(self::$log[0]). "
+                ," .db::v(self::$log[1]). "
             )
         ");
         #

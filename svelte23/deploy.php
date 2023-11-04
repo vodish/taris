@@ -1,49 +1,12 @@
 <?php
 # команда для деплоя из папки svelte23
-# 
-# C:\OpenServer\modules\php\PHP_8.0\php.exe deploy.php
+# C:/OpenServer/modules/php/PHP_8.0/php.exe deploy.php
 
+if ( !is_dir($dir = '../php24/www/assets') )    die;
 
-# сканировать папку рекурсивно
-#
-function sd($dir, $list=[])
+foreach(scandir($dir) as $file)
 {
-    foreach ( scandir($dir) as $file )
-    {
-        if ( in_array($file, ['.', '..']) ) continue;
-        $sub    =   "$dir/$file";
-        $list[] =   $sub;
-        if ( is_dir($sub) )     $list =  sd($sub, $list);
-    }
+    if (in_array($file, ['.', '..']))  continue;
 
-    return $list;
+    unlink("$dir/$file");
 }
-
-
-# сканировать сборку в папке dist
-#
-$todir  =   "../php23/www";
-$dist   =   "dist";
-$files  =   sd($dist);
-
-
-# удалить прошлые сборки
-#
-foreach (glob("$todir/assets/index*") as $filename)  unlink($filename);
-
-
-# переложить файлы
-#
-foreach( $files as $from )
-{
-    $to  =   $todir. substr($from, strlen($dist));
-
-    if ( is_dir($from) )
-    {
-        if ( !is_dir($to) ) mkdir($to, 0777);
-        continue;
-    }
-
-    copy($from, $to);
-}
-

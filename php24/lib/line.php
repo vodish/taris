@@ -153,7 +153,7 @@ class line
                 ," .db::v( '@' ). "
                 ," .db::v( 'file' ). "
                 ," .db::v( pack::$file ). "
-                ," .db::v( $log0 ). "
+                ," .db::v( $log1 ). "
             )
         ");
         

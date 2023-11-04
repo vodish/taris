@@ -17,7 +17,7 @@ onMount(()=> {
         showGutter: true,           // нумерация строк
         useWorker: false,           // отключить проверку синтаксиса - worker файл
         maxLines: 1111,             // максимальное количество строк, для ресайза
-        wrap: true,                 // перенос строк
+        wrap: false,                 // перенос строк
     })
     ace9.setValue(value, 1)
     ace9.on('change', () => value = ace9.getValue())

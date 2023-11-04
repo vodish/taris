@@ -1,13 +1,14 @@
 <script>
 // @ts-nocheck
-import { packStart, lineText, lineHtml, api, href } from "../state/store";
+import { packStart, packMenu, lineText, lineHtml, api, href } from "../state/store";
 import AceHtml from "./comp/AceHtml.svelte";
 
 
 function save()
 {
-    api({pack: $packStart, line: $lineText, wait: ["lineHtml"]}, (res)=>{
+    api({pack: $packStart, line: $lineText, wait: ["lineHtml", "packMenu"]}, (res)=>{
         lineHtml.set(res.lineHtml)
+        packMenu.set(res.packMenu)
         href(`/${$packStart}`)
     })
 }

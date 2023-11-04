@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [svelte()],
   build: {
     outDir: "../php24/www",
+    emptyOutDir: false,
   },
   server: {
     port: 5006,
