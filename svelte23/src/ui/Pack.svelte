@@ -6,7 +6,7 @@ import PackTree         from "./PackTree.svelte";
 import PackAccess       from "./PackAccess.svelte";
 import PackLog          from "./PackLog.svelte";
 import MenuItem         from "./comp/MenuItem.svelte";
-import { url, href, pref, isProject, packBc, packTitle, packMenu }    from "../state/store";
+import { url, href, pref, isProject, packBc, packTitle, packTree, packMenu }    from "../state/store";
 
 
 $: level1   =   $url.level[1] || "view";
@@ -22,9 +22,34 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
     <div class="bc">
         <a href="/" class="logo" on:click={href}>Taris</a>
         {#each $packBc as pack }
-            <i class="{pack._pub}"></i>
+            <i class="{pack._pub} {pack._cur}"></i>
             <a  href="/{pack.id}" on:click={pref} class="{pack._cur}">{pack.name}</a>
         {/each}
+
+        <div class="menu">
+            <div class="wrap">
+                <div class="bc2">
+                    <a href="/" class="logo" on:click={href}>Taris</a>
+                    {#each $packBc as pack }
+                        <a  href="/{pack.id}" on:click={pref} class="{pack._cur} {pack._pub} nav">{pack.name}</a>
+                    {/each}
+                </div>
+                <div class="tree2">
+                    {#each $packTree as pack }
+                        {#if pack.id }
+                            <a  href={"/" + pack.id}
+                                on:click={pref}
+                                class="{pack._prj} {pack._act}{!pack.id? 'empty': ''}"
+                                style="padding-left: {pack.space/2}ch;"
+                                >{pack.name}</a>
+                        {:else}
+                            <div class="empty"></div>
+                        {/if}
+
+                    {/each}
+                </div>
+            </div>
+        </div>
     </div>
 
     
