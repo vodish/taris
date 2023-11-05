@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build1": "C:/OpenServer/modules/php/PHP_8.0/php.exe deploy.php  && vite build",
+    "build1": "C:/OSPanel/modules/php/PHP_8.1/php.exe deploy.php  && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
