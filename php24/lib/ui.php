@@ -2,7 +2,6 @@
 class ui
 {
     
-
     static function vd($var=null, $print_r=null, $trace=0)
     {
         $backtrace	=	debug_backtrace();
@@ -20,37 +19,5 @@ class ui
         die;
     }
 
-
-    
-
-
-
-    # отдать бандл
-    #
-    static function bundleSvelteDie()
-    {
-        
-    }
-
-
-
-    # отдать по api json
-    #
-    static function jsonDie()
-    {
-        if ( empty($_POST['rtoken']) )  return;
-        if ( empty(self::$json) )       return;
-
-
-        ui::$json['rtoken']   =   rtoken::init();
-
-        header('Content-Type: application/json; charset=utf-8');
-        echo  json_encode(self::$json);
-        die;
-    }
-
-
-
-    
     
 }

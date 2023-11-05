@@ -96,12 +96,15 @@ class access
     #
     static function link()
     {
-        if ( empty(pack::$start) )                  return;
-        if ( @url::$level[1] != 'access-link' )     return;
-        if ( pack::denied('access') )               return;
+        if ( empty(pack::$start) )              return;
+        if ( @url::$level[1] != 'accessLink' )  return;
+        if ( pack::denied('access') )           return;
 
-        ui::vdd( req::$param );
-        ui::vdd( url::$level );
+        $hash   =   substr(md5( time()), 0, 8);
+        // 
+        ui::vd( access::$list );
+        ui::vd( req::$param );
+        ui::vd( url::$level );
 
         die;
     }

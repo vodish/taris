@@ -10,14 +10,15 @@ class res
     {
         if ( self::$render != 'html' )  return;
         
-        # перевыпустить ртокен
+        # выдать ртокен
         self::$ret['rtoken']    =   rtoken::init();
         #
         # добавить сео контент
         $seo   =   '';
         foreach( self::$ret as $k => $v )    $seo  .=  '<div class="seo" id="' .$k. '">' .json_encode($v). '</div>'. "\n";
         
-
+        # отдать бандл
+        #
         $html   =   file_get_contents('index.html');
         $html   =   preg_replace("#<.+\"seo\".+>\r?\n?#", $seo, $html);
 

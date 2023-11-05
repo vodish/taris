@@ -42,7 +42,7 @@ class req
         if ( empty($_POST['rtoken'])    )   return;
         if ( !isset(url::$level[0])     )   return;
         if ( url::$level[0] != 'api'    )   return;
-        if ( !rtoken::check()            )
+        if ( !rtoken::check()           )   die('rtoken invalid');
         
         # тип ответа
         #
