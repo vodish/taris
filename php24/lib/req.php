@@ -9,26 +9,12 @@ class req
     #
     static function fromUrl()
     {
-        if ( $_POST )               return;
+        if ( $_POST )   return;
 
         # тип ответа
         # создать ртокен для api запросов
         #
         res::$render    =   'html';
-
-
-        # запрос страницы пачки
-        #
-        // if ( preg_match("#^\/\d+$#", url::$path) )
-        // {
-        //     req::$param['pack'] =   url::$level[0];
-        //     req::$wait  =   [
-        //         'packBc',
-        //         'packTree',
-        //         'packTitle',
-        //         'lineHtml',
-        //     ];
-        // }
         
     }
 

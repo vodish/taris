@@ -2,6 +2,23 @@
 class rtoken
 {
     static $value;
+    static $check;
+
+
+    # проверить ртокен
+    #
+    static function check()
+    {
+        if ( self::$check !== null )    return self::$check;
+
+        $rtoken     =   $_POST['rtoken'] ?? null;
+        $session    =   $_SESSION['rtoken'] ?? [];
+        
+        // ui::vd($rtoken, 1);
+        // ui::vd($session, 1);
+
+        return  self::$check  =  in_array($rtoken, $session);
+    }
 
 
     # добавить ртокен для api запросов
@@ -21,7 +38,6 @@ class rtoken
     #
     static function refresh()
     {
-        if ( HTTP_HOST == 'k.taris24' )     return  res::$ret['rtoken']  =  HTTP_HOST;
         if ( !isset($_POST['rtoken']) )     return;
         if ( empty($_SESSION['rtoken']) )   return;
 
@@ -34,19 +50,6 @@ class rtoken
     }
 
 
-
-    # проверить ртокен
-    #
-    static function check()
-    {
-        if ( HTTP_HOST == 'k.taris24' )         return true;
-        return true;
-        if ( empty(req::$param['rtoken']) )     return false;
-        if ( empty($_SESSION['rtoken']) )       return false;
-        
-
-        return in_array( req::$param['rtoken'], $_SESSION['rtoken'] );
-    }
 
 
 }
