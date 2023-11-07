@@ -14,10 +14,8 @@ class rtoken
         $rtoken     =   $_POST['rtoken'] ?? null;
         $session    =   $_SESSION['rtoken'] ?? [];
         
-        // ui::vd($rtoken, 1);
-        // ui::vd($session, 1);
 
-        return  self::$check  =  in_array($rtoken, $session);
+        return self::$check  =  in_array($rtoken, $session);
     }
 
 
@@ -38,8 +36,7 @@ class rtoken
     #
     static function refresh()
     {
-        if ( !isset($_POST['rtoken']) )     return;
-        if ( empty($_SESSION['rtoken']) )   return;
+        if ( !self::check() )  return;
 
         # удалить старый
         $key    =   array_search($_POST['rtoken'], $_SESSION['rtoken']);
@@ -49,7 +46,5 @@ class rtoken
         return  res::$ret['rtoken']  =  self::init();
     }
 
-
-
-
+    
 }
