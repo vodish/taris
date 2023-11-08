@@ -81,6 +81,12 @@ class line
         $content    =   htmlspecialchars($content);
         $content    =   preg_replace("/&lt; (\/?) (" .$tags. ") &gt;/x", "<$1$2>", $content);
         $content    =   preg_replace("/(" .$attrs. ") &quot; (.+?) &quot;/x", '$1"$2"', $content);
+        #
+        #
+        # в ссылки добавить target="_blank"
+        #
+        if ( strpos($content, '<a')!==false  && strpos($content, 'target=')==false )   $content  =  strtr($content, ['>'=>' target="_blank">']);
+        
         
 
         # отступы с оберткой в тег строки
