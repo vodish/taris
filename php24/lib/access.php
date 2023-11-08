@@ -92,6 +92,9 @@ class access
 
 
 
+    
+
+
     # добавить ссылку
     #
     static function link()
@@ -100,8 +103,15 @@ class access
         if ( @url::$level[1] != 'accessLink' )  return;
         if ( pack::denied('access') )           return;
 
-        $hash   =   substr(md5( time()), 0, 8);
+
+        # проверить наличие публичной ссылки
+        #
+        
+
+        $hash   =   substr( strtr(md5(time()), ['0'=>'A','1'=>'B','2'=>'C','3'=>'D','4'=>'F','5'=>'G','6'=>'H','7'=>'I','8'=>'J','9'=>'K']), 0, 5 );
         // 
+        ui::vd( md5(time()) );
+        ui::vd( $hash );
         ui::vd( access::$list );
         ui::vd( req::$param );
         ui::vd( url::$level );

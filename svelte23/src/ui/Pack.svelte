@@ -71,7 +71,7 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
                 {#if 'access' in $packMenu }
                 <div class="group1">
                     <MenuItem key="access" href="/{$url.level[0]}/access" />
-                    <a href="/{$url.level[0]}/accessLink" on:click={pref} class="a icon" title="Доступ по ссылке">{@html '&#9741;'}</a>
+                    <a href="/{$url.level[0]}/accessLink" on:click={pref} class="a icon" title="Поделится ссылкой">{@html '&#9741;'}</a>
                 </div>
                 {/if}
                 
