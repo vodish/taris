@@ -221,7 +221,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     .pro > .file > pre.bold     { background-color: var(--darkPreFon); }
 	.pro > .file > pre ._tag    { color: #6b82ff; }
 	.pro > .file > pre ._tag_attr_val   { color: #1b9f20; }
-    .pro > .file a[target="_blank"]     { text-decoration-color: #544949; }
+    .pro > .file a[target="_blank"]     { text-decoration-color: #584242; }
 
 
     .ace_editor { color: var(--darkColor); }
