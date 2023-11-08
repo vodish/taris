@@ -8,6 +8,7 @@ class pack
     static $bc;
     static $file;
 
+    static $ui;
     static $isProject;
     static $access;
 
@@ -105,6 +106,15 @@ class pack
         #
         self::setAccess();
         
+
+        # поделиться ссылкой
+        #
+        if ( access::checkLink() )
+        {
+            req::$wait[]  = 'lineHtml';
+        }
+
+        
     }
     
 
@@ -142,6 +152,12 @@ class pack
                     $public         =   1;
                     author::$role   =   author::$role ?? 'view';
                 }
+                # обзор по ссылке
+                elseif ( access::checkLink() )
+                {
+                    $public         =   1;
+                    author::$role   =   author::$role ?? 'link';
+                }
             }
 
 
@@ -156,18 +172,12 @@ class pack
         }
 
         
-        // ui::vd( $public, 1 );
-        // ui::vd( author::$email );
-        // ui::vd( access::$list );
-        // ui::vd( author::$role );
-        // die;
-
-
 
         # определить доступные пункты меню
+        # право => какие роли имеют доступ
         #
         $access =   array(
-            'view'      =>  ['view', 'edit', 'admin', 'owner'],
+            'view'      =>  ['link', 'view', 'edit', 'admin', 'owner'],
             'line'      =>  ['edit', 'admin', 'owner'],
             'tree'      =>  ['edit', 'admin', 'owner'],
             'access'    =>  ['admin', 'owner'],
@@ -182,6 +192,8 @@ class pack
             self::$access[ $k ] = $k;
         }
 
+        // ui::vd( self::$access );
+        
     }
 
     
@@ -212,4 +224,8 @@ class pack
 
         return false;
     }
+
+
+
+
 }

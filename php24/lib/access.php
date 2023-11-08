@@ -3,9 +3,9 @@ class access
 {
     private static $log = [];
 
-    static $init  =  false;
-    static $list  =  [];
-    
+    static $init    =   false;
+    static $list    =   [];
+    static $link    =   [];
 
 
     # json дерево для лога
@@ -53,10 +53,12 @@ class access
         #
         # права из базы
         #
-        db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id). "  ORDER BY `order`" );
+        db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id). "  ORDER BY `order` ");
         #
-        for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v );
-
+        for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v )
+        {
+            if ( $v['role'] == 'link' )     self::$link[ $v['pack'] ][] = $v['email'];
+        }
     }
     
 
@@ -104,22 +106,52 @@ class access
         if ( pack::denied('access') )           return;
 
 
-        # проверить наличие публичной ссылки
+        # получить публичную ссылку
         #
-        
+        $re     =   ['0'=>'A','1'=>'B','2'=>'C','3'=>'D','4'=>'F','5'=>'G','6'=>'H','7'=>'I','8'=>'J','9'=>'K'];
+        $ses    =   strtr( md5(time()) , $re );
+        #
+        $hash   =   isset(self::$link[ pack::$start ]) ?  self::$link[ pack::$start ][0] :  substr( $ses, 0, 4 );
+        #
+        #
+        res::$ret['href']   =   '/' .pack::$start. '/' .$hash;
+        #
+        url::parse( res::$ret['href'] );
 
-        $hash   =   substr( strtr(md5(time()), ['0'=>'A','1'=>'B','2'=>'C','3'=>'D','4'=>'F','5'=>'G','6'=>'H','7'=>'I','8'=>'J','9'=>'K']), 0, 5 );
-        // 
-        ui::vd( md5(time()) );
-        ui::vd( $hash );
-        ui::vd( access::$list );
-        ui::vd( req::$param );
-        ui::vd( url::$level );
 
-        die;
+
+        # записать в базу новый хеш
+        #
+        if ( !isset(self::$link[ pack::$start ]) )
+        {
+            self::log();
+
+            
+            self::$link[]   =   $hash;
+            self::$list[ pack::$start ][] = array(
+                'user'      =>  user::$id,
+                'pack'      =>  pack::$start,
+                'role'      =>  'link',
+                'email'     =>  $hash,
+                'comment'   =>  '    # поделиться обзором',
+            );
+            
+            self::dbSave();
+        }
+
     }
 
 
+    # проверка "поделиться ссылкой"
+    #
+    static function checkLink()
+    {
+        $hash   =   url::$level[1] ?? null;
+        $link   =   access::$link[ pack::$start ] ?? array();
+
+        
+        return  in_array($hash, $link);
+    }
 
 
 
@@ -219,8 +251,6 @@ class access
         if ( !isset(self::$log[1]) )            return;
         
         
-        
-
 
         # подготовить sql записи дерева
         #
@@ -235,14 +265,6 @@ class access
                 $rows[] =   "(".  implode(',', $access).  ")";
             }
         }
-        #
-        #
-        // ui::vd( user::$prefix );
-        // ui::vd( self::$list );
-        // ui::vd( $rows );
-        // die;
-        // ui::vd(self::$log);
-        // ui::vdd('сохранить в базе');
         
 
 
@@ -259,8 +281,8 @@ class access
             )
             VALUES (
                  " .db::v(user::$id). "
-                ," .db::v(0). "
-                ," .db::v('@'). "
+                ," .db::v(author::$id). "
+                ," .db::v(author::$email). "
                 ," .db::v('access'). "
                 ," .db::v(null). "
                 ," .db::v(self::$log[1]). "

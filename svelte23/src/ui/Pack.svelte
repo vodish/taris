@@ -9,9 +9,10 @@ import MenuItem         from "./comp/MenuItem.svelte";
 import { url, href, pref, isProject, packBc, packTitle, packTree, packMenu }    from "../state/store";
 
 
-$: level1   =   $url.level[1] || "view";
-$: profile  =   $packBc[0] ?  $packBc[0].name : '';
+$: level1   =   $url.level[1] || "";
+$: level1   =   { [level1]:"view", line:"line", tree:"tree", access:"access", log:"log" }[ level1 ];
 
+$: profile  =   $packBc[0] ?  $packBc[0].name : '';
 
 </script>
 
@@ -71,7 +72,7 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
                 {#if 'access' in $packMenu }
                 <div class="group1">
                     <MenuItem key="access" href="/{$url.level[0]}/access" />
-                    <a href="/{$url.level[0]}/accessLink" on:click={pref} class="a icon" title="Поделится ссылкой">{@html '&#9741;'}</a>
+                    <a href="/{$url.level[0]}/accessLink" on:click={pref} class="a icon" title="Поделиться ссылкой">{@html '&#9741;'}</a>
                 </div>
                 {/if}
                 

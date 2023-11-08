@@ -61,7 +61,7 @@ class req
         if ( isset(url::$level[0])  && is_numeric(url::$level[0])  && url::$level[0] > 0 )
         {
             req::$param['pack'] =   url::$level[0];
-            req::$wait          =   array_merge(req::$wait, ['packStart', 'isProject', 'packBc', 'packTree', 'packMenu', 'packTitle']);
+            req::$wait          =   array_merge(req::$wait, ['packStart', 'packView', 'isProject', 'packBc', 'packTree', 'packMenu', 'packTitle']);
         }
 
 
@@ -70,7 +70,7 @@ class req
         if     ( !isset(url::$level[1])     )   req::$wait[]  = 'lineHtml';
         elseif ( url::$level[1] == 'line'   )   req::$wait[]  = 'lineText';
         elseif ( url::$level[1] == 'tree'   )   req::$wait[]  = 'treeText';
-        elseif ( url::$level[1] == 'access' )   req::$wait    = array_merge(req::$wait, ['accessArray', 'accessText']);
+        elseif ( url::$level[1] == 'access' )   req::$wait[]  = 'accessText';
         elseif ( url::$level[1] == 'log'    )   req::$wait[]  = 'logList';
 
     }        

@@ -35,6 +35,9 @@ class state
 
 
 
+
+
+
     static function isProject()
     {
         if ( ! self::f(__FUNCTION__) )      return;
@@ -136,7 +139,7 @@ class state
         if ( ! self::f(__FUNCTION__) )      return;
         if ( empty(pack::$start) )          return;
         if ( empty(pack::$access) )         return; # нет прав
-        if ( count(pack::$access) == 1 )    return; # только обзор
+        // if ( count(pack::$access) == 1 )    return; # только обзор
         
         
         # поименовать пункты меню
@@ -156,11 +159,15 @@ class state
         }
         #
         $menu['name']   =   $menu[ url::$level[1] ?? '' ]  ??  'Обзор';
+        $menu['name']   =   access::checkLink() ?  'Поделиться'  : $menu['name'];
         #
         # выход
         if ( pack::$project == 0 )      $menu['bye'] =   'Выйти';
         
+        # только ссылка
+        if ( author::$role == 'link' )  $menu   =   [ 'name'=>$menu['name'] ];
         
+
         res::$ret[__FUNCTION__]  =   $menu;
     }
     

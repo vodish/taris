@@ -40,9 +40,10 @@ class rtoken
         if ( !self::check() )  return;
 
         # удалить старый
-        $key    =   array_search($_POST['rtoken'], $_SESSION['rtoken']);
-        unset($_SESSION['rtoken'][ $key ]);
-        
+        if ( $key = array_search($_POST['rtoken'], $_SESSION['rtoken']??[] ) )
+        {
+            unset($_SESSION['rtoken'][ $key ]);
+        }
         
         return  res::$ret['rtoken']  =  self::init();
     }
