@@ -270,7 +270,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
 
     .pro { gap: 0; max-width: calc(100vw - 30px); overflow: auto; }
     .pro > .tree    { display: none; }
-    .pro > .file > pre  { white-space: pre; max-width: calc(100vw - 30px); overflow: auto; }
+    .pro > .file > pre  { white-space: pre; max-width: calc(100vw - 40px); overflow: auto; }
 }
 
 
