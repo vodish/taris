@@ -1,26 +1,30 @@
 <script>
-    // @ts-nocheck
-    import { pref, packBc, packStart, accessText } from "../state/store";
-    import AceYaml from './comp/AceYaml.svelte';
+// @ts-nocheck
+import { pref, packBc, packStart, accessText } from "../state/store";
+import AceYaml from './comp/AceYaml.svelte';
 
-    
-    function save()
+let cssSave  =   "";
+
+
+function save()
+{
+    pref(`/${$packStart}/access`, {access: $accessText, wait:['accessText']});
+    cssSave = "active"
+    setTimeout(()=>cssSave="", 500)
+}
+
+
+document.onkeydown = (e) => {
+    if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
-        pref(`/${$packStart}/access`, {access: $accessText, wait:['accessText']});
+        e.preventDefault()
+        save()
     }
-
-
-    document.onkeydown = (e) => {
-        if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
-        {
-            e.preventDefault()
-            save()
-        }
-    }
+}
 </script>
 
 
 {#if $packStart} <AceYaml bind:value={$accessText} /> {/if}
 
 <br />
-<button id="ctrl-s" on:click={save}>Сохранить</button>
+<button id="ctrl-s" class="{cssSave}" on:click={save}>Сохранить</button>
