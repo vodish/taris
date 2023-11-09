@@ -81,6 +81,7 @@ class line
         $content    =   htmlspecialchars($content);
         $content    =   preg_replace("/&lt; (\/?) (" .$tags. ") &gt;/x", "<$1$2>", $content);
         $content    =   preg_replace("/(" .$attrs. ") &quot; (.+?) &quot;/x", '$1"$2"', $content);
+        $content    =   strtr($content, ['--'=>'&mdash;']);
         #
         #
         # в ссылки добавить target="_blank"
