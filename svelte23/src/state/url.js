@@ -50,8 +50,9 @@ export function href(href)
 /**
  * @param {string | Object} href
  * @param {Object} data
+ * @param {Function} cb
  */
-export function pref(href, data1)
+export function pref(href, data1, cb)
 {
     if ( typeof href === 'object'  && href.srcElement.tagName == "A") {
         href.preventDefault()
@@ -71,6 +72,8 @@ export function pref(href, data1)
         }
         
         Store.href(res.href || href)
+
+        if ( typeof cb == "function" )  cb(res);
     })
     
 }

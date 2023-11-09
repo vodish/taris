@@ -14,6 +14,12 @@ $: level1   =   { [level1]:"view", line:"line", tree:"tree", access:"access", lo
 
 $: profile  =   $packBc[0] ?  $packBc[0].name : '';
 
+
+function share(e)
+{
+    pref( e, {}, (res)=>navigator.clipboard.writeText(`https://taris.pro${res.href}`) )
+}
+
 </script>
 
 
@@ -58,7 +64,14 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
         <div class="name">{$packMenu.name}</div>
         {#if 'view' in $packMenu }
             <div class="menu">
-                <MenuItem key="view" href="/{$url.level[0]}" />
+
+                {#if 'view' in $packMenu }
+                <div class="group1">
+                    <MenuItem key="view" href="/{$url.level[0]}" />
+                    <a href="/{$url.level[0]}/accessLink" on:click={share} class="a icon" title="Поделиться ссылкой">{@html '&#9741;'}</a>
+                </div>
+                {/if}
+                
                 <MenuItem key="line" href="/{$url.level[0]}/line" />
                 
                 {#if 'tree' in $packMenu }
@@ -69,13 +82,7 @@ $: profile  =   $packBc[0] ?  $packBc[0].name : '';
                 </div>
                 {/if}
 
-                {#if 'access' in $packMenu }
-                <div class="group1">
-                    <MenuItem key="access" href="/{$url.level[0]}/access" />
-                    <a href="/{$url.level[0]}/accessLink" on:click={pref} class="a icon" title="Поделиться ссылкой">{@html '&#9741;'}</a>
-                </div>
-                {/if}
-                
+                <MenuItem key="access" href="/{$url.level[0]}/access" />
                 <MenuItem key="log" href="/{$url.level[0]}/log" />
                 <MenuItem key="bye" href="/bye/{profile}" />
             </div>
