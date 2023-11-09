@@ -1,4 +1,5 @@
 <script>
+// @ts-nocheck
 import { pref, packStart, logList } from "../state/store";
 </script>
 

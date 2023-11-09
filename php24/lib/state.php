@@ -261,10 +261,10 @@ class state
         {
             $v['up_name']       =   "Поднять";
             $v['target_name']   =   strtr($v['target'], [
-                'tree'  =>  'Дерево',
+                'tree'  =>  'Проект',
                 'file'  =>  'Файл',
                 'log'   =>  'Из лога #' .$v['row'] ,
-                'access'=>  'Права'
+                'access'=>  'Доступ'
             ]);
             
             unset($v['user']);

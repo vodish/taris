@@ -109,12 +109,12 @@ class tree
                 ,`json`
             )
             VALUES (
-                 " .db::v(user::$id). "
-                ," .db::v(0). "
-                ," .db::v('@'). "
-                ," .db::v('tree'). "
-                ," .db::v(null). "
-                ," .db::v(self::$log[1]). "
+                 " .db::v( user::$id ). "
+                ," .db::v( author::$id ). "
+                ," .db::v( author::$email ). "
+                ," .db::v( 'tree' ). "
+                ," .db::v( null ). "
+                ," .db::v( self::$log[1] ). "
             )
         ");
         #

@@ -156,8 +156,8 @@ class line
             )
             VALUES (
                  " .db::v(user::$id). "
-                ," .db::v( 0) . "
-                ," .db::v( '@' ). "
+                ," .db::v( author::$id ) . "
+                ," .db::v( author::$email ). "
                 ," .db::v( 'file' ). "
                 ," .db::v( pack::$file ). "
                 ," .db::v( $log1 ). "
