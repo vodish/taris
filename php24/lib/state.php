@@ -83,13 +83,20 @@ class state
         if ( empty(pack::$start) )          return;
         if ( pack::denied('view') )         return;
         
+        # доступ по ссылке
+        #
+        if ( access::checkLink() )
+        {
+            res::$ret[__FUNCTION__]  =  array();
+            return;
+        }
+
+
 
         $project    =   tree::project();
         $tree       =   array();
         $exist      =   0;
-        // ui::vd($project);
-        // ui::vd(pack::$tree);
-
+        
         foreach( pack::$tree[ $project ] ?? []  as  $pack )
         {
             $exist  +=   $pack['id'] ?? 0;
@@ -139,7 +146,6 @@ class state
         if ( ! self::f(__FUNCTION__) )      return;
         if ( empty(pack::$start) )          return;
         if ( empty(pack::$access) )         return; # нет прав
-        // if ( count(pack::$access) == 1 )    return; # только обзор
         
         
         # поименовать пункты меню
@@ -159,13 +165,13 @@ class state
         }
         #
         $menu['name']   =   $menu[ url::$level[1] ?? '' ]  ??  'Обзор';
-        $menu['name']   =   access::checkLink() ?  'Поделиться'  : $menu['name'];
+        $menu['name']   =   access::checkLink() ?  'По ссылке'  : $menu['name'];
         #
         # выход
         if ( pack::$project == 0 )      $menu['bye'] =   'Выйти';
         
         # только ссылка
-        if ( author::$role == 'link' )  $menu   =   [ 'name'=>$menu['name'] ];
+        if ( author::$role == 'link' )  $menu   =   ['name' =>   $menu['name']];
         
 
         res::$ret[__FUNCTION__]  =   $menu;

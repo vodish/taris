@@ -112,12 +112,19 @@ class access
         $ses    =   strtr( md5(time()) , $re );
         #
         $hash   =   isset(self::$link[ pack::$start ]) ?  self::$link[ pack::$start ][0] :  substr( $ses, 0, 4 );
+        self::$list[ pack::$start ][] = array(
+            'user'      =>  user::$id,
+            'pack'      =>  user::$start,
+            'role'      =>  'link',
+            'email'     =>  $hash,
+        );
         #
         #
         res::$ret['href']   =   '/' .pack::$start. '/' .$hash;
         #
         url::parse( res::$ret['href'] );
-
+        req::$wait[]  = 'packTree';
+        
 
 
         # записать в базу новый хеш
@@ -148,8 +155,7 @@ class access
     {
         $hash   =   url::$level[1] ?? null;
         $link   =   access::$link[ pack::$start ] ?? array();
-
-        
+    
         return  in_array($hash, $link);
     }
 

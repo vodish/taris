@@ -113,7 +113,6 @@ class pack
         {
             req::$wait[]  = 'lineHtml';
         }
-
         
     }
     
@@ -145,18 +144,12 @@ class pack
                     author::$role   =   $row['role'];
                 }
                 
-
+                
                 # публичный обзор
                 if ( $row['role'] == 'view'  && $row['email'] == 'public' )
                 {
                     $public         =   1;
                     author::$role   =   author::$role ?? 'view';
-                }
-                # обзор по ссылке
-                elseif ( access::checkLink() )
-                {
-                    $public         =   1;
-                    author::$role   =   author::$role ?? 'link';
                 }
             }
 
@@ -171,7 +164,16 @@ class pack
             }
         }
 
-        
+
+        # обзор по ссылке
+        if ( access::checkLink() )
+        {
+            pack::$list[ $id ]['public']    =  1;
+            pack::$list[ $id ]['link']      =  1;
+            author::$role   =   author::$role ?? 'link';
+        }
+
+
 
         # определить доступные пункты меню
         # право => какие роли имеют доступ

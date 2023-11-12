@@ -13,6 +13,7 @@ $: level1   =   $url.level[1] || "";
 $: level1   =   { [level1]:"view", line:"line", tree:"tree", access:"access", log:"log" }[ level1 ];
 
 $: profile  =   $packBc[0] ?  $packBc[0].name : '';
+$: menuEmpty    =   Object.keys($packMenu).length < 2 ? "empty": "";
 
 
 function share(e)
@@ -21,7 +22,6 @@ function share(e)
 }
 
 </script>
-
 
 <svelte:head><title>{$packTitle}</title></svelte:head>
 
@@ -62,31 +62,29 @@ function share(e)
     
     <div class="burger">
         <div class="name">{$packMenu.name}</div>
-        {#if 'view' in $packMenu }
-            <div class="menu">
+        <div class="menu {menuEmpty}">
 
-                {#if 'view' in $packMenu }
-                <div class="group1">
-                    <MenuItem key="view" href="/{$url.level[0]}" />
-                    <a href="/{$url.level[0]}/accessLink" on:click={share} class="a icon" title="Поделиться ссылкой">{@html '&#9741;'}</a>
-                </div>
-                {/if}
-                
-                <MenuItem key="line" href="/{$url.level[0]}/line" />
-                
-                {#if 'tree' in $packMenu }
-                <div class="group1">
-                    <MenuItem key="tree" href="/{$url.level[0]}/tree" />
-                    {#if $isProject===false} <a href="/{$url.level[0]}/treeAdd" on:click={pref} class="a icon" title="Выделить проект">+</a> {/if}
-                    {#if $isProject===true} <a href="/{$url.level[0]}/treeDel" on:click={pref} class="a icon" title="Отменить проект">-</a> {/if}
-                </div>
-                {/if}
-
-                <MenuItem key="access" href="/{$url.level[0]}/access" />
-                <MenuItem key="log" href="/{$url.level[0]}/log" />
-                <MenuItem key="bye" href="/bye/{profile}" />
+            {#if 'view' in $packMenu }
+            <div class="group1">
+                <MenuItem key="view" href="/{$url.level[0]}" />
+                <a href="/{$url.level[0]}/accessLink" on:click={share} class="a icon" title="Поделиться ссылкой">{@html '&#9741;'}</a>
             </div>
-        {/if}
+            {/if}
+            
+            <MenuItem key="line" href="/{$url.level[0]}/line" />
+            
+            {#if 'tree' in $packMenu }
+            <div class="group1">
+                <MenuItem key="tree" href="/{$url.level[0]}/tree" />
+                {#if $isProject===false} <a href="/{$url.level[0]}/treeAdd" on:click={pref} class="a icon" title="Выделить проект">+</a> {/if}
+                {#if $isProject===true} <a href="/{$url.level[0]}/treeDel" on:click={pref} class="a icon" title="Отменить проект">-</a> {/if}
+            </div>
+            {/if}
+
+            <MenuItem key="access" href="/{$url.level[0]}/access" />
+            <MenuItem key="log" href="/{$url.level[0]}/log" />
+            <MenuItem key="bye" href="/bye/{profile}" />
+        </div>
     </div>
 
 </div>
