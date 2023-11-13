@@ -89,7 +89,7 @@ pre.apierr br:first-child   { display: none; }
 .nav1 .bcm      { display: none; }
 
 .nav1 .burger {  position: relative; }
-.nav1 .burger .name { padding: 4px; cursor: default; display: flex; align-items: center; gap: 0.7ch; }
+.nav1 .burger .name { padding: 4px; cursor: default; display: flex; align-items: center; gap: 0.7ch; white-space: nowrap; }
 .nav1 .burger .name:before  { content: '\2261'; font-size: 15px; opacity: 0.3; }
 .nav1 .burger .name:empty   { display: none; }
 
