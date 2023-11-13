@@ -82,6 +82,7 @@ class line
         $content    =   preg_replace("/&lt; (\/?) (" .$tags. ") &gt;/x", "<$1$2>", $content);
         $content    =   preg_replace("/(" .$attrs. ") &quot; (.+?) &quot;/x", '$1"$2"', $content);
         $content    =   strtr($content, ['--'=>'&mdash;']);
+        $content    =   ui::typograf1($content);
         #
         #
         # в ссылки добавить target="_blank"

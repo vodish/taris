@@ -19,5 +19,33 @@ class ui
         die;
     }
 
+
+
+    static function typograf($str)
+    {
+        return preg_replace("#\s+(\S{1,2})\s+(\S{3})#u", " $1&nbsp;$2", $str);
+    }
+
+    static function typograf1($text)
+    {
+        if ( empty($text) )
+        {
+            return $text;
+        }
+        
+        if ( strpos($text, '<') === false )
+        {
+            return self::typograf($text);
+        }
+        
+        
+        $text   =   preg_replace_callback('#(<[^>]+>) (\s*[^<]+)#x', function($m){
+            
+            return  $m[1]. self::typograf( $m[2]);
+            
+        }, $text);
+        
+        return $text;
+    }
     
 }
