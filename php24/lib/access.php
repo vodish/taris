@@ -5,7 +5,6 @@ class access
 
     static $init    =   false;
     static $list    =   [];
-    static $link    =   [];
 
 
     # json дерево для лога
@@ -23,8 +22,14 @@ class access
                 # удалить роль хозяина из настроек
                 if ( $v['role'] == 'owner' )    unset(self::$list[ $pack ][ $k ]);
             }
+
+            if ( empty(self::$list[ $pack ]) )
+            {
+                unset(self::$list[ $pack ]);
+            }
         }
         
+        // ui::vd(self::$list);
 
         self::$log[]    =   json_encode(self::$list, JSON_UNESCAPED_UNICODE);
     }
@@ -55,10 +60,7 @@ class access
         #
         db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id). "  ORDER BY `order` ");
         #
-        for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v )
-        {
-            if ( $v['role'] == 'link' )     self::$link[ $v['pack'] ][] = $v['email'];
-        }
+        for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v );
     }
     
 
@@ -105,22 +107,48 @@ class access
         if ( @url::$level[1] != 'accessLink' )  return;
         if ( pack::denied('access') )           return;
 
+        # лог для изменений
+        self::log();
 
-        # получить публичную ссылку
+
+        # создать хеш
         #
-        $re     =   ['0'=>'A','1'=>'B','2'=>'C','3'=>'D','4'=>'F','5'=>'G','6'=>'H','7'=>'I','8'=>'J','9'=>'K'];
-        $ses    =   strtr( md5(time()) , $re );
+        $ses    =   strtr( md5(time()) , ['0'=>'A','1'=>'B','2'=>'C','3'=>'D','4'=>'F','5'=>'G','6'=>'H','7'=>'I','8'=>'J','9'=>'K'] );
+
+
+        # если уже есть в настройках
         #
-        $hash   =   isset(self::$link[ pack::$start ]) ?  self::$link[ pack::$start ][0] :  substr( $ses, 0, 4 );
-        self::$list[ pack::$start ][] = array(
-            'user'      =>  user::$id,
-            'pack'      =>  user::$start,
-            'role'      =>  'link',
-            'email'     =>  $hash,
-        );
+        foreach( self::$list[ pack::$start ] ?? []  as  $v )
+        {
+            if ( $v['role'] == 'link' )
+            {
+                $hash   =   $v;
+                break;
+            }
+        }
         #
+        # или добавить
         #
-        res::$ret['href']   =   '/' .pack::$start. '/' .$hash;
+        if ( !isset($hash) )
+        {
+            self::$list[ pack::$start ][]  = $hash =  array(
+                'user'      =>  user::$id,
+                'pack'      =>  pack::$start,
+                'role'      =>  'link',
+                'email'     =>  substr( $ses, 0, 4 ),
+                'comment'   =>  "    # доступ по ссылке",
+            );
+        }
+
+
+        // ui::vd(self::$list);
+        // ui::vd($hash);
+        // die;
+
+
+        # вернуть публичную ссылку
+        #
+        res::$ret['href']   =   '/' .pack::$start. '/' .$hash['email'];
         #
         url::parse( res::$ret['href'] );
         req::$wait[]  = 'packTree';
@@ -129,24 +157,13 @@ class access
 
         # записать в базу новый хеш
         #
-        if ( !isset(self::$link[ pack::$start ]) )
-        {
-            self::log();
-
-            
-            self::$link[]   =   $hash;
-            self::$list[ pack::$start ][] = array(
-                'user'      =>  user::$id,
-                'pack'      =>  pack::$start,
-                'role'      =>  'link',
-                'email'     =>  $hash,
-                'comment'   =>  '    # поделиться обзором',
-            );
-            
-            self::dbSave();
-        }
+        self::dbSave();
 
     }
+
+
+
+
 
 
     # проверка "поделиться ссылкой"
@@ -154,9 +171,16 @@ class access
     static function checkLink()
     {
         $hash   =   url::$level[1] ?? null;
-        $link   =   access::$link[ pack::$start ] ?? array();
-    
-        return  in_array($hash, $link);
+
+        foreach( self::$list[ pack::$start ] ?? []  as  $v )
+        {
+            if ( $v['role'] == 'link'  && $v['email'] == $hash )
+            {
+                return true;
+            }
+        }
+        
+        return  false;
     }
 
 
@@ -252,10 +276,10 @@ class access
         #
         self::log();
 
-        
+        // ui::vdd();
+
         if ( self::$log[0] == self::$log[1] )   return;
         if ( !isset(self::$log[1]) )            return;
-        
         
 
         # подготовить sql записи дерева

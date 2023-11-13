@@ -77,19 +77,16 @@ pre.apierr br:first-child   { display: none; }
 .nav1 .logo         { font-size: 14px; }
 .nav1 .logo b       { font-weight: normal; }
 .nav1 .bc           { display: flex; align-items: center; gap: 0.3ch; }
+.nav1 .bc > *       { padding: 4px 0.3ch; }
 .nav1 .bc > *:first-child { margin-left: -0.5ch; }
-.nav1 .bc > i         { font-style: normal; color: #ddd; }
-.nav1 .bc > i:before  { content: '/'; font-size: 10px; }
-.nav1 .bc > i.public:before  { content: '\2022'; font-size: 22px; }
-.nav1 .bc > a       { padding: 4px 0.6ch; }
-.nav1 .bc > .menu   { display: none; }
-.nav1 .opt          { display: flex; }
-.nav1 .opt > *      { padding: 4px 1ch; border-radius: 2px; }
-.nav1 .opt > .sep   { display: inline-block; width: 1ch; }
-.nav1 .opt > .save  { margin-right: 2ch; }
-.nav1 .opt > .b     { font-weight: bold; }
-.nav1 .bc .active       { color: inherit; background-color: #eee; border-radius: 3px; }
-.nav1 .bc .current      { color: inherit; }
+
+.nav1 .sep         { font-style: normal; color: #ddd; }
+.nav1 .sep:before  { content: '/'; font-size: 10px; }
+.nav1 .sep.public:before  { content: '\2022'; font-size: 22px; }
+.nav1 .active   { color: inherit; }
+.nav1 .current  { color: inherit; }
+
+.nav1 .bcm      { display: none; }
 
 .nav1 .burger {  position: relative; }
 .nav1 .burger .name { padding: 4px; cursor: default; display: flex; align-items: center; gap: 0.7ch; }
@@ -215,7 +212,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     .main1 .userlist > * { background-color: var(--darkPreFon); }
 
     .nav1       { background-color: var(--darkFon); border-bottom-color: var(--darkLine); }
-	.nav1 .bc .active   { background-color: var(--darkPreFon); }
+	.nav1 .active   { background-color: var(--darkPreFon); }
     .nav1 .burger .menu     { border: solid 1px var(--darkPreFon); background-color: var(--darkPreFon); }
     .nav1 .burger .menu > *:not(:first-child) { border-top: solid 1px #333; }
     .nav1 .burger .menu > .group1 .icon { border-left: solid 1px #222; }
@@ -253,21 +250,21 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
 
 @media screen and (max-width: 768px) {
     .nav1   { gap: 3ch; }
-    .nav1 .bc   { flex-grow: 1; }
-    .nav1 .bc > *:not(.current) { display: none; }
+    .nav1 .bc   { display: none; }
 
-    .nav1 .bc > .menu { display: none; position: absolute; top: 30px; }
-    .nav1 .bc > .menu .wrap { margin-top: 5px; width: fit-content; height: fit-content; max-height: 85vh; overflow: auto; padding: 15px 25px 15px 15px; background-color: var(--menuFon); border: solid 1px var(--menuBrd); z-index: 1; border-radius: 2px; }
-    .nav1 .bc > .menu .wrap  a   { display: flex; gap: 0.6ch; padding: 3px 0; }
-    .nav1 .bc > .menu .wrap .empty { height: 0.6em; }
-    .nav1 .bc > .menu .wrap > .bc2 a:before   { content: '/'; color: #ccc; font-size: 10px; margin-top: 0.9em; line-height: 0; }
-    .nav1 .bc > .menu .wrap > .bc2 a.public:before    { content: '\2022'; font-size: 22px; margin-top: 0.45em; line-height: 0; }
-    .nav1 .bc > .menu .wrap > .bc2 a.logo:before      { display: none; }
-    .nav1 .bc > .menu .wrap > .tree2  { border-top: solid 1px var(--menuBrd); margin-top: 1em; padding-top: 0.5em; }
-    .nav1 .bc > .menu .wrap > .tree2:empty { display: none; }
-    .nav1 .bc > .menu .wrap::-webkit-scrollbar    { width: 3px; height: 3px; }
-
-    .nav1 .bc:hover > .menu { display: block; }
+    .nav1 .bcm  { display: flex; align-items: center; gap: 0.3ch; flex-basis: 400px; cursor: default; }
+    .nav1 .bcm > *       { padding: 4px 0.3ch; }
+    .nav1 .bcm > .menu { display: none; position: absolute; top: 30px; left: -2px; }
+    .nav1 .bcm > .menu .wrap { width: fit-content; height: fit-content; max-height: 85vh; overflow: auto; padding: 15px 25px 15px 15px; background-color: var(--menuFon); border: solid 1px var(--menuBrd); z-index: 1; border-radius: 2px; }
+    .nav1 .bcm > .menu .wrap  a   { display: flex; gap: 0.6ch; padding: 3px 0; }
+    .nav1 .bcm > .menu .wrap .empty { height: 0.6em; }
+    .nav1 .bcm > .menu .wrap > .bc2 a:before   { content: '/'; color: #ccc; font-size: 10px; margin-top: 0.9em; line-height: 0; }
+    .nav1 .bcm > .menu .wrap > .bc2 a.public:before    { content: '\2022'; font-size: 22px; margin-top: 0.45em; line-height: 0; }
+    .nav1 .bcm > .menu .wrap > .bc2 a.logo:before      { display: none; }
+    .nav1 .bcm > .menu .wrap > .tree2  { border-top: solid 1px var(--menuBrd); margin-top: 1em; padding-top: 0.5em; }
+    .nav1 .bcm > .menu .wrap > .tree2:empty { display: none; }
+    .nav1 .bcm > .menu .wrap::-webkit-scrollbar    { width: 3px; height: 3px; }
+    .nav1 .bcm:hover > .menu { display: block; }
 
     .pro { gap: 0; max-width: calc(100vw - 30px); overflow: auto; }
     .pro > .tree    { display: none; }

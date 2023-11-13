@@ -14,6 +14,7 @@ $: level1   =   { [level1]:"view", line:"line", tree:"tree", access:"access", lo
 
 $: profile  =   $packBc[0] ?  $packBc[0].name : '';
 $: menuEmpty    =   Object.keys($packMenu).length < 2 ? "empty": "";
+$: name    =   $packBc[0] ?  $packBc[ $packBc.length -1 ]:  '';
 
 
 function share(e)
@@ -23,16 +24,23 @@ function share(e)
 
 </script>
 
+
 <svelte:head><title>{$packTitle}</title></svelte:head>
 
 <div class="nav1">
     <div class="bc">
         <a href="/" class="logo" on:click={href}>Taris</a>
         {#each $packBc as pack }
-            <i class="{pack._pub} {pack._cur}"></i>
+            <i class="sep {pack._pub} {pack._cur}"></i>
             <a  href="/{pack.id}" on:click={pref} class="{pack._cur}">{pack.name}</a>
         {/each}
+    </div>
 
+
+    <div class="bcm">
+        <i class="sep {name._cur} {name._pub}"></i>
+        <span class="name">{name.name}</span>
+        
         <div class="menu">
             <div class="wrap">
                 <div class="bc2">
@@ -43,16 +51,9 @@ function share(e)
                 </div>
                 <div class="tree2">
                     {#each $packTree as pack }
-                        {#if pack.id }
-                            <a  href={"/" + pack.id}
-                                on:click={pref}
-                                class="{pack._prj} {pack._act}{!pack.id? 'empty': ''}"
-                                style="padding-left: {pack.space/2}ch;"
-                                >{pack.name}</a>
-                        {:else}
-                            <div class="empty"></div>
+                        {#if pack.id }  <a  href={"/" + pack.id} on:click={pref} class="{pack._prj} {pack._act}{!pack.id? 'empty': ''}" style="padding-left: {pack.space/2}ch;">{pack.name}</a>
+                        {:else}         <div class="empty"></div>
                         {/if}
-
                     {/each}
                 </div>
             </div>
