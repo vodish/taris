@@ -11,26 +11,21 @@ class access
     #
     static function log()
     {
-
         # пересортировать дерево как есть
-        $list   =  self::$list;
+        $list   =  array();
         $order  =  1;
         #
-        foreach( $list as $pack => &$list )
+        foreach( self::$list as $pack => $li )
         {
-            foreach( $list as $k => &$v )
+            foreach( $li as $v )
             {
                 # исключить настройку хозяина
-                if ( $v['role'] == 'owner' )
-                {
-                    unset($list[ $pack ][ $k ]);
-                    continue;
-                }
+                if ( $v['role'] == 'owner' )    continue;
                 
                 $v['order'] =   $order++;
-            }
 
-            if ( empty($list[ $pack ]) )    unset($list[ $pack ]);
+                $list[ $pack ][]  =  $v;
+            }
         }
         
         
@@ -288,10 +283,11 @@ class access
         # подготовить sql записи дерева
         #
         $rows   =   array();
+        $list   =   json_decode(self::$log[1], true);
         #
-        foreach( self::$list as $list )
+        foreach( $list as $arr )
         {
-            foreach( $list as $access )
+            foreach( $arr as $access )
             {
                 foreach($access as &$v)   $v = db::v($v);
 
