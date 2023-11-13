@@ -11,27 +11,30 @@ class access
     #
     static function log()
     {
+
         # пересортировать дерево как есть
+        $list   =  self::$list;
         $order  =  1;
-        foreach( self::$list as $pack => &$list )
+        #
+        foreach( $list as $pack => &$list )
         {
             foreach( $list as $k => &$v )
             {
+                # исключить настройку хозяина
+                if ( $v['role'] == 'owner' )
+                {
+                    unset($list[ $pack ][ $k ]);
+                    continue;
+                }
+                
                 $v['order'] =   $order++;
-
-                # удалить роль хозяина из настроек
-                if ( $v['role'] == 'owner' )    unset(self::$list[ $pack ][ $k ]);
             }
 
-            if ( empty(self::$list[ $pack ]) )
-            {
-                unset(self::$list[ $pack ]);
-            }
+            if ( empty($list[ $pack ]) )    unset($list[ $pack ]);
         }
         
-        // ui::vd(self::$list);
-
-        self::$log[]    =   json_encode(self::$list, JSON_UNESCAPED_UNICODE);
+        
+        self::$log[]    =   json_encode($list, JSON_UNESCAPED_UNICODE);
     }
 
 
@@ -60,7 +63,7 @@ class access
         #
         db::query("SELECT *  FROM `access`  WHERE `user` = " .db::v(user::$id). "  ORDER BY `order` ");
         #
-        for(; $v = db::fetch();  self::$list[ $v['pack'] ][] = $v );
+        for(; $v = db::fetch(['int'=>['user', 'pack']]);  self::$list[ $v['pack'] ][] = $v );
     }
     
 
@@ -276,11 +279,11 @@ class access
         #
         self::log();
 
-        // ui::vdd();
-
+        
         if ( self::$log[0] == self::$log[1] )   return;
         if ( !isset(self::$log[1]) )            return;
         
+
 
         # подготовить sql записи дерева
         #
