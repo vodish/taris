@@ -2,20 +2,29 @@
 class ui
 {
     
-    static function vd($var=null, $print_r=null, $trace=0)
+    static function vd($var=null, $print_r=null, $step=false)
     {
-        $backtrace	=	debug_backtrace();
+        $trace	=	debug_backtrace();
+        if ( $trace[0]['file'] == __FILE__ && $trace[0]['function'] == 'vd' )    array_shift($trace);
+        $trace	=	array_reverse($trace);
+
         
         echo '<pre style="max-width: 90%; overflow: auto;">';
-        echo  $trace!==null ?  $backtrace[$trace]['file']. '::' .$backtrace[$trace]['line']. "\n" :  '';
+        foreach($trace as $v)
+        {
+            echo  $v['file']. '::' .$v['line']. "\n";
+            if ( $step==false )   break;
+        }
+
         $print_r === null ?  print_r($var) :  var_dump($var);
+        
         echo '</pre>'. "\n";
 
     }
 
-    static function vdd($var=null, $print_r=null, $trace=1)
+    static function vdd($var=null, $print_r=null, $step=false)
     {
-        self::vd($var, $print_r, $trace);
+        self::vd($var, $print_r, $step);
         die;
     }
 

@@ -42,11 +42,21 @@ class state
     {
         if ( ! self::f(__FUNCTION__) )      return;
         if ( empty(pack::$start) )          return;
-        if ( pack::denied('view') )         return;
+        if ( pack::denied(['view','link']) )         return;
         
 
         res::$ret[__FUNCTION__]    =   isset(pack::$tree[ pack::$start ]);
         res::$ret[__FUNCTION__]    =   pack::$project ?  res::$ret[__FUNCTION__]:  null ;
+    }
+    
+    static function isLink()
+    {
+        if ( ! self::f(__FUNCTION__) )      return;
+        if ( empty(pack::$start) )          return;
+        if ( pack::denied(['view','link']) )         return;
+        
+        
+        res::$ret[__FUNCTION__]    =   access::checkLink();
     }
     
 
@@ -79,17 +89,17 @@ class state
 
     static function packTree()
     {
-        if ( ! self::f(__FUNCTION__) )      return;
-        if ( empty(pack::$start) )          return;
-        if ( pack::denied('view') )         return;
+        if ( ! self::f(__FUNCTION__) )          return;
+        if ( empty(pack::$start) )              return;
+        if ( pack::denied(['view','link']) )    return;
         
         # доступ по ссылке
-        #
         if ( access::checkLink() )
         {
             res::$ret[__FUNCTION__]  =  array();
             return;
         }
+        
 
 
 
@@ -145,12 +155,12 @@ class state
     {
         if ( ! self::f(__FUNCTION__) )      return;
         if ( empty(pack::$start) )          return;
-        if ( empty(pack::$access) )         return; # нет прав
+        if ( empty(pack::$menu) )           return;
         
         
         # поименовать пункты меню
         #
-        $menu   =   pack::$access;
+        $menu   =   pack::$menu;
         #
         foreach($menu as &$v)
         {
@@ -168,8 +178,9 @@ class state
         $menu['name']   =   access::checkLink() ?  'По ссылке'  : $menu['name'];
         #
         # выход
-        if ( pack::$project == 0 )      $menu['bye'] =   'Выйти';
+        if ( pack::$project == 0  && author::$role == 'owner')      $menu['bye'] =   'Выйти';
         
+
         # только ссылка
         if ( author::$role == 'link' )  $menu   =   ['name' =>   $menu['name']];
         
@@ -183,9 +194,9 @@ class state
 
     static function lineHtml()
     {
-        if ( ! self::f(__FUNCTION__) )      return;
-        if ( empty(pack::$start) )          return;
-        if ( pack::denied('view') )         return;
+        if ( ! self::f(__FUNCTION__) )          return;
+        if ( empty(pack::$start) )              return;
+        if ( pack::denied(['view', 'link']) )   return;
         
 
         line::dbInit();
@@ -213,9 +224,9 @@ class state
 
     static function treeText()
     {
-        if ( ! self::f(__FUNCTION__) )      return;
-        if ( empty(pack::$start) )          return;
-        if ( pack::denied('view') )         return;
+        if ( ! self::f(__FUNCTION__) )          return;
+        if ( empty(pack::$start) )              return;
+        if ( pack::denied(['view','link']) )    return;
 
 
 

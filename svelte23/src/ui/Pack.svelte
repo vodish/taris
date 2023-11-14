@@ -62,7 +62,7 @@ function share(e)
 
     
     <div class="burger">
-        <div class="name">{$packMenu.name}</div>
+        <div class="name {menuEmpty}">{$packMenu.name}</div>
         <div class="menu {menuEmpty}">
 
             {#if 'view' in $packMenu }

@@ -10,7 +10,7 @@ class pack
 
     static $ui;
     static $isProject;
-    static $access;
+    static $menu  =  [];
 
 
     # значения по-умолчанию
@@ -102,7 +102,7 @@ class pack
         
 
 
-        # установить права
+        # меню и права
         #
         self::setAccess();
         
@@ -149,7 +149,7 @@ class pack
                 if ( $row['role'] == 'view'  && $row['email'] == 'public' )
                 {
                     $public         =   1;
-                    author::$role   =   author::$role ?? 'view';
+                    author::$role   =   author::$role ?? 'link';
                 }
             }
 
@@ -178,8 +178,9 @@ class pack
         # определить доступные пункты меню
         # право => какие роли имеют доступ
         #
-        $access =   array(
-            'view'      =>  ['link', 'view', 'edit', 'admin', 'owner'],
+        $menu =   array(
+            'link'      =>  ['link', 'view', 'edit', 'admin', 'owner'],
+            'view'      =>  ['view', 'edit', 'admin', 'owner'],
             'line'      =>  ['edit', 'admin', 'owner'],
             'tree'      =>  ['edit', 'admin', 'owner'],
             'access'    =>  ['admin', 'owner'],
@@ -187,14 +188,15 @@ class pack
         );
         #
         #
-        foreach($access as $k => $v)
+        foreach($menu as $k => $v)
         {
             if ( !in_array(author::$role, $v) )     continue;
 
-            self::$access[ $k ] = $k;
+            self::$menu[ $k ] = $k;
         }
 
-        // ui::vd( self::$access );
+        // ui::vd( author::$role );
+        // ui::vd( self::$menu );
         
     }
 
@@ -215,12 +217,17 @@ class pack
     }
 
 
-    static function denied($page)
+    static function denied($poin)
     {
-        if ( !isset(pack::$access[ $page ]) )
+        $poin   =   is_string($poin) ? [$poin] :  $poin;
+        
+
+        if ( !array_intersect($poin, pack::$menu) )
         {
             res::$ret['lineHtml']   =   '<h6 class="access">403: нет доступа...</h6>';
             res::$ret['href']       =   '/' .pack::$start;
+            
+            
             return true;
         }
 
