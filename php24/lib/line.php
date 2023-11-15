@@ -58,6 +58,9 @@ class line
             $html   .=  self::toHtml($offset, $space, $str);
         }
 
+        // header('Content-type: text/plain');
+        // ui::vdd($html);
+
         return  self::$html =  $html;
     }
 
@@ -70,7 +73,7 @@ class line
     {
         # разрешенные теги и аттрибуты
         #
-        $tags       =   "(?:pre)|(?:pre .*?)  | (?:a)|(?:a \s .+?)  | (?:img)|(?:img .+?)  | (?:h1)|(?:h2)|(?:h3)|(?:h4)|(?:hr) | (?:b)|(?:i)|(?:s)";
+        $tags       =   "(?:pre)|(?:pre .*?)  | (?:a)|(?:a \s .+?)  | (?:img)|(?:img .+?)  | (?:h1)|(?:h2)|(?:h3)|(?:h4)|(?:hr) | (?:b)|(?:i)|(?:s) | (?:table)|(?:tr)|(?:td)";
         $attrs      =   "(?:href=) | (?:target=)  | (?:src=)  | (?:class=)";
 
 
@@ -93,19 +96,27 @@ class line
 
         # отступы с оберткой в тег строки
         #
-        if ( substr($content, 0, 4) == '<pre' )
+        if ( ($tag = substr($content, 0, 4)) == '<pre' )
         {
             $offset     =   $space;
-            $content    =   $space ?  strtr($content, ['<pre'=>'<pre style="margin-left:' .$space. 'ch;"']) :  $content;
+            $content    =   $space ?  strtr($content, [$tag=> $tag. ' style="margin-left:' .$space. 'ch;"']) :  $content;
         }
         elseif ( $content == '</pre>' )
         {
             $offset     =   0;
         }
+        elseif ( ($tag = substr($content, 0, 6)) == '<table' )
+        {
+            $content    =   $space ?  strtr($content, [$tag=> $tag. ' style="margin-left:' .$space. 'ch;"']) :  $content;
+        }
+        elseif ( $content == '<td>' )
+        {
+            $offset     =   $space + 4;
+        }
         else
         {
             $need       =   $space - $offset;
-            $content    =   $need ?  '<div style="margin-left:' .$need. 'ch;">' .$content. '</div>' :  "<div>$content</div>";
+            $content    =   $need > 0 ?  '<div style="margin-left:' .$need. 'ch;">' .$content. '</div>' :  "<div>$content</div>";
         }
         
         

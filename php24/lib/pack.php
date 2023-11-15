@@ -195,9 +195,6 @@ class pack
             self::$menu[ $k ] = $k;
         }
 
-        // ui::vd( author::$role );
-        // ui::vd( self::$menu );
-        
     }
 
     
@@ -224,7 +221,7 @@ class pack
 
         if ( !array_intersect($poin, pack::$menu) )
         {
-            res::$ret['lineHtml']   =   '<h6 class="access">403: нет доступа...</h6>';
+            res::$ret['lineHtml']   =   '<h6 class="denied">403: нет доступа...</h6>';
             res::$ret['href']       =   '/' .pack::$start;
             
             
