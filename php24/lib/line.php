@@ -47,7 +47,8 @@ class line
     {
         $html   =   '';
         $offset =   0;
-        
+        $isDiv  =   true;
+
         foreach( self::$list as $str )
         {
             # определить отступ слева
@@ -55,7 +56,7 @@ class line
             $space  =   isset($space[0]) ?  strlen($space[0]) :  0;
             
             $str    =   ltrim($str);
-            $html   .=  self::toHtml($offset, $space, $str);
+            $html   .=  self::toHtml($offset, $isDiv, $space, $str);
         }
 
         // header('Content-type: text/plain');
@@ -69,7 +70,7 @@ class line
 
     # преобразовать строку в безопасный хтмл
     #
-    private static function toHtml(int &$offset, int $space, string $content)
+    private static function toHtml(int &$offset, string &$isDiv, int $space, string $content)
     {
         # разрешенные теги и аттрибуты
         #
@@ -85,24 +86,25 @@ class line
         $content    =   preg_replace("/&lt; (\/?) (" .$tags. ") &gt;/x", "<$1$2>", $content);
         $content    =   preg_replace("/(" .$attrs. ") &quot; (.+?) &quot;/x", '$1"$2"', $content);
         $content    =   strtr($content, ['--'=>'&mdash;']);
-        $content    =   ui::typograf1($content);
+        
         #
         #
         # в ссылки добавить target="_blank"
         #
         if ( strpos($content, '<a')!==false  && strpos($content, 'target=')==false )   $content  =  strtr($content, ['>'=>' target="_blank">']);
         
-        
 
         # отступы с оберткой в тег строки
         #
         if ( ($tag = substr($content, 0, 4)) == '<pre' )
         {
+            $isDiv      =   false;
             $offset     =   $space;
             $content    =   $space ?  strtr($content, [$tag=> $tag. ' style="margin-left:' .$space. 'ch;"']) :  $content;
         }
         elseif ( $content == '</pre>' )
         {
+            $isDiv      =   true;
             $offset     =   0;
         }
         elseif ( ($tag = substr($content, 0, 6)) == '<table' )
@@ -113,10 +115,16 @@ class line
         {
             $offset     =   $space + 4;
         }
+        elseif ( $isDiv == false )
+        {
+            $need       =   $space - $offset;
+            $content    =   str_repeat(' ', $need > 0? $need: 0).  $content. "\n";
+        }
         else
         {
             $need       =   $space - $offset;
-            $content    =   $need > 0 ?  '<div style="margin-left:' .$need. 'ch;">' .$content. '</div>' :  "<div>$content</div>";
+            $content    =   ui::typograf1($content);
+            $content    =   "<div" .($need > 0? ' style="margin-left:' .$need. 'ch;"': ''). ">$content</div>";
         }
         
         
