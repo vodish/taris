@@ -108,7 +108,9 @@ export function api(data, cb)
 {
     data.rtoken =   rtoken
 
-    let formData = new FormData();
+
+    let formData    =   data.constructor.name == "FormData" ?  data :  new FormData();
+    
     toFd(formData, data);
 
     let xhr =   new XMLHttpRequest()

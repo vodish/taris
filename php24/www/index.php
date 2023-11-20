@@ -47,7 +47,7 @@ tree::del();
 access::upd();
 access::link();
 log::up();
-
+attach::upload();
 
 
 
@@ -60,7 +60,6 @@ state::packMenu();
 state::packBc();
 state::packTree();
 state::packTitle();
-
 #
 state::isProject();
 state::treeText();

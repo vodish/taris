@@ -1,8 +1,17 @@
 <script>
 // @ts-nocheck
-import { packStart, packMenu, lineText, lineHtml, api, href } from "../state/store";
-import AceHtml from "./comp/AceHtml.svelte";
+import { packStart, packMenu, lineText, lineHtml, api, href }   from "../state/store";
+import { upload }   from "../state/attach";
+import AceHtml   from "./comp/AceHtml.svelte";
 
+
+// загрузка картинки из буфера обмена
+
+document.onpaste    =   upload
+
+
+
+// сохранить текст файла
 
 function save()
 {
@@ -20,6 +29,7 @@ document.onkeydown = (e) => {
         save()
     }
 }
+
 
 </script>
 

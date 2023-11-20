@@ -1,8 +1,11 @@
 <script>
+// @ts-nocheck
 import { onMount, onDestroy } from "svelte";
 
 // аттрибуты
-export let value = ""
+export let value    =   ""
+
+
 let ace9;
 
 onMount(()=> {
