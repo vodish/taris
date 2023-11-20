@@ -67,7 +67,7 @@ class req
 
         # добавить ожидания относительно запроса
         #
-        if ( isset(req::$param['attachUpload']) );  # ничего не возвращать, если загрузка файла
+        if ( isset(req::$param['attach']) ) ;  # ничего не возвращать, если загрузка файла
         #
         elseif ( !isset(url::$level[1])     )   req::$wait[]  = 'lineHtml';
         elseif ( url::$level[1] == 'line'   )   req::$wait[]  = 'lineText';

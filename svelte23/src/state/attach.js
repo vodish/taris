@@ -13,8 +13,8 @@ export function upload(e)
 
         let formData    =   new FormData()
             formData.set('pack', get(packStart))
-            formData.set('attachUpload', '1')
-            formData.append('f[]', items[k].getAsFile(), 'clipboar')
+            formData.set('attach', 'clipboard')
+            formData.append('clipboard', items[k].getAsFile(), 'clipboard')
         
 
         api(formData, res => {

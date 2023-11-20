@@ -41,7 +41,7 @@ user::bye();
 #
 pack::dbInit();
 line::upd();
-attach::upload();
+attach::clipboard();
 tree::upd();
 tree::add();
 tree::del();
