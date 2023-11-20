@@ -9,12 +9,12 @@ import MenuItem         from "./comp/MenuItem.svelte";
 import { url, href, pref, isProject, packBc, packTitle, packTree, packMenu }    from "../state/store";
 
 
-$: level1   =   $url.level[1] || "";
-$: level1   =   { [level1]:"view", line:"line", tree:"tree", access:"access", log:"log" }[ level1 ];
+$: level1       =   $url.level[1] || "";
+$: level1       =   { [level1]:"view", line:"line", tree:"tree", access:"access", log:"log" }[ level1 ];
 
-$: profile  =   $packBc[0] ?  $packBc[0].name : '';
+$: profile      =   $packBc[0] ?  $packBc[0].name : '';
 $: menuEmpty    =   Object.keys($packMenu).length < 2 ? "empty": "";
-$: name    =   $packBc[0] ?  $packBc[ $packBc.length -1 ]:  '';
+$: name         =   $packBc[0] ?  $packBc[ $packBc.length -1 ]:  '';
 
 
 function share(e)
@@ -39,7 +39,7 @@ function share(e)
 
     <div class="bcm">
         <i class="sep {name._cur} {name._pub}"></i>
-        <span class="name">{name.name}</span>
+        <span class="name">{name.name || ''}</span>
         
         <div class="menu">
             <div class="wrap">

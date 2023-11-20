@@ -67,11 +67,14 @@ class req
 
         # добавить ожидания относительно запроса
         #
-        if     ( !isset(url::$level[1])     )   req::$wait[]  = 'lineHtml';
+        if ( isset(req::$param['attachUpload']) );  # ничего не возвращать, если загрузка файла
+        #
+        elseif ( !isset(url::$level[1])     )   req::$wait[]  = 'lineHtml';
         elseif ( url::$level[1] == 'line'   )   req::$wait[]  = 'lineText';
         elseif ( url::$level[1] == 'tree'   )   req::$wait[]  = 'treeText';
         elseif ( url::$level[1] == 'access' )   req::$wait[]  = 'accessText';
         elseif ( url::$level[1] == 'log'    )   req::$wait[]  = 'logList';
+
 
     }        
 

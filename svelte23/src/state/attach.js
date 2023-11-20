@@ -1,27 +1,26 @@
 // @ts-nocheck
+import { packStart, get }    from "../state/store";
 import { api } from "./url";
 
 export function upload(e)
 {
-    var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    var items   =   (e.clipboardData || e.originalEvent.clipboardData).items
     
-    for (var index in items)
+    for (var k in items)
     {
-        if (items[index].kind !== 'file' && items[index].type != 'image/png')   continue;
+        if ( items[k].kind !== 'file'  &&  items[k].type != 'image/png' )    continue;
         
-        let blob        =   items[index].getAsFile()
-        
-        
+
         let formData    =   new FormData()
-            formData.set('[]', 'attachUpload')
+            formData.set('pack', get(packStart))
             formData.set('attachUpload', '1')
-            formData.append('f[]', blob, 'bufer.png')
+            formData.append('f[]', items[k].getAsFile(), 'clipboar')
         
+
         api(formData, res => {
             console.log(res);
         });
-        //console.log(blob);
-        // submit(formData);
+
         
         // ace1[0].focus();
         // ace1[0].execCommand("paste", '<p><img src="' + window.location.pathname + '/' + filename + '" /></p>')

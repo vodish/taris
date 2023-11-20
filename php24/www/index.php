@@ -41,13 +41,13 @@ user::bye();
 #
 pack::dbInit();
 line::upd();
+attach::upload();
 tree::upd();
 tree::add();
 tree::del();
 access::upd();
 access::link();
 log::up();
-attach::upload();
 
 
 
