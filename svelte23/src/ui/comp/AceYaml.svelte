@@ -14,10 +14,10 @@ onMount(()=> {
         fontSize: "14px",
         fontFamily: "monospace",
         showPrintMargin: false,     // граница печати
-        showGutter: true,           // нумерация строк
+        showGutter: false,           // нумерация строк
         useWorker: false,           // отключить проверку синтаксиса - worker файл
         maxLines: 1111,             // максимальное количество строк, для ресайза
-        wrap: false,                 // перенос строк
+        wrap: false,                // перенос строк
     })
     ace9.setValue(value, 1)
     ace9.on('change', () => value = ace9.getValue())

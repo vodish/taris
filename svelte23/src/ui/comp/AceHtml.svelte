@@ -18,7 +18,7 @@ onMount(()=> {
         fontSize: "14px",
         fontFamily: "monospace",
         showPrintMargin: false,     // граница печати
-        showGutter: true,           // нумерация строк
+        showGutter: false,           // нумерация строк
         useWorker: false,           // отключить проверку синтаксиса - worker файл
         maxLines: 1111,             // максимальное количество строк, для ресайза
         wrap: true,                 // перенос строк
