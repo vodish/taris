@@ -8,6 +8,16 @@ class attach
     {
         // $file   =   "attach/f3/97/3a/cc/3d/3e/88/a0/8f/5b/62/23/b1/51/18/4f/f3973acc3d3e88a08f5b6223b151184f.png";
         // die;
+        $dir = $_SERVER['DOCUMENT_ROOT']. '/attach';
+        // chdir($_SERVER['DOCUMENT_ROOT']. '/attach');
+        $image = new Imagick();
+        $image->readImage("$dir/image.png");
+
+        $image->setImageFormat('webp');
+        $image->setImageCompressionQuality(80);
+        $image->setOption('webp:lossless', 'true');
+        $image->writeImage("$dir/image.80.webp");
+
 
 
         if ( ! user::$id )      return;
