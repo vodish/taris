@@ -18,7 +18,7 @@ session_start();
 # авто подключение классов
 #
 spl_autoload_register( function($name) {
-    if ( is_file($file = "../lib/$name.php") )      require_once $file;
+    if ( is_file($file = $_SERVER['DOCUMENT_ROOT']."/../lib/$name.php") )      require_once $file;
 });
 
 
