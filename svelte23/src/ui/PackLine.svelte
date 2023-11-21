@@ -1,11 +1,11 @@
 <script>
 // @ts-nocheck
 import { packStart, packMenu, lineText, lineHtml, api, href }   from "../state/store";
-import { upload }   from "../state/attach";
 import AceHtml   from "./comp/AceHtml.svelte";
+import { upload }   from "../state/attach";
 
 
-// загрузка картинки из буфера обмена
+// обработчик вставки скриншота
 
 document.onpaste    =   upload
 
@@ -21,6 +21,7 @@ function save()
         href(`/${$packStart}`)
     })
 }
+
 
 document.onkeydown = (e) => {
     if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )

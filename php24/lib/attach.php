@@ -16,7 +16,7 @@ class attach
         #
         $tmp_name   =   $_FILES['clipboard']['tmp_name'];
         $fname      =   md5(req::$param['rtoken']. $tmp_name);
-        $fdir       =   'attach/'. implode('/', str_split($fname, 3));
+        $fdir       =   'attach/'. implode('/', str_split($fname, 2));
         #
         if ( !file_exists($fdir) )   mkdir($fdir, 0777, true);
         #
@@ -26,6 +26,6 @@ class attach
 
         # вернуть путь к файлу
         #
-        res::$ret['attach']   =   $_SERVER['REQUEST_SCHEME']. "://". HTTP_HOST. "/$fname";
+        res::$ret['clipboard']  =   $_SERVER['REQUEST_SCHEME']. "://". HTTP_HOST. "/$fname";
     }
 }
