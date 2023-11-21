@@ -12,13 +12,14 @@ class attach
         if ( ! isset($_FILES['clipboard']) )    return;
         
 
-        //chdir($_SERVER['DOCUMENT_ROOT']);
+        chdir($_SERVER['DOCUMENT_ROOT']);
+        #
         # переложить в папку
         #
         $tmp_name   =   $_FILES['clipboard']['tmp_name'];
         $name       =   $_FILES['clipboard']['name'];
         $hash       =   md5(req::$param['rtoken']. $tmp_name);
-        $dir        =   $_SERVER['DOCUMENT_ROOT']. '/attach/'. implode('/', str_split($hash, 2));
+        $dir        =   'attach/'. implode('/', str_split($hash, 2));
         #
         if ( !file_exists($dir) )   mkdir($dir, 0777, true);
         #
