@@ -1,8 +1,6 @@
 <?php
 class line
 {
-    private static $log = [];
-    
     static $init    =   false;
     static $list    =   [];
     static $text    =   '';
@@ -154,7 +152,6 @@ class line
         
 
         # cравнить новый текст с текущим
-        #
         #
         if ( $log0 == $log1 ) return;
         

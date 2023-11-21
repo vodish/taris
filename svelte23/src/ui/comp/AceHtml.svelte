@@ -3,19 +3,18 @@
 import { onMount, onDestroy } from "svelte";
 
 
-
 // аттрибуты
+
 export let value    =   ""
 
-// определения
 
 
 
-
+// монтирование
 
 onMount(()=> {
     
-    window.ace9    =   ace.edit('ace9');
+    window.ace9     =   ace.edit('ace9');
     window.ace9.session.setMode('ace/mode/html')
     window.ace9.setOptions({
         minLines: 10,
@@ -39,19 +38,11 @@ onMount(()=> {
 onDestroy(()=>{
 
     // сохранить позицию курсора
-    var currline = window.ace9.getSelectionRange().start.row;
+    var currline    =   window.ace9.getSelectionRange().start.row;
     sessionStorage.setItem('gotoLine', currline+1);    
 
     delete window.ace9;
 })
-
-
-
-// console.log(ace9)
-// if ( ace9 )
-// {
-//     window.ace9.execCommand("paste", '<img src="clipboard" />')
-// }
 
 </script>
 
