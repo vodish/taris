@@ -31,8 +31,8 @@ class attach
         $image->setOption('webp:lossless', 'true');
         #
         #
-        $image->writeImage("$dir/$hash");
-        $size       =   filesize("{$_SERVER['DOCUMENT_ROOT']}/$dir/$hash");
+        $image->writeImage("{$_SERVER['DOCUMENT_ROOT']}/$dir/$hash");
+        $size       =   filesize("$dir/$hash");
 
         
 
