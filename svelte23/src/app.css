@@ -220,6 +220,7 @@ form.access     { margin: 0 0 0 3ch; width: inherit; }
     .nav1 .burger .menu > .group1 .icon { border-left: solid 1px #222; }
 
     .pro > .tree        { border-right-color: var(--darkLine); }
+    .pro > .file > div > img    { display: block; }
     .pro > .file > pre          { color: var(--darkColor); }
     .pro > .file > pre.bold     { background-color: var(--darkPreFon); }
 	.pro > .file > pre ._tag    { color: #6b82ff; }
