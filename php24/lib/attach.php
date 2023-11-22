@@ -32,7 +32,7 @@ class attach
         #
         #
         $image->writeImage("$dir/$hash");
-        $size       =   filesize("$dir/$hash");
+        $size       =   filesize("{$_SERVER['DOCUMENT_ROOT']}/$dir/$hash");
 
         
 
