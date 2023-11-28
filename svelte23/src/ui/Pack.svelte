@@ -85,6 +85,7 @@ function share(e)
             <MenuItem key="access" href="/{$url.level[0]}/access" />
             <MenuItem key="log" href="/{$url.level[0]}/log" />
             <MenuItem key="bye" href="/bye/{profile}" />
+
         </div>
     </div>
 
