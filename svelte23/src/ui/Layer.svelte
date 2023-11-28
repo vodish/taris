@@ -1,5 +1,7 @@
 <script>
+    import { onMount } from "svelte";
 import { href, url } from "../state/store";
+
 
 
 
@@ -17,20 +19,31 @@ let _list = {
     "page3": { "type": "page", "name": "Отправить", },
 }
 
+
+
+
 let menu = [
-    {"url": "/layer/request", "name":"Запросы", },
-    {"url": "/layer/handle", "name":"Обработчики", },
-    {"url": "/layer/page", "name":"Страницы", },
+    {"url": "/layer/request", "name":"Запросы", "_active": false },
+    {"url": "/layer/handle", "name":"Обработчики", "_active": false },
+    {"url": "/layer/page", "name":"Страницы", "_active": false },
 ]
 
-/*
-Страницы
-    page1
-    page2
-    page3
-    page4
+menu = menu.map( v => {
+    v._active = new RegExp($url.path).test(v.url)
+    return v
+})
 
-*/
+function handleMenu(e)
+{
+    href(e)
+    menu = menu.map( v => {
+        v._active = new RegExp($url.path).test(v.url)
+        return v
+    })
+
+}
+
+
 
 </script>
 
@@ -41,7 +54,7 @@ let menu = [
 
 <div class="menu">
     {#each menu as m }
-        <a href="{m.url}" class="" on:click={href}>{m.name}</a>
+        <a href="{m.url}" class:active={m._active} on:click={handleMenu}>{m.name}</a>
     {/each}
 </div>
 
@@ -49,8 +62,8 @@ let menu = [
 <div class="tile">
     {#each _pages as p }
         <div class="">
-            <div class="id">{p.id}</div>
             <div class="name">{p.name}</div>
+            <div class="id">{p.id}</div>
         </div>
     {/each}
 </div>
@@ -60,7 +73,7 @@ let menu = [
 
 <style>
     .menu   { margin: 2em 0; display: flex; gap: 20px; }
-    .menu   { margin: 2em 0; display: flex; gap: 20px; }
+    .menu .active   { color: inherit; }
 
 
     .tile   { display: flex; gap: 30px; margin-top: 5em; border: solid 1px #555; padding: 20px; }
