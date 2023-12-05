@@ -111,7 +111,7 @@ pre.apierr br:first-child   { display: none; }
 /* project */
 
 .pro                { flex-grow: 1; display: flex; gap: 20px; }
-.pro > .tree            { width: 180px; border-right: solid 1px #eee; position: sticky; top: 4em; }
+.pro > .tree            { flex-basis: 180px; border-right: solid 1px #eee; position: sticky; top: 4em; }
 .pro > .tree:empty      { width: 40px; }
 .pro > .tree a              { padding: 3px; display: inline-block; }
 .pro > .tree .empty         { height: 0.7em; }

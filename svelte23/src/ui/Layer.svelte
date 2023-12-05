@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from "svelte";
 import { href, url } from "../state/store";
 
 
@@ -31,7 +30,7 @@ let menu = [
 menu = menu.map( v => {
     v._active = new RegExp($url.path).test(v.url)
     return v
-})
+} )
 
 function handleMenu(e)
 {
@@ -61,7 +60,7 @@ function handleMenu(e)
 
 <div class="tile">
     {#each _pages as p }
-        <div class="">
+        <div>
             <div class="name">{p.name}</div>
             <div class="id">{p.id}</div>
         </div>
