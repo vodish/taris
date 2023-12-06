@@ -26,6 +26,9 @@ class line
             self::$list[]   =   $v['text'];
         }
         
+        # получить файл
+        #
+        file::dbInit();
     }
 
     

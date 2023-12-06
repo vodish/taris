@@ -1,7 +1,7 @@
 <script>
 // @ts-nocheck
-import { packStart, packMenu, lineText, lineHtml, api, href }   from "../state/store";
-import AceHtml   from "./comp/AceHtml.svelte";
+import { packStart, packMenu, lineText, lineMode, lineHtml, api, href }   from "../state/store";
+import AceEditor from "./comp/AceEditor.svelte";
 import { upload }   from "../state/attach";
 
 
@@ -34,7 +34,8 @@ document.onkeydown = (e) => {
 
 </script>
 
-{#if $packStart} <AceHtml bind:value={$lineText} /> {/if}
+
+{#if $packStart} <AceEditor bind:value={$lineText} mode={$lineMode} /> {/if}
 
 <br>
 <button id="ctrl-s" on:click={save}>Сохранить</button>

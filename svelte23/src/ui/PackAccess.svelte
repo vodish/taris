@@ -1,7 +1,8 @@
 <script>
 // @ts-nocheck
 import { pref, packBc, packStart, accessText } from "../state/store";
-import AceYaml from './comp/AceYaml.svelte';
+import AceEditor from "./comp/AceEditor.svelte";
+
 
 let cssSave  =   "";
 
@@ -24,7 +25,7 @@ document.onkeydown = (e) => {
 </script>
 
 
-{#if $packStart} <AceYaml bind:value={$accessText} /> {/if}
+{#if $packStart} <AceEditor bind:value={$accessText} mode="yaml" /> {/if}
 
 <br />
 <button id="ctrl-s" class="{cssSave}" on:click={save}>Сохранить</button>

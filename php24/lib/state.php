@@ -216,8 +216,11 @@ class state
 
         line::dbInit();
         
-        res::$ret[__FUNCTION__]    =   line::text();
+        res::$ret[__FUNCTION__]     =   line::text();
+        res::$ret['lineMode']       =   file::$mode;
     }
+
+
 
 
 

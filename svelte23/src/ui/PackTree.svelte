@@ -1,7 +1,7 @@
 <script>
     // @ts-nocheck
     import { pref, packStart, treeText } from "../state/store";
-    import AceYaml from './comp/AceYaml.svelte';
+    import AceEditor from "./comp/AceEditor.svelte";
 
 
     function save()
@@ -19,7 +19,7 @@
     }
 </script>
 
-{#if $packStart} <AceYaml bind:value={$treeText} /> {/if}
+{#if $packStart} <AceEditor bind:value={$treeText} mode="yaml" /> {/if}
 
 <br />
 <button id="ctrl-s" on:click={save}>Сохранить</button>

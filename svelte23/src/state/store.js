@@ -25,6 +25,7 @@ export let treeText         =   writable( "" )
 
 export let lineHtml         =   writable( "" )
 export let lineText         =   writable( "" )
+export let lineMode         =   writable( "html" )
 
 export let accessText       =   writable( "" )
 export let logList          =   writable( [] )
