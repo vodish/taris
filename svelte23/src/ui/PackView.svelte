@@ -12,6 +12,11 @@ document.onkeydown = (e) => {
         e.preventDefault()
         pref(`/${$packStart}/line`)
     }
+    else if ( ['KeyX'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
+    {
+        e.preventDefault()
+        pref(`/${$packStart}/tree`)
+    }
 }
 
 </script>
