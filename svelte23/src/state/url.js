@@ -2,8 +2,9 @@
 import * as Store from './store'
 
 let tag     =   document.getElementById('rtoken')
-let rtoken  =   JSON.parse( tag.innerText );
 tag.parentNode.removeChild(tag);
+let rtoken  =   JSON.parse( tag.innerText );
+let rtokenTimer;
 
 
 
@@ -98,15 +99,13 @@ export function parse(path)
 
 
 
-
-
 /**
  * @param {Object} data
  * @param {(arg0: Object) => any} cb
  */
 export function api(data, cb)
 {
-    data.rtoken =   rtoken
+    data.rtoken     =   rtoken
 
 
     let formData    =   data.constructor.name == "FormData" ?  data :  new FormData();
@@ -127,7 +126,12 @@ export function api(data, cb)
                 Store.apierr.set("")
             }      
             
-            cb(res)
+            // запустить таймер обновления rtoken
+            clearTimeout(rtokenTimer)
+            rtokenTimer = setTimeout( ()=> api({updateRtoken:'updateRtoken'}),  (12*60*1000) )
+            
+            // выполнить колбек
+            if ( cb )   cb(res)
         }
 }
 
