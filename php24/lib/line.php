@@ -46,22 +46,29 @@ class line
     #
     static function html()
     {
-        $html   =   '';
-        $offset =   0;
-        $isDiv  =   true;
+        $html       =   '';
+        $offset     =   0;
+        $isDiv      =   true;
+        // $test       =   '';
 
         foreach( self::$list as $str )
         {
             # определить отступ слева
             preg_match("#^\s*#", $str, $space);
-            $space  =   isset($space[0]) ?  strlen($space[0]) :  0;
+
+            $space      =   isset($space[0]) ?  strlen($space[0]) :  0;
+            $str        =   ltrim($str);
+            $toHtml     =   self::toHtml($offset, $isDiv, $space, $str);
             
-            $str    =   ltrim($str);
-            $html   .=  self::toHtml($offset, $isDiv, $space, $str);
+            $html       .=  $toHtml;
+            // $test       .=    htmlentities($toHtml). "\n";
         }
 
         // header('Content-type: text/plain');
-        // ui::vdd($html);
+        // ui::vd(htmlentities($test));
+        // $test   =   strtr($test, ['&lt;'=>'<', '&gt;'=>'>' ]);
+        // echo htmlentities($test);
+        // ui::vd();
 
         return  self::$html =  $html;
     }
@@ -103,7 +110,7 @@ class line
             $offset     =   $space;
             $content    =   $space ?  strtr($content, [$tag=> $tag. ' style="margin-left:' .$space. 'ch;"']) :  $content;
         }
-        elseif ( $content == '</pre>' )
+        elseif ( in_array($content, ['</pre>', '</table>']) )
         {
             $isDiv      =   true;
             $offset     =   0;
@@ -112,7 +119,7 @@ class line
         {
             $content    =   $space ?  strtr($content, [$tag=> $tag. ' style="margin-left:' .$space. 'ch;"']) :  $content;
         }
-        elseif ( $content == '<td>' )
+        elseif ( in_array($content, ['<tr>', '</tr>', '<td>', '</td>']) )
         {
             $offset     =   $space + 4;
         }
