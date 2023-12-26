@@ -66,20 +66,20 @@ function share(e)
         <div class="menu {menuEmpty}">
 
             {#if 'view' in $packMenu }
-            <div class="group1">
-                <MenuItem key="view" href="/{$url.level[0]}" />
-                <a href="/{$url.level[0]}/accessLink" on:click={share} class="a icon" title="Поделиться ссылкой">{@html '&#9741;'}</a>
-            </div>
+                <div class="group1">
+                    <MenuItem key="view" href="/{$url.level[0]}" />
+                    <a href="/{$url.level[0]}/accessLink" on:click={share} class="a icon" title="Поделиться ссылкой">{@html '&#9741;'}</a>
+                </div>
             {/if}
             
             <MenuItem key="line" href="/{$url.level[0]}/line" />
             
             {#if 'tree' in $packMenu }
-            <div class="group1">
-                <MenuItem key="tree" href="/{$url.level[0]}/tree" />
-                {#if $isProject===false} <a href="/{$url.level[0]}/treeAdd" on:click={pref} class="a icon" title="Выделить проект">+</a> {/if}
-                {#if $isProject===true} <a href="/{$url.level[0]}/treeDel" on:click={pref} class="a icon" title="Отменить проект">-</a> {/if}
-            </div>
+                <div class="group1">
+                    <MenuItem key="tree" href="/{$url.level[0]}/tree" />
+                    {#if $isProject===false} <a href="/{$url.level[0]}/treeAdd" on:click={pref} class="a icon" title="Выделить проект">+</a> {/if}
+                    {#if $isProject===true} <a href="/{$url.level[0]}/treeDel" on:click={pref} class="a icon" title="Отменить проект">-</a> {/if}
+                </div>
             {/if}
 
             <MenuItem key="access" href="/{$url.level[0]}/access" />

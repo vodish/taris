@@ -1,6 +1,13 @@
 <script>
 // @ts-nocheck
 import { pref, packStart, packMenu, packTree, lineHtml } from "../state/store";
+import { saveScroll, setScroll } from "../state/scrollSave";
+import { onMount } from "svelte";
+
+onMount(()=>{
+    setScroll(`${$packStart}/view/scrollY`)
+})
+
 
 
 document.onkeydown = (e) => {
@@ -10,6 +17,7 @@ document.onkeydown = (e) => {
     if ( ['KeyS', 'Enter'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )
     {
         e.preventDefault()
+        saveScroll(`${$packStart}/view/scrollY`)
         pref(`/${$packStart}/line`)
     }
     else if ( ['KeyX'].includes(e.code)  &&  (e.ctrlKey || e.metaKey) )

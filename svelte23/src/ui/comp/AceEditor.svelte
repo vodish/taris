@@ -1,12 +1,15 @@
 <script>
 // @ts-nocheck
 import { onMount, onDestroy } from "svelte";
+import { saveScroll, setScroll } from "../../state/scrollSave";
 
 
 // аттрибуты
 
-export let value    =   ""
-export let mode     =   "html"
+export let value        =   ""
+export let mode         =   "html"
+export let scrollKey    =   ""
+
 
 let setOptions      =   {
     html : {
@@ -36,7 +39,7 @@ let setOptions      =   {
 
 
 
-// монтирование
+
 
 onMount(()=> {
     
@@ -46,13 +49,17 @@ onMount(()=> {
     window.ace9.setValue(value, 1)
     window.ace9.on('change', () => value = window.ace9.getValue())
     window.ace9.focus();
-
-    let gotoLine = sessionStorage.getItem('gotoLine')
+    
+    const gotoLine =    sessionStorage.getItem('gotoLine')
     window.ace9.gotoLine(gotoLine || 1);
 
+
+    setTimeout(()=>setScroll(scrollKey), 3)
 })
 
 onDestroy(()=>{
+
+    saveScroll(scrollKey);
 
     if ( mode == "html" )
     {

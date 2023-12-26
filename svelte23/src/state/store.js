@@ -35,5 +35,3 @@ export let logList          =   writable( [] )
 popstate()
 window.addEventListener( "popstate",  popstate )
 
-
-

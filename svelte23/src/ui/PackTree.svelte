@@ -19,7 +19,7 @@
     }
 </script>
 
-{#if $packStart} <AceEditor bind:value={$treeText} mode="yaml" /> {/if}
+{#if $packStart} <AceEditor bind:value={$treeText} mode="yaml"  scrollKey={`${$packStart}/tree/scrollY`} /> {/if}
 
 <br />
 <button id="ctrl-s" on:click={save}>Сохранить</button>

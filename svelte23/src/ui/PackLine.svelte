@@ -5,8 +5,10 @@ import AceEditor from "./comp/AceEditor.svelte";
 import { upload }   from "../state/attach";
 
 
-// обработчик вставки скриншота
 
+
+
+// обработчик вставки скриншота
 document.onpaste    =   upload
 
 
@@ -35,7 +37,7 @@ document.onkeydown = (e) => {
 </script>
 
 
-{#if $packStart} <AceEditor bind:value={$lineText} mode={$lineMode} /> {/if}
+{#if $packStart} <AceEditor bind:value={$lineText} mode={$lineMode} scrollKey={`${$packStart}/line/scrollY`} /> {/if}
 
 <br>
 <button id="ctrl-s" on:click={save}>Сохранить</button>

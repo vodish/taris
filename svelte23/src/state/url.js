@@ -80,6 +80,18 @@ export function pref(href, data1, cb)
 }
 
 
+export function lineSave()
+{
+    console.log(Store.packStart)
+
+    // api({pack: $packStart, line: $lineText, wait: ["lineHtml", "packMenu"]}, (res)=>{
+    //     lineHtml.set(res.lineHtml)
+    //     packMenu.set(res.packMenu)
+    //     href(`/${$packStart}`)
+    // })
+}
+
+
 
 
 
